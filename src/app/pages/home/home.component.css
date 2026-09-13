@@ -46,8 +46,12 @@
 }
 /* 48px rows and 16px text: comfortably past the 44px touch minimum, and large
    enough to read on a phone without zooming. */
-.mobile-nav a { display: flex; min-height: 48px; align-items: center; gap: var(--space-sm); padding: 0 12px; border-radius: var(--radius-md); color: var(--wp-ink); font-size: 16px; font-weight: var(--fw-semibold); text-decoration: none; }
-.mobile-nav a:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
+.mobile-nav a,
+.mobile-nav__toggle { display: flex; min-height: 48px; align-items: center; gap: var(--space-sm); padding: 0 12px; border-radius: var(--radius-md); color: var(--wp-ink); font-size: 16px; font-weight: var(--fw-semibold); text-decoration: none; }
+.mobile-nav a:hover,
+.mobile-nav__toggle:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
+/* A button, so it needs the chrome resetting to match the links beside it. */
+.mobile-nav__toggle { width: 100%; border: 0; background: none; font-family: inherit; text-align: left; cursor: pointer; }
 .mobile-nav__rule { width: 100%; height: 1px; margin: var(--space-sm) 0; border: 0; background: var(--wp-panel-line); }
 .mobile-nav__cta { justify-content: center; color: var(--primary-foreground); background: var(--color-brand-green); }
 .mobile-nav__cta:hover { color: var(--primary-foreground); background: var(--color-brand-green-light); }
@@ -113,7 +117,7 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 :host-context([data-theme='dark']) .trust-logo--vmware { filter: brightness(1.85); }.trust-message { padding-left: 28px; border-left: 1px solid var(--wp-rule); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
 
 @media (max-width: 1199px) { .site-nav { gap: 12px; }.site-nav a { font-size: var(--fs-caption); }.header-actions { gap: var(--space-sm); }.hero__content { grid-template-columns: minmax(330px, .83fr) 1.17fr; } .ecosystem-strip { gap: var(--space-lg); padding: 20px var(--space-lg); } .ecosystem-strip__intro { min-width: 180px; max-width: 220px; } }
-@media (max-width: 1023px) { .site-header { min-height: 72px; }.site-nav, .header-actions { display: none; }.menu-button { display: inline-grid; margin-left: 0; }.theme-toggle { margin-left: auto; }
+@media (max-width: 1023px) { .site-header { min-height: 72px; }.site-nav, .header-actions { display: none; }.menu-button { display: inline-grid; margin-left: 0; }.theme-toggle { display: none; }
   /* Below this width these are the only header controls, and both are driven
      by thumb rather than cursor: 32px fails the 44px minimum touch target.
      The icon glyph is unchanged - only the tappable box grows around it. */

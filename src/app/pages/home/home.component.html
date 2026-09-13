@@ -70,6 +70,13 @@
 
           <hr class="mobile-nav__rule" />
 
+          <!-- Deliberately does not close the drawer: the drawer re-themes
+               around you, which is the clearest confirmation the tap worked. -->
+          <button class="mobile-nav__toggle" type="button" (click)="theme.toggle()">
+            <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
+            {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
+          </button>
+
           <a href="#language" (click)="closeMenu()">
             <fa-icon [icon]="icons.globe" aria-hidden="true" /> English
           </a>
