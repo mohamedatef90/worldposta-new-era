@@ -1,0 +1,16 @@
+# robots.txt — staging.worldposta.com (production-ready).
+#
+# Phase 8 commit 5: switched from `Disallow: /` to allow-all. Per-page
+# noindex headers (via <meta name="robots" content="noindex,nofollow">)
+# still prevent search engines from indexing staging-only pages where
+# we set `noindex` in the Astro frontmatter (e.g. /signup). The same
+# robots.txt is suitable for the Phase 9 production cutover — only the
+# Sitemap URL needs to flip to https://worldposta.com/sitemap-index.xml.
+User-agent: *
+Allow: /
+
+# No spidering of the BFF API or admin SPA.
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://staging.worldposta.com/sitemap-index.xml

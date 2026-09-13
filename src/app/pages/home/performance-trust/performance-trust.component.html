@@ -1,0 +1,104 @@
+<section class="performance-section" aria-labelledby="performance-heading">
+  <div class="performance-inner ds-container">
+    <div class="performance-intro">
+      <p class="eyebrow"><span></span>Trusted Performance</p>
+      <h2 id="performance-heading">WorldPosta<br /><strong>in Numbers.</strong></h2>
+      <p>Real infrastructure. Real customers.<br />Real impact.</p>
+      <a href="#why-worldposta" class="outline-cta">See why businesses choose us <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+    </div>
+
+    <div class="metrics-grid" aria-label="WorldPosta performance metrics">
+      @for (metric of metrics; track metric.label) {
+        <article class="metric-card" [class]="'metric-card tone-' + metric.tone">
+          <span class="metric-icon"><fa-icon [icon]="metric.icon" aria-hidden="true" /></span>
+          <strong>{{ metric.value }}</strong>
+          <h3>{{ metric.label }}</h3>
+          <p>{{ metric.description }}</p>
+        </article>
+      }
+    </div>
+
+    <div class="global-visual" aria-label="Global infrastructure across 5 continents">
+      <img src="/worldposta-assets/world-map-network.svg" alt="Global infrastructure map" />
+      <div class="global-callout"><span></span><strong>Global Infrastructure</strong><small>35 Availability Zones<br />across 5 continents</small></div>
+      <ul class="global-list" aria-label="Infrastructure qualities"><li>Secure</li><li>Scalable</li><li>Reliable</li><li>Built for what’s next</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="company-section ds-container" aria-labelledby="company-heading">
+  <div class="company-intro">
+    <p class="eyebrow"><span></span>Trusted by leading organizations</p>
+    <h2 id="company-heading">In Good <strong>Company.</strong></h2>
+    <p>From global enterprises to growing businesses, organizations worldwide trust WorldPosta to power their operations.</p>
+  </div>
+  <div class="company-logos" aria-label="Customer organizations">
+    @for (logo of customerLogos; track logo.name) {
+      <span class="logo-plate">
+        <img
+          [ngSrc]="logoBase + logo.src"
+          [width]="logo.width"
+          [height]="logo.height"
+          [alt]="logo.name"
+          loading="lazy"
+        />
+      </span>
+    }
+    <small>and more<br />worldwide</small>
+  </div>
+</section>
+
+<section class="assurance-section ds-container" aria-label="Trust and strategic partners">
+  <article class="assurance-card certifications-card">
+    <div class="assurance-copy">
+      <p class="eyebrow">Certified. Compliant. Secure.</p>
+      <h2>Built on Trust.</h2>
+      <p>We meet the highest industry standards to keep your data, your business and your customers safe.</p>
+      <a href="#certifications" class="outline-cta">View all certifications <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+    </div>
+    <div class="certification-list" aria-label="Certifications">
+      @for (certification of certifications; track certification.label) {
+        <div class="certification" [class]="'certification tone-' + certification.tone">
+          @if (certification.mark; as mark) {
+            <span class="logo-plate logo-plate--certification">
+              <img
+                [ngSrc]="logoBase + mark.src"
+                [width]="mark.width"
+                [height]="mark.height"
+                [alt]="certification.label + ' certification mark'"
+                loading="lazy"
+              />
+            </span>
+          } @else {
+            <span class="certification__icon"><fa-icon [icon]="certification.icon" aria-hidden="true" /></span>
+          }
+          <strong>{{ certification.label }}</strong>
+          <small>{{ certification.detail }}</small>
+        </div>
+      }
+    </div>
+  </article>
+
+  <article class="assurance-card partners-card">
+    <p class="eyebrow">Strategic technology partners</p>
+    <h2>Stronger Together.</h2>
+    <p>We collaborate with world-class technology leaders to deliver greater value to our customers.</p>
+    <div class="partner-logos" aria-label="Strategic partners">
+      @for (logo of partnerLogos; track logo.name) {
+        <span class="logo-plate logo-plate--partner">
+          @if (logo.src) {
+            <img
+              [ngSrc]="logoBase + logo.src"
+              [width]="logo.width"
+              [height]="logo.height"
+              [alt]="logo.name"
+              loading="lazy"
+            />
+          } @else {
+            <span class="logo-wordmark">{{ logo.name }}</span>
+          }
+        </span>
+      }
+    </div>
+  </article>
+</section>

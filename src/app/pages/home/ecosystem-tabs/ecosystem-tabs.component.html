@@ -1,0 +1,222 @@
+<section class="ecosystem-section" aria-labelledby="ecosystem-section-heading">
+  <div class="ecosystem-container ds-container">
+    <header class="ecosystem-header">
+      <p class="eyebrow">Explore the WorldPosta ecosystem</p>
+      <h2 id="ecosystem-section-heading">
+        One Platform.<br />
+        <span class="highlight">Every Tool</span> Your Business Runs On.
+      </h2>
+      <p class="subtitle">
+        From business communication and collaboration to secure, scalable cloud infrastructure —
+        WorldPosta gives you everything you need, in one connected ecosystem.
+      </p>
+    </header>
+
+    <div class="ecosystem-surface">
+      <aside class="tabs-sidebar" role="tablist" aria-label="WorldPosta services">
+        @for (group of tabGroups; track group.id) {
+          <div class="tab-group">
+            <h3 class="tab-group-label">{{ group.label }}</h3>
+            <div class="tab-group-items">
+              @for (item of group.items; track item.id; let i = $index) {
+                <button
+                  [id]="'tab-' + item.id"
+                  class="tab-button"
+                  [class.active]="activeTabId() === item.id"
+                  role="tab"
+                  [attr.aria-selected]="activeTabId() === item.id"
+                  [attr.aria-controls]="'tabpanel-' + item.id"
+                  [attr.tabindex]="activeTabId() === item.id ? 0 : -1"
+                  (click)="setActiveTab(item.id)"
+                  (keydown)="handleKeydown($event, group.id, i)"
+                >
+                  <fa-icon [icon]="item.icon" aria-hidden="true" />
+                  <span>{{ item.label }}</span>
+                  <fa-icon class="tab-button__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </aside>
+
+      <div
+        class="tab-panel"
+        [id]="'tabpanel-' + activeTabId()"
+        role="tabpanel"
+        [attr.aria-labelledby]="'tab-' + activeTabId()"
+        [attr.tabindex]="0"
+      >
+        <div class="panel-main">
+          <div class="panel-copy">
+            <span class="badge">
+              <span class="badge-icon"><fa-icon [icon]="activeIcon()" aria-hidden="true" /></span>
+              {{ tabContent().badge }}
+            </span>
+            <h3>{{ tabContent().heading }}</h3>
+            <p class="description">{{ tabContent().description }}</p>
+
+            <ul class="bullet-list" aria-label="Key features">
+              <!-- Positional slots: the three bullets swap wholesale between tabs, so
+                   index-tracking reuses the nodes instead of rebuilding the list. -->
+              @for (bullet of tabContent().bullets; track $index) {
+                <li>
+                  <fa-icon [icon]="icons.check" aria-hidden="true" />
+                  <span>{{ bullet }}</span>
+                </li>
+              }
+            </ul>
+
+            <div class="actions">
+              <a class="btn-primary" href="#get-started">
+                {{ tabContent().cta ?? 'Get started' }}
+                <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
+              </a>
+              <a class="btn-secondary" href="#learn-more">Learn more</a>
+            </div>
+          </div>
+
+          @if (tabContent().console; as view) {
+            <ul class="vm-stats" aria-label="Current usage">
+              @for (stat of view.stats; track stat.label) {
+                <li class="vm-stat" [attr.data-tone]="stat.tone">
+                  <span class="vm-stat__icon"><fa-icon [icon]="stat.icon" aria-hidden="true" /></span>
+                  <p class="vm-stat__label">{{ stat.label }}</p>
+                  <p class="vm-stat__value">
+                    {{ stat.value }}
+                    @if (stat.delta) {
+                      <span class="vm-stat__delta">
+                        <fa-icon [icon]="icons.arrowUp" aria-hidden="true" />{{ stat.delta }}
+                      </span>
+                    }
+                  </p>
+                  <!-- Restates the value above, so it carries no information of its own. -->
+                  <svg
+                    class="vm-stat__spark"
+                    [attr.viewBox]="'0 0 ' + sparkWidth + ' ' + sparkHeight"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <polygon class="vm-stat__area" [attr.points]="sparkArea(stat.trend)" />
+                    <polyline
+                      class="vm-stat__line"
+                      [attr.points]="sparkLine(stat.trend)"
+                      vector-effect="non-scaling-stroke"
+                    />
+                  </svg>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="panel-visual">
+              <div class="mockup-shell" [class.cloudedge-visual]="tabContent().image.includes('/cloudedge/')">
+                <img
+                  [ngSrc]="tabContent().image"
+                  width="800"
+                  height="450"
+                  [alt]="tabContent().imageAlt"
+                />
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (tabContent().console; as view) {
+          <div class="vm-table-card">
+            <div class="vm-table-card__head">
+              <h4 class="vm-table-card__title">
+                {{ view.title }} <span>({{ view.total }})</span>
+              </h4>
+              <!-- Presentational: this preview has nothing to search or select, so the
+                   field is not a real control and is hidden from assistive tech. -->
+              <span class="vm-search" aria-hidden="true">
+                <fa-icon [icon]="icons.search" />
+                <span class="vm-search__placeholder">{{ view.searchPlaceholder }}</span>
+              </span>
+              <a class="vm-create" href="#create">
+                <fa-icon [icon]="icons.plus" aria-hidden="true" />
+                {{ view.createLabel }}
+              </a>
+            </div>
+
+            @if (consoleTable(); as table) {
+              <div class="vm-table-scroll">
+                <table class="vm-table">
+                  <caption class="sr-only">
+                    Example {{ view.title.toLowerCase() }}, showing {{ view.rows.length }} of {{ view.total }} — illustrative sample data.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="vm-col-select" aria-hidden="true"><span class="vm-check"></span></th>
+                      <th scope="col">Name</th>
+                      <!-- Status sits where the view declares it, not always first. -->
+                      @for (column of table.columnsBefore; track column) {
+                        <th scope="col">{{ column }}</th>
+                      }
+                      <th scope="col">Status</th>
+                      @for (column of table.columnsAfter; track column) {
+                        <th scope="col">{{ column }}</th>
+                      }
+                      <th scope="col" aria-hidden="true">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (row of table.rows; track row.name) {
+                      <tr>
+                        <td class="vm-col-select" aria-hidden="true"><span class="vm-check"></span></td>
+                        <th scope="row" class="vm-name">
+                          <span class="vm-name__icon"><fa-icon [icon]="row.icon" aria-hidden="true" /></span>
+                          {{ row.name }}
+                        </th>
+                        @for (cell of row.before; track $index) {
+                          <td>{{ cell }}</td>
+                        }
+                        <td>
+                          <!-- Dot plus word: state is never carried by colour alone. -->
+                          <span class="vm-status" [attr.data-tone]="row.status.tone">
+                            <span class="vm-status__dot" aria-hidden="true"></span>
+                            {{ row.status.label }}
+                          </span>
+                        </td>
+                        @for (cell of row.after; track $index; let last = $last) {
+                          <td [class.vm-created]="last">{{ cell }}</td>
+                        }
+                        <td aria-hidden="true"><span class="vm-actions"><fa-icon [icon]="icons.ellipsis" /></span></td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+
+            <div class="vm-table-card__foot">
+              <p class="vm-count">Showing 1 - {{ view.rows.length }} of {{ view.total }} results</p>
+              <span class="vm-pager" aria-hidden="true">
+                <span class="vm-pager__step">‹</span>
+                @for (page of pageNumbers(); track page) {
+                  <span class="vm-pager__page" [class.vm-pager__page--current]="page === 1">{{ page }}</span>
+                }
+                <span class="vm-pager__step">›</span>
+              </span>
+            </div>
+          </div>
+        }
+
+        <div class="benefits-strip">
+          @for (benefit of tabContent().benefits; track $index) {
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <fa-icon [icon]="benefit.icon" aria-hidden="true" />
+              </div>
+              <div class="benefit-text">
+                <h4>{{ benefit.title }}</h4>
+                <p>{{ benefit.description }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

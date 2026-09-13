@@ -1,0 +1,63 @@
+:host { display: block; background: var(--color-bg-primary); color: var(--wp-ink); }
+
+/* Accent tones. The `tone-*` class sits on the card; the icon inside reads --tone. */
+.tone-green { --tone: var(--wp-tone-green); }
+.tone-blue { --tone: var(--wp-tone-blue); }
+.tone-purple { --tone: var(--wp-tone-purple); }
+
+.performance-section { padding: var(--wp-section-pad) 0; background: linear-gradient(115deg, var(--wp-mist-from) 0%, var(--wp-mist-via) 52%, var(--wp-mist-to) 100%); overflow: hidden; }
+.performance-inner { display: grid; grid-template-columns: 300px minmax(420px, 1fr) 300px; align-items: center; gap: 28px; max-width: 1400px; }
+.eyebrow { display: flex; align-items: center; gap: var(--space-sm); margin: 0 0 var(--space-md); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 2px; text-transform: uppercase; }
+.eyebrow span { width: 40px; height: 2px; background: var(--color-brand-green); }
+h2 { margin: 0; font-family: var(--font-heading); font-weight: var(--fw-bold); line-height: 1.04; letter-spacing: -1.4px; }
+.performance-intro h2 { font-size: clamp(36px, 3.2vw, 50px); }/* The intro track is a fixed 300px because this strong must not wrap: "in
+   Numbers." measures 296px at the clamp ceiling of 50px, so the track is sized
+   to the text. Below 1100px the track shrinks but the clamp drops with it. */
+.performance-intro h2 strong, .company-intro h2 strong { color: var(--wp-green); }
+.performance-intro h2 strong { white-space: nowrap; }
+.performance-intro > p:not(.eyebrow), .company-intro > p:not(.eyebrow) { margin: var(--space-md) 0 var(--space-lg); color: var(--wp-body); font-size: 16px; line-height: 1.45; }
+.outline-cta { display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border: 1.5px solid var(--wp-green-line); border-radius: var(--radius-md); color: var(--wp-green-ink); font-size: 13px; font-weight: var(--fw-semibold); text-decoration: none; transition: background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out); }.outline-cta:hover { background: var(--color-brand-green); color: var(--primary-foreground); }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(116px, 1fr)); gap: 12px; }.metric-card { min-height: 144px; padding: var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: var(--wp-panel-wash); }.metric-icon { display: grid; width: 36px; height: 36px; place-items: center; margin-bottom: var(--space-sm); border-radius: 50%; font-size: 17px; color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }.metric-card strong { display: block; color: var(--wp-ink); font-size: 29px; line-height: 1; letter-spacing: -1px; }.metric-card h3 { margin: var(--space-xs) 0; color: var(--wp-ink); font-size: 13px; line-height: 1.1; }.metric-card p { margin: 0; color: var(--color-text-muted); font-size: var(--fs-caption); line-height: 1.35; }
+
+.global-visual { position: relative; min-height: 288px; }.global-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: .88; }.global-callout { position: absolute; top: var(--space-xl); right: 0; display: grid; grid-template-columns: 12px auto; column-gap: var(--space-sm); padding: 12px var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--wp-panel) 94%, transparent); box-shadow: var(--shadow-md); font-size: var(--fs-caption); }.global-callout span { grid-row: span 2; width: 8px; height: 8px; margin-top: var(--space-xs); border-radius: 50%; background: var(--wp-tone-green); box-shadow: 0 0 0 8px color-mix(in srgb, var(--wp-tone-green) 10%, transparent); }.global-callout strong { color: var(--wp-ink); }.global-callout small { color: var(--color-text-muted); line-height: 1.35; }.global-list { position: absolute; right: 0; bottom: var(--space-sm); padding: 0; margin: 0; list-style: none; color: var(--wp-body); font-size: var(--fs-caption); line-height: 1.9; }.global-list li::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: var(--space-sm); border-radius: 50%; background: var(--wp-tone-green); }
+
+.company-section { display: grid; grid-template-columns: 42% 1fr; gap: var(--space-xl); padding-block: var(--wp-section-pad); }.company-intro { padding-right: var(--space-xl); border-right: 1px solid var(--color-border); }.company-intro h2 { font-size: clamp(30px, 2.5vw, 39px); }.company-intro > p:not(.eyebrow) { margin-bottom: 0; }.company-logos { display: grid; grid-template-columns: repeat(5, minmax(70px, 1fr)); align-content: center; gap: var(--space-md); padding-left: var(--space-sm); }.company-logos small { align-self: center; text-align: center; color: var(--color-text-muted); font-size: 12px; line-height: 1.2; }
+
+/* Logo plates.
+   These are real brand marks, so their colours must not shift with the theme.
+   Every plate is the same off-white, so the wall reads as one row rather than
+   a grid with two odd tiles in it. Deliberately not tokenised — theming them
+   would be the bug, not the fix. */
+.logo-plate { display: grid; place-items: center; min-height: 56px; padding: var(--space-sm) 12px; border: 1px solid var(--wp-panel-line); border-radius: var(--radius-md); background: #fcfcfc; }
+/* The customer wall is deliberately monochrome, so one chain treats all nine
+   marks identically — read left to right:
+     brightness(0)   flattens every logo to black, discarding brand colour. Plain
+                     grayscale() cannot be used here: it preserves luminance, so
+                     a pale mark stays pale — Ferrovial is yellow and lands at
+                     1.5:1 against the plate, which is no logo at all.
+     drop-shadow x2  the assets carry very different alphas (DFM, Ferrovial,
+                     Michelin and LSEG average 140-174 and are more than half
+                     thin ink; BBVA and ITV are near-opaque). Flat black alone
+                     renders the thin ones visibly weaker, so each zero-blur
+                     shadow composites another copy to build them up. Opaque
+                     logos are unaffected, which is what makes one rule work.
+     opacity(.55)    lands the whole wall on the same grey, ~4.9:1 on the plate.
+   Michelin keeps its interior detail because its highlights are transparent
+   rather than opaque white — worth re-checking with any new asset, since an
+   opaque background would flatten to a solid black rectangle here.
+   Every asset is dark-ink, so colour can be restored (hover, or dropping this
+   rule) without anything disappearing against the plate. */
+.company-logos .logo-plate img { filter: brightness(0) drop-shadow(0 0 0 #000) drop-shadow(0 0 0 #000) opacity(.55); }
+.logo-plate img { width: auto; height: auto; max-width: 100%; max-height: 32px; }
+
+.assurance-section { display: grid; grid-template-columns: 1.35fr .85fr; gap: var(--space-md); padding-block: var(--wp-section-pad); }.assurance-card { min-height: 232px; padding: var(--space-lg); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: linear-gradient(120deg, var(--wp-card-cool-from), var(--wp-card-cool-to)); }.certifications-card { display: grid; grid-template-columns: 40% 1fr; gap: var(--space-lg); }.assurance-card .eyebrow { margin-bottom: 12px; }.assurance-card h2 { font-size: 28px; }.assurance-card > p:not(.eyebrow), .assurance-copy > p:not(.eyebrow) { margin: var(--space-sm) 0 var(--space-md); color: var(--wp-body); font-size: 13px; line-height: 1.45; }/* Top-aligned, not centred: the captions wrap to different line counts, and
+   centring each cell would leave the four icons sitting at different heights. */
+.certification-list { display: grid; grid-template-columns: repeat(4, 1fr); align-items: start; gap: var(--space-sm); }.certification { text-align: center; }.certification__icon { display: grid; width: 48px; height: 48px; place-items: center; margin: 0 auto var(--space-sm); border-radius: 50%; font-size: 25px; color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }.logo-plate--certification { min-height: 48px; margin-bottom: var(--space-sm); }.logo-plate--certification img { max-height: 28px; }.certification strong, .certification small { display: block; }.certification strong { color: var(--wp-ink); font-size: var(--fs-caption); }.certification small { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--fs-caption); line-height: 1.25; }.partners-card { background: linear-gradient(130deg, var(--wp-card-warm-from), var(--wp-card-warm-to)); }.partners-card h2 { font-size: 28px; }.partner-logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-top: var(--space-lg); }.logo-plate--partner { min-height: 48px; }
+/* Square icon-marks (Microsoft, Dell, SAP…) need to be taller than a wordmark
+   to carry comparable weight; Oracle is width-bound by the plate either way. */
+.logo-plate--partner img { max-height: 34px; }.logo-wordmark { color: var(--wp-brand-ember); font-size: 15px; font-weight: var(--fw-bold); letter-spacing: -.5px; }
+
+@media (max-width: 1100px) { .performance-inner { grid-template-columns: 250px 1fr; }.global-visual { display: none; }.assurance-section { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .performance-inner, .company-section { grid-template-columns: 1fr; }.metrics-grid { grid-template-columns: repeat(2, 1fr); }.company-intro { padding: 0 0 var(--space-lg); border: 0; }.company-logos { padding: 0; }.certifications-card { grid-template-columns: 1fr; }.certification-list { gap: var(--space-sm); }.assurance-card { padding: 20px; } }
+@media (max-width: 480px) { .metrics-grid { grid-template-columns: 1fr 1fr; gap: var(--space-sm); }.metric-card { min-height: 132px; padding: 12px; }.company-logos { grid-template-columns: repeat(3, 1fr); gap: var(--space-md) var(--space-sm); }.certification-list, .partner-logos { grid-template-columns: repeat(2, 1fr); }.performance-intro h2 { font-size: 38px; } }

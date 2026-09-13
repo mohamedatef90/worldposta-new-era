@@ -1,0 +1,811 @@
+:host {
+  display: block;
+}
+
+.ecosystem-section {
+  padding: var(--wp-section-pad) 0;
+  background:
+    radial-gradient(circle at 88% 12%, var(--wp-band-glow), transparent 30%),
+    linear-gradient(180deg, var(--color-bg-primary) 0%, var(--wp-hero-via) 100%);
+}
+
+.ecosystem-container {
+  max-width: 1400px;
+}
+
+/* Header - Left-aligned */
+.ecosystem-header {
+  max-width: 940px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.ecosystem-header h2 {
+  margin: 0 0 8px;
+  color: var(--wp-ink);
+  font-size: clamp(36px, 3.5vw, 48px);
+  font-weight: var(--fw-bold);
+  line-height: 1.03;
+  /* Tracking in em, not px: this heading is fluid, and a fixed -1.8px is
+     -3.75% at 48px but -7.5% once the mobile rule drops it to 24px, which
+     ran the words together. -0.0375em is the same -1.8px at 48px. */
+  letter-spacing: -0.0375em;
+}
+
+.ecosystem-header .highlight {
+  color: var(--wp-green);
+}
+
+.subtitle {
+  max-width: 720px;
+  margin: 0;
+  color: var(--wp-body);
+  font-size: 16px;
+  line-height: 1.42;
+}
+
+/* Unified Surface */
+.ecosystem-surface {
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Sidebar Tabs */
+.tabs-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 12px var(--space-sm);
+  background: color-mix(in srgb, var(--wp-panel) 72%, transparent);
+  border-right: 1px solid var(--color-border);
+  max-height: none;
+  overflow: visible;
+}
+
+.tab-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tab-group-label {
+  margin: 0 0 var(--space-xs);
+  padding: 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.tab-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 24px;
+  padding: var(--space-xs) var(--space-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-in-out),
+    color var(--duration-fast) var(--ease-in-out);
+}
+
+.tab-button fa-icon {
+  flex: 0 0 auto;
+  width: 15px;
+  font-size: 12px;
+  color: inherit;
+}
+
+.tab-button__chevron {
+  margin-left: auto;
+  width: auto;
+  font-size: 10px;
+  opacity: .45;
+}
+
+.tab-button:hover {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+.tab-button.active {
+  background: var(--color-brand-green);
+  color: var(--primary-foreground);
+  font-weight: var(--fw-semibold);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid var(--color-brand-green);
+  outline-offset: 2px;
+}
+
+/* Tab Panel */
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  /* Without this the grid track grows to the table's min-content width and the
+     whole panel overflows instead of letting .vm-table-scroll scroll. */
+  min-width: 0;
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+}
+
+.tab-panel:focus-visible {
+  outline: 2px solid var(--color-brand-green);
+  outline-offset: -2px;
+}
+
+/* Panel Main: Copy + Visual side by side */
+.panel-main {
+  display: grid;
+  grid-template-columns: minmax(260px, .77fr) minmax(360px, 1.23fr);
+  gap: 28px;
+  /* The tab list is taller than any single panel's content, so this row is
+     always given slack. Centre it, otherwise all of it collects as dead
+     space under the copy. */
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Panel Copy */
+.panel-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  align-self: flex-start;
+  padding: 0;
+  border-radius: var(--radius-full);
+  color: var(--color-brand-green);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.badge-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  color: var(--wp-tone-sky);
+  background: color-mix(in srgb, var(--wp-tone-sky) var(--wp-tone-fill), transparent);
+}
+
+.panel-copy h3 {
+  margin: 0;
+  color: var(--wp-ink);
+  font-size: clamp(28px, 2.6vw, 38px);
+  font-weight: var(--fw-bold);
+  line-height: 1.08;
+  letter-spacing: -1.1px;
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.42;
+}
+
+.bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: var(--space-sm) 0 0;
+  list-style: none;
+}
+
+.bullet-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-primary);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+}
+
+.bullet-list fa-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-brand-green) 15%, transparent);
+  color: var(--color-brand-green);
+  font-size: 10px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 12px var(--space-lg);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  transition: all var(--duration-base) var(--ease-out);
+  min-height: 42px;
+}
+
+.btn-primary {
+  background: var(--color-brand-green);
+  color: var(--primary-foreground);
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  background: var(--color-brand-green-light);
+  color: var(--primary-foreground);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-brand-green);
+  border: 1.5px solid var(--color-brand-green);
+}
+
+.btn-secondary:hover {
+  background: var(--color-brand-green);
+  color: var(--primary-foreground);
+}
+
+/* Panel Visual */
+.panel-visual {
+  display: flex;
+  align-items: flex-start;
+}
+
+.mockup-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-border);
+}
+
+.mockup-shell img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.mockup-shell.cloudedge-visual img {
+  /* Screenshots ship dark; light mode inverts them, dark mode leaves them alone. */
+  filter: var(--wp-console-filter);
+}
+
+/* ============================================================
+   Console preview (Virtual Machines tab)
+
+   A live-rendered stand-in for a product screenshot: stat tiles plus a
+   sample resource table. Everything that cannot actually do anything here
+   (search field, row checkboxes, row menu, pager) is presentational and
+   hidden from assistive tech, so nothing announces as a dead control.
+   ============================================================ */
+
+/* ---- Stat tiles ---- */
+.vm-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.vm-stat {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  min-height: 104px;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--wp-panel);
+  box-shadow: var(--wp-panel-shadow);
+  /* Accent is decoration; the icon and label carry identity. Order validated
+     for colour-vision separation — see the component's ConsoleStat docs. */
+  --tone: var(--wp-tone-sky);
+}
+.vm-stat[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+.vm-stat[data-tone='green'] { --tone: var(--wp-tone-green); }
+.vm-stat[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+
+.vm-stat__icon {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  font-size: 18px;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+}
+
+.vm-stat__label {
+  align-self: end;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-caption);
+  line-height: 1.3;
+}
+
+.vm-stat__value {
+  align-self: start;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  color: var(--wp-ink);
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+  letter-spacing: -.5px;
+}
+
+.vm-stat__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  color: var(--wp-tone-green);
+  background: color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+}
+
+.vm-stat__spark {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 54%;
+  height: 32px;
+  pointer-events: none;
+}
+.vm-stat__line {
+  fill: none;
+  stroke: var(--tone);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vm-stat__area {
+  fill: var(--tone);
+  opacity: .12;
+  stroke: none;
+}
+
+/* ---- Table card ---- */
+.vm-table-card {
+  min-width: 0;
+  margin-top: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--wp-panel);
+  overflow: hidden;
+}
+
+.vm-table-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: var(--space-md) var(--space-lg);
+}
+
+.vm-table-card__title {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--wp-ink);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: var(--fw-bold);
+}
+.vm-table-card__title span { color: var(--color-text-secondary); font-weight: var(--fw-medium); }
+
+.vm-search {
+  display: flex;
+  flex: 1 1 200px;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  padding: var(--space-sm) 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  background: var(--color-bg-tertiary);
+  font-size: var(--fs-caption);
+}
+.vm-search__placeholder { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+.vm-create {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 36px;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  transition: filter var(--duration-fast) var(--ease-in-out);
+}
+.vm-create:hover { color: var(--primary-foreground); filter: brightness(1.1); }
+.vm-create:focus-visible { outline: 2px solid var(--color-brand-green); outline-offset: 2px; }
+
+/* Tables are the one thing allowed to scroll sideways (design system §"no
+   horizontal scroll" applies to the page, not to a data table). */
+.vm-table-scroll { overflow-x: auto; }
+
+.vm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+}
+
+.vm-table th,
+.vm-table td {
+  padding: 12px var(--space-md);
+  text-align: left;
+  font-weight: var(--fw-regular);
+  color: var(--color-text-secondary);
+}
+
+.vm-table thead th {
+  border-block: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-weight: var(--fw-semibold);
+  background: var(--color-bg-tertiary);
+}
+
+.vm-table tbody tr + tr th,
+.vm-table tbody tr + tr td { border-top: 1px solid var(--color-border); }
+
+.vm-name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--wp-ink);
+  font-weight: var(--fw-semibold);
+}
+.vm-name__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  color: var(--wp-tone-blue);
+  background: color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
+  font-size: 12px;
+}
+
+.vm-created { color: var(--color-text-muted); }
+
+/* Reserved status colours — never reused as a decorative accent, and always
+   paired with the word, so the state survives colour-blindness and greyscale. */
+.vm-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: var(--fw-semibold);
+}
+.vm-status[data-tone='good'] { color: var(--wp-tone-green); }
+.vm-status[data-tone='warning'] { color: var(--wp-tone-amber); }
+.vm-status[data-tone='critical'] { color: var(--color-error); }
+.vm-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.vm-check {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-tertiary);
+}
+.vm-col-select { width: 44px; }
+
+.vm-actions { color: var(--color-text-muted); }
+
+.vm-table-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: 12px var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.vm-count { margin: 0; color: var(--color-text-muted); font-size: var(--fs-caption); }
+
+.vm-pager { display: inline-flex; align-items: center; gap: var(--space-xs); }
+.vm-pager__page,
+.vm-pager__step {
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-caption);
+}
+.vm-pager__page--current {
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  border-color: var(--wp-tone-blue);
+  font-weight: var(--fw-semibold);
+}
+
+/* Benefits Strip */
+.benefits-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding-right: 12px;
+  border-right: 1px solid var(--color-border);
+}
+
+.benefit-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-brand-green) 12%, transparent);
+  color: var(--color-brand-green);
+  font-size: 16px;
+}
+
+.benefit-text h4 {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+}
+
+.benefit-text p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 1280px) {
+  .ecosystem-surface {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .panel-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .benefits-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .ecosystem-surface {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .tabs-sidebar {
+    padding: var(--space-md) var(--space-sm);
+    max-height: 600px;
+  }
+
+  .tab-button {
+    padding: var(--space-sm);
+    font-size: 12px;
+  }
+
+  .tab-panel {
+    padding: var(--space-lg);
+  }
+
+  .panel-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .panel-visual {
+    order: -1;
+  }
+
+  .benefits-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .ecosystem-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .ecosystem-surface {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tabs-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+    gap: var(--space-lg);
+    padding: var(--space-md);
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-group {
+    flex: 0 0 auto;
+    min-width: 180px;
+  }
+
+  .tab-button {
+    padding: var(--space-sm);
+    font-size: 13px;
+    /* 8px padding on 13px text gives a 37px row - under the 44px minimum,
+       and these sit in a horizontal scroller where a missed tap scrolls. */
+    min-height: 44px;
+  }
+
+  .tab-panel {
+    min-height: auto;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .benefits-strip {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 640px) {
+  /* Two tiles across leaves ~137px each — the labels wrap mid-phrase and the
+     delta chip clips. One per row instead. */
+  .vm-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .vm-stat {
+    min-height: 88px;
+  }
+
+  .vm-table-card__head {
+    padding: var(--space-md);
+  }
+
+  .vm-table-card__foot {
+    padding: 12px var(--space-md);
+  }
+
+  .ecosystem-header h2 {
+    font-size: 24px;
+    /* Wraps to three lines here; 1.03 is a single-line display value. */
+    line-height: 1.18;
+  }
+
+  .subtitle {
+    font-size: var(--fs-body);
+  }
+
+  .panel-copy h3 {
+    font-size: 20px;
+  }
+
+  .tab-group {
+    min-width: 160px;
+  }
+
+  .benefit-item {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

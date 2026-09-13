@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KB Hero Book — 3D Shape Explorer</title>
+  <style>
+    :root {
+      --paper: #FCFCFA;
+      --ink: #111827;
+      --muted: #64748B;
+      --green: #78A74D;
+      --border: rgba(130, 170, 100, 0.18);
+      --card: rgba(255, 255, 255, 0.88);
+      --shadow: 0 12px 40px rgba(17, 24, 39, 0.07);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse 60% 40% at 70% 8%, rgba(120, 167, 77, 0.07) 0%, transparent 60%),
+        var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 40px 20px 72px; }
+    header { max-width: 720px; margin-bottom: 36px; }
+    header h1 {
+      font-size: clamp(1.6rem, 1.1rem + 2vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+      line-height: 1.1;
+    }
+    header p { margin: 0; color: var(--muted); font-size: 1rem; max-width: 58ch; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .pill {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 5px 11px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    }
+    .pill--rec { color: var(--green); border-color: rgba(120,167,77,.35); background: rgba(120,167,77,.08); }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      margin-bottom: 24px; padding: 14px 16px;
+      border-radius: 14px; border: 1px solid var(--border);
+      background: var(--card); box-shadow: var(--shadow);
+    }
+    .toolbar label { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .toolbar button {
+      font-size: 12px; font-weight: 600; padding: 8px 14px;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: #fff; color: var(--ink); cursor: pointer;
+      transition: all 0.25s var(--ease);
+    }
+    .toolbar button:hover { border-color: var(--green); color: var(--green); }
+    .toolbar button.active { background: var(--green); color: #fff; border-color: var(--green); }
+    .grid {
+      display: grid; grid-template-columns: 1fr; gap: 20px;
+    }
+    @media (min-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1080px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    .option {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; box-shadow: var(--shadow);
+      overflow: hidden; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    }
+    .option:hover { transform: translateY(-3px); box-shadow: 0 18px 48px rgba(17,24,39,.09); }
+    .option--rec { border-color: rgba(120,167,77,.4); box-shadow: 0 14px 44px rgba(120,167,77,.12); }
+    .option__stage {
+      position: relative; height: 240px;
+      background:
+        linear-gradient(rgba(120,167,77,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120,167,77,.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .option__stage canvas {
+      display: block; width: 100%; height: 100%;
+      cursor: grab;
+    }
+    .option__stage canvas:active { cursor: grabbing; }
+    .option__badge {
+      position: absolute; top: 10px; left: 10px; z-index: 2;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 8px; border-radius: 6px;
+      background: rgba(255,255,255,.9); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .option--rec .option__badge { color: var(--green); border-color: rgba(120,167,77,.3); }
+    .option__body { padding: 18px 20px 22px; }
+    .option__title { font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.02em; }
+    .option__desc { font-size: 0.8125rem; color: var(--muted); margin: 0 0 12px; }
+    .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+    .spec {
+      font-size: 10px; padding: 7px 9px; border-radius: 7px;
+      background: rgba(120,167,77,.06); border: 1px solid rgba(130,170,100,.12);
+    }
+    .spec strong { display: block; font-weight: 600; color: var(--ink); }
+    .spec span { color: var(--muted); }
+    .verdict {
+      font-size: 0.78rem; padding: 10px 12px; border-radius: 8px;
+      background: rgba(17,24,39,.03); border-left: 3px solid var(--green);
+    }
+    .compare {
+      margin-top: 40px; padding: 24px; border-radius: 16px;
+      border: 1px solid var(--border); background: var(--card); box-shadow: var(--shadow);
+    }
+    .compare h2 { font-size: 1.1rem; margin: 0 0 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(130,170,100,.12); }
+    th { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    tr:last-child td { border-bottom: none; }
+    .yes { color: var(--green); font-weight: 600; }
+    footer { margin-top: 32px; font-size: 0.78rem; color: var(--muted); }
+    #status { font-size: 12px; color: var(--muted); margin-left: auto; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Animated 3D Book — Shape Explorer</h1>
+      <p>
+        Eight live WebGL previews with page-flip loops. Drag to orbit each book.
+        Parameters map directly to <code>kb-hero-book/scene.ts</code>.
+      </p>
+      <div class="meta">
+        <span class="pill">Three.js · live animation</span>
+        <span class="pill">Light theme #FCFCFA</span>
+        <span class="pill pill--rec">Recommended: H</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <label>View</label>
+      <button type="button" id="btn-orbit" class="active">Orbit (drag)</button>
+      <button type="button" id="btn-auto">Auto rotate all</button>
+      <button type="button" id="btn-pause">Pause flips</button>
+      <span id="status">Loading Three.js…</span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <section class="compare">
+      <h2>Recommended implementation (Option H)</h2>
+      <table>
+        <thead><tr><th>Parameter</th><th>Value</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><code>pageW / pageH</code></td><td>1.48 / 2.12</td><td>Balanced handbook silhouette</td></tr>
+          <tr><td><code>tilt</code></td><td>0.15</td><td>Authentic open-book splay</td></tr>
+          <tr><td><code>curveRise</code></td><td>0.32</td><td>Visible gutter arch, calm at rest</td></tr>
+          <tr><td><code>board radius</code></td><td>0.018</td><td>Soft premium hardcover corners</td></tr>
+          <tr><td>Presentation</td><td>Float + pool shadow</td><td>Hero marketing treatment</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      Path: <code>/design/kb-book-shape-explorer.html</code> ·
+      Apply winner to <code>apps/site/src/components/home-v2/kb-hero-book/scene.ts</code>
+    </footer>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    const PIGMENT = {
+      paper: "#FCFBF7",
+      paperBlock: "#F3F2EC",
+      paperEdge: "#E8E7E0",
+      board: "#D7D9D4",
+      boardRim: "#C4C7C1",
+      spine: "#4E7A39",
+      spineDeep: "#3D6029",
+      ink: "#23282B",
+      accent: "#4E7A39",
+    };
+
+    const OPTIONS = [
+      {
+        id: "a", tag: "A · Current", title: "Desk Reference",
+        desc: "Production baseline from scene.ts.",
+        pageW: 1.52, pageH: 2.06, spineHalf: 0.062, overhang: 0.048,
+        boardT: 0.042, blockT: 0.082, tilt: 0.16, curveRise: 0.38, curvePower: 1.6,
+        boardR: 0.013, float: false,
+        specs: ["1.52×2.06 trim", "tilt 0.16", "curve 0.38", "Desk rest"],
+        verdict: "Authentic. Slightly tall in tight hero crops.",
+        rec: false,
+      },
+      {
+        id: "b", tag: "B", title: "Wide Field Guide",
+        desc: "Landscape proportions — stable in wide layouts.",
+        pageW: 1.72, pageH: 1.82, spineHalf: 0.055, overhang: 0.042,
+        boardT: 0.04, blockT: 0.075, tilt: 0.12, curveRise: 0.22, curvePower: 1.5,
+        boardR: 0.016, float: false,
+        specs: ["1.72×1.82 wide", "tilt 0.12", "curve 0.22", "Soft 6px radius"],
+        verdict: "Great horizontal balance. Less vertical authority.",
+        rec: false,
+      },
+      {
+        id: "c", tag: "C", title: "Tall Editorial",
+        desc: "Narrow tall manual — commands vertical space.",
+        pageW: 1.35, pageH: 2.35, spineHalf: 0.068, overhang: 0.05,
+        boardT: 0.044, blockT: 0.086, tilt: 0.14, curveRise: 0.42, curvePower: 1.7,
+        boardR: 0.008, float: false,
+        specs: ["1.35×2.35 tall", "tilt 0.14", "curve 0.42", "Sharp boards"],
+        verdict: "Striking but risks mobile crop.",
+        rec: false,
+      },
+      {
+        id: "d", tag: "D", title: "Soft Rounded",
+        desc: "Baseline with large board corner radius.",
+        pageW: 1.52, pageH: 2.06, spineHalf: 0.062, overhang: 0.048,
+        boardT: 0.042, blockT: 0.082, tilt: 0.16, curveRise: 0.34, curvePower: 1.6,
+        boardR: 0.022, float: false,
+        specs: ["Baseline ratio", "radius 0.022", "tilt 0.16", "Friendly SaaS"],
+        verdict: "Warm and approachable. Less enterprise-technical.",
+        rec: false,
+      },
+      {
+        id: "e", tag: "E", title: "Wide Spread",
+        desc: "High splay + deep arch — dramatic flip.",
+        pageW: 1.54, pageH: 2.04, spineHalf: 0.062, overhang: 0.05,
+        boardT: 0.042, blockT: 0.082, tilt: 0.22, curveRise: 0.48, curvePower: 1.55,
+        boardR: 0.013, float: false,
+        specs: ["tilt 0.22", "curve 0.48", "Wide footprint", "Motion-first"],
+        verdict: "Exciting flip. Can read as a tent.",
+        rec: false,
+      },
+      {
+        id: "f", tag: "F", title: "Minimal Rest",
+        desc: "Apple-still calm — low splay, shallow curve.",
+        pageW: 1.5, pageH: 2.04, spineHalf: 0.056, overhang: 0.04,
+        boardT: 0.04, blockT: 0.078, tilt: 0.09, curveRise: 0.18, curvePower: 1.8,
+        boardR: 0.013, float: false,
+        specs: ["tilt 0.09", "curve 0.18", "Thin spine", "Minimal motion"],
+        verdict: "Most expensive at rest. Flip is subtle.",
+        rec: false,
+      },
+      {
+        id: "g", tag: "G", title: "Floating Hero",
+        desc: "Elevated with soft shadow pool — no desk contact.",
+        pageW: 1.52, pageH: 2.06, spineHalf: 0.062, overhang: 0.048,
+        boardT: 0.042, blockT: 0.082, tilt: 0.16, curveRise: 0.36, curvePower: 1.6,
+        boardR: 0.016, float: true,
+        specs: ["Float +12%", "Pool shadow", "Baseline geom", "Hero marketing"],
+        verdict: "Best for floating hero brief.",
+        rec: false,
+      },
+      {
+        id: "h", tag: "H · Recommended", title: "Premium Handbook",
+        desc: "Balanced float, soft corners, tuned arch.",
+        pageW: 1.48, pageH: 2.12, spineHalf: 0.062, overhang: 0.044,
+        boardT: 0.042, blockT: 0.082, tilt: 0.15, curveRise: 0.32, curvePower: 1.6,
+        boardR: 0.018, float: true,
+        specs: ["1.48×2.12", "tilt 0.15", "curve 0.32", "Float + soft"],
+        verdict: "Stripe / Linear / Apple enterprise SaaS pick.",
+        rec: true,
+      },
+    ];
+
+    function restingCurve(u, cfg) {
+      const t = Math.min(1, Math.max(0, u));
+      return cfg.curveRise * Math.pow(1 - t, cfg.curvePower);
+    }
+
+    function makeMat(color, rough = 0.85) {
+      return new THREE.MeshStandardMaterial({
+        color, roughness: rough, metalness: 0,
+      });
+    }
+
+    function roundedBox(w, h, d, r) {
+      // Chamfered box approximation via scaled box (preview quality)
+      const g = new THREE.BoxGeometry(w, h, d);
+      if (r > 0.01) {
+        const s = 1 - r * 0.35;
+        g.scale(s, s, s);
+      }
+      return g;
+    }
+
+    function buildLeafGeometry(cfg, side, segX, segZ, bakeCurve) {
+      const geo = new THREE.PlaneGeometry(cfg.pageW, cfg.pageH, segX, segZ);
+      geo.rotateX(-Math.PI / 2);
+      const pageX0 = cfg.spineHalf + 0.006;
+      const centre = pageX0 + cfg.pageW / 2;
+      geo.translate(side === "right" ? centre : -centre, 0, 0);
+      if (bakeCurve) {
+        const pos = geo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const u = side === "right"
+            ? (x - pageX0) / cfg.pageW
+            : (-pageX0 - x) / cfg.pageW;
+          pos.setY(i, restingCurve(u, cfg));
+        }
+        pos.needsUpdate = true;
+        geo.computeVertexNormals();
+      }
+      return geo;
+    }
+
+    function buildBook(cfg) {
+      const root = new THREE.Group();
+      const pageX0 = cfg.spineHalf + 0.006;
+      const pageY = cfg.boardT + cfg.blockT + 0.003;
+      const boardW = cfg.pageW + cfg.overhang;
+      const boardD = cfg.pageH + cfg.overhang * 2;
+
+      const boardMat = makeMat(PIGMENT.board, 0.78);
+      const rimMat = makeMat(PIGMENT.boardRim, 0.8);
+      const blockMat = makeMat(PIGMENT.paperBlock, 0.96);
+      const paperMat = makeMat(PIGMENT.paper, 0.94);
+      const spineMat = makeMat(PIGMENT.spine, 0.62);
+      const edgeMat = makeMat(PIGMENT.paperEdge, 0.96);
+
+      // Spine
+      const spineW = cfg.spineHalf * 2 + 0.012;
+      const spine = new THREE.Mesh(
+        roundedBox(spineW, 0.1, boardD, 0.02),
+        spineMat,
+      );
+      spine.position.set(0, 0.042, 0);
+      spine.castShadow = true;
+      spine.receiveShadow = true;
+      root.add(spine);
+
+      const gutter = new THREE.Mesh(
+        new THREE.BoxGeometry(spineW * 0.52, 0.012, boardD * 0.99),
+        makeMat(PIGMENT.spineDeep, 0.68),
+      );
+      gutter.position.set(0, 0.09, 0);
+      root.add(gutter);
+
+      for (const side of ["left", "right"]) {
+        const dir = side === "right" ? 1 : -1;
+        const half = new THREE.Group();
+        half.position.set(0, 0, 0);
+
+        const boardX = dir * (cfg.spineHalf + boardW / 2);
+        const board = new THREE.Mesh(
+          roundedBox(boardW, cfg.boardT, boardD, cfg.boardR),
+          boardMat,
+        );
+        board.position.set(boardX, cfg.boardT / 2, 0);
+        board.castShadow = true;
+        board.receiveShadow = true;
+        half.add(board);
+
+        const rim = new THREE.Mesh(
+          new THREE.BoxGeometry(boardW - 0.016, 0.004, boardD - 0.016),
+          rimMat,
+        );
+        rim.position.set(boardX, cfg.boardT + 0.001, 0);
+        half.add(rim);
+
+        const blockX = dir * (pageX0 + cfg.pageW / 2);
+        const block = new THREE.Mesh(
+          roundedBox(cfg.pageW, cfg.blockT, cfg.pageH, cfg.boardR * 0.6),
+          blockMat,
+        );
+        block.position.set(blockX, cfg.boardT + cfg.blockT / 2, 0);
+        block.castShadow = true;
+        block.receiveShadow = true;
+        half.add(block);
+
+        const sheet = new THREE.Mesh(
+          new THREE.BoxGeometry(cfg.pageW - 0.007, 0.0018, cfg.pageH - 0.009),
+          edgeMat,
+        );
+        sheet.position.set(blockX, cfg.boardT + cfg.blockT + 0.0014, 0);
+        half.add(sheet);
+
+        const leafGeo = buildLeafGeometry(cfg, side, 28, 10, true);
+        const leaf = new THREE.Mesh(leafGeo, paperMat.clone());
+        leaf.position.set(0, pageY, 0);
+        leaf.receiveShadow = true;
+        half.add(leaf);
+
+        const tilt = cfg.tilt * (side === "right" ? 1 : -1);
+        half.rotation.y = tilt;
+        half.position.y = Math.sin(cfg.tilt) * (cfg.spineHalf + boardW) * 0.15;
+        root.add(half);
+      }
+
+      // Turning leaf (right side, animated)
+      const turnGeo = buildLeafGeometry(cfg, "right", 32, 12, false);
+      const restPos = turnGeo.attributes.position.array.slice();
+      const turnLeaf = new THREE.Mesh(turnGeo, paperMat.clone());
+      turnLeaf.position.set(0, pageY + 0.005, 0);
+      turnLeaf.castShadow = true;
+      root.add(turnLeaf);
+
+      // Shadow pool
+      let poolMaterial;
+      const poolCanvas = document.createElement("canvas");
+      poolCanvas.width = 256;
+      poolCanvas.height = 256;
+      const poolCtx = poolCanvas.getContext("2d");
+      if (poolCtx) {
+        const g = poolCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
+        g.addColorStop(0, "rgba(43,56,38,0.35)");
+        g.addColorStop(0.45, "rgba(43,56,38,0.12)");
+        g.addColorStop(1, "rgba(43,56,38,0)");
+        poolCtx.fillStyle = g;
+        poolCtx.fillRect(0, 0, 256, 256);
+        const poolTex = new THREE.CanvasTexture(poolCanvas);
+        poolTex.needsUpdate = true;
+        poolMaterial = new THREE.MeshBasicMaterial({
+          map: poolTex,
+          transparent: true,
+          depthWrite: false,
+        });
+      } else {
+        poolMaterial = new THREE.MeshBasicMaterial({
+          color: 0x2b3826,
+          transparent: true,
+          opacity: 0.12,
+          depthWrite: false,
+        });
+      }
+      const pool = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 2.4), poolMaterial);
+      pool.rotation.x = -Math.PI / 2;
+      pool.position.y = cfg.float ? -0.08 : 0.002;
+      root.add(pool);
+
+      if (cfg.float) root.position.y = 0.14;
+
+      return { root, turnLeaf, turnGeo, restPos, pageX0, pageY, cfg };
+    }
+
+    function deformTurningLeaf(geo, restPos, cfg, pageX0, p) {
+      const pos = geo.attributes.position;
+      for (let i = 0; i < pos.count; i++) {
+        const j = i * 3;
+        const rx = restPos[j];
+        const rz = restPos[j + 2];
+        const u = (rx - pageX0) / cfg.pageW;
+        const bend = Math.sin(Math.PI * p);
+        const arch = 0.28 * bend * Math.sin(Math.PI * Math.pow(u, 0.9));
+        const resting = restingCurve(u, cfg) * (1 - 2 * p);
+        pos.setXYZ(i, rx - 0.08 * bend * u * u, arch + resting, rz);
+      }
+      pos.needsUpdate = true;
+      geo.computeVertexNormals();
+    }
+
+    class BookPreview {
+      constructor(canvas, cfg) {
+        this.cfg = cfg;
+        this.canvas = canvas;
+        this.autoRotate = false;
+        this.flipPaused = false;
+        this.time = Math.random() * 4;
+        this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.setClearColor(0x000000, 0);
+
+        this.scene = new THREE.Scene();
+        const built = buildBook(cfg);
+        this.book = built.root;
+        this.turnLeaf = built.turnLeaf;
+        this.turnGeo = built.turnGeo;
+        this.restPos = built.restPos;
+        this.pageX0 = built.pageX0;
+        this.scene.add(this.book);
+
+        const aspect = 1;
+        this.camera = new THREE.PerspectiveCamera(32, aspect, 0.1, 50);
+        this.camera.position.set(0.2, 1.85, 3.4);
+        this.camera.lookAt(0, 0.35, 0);
+
+        this.controls = new OrbitControls(this.camera, canvas);
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.06;
+        this.controls.target.set(0, 0.35, 0);
+        this.controls.minDistance = 2.2;
+        this.controls.maxDistance = 5.5;
+        this.controls.maxPolarAngle = Math.PI / 2.1;
+
+        const amb = new THREE.AmbientLight("#DCE8EA", 0.55);
+        this.scene.add(amb);
+        const key = new THREE.DirectionalLight("#FFF4E2", 1.1);
+        key.position.set(2.5, 4.5, 3.2);
+        key.castShadow = true;
+        key.shadow.mapSize.set(512, 512);
+        this.scene.add(key);
+        const fill = new THREE.DirectionalLight("#DCE8EA", 0.35);
+        fill.position.set(-2, 2, -1);
+        this.scene.add(fill);
+        const rim = new THREE.SpotLight("#A8D46C", 0.25, 12, 0.6, 0.8);
+        rim.position.set(-1.5, 2.5, 2);
+        rim.target.position.set(0, 0.2, 0);
+        this.scene.add(rim);
+        this.scene.add(rim.target);
+
+        this.resize();
+        window.addEventListener("resize", () => this.resize());
+      }
+
+      resize() {
+        const w = this.canvas.clientWidth;
+        const h = this.canvas.clientHeight;
+        if (!w || !h) return;
+        this.renderer.setSize(w, h, false);
+        this.camera.aspect = w / h;
+        this.camera.updateProjectionMatrix();
+      }
+
+      tick(dt) {
+        this.time += dt;
+        const t = this.time;
+
+        if (!this.flipPaused) {
+          const cycle = 6.8;
+          const phase = (t % cycle) / cycle;
+          let p = 0;
+          if (phase > 0.28 && phase < 0.62) {
+            p = (phase - 0.28) / 0.34;
+          } else if (phase >= 0.62) {
+            p = 1;
+          }
+          const eased = p < 0.5
+            ? 0.5 * (1 - Math.cos(Math.PI * p))
+            : 0.5 * (1 + Math.sin(Math.PI * (p - 0.5) - Math.PI / 2));
+          deformTurningLeaf(this.turnGeo, this.restPos, this.cfg, this.pageX0, eased);
+          this.turnLeaf.rotation.y = this.cfg.tilt + eased * Math.PI;
+        }
+
+        if (this.cfg.float) {
+          this.book.position.y = 0.14 + Math.sin(t * 0.7) * 0.04;
+        }
+        if (this.autoRotate) {
+          this.book.rotation.y = Math.sin(t * 0.25) * 0.12;
+        }
+
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    const previews = [];
+    let globalAuto = false;
+    let globalPause = false;
+
+    function mountCards() {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+
+      for (const opt of OPTIONS) {
+        const card = document.createElement("article");
+        card.className = "option" + (opt.rec ? " option--rec" : "");
+        card.innerHTML = `
+          <div class="option__stage">
+            <span class="option__badge">${opt.tag}</span>
+            <canvas aria-label="3D preview: ${opt.title}"></canvas>
+          </div>
+          <div class="option__body">
+            <h2 class="option__title">${opt.title}</h2>
+            <p class="option__desc">${opt.desc}</p>
+            <div class="specs">
+              ${opt.specs.map((s) => `<div class="spec"><strong>${s.split(" ")[0]}</strong><span>${s.includes(" ") ? s.slice(s.indexOf(" ") + 1) : ""}</span></div>`).join("")}
+            </div>
+            <p class="verdict">${opt.verdict}</p>
+          </div>`;
+        grid.appendChild(card);
+        const canvas = card.querySelector("canvas");
+        const preview = new BookPreview(canvas, opt);
+        previews.push(preview);
+      }
+    }
+
+    mountCards();
+    document.getElementById("status").textContent = "8 books loaded · drag to orbit";
+
+    let last = performance.now();
+    function loop(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      for (const p of previews) p.tick(dt);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    document.getElementById("btn-auto").addEventListener("click", (e) => {
+      globalAuto = !globalAuto;
+      previews.forEach((p) => { p.autoRotate = globalAuto; });
+      e.target.classList.toggle("active", globalAuto);
+    });
+
+    document.getElementById("btn-pause").addEventListener("click", (e) => {
+      globalPause = !globalPause;
+      previews.forEach((p) => { p.flipPaused = globalPause; });
+      e.target.classList.toggle("active", globalPause);
+      e.target.textContent = globalPause ? "Resume flips" : "Pause flips";
+    });
+
+    document.getElementById("btn-orbit").addEventListener("click", () => {
+      document.getElementById("btn-orbit").classList.add("active");
+    });
+  </script>
+</body>
+</html>

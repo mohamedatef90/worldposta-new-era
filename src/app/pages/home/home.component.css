@@ -1,0 +1,125 @@
+:host {
+  display: block;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.home-page { overflow: hidden; background: var(--color-bg-primary); }
+.hero { position: relative; min-height: 600px; isolation: isolate; background: linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
+.hero::after { position: absolute; z-index: -1; inset: 38% 0 auto; height: 62%; background: linear-gradient(180deg, transparent, var(--wp-hero-veil)); content: ''; }
+.hero__cloud { position: absolute; z-index: -1; border-radius: var(--radius-full); filter: blur(2px); opacity: .72; background: radial-gradient(circle at 60% 30%, var(--wp-cloud-core), var(--wp-cloud-edge) 42%, transparent 70%); }
+.hero__cloud--one { width: 510px; height: 360px; top: 70px; right: -105px; }
+.hero__cloud--two { width: 300px; height: 210px; left: 38%; bottom: var(--space-lg); opacity: .48; }
+
+.site-header { min-height: 80px; display: flex; align-items: center; gap: 28px; position: relative; z-index: 4; }
+.brand { display: inline-flex; flex: 0 0 auto; align-items: center; }
+.brand img { width: 156px; height: auto; }
+.site-nav, .header-actions { display: flex; align-items: center; }
+.site-nav { flex: 1; justify-content: center; gap: var(--space-lg); }
+.site-nav a, .language-link, .sign-in { display: inline-flex; align-items: center; gap: var(--space-sm); color: var(--color-brand-blue); font-size: 12px; font-weight: var(--fw-semibold); white-space: nowrap; }
+.site-nav fa-icon, .language-link fa-icon { font-size: 9px; }
+.header-actions { gap: 12px; }
+.icon-button, .menu-button { display: inline-grid; width: 32px; height: 32px; place-items: center; border: 0; border-radius: var(--radius-full); background: transparent; color: var(--color-brand-blue); cursor: pointer; }
+.icon-button:hover, .menu-button:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
+.theme-toggle { flex: 0 0 auto; order: 1; }
+.header-cta, .primary-cta { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-sm); border-radius: var(--radius-full); color: var(--primary-foreground); background: var(--color-brand-green); font-weight: var(--fw-semibold); box-shadow: 0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); transition: transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out); }
+.header-cta { padding: 12px 20px; font-size: 13px; }
+.header-cta:hover, .primary-cta:hover { color: var(--primary-foreground); background: var(--color-brand-green-light); transform: translateY(-2px); }
+.menu-button { display: none; margin-left: auto; font-size: 18px; }
+
+/* Mobile navigation drawer.
+   The hamburger previously rendered but did nothing, which left every nav
+   link, "Sign in" and the "Start free" CTA unreachable under 1024px. It only
+   renders while open and the button that controls it is itself hidden above
+   that width, so there is nothing to suppress on desktop. */
+.mobile-nav__backdrop { position: fixed; inset: 0; z-index: 40; background: color-mix(in srgb, var(--wp-ink) 45%, transparent); }
+.mobile-nav {
+  position: fixed; z-index: 50; top: 72px; right: 0; left: 0;
+  display: grid; gap: 2px;
+  /* The drawer scrolls itself when the links outrun a short viewport, and
+     overscroll-behavior keeps that scroll from chaining to the locked page. */
+  max-height: calc(100dvh - 72px); overflow-y: auto; overscroll-behavior: contain;
+  padding: var(--space-md) 20px calc(var(--space-lg) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--wp-panel-line);
+  background: var(--wp-panel); box-shadow: var(--shadow-lg);
+  animation: mobile-nav-in var(--duration-base) var(--ease-out);
+}
+/* 48px rows and 16px text: comfortably past the 44px touch minimum, and large
+   enough to read on a phone without zooming. */
+.mobile-nav a { display: flex; min-height: 48px; align-items: center; gap: var(--space-sm); padding: 0 12px; border-radius: var(--radius-md); color: var(--wp-ink); font-size: 16px; font-weight: var(--fw-semibold); text-decoration: none; }
+.mobile-nav a:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
+.mobile-nav__rule { width: 100%; height: 1px; margin: var(--space-sm) 0; border: 0; background: var(--wp-panel-line); }
+.mobile-nav__cta { justify-content: center; color: var(--primary-foreground); background: var(--color-brand-green); }
+.mobile-nav__cta:hover { color: var(--primary-foreground); background: var(--color-brand-green-light); }
+@keyframes mobile-nav-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mobile-nav { animation: none; } }
+
+.hero__content { display: grid; grid-template-columns: minmax(0, .9fr) minmax(500px, 1.35fr); gap: var(--space-xl); align-items: center; padding-top: var(--space-xl); padding-bottom: var(--wp-section-pad); }
+.hero-copy { max-width: 495px; padding-top: var(--space-md); }
+.eyebrow { margin: 0 0 12px; color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 3px; line-height: 1.4; text-transform: uppercase; }
+h1 { margin: 0; color: var(--wp-ink); font-size: clamp(44px, 4.2vw, 66px); line-height: .98; letter-spacing: -2.4px; font-weight: 700; }
+h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { color: var(--wp-green); font-size: .84em; white-space: nowrap; }
+@media (max-width: 639px) { .text-green { white-space: normal; } }
+.hero-copy__description { max-width: 465px; margin: var(--space-md) 0 20px; color: var(--color-text-secondary); font-size: 17px; font-weight: 500; line-height: 1.35; }
+.proof-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); padding: 0; margin: 0 0 var(--space-lg); list-style: none; }
+.proof-points li { display: flex; align-items: flex-start; gap: var(--space-sm); color: var(--wp-ink); font-size: var(--fs-caption); line-height: 1.2; }
+.proof-icon { display: inline-grid; flex: 0 0 auto; width: 36px; height: 36px; place-items: center; border-radius: var(--radius-lg); font-size: 16px; --tone: var(--wp-tone-sky); color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }.proof-points li:nth-child(2) .proof-icon { --tone: var(--wp-tone-green); }.proof-points li:nth-child(3) .proof-icon { --tone: var(--wp-tone-teal); }
+.proof-points strong, .proof-points small { display: block; }.proof-points strong { margin-bottom: var(--space-xs); font-size: var(--fs-caption); }.proof-points small { color: var(--color-text-muted); font-size: var(--fs-caption); line-height: 1.3; }
+.hero-copy__actions { display: flex; flex-wrap: wrap; gap: var(--space-md); }.primary-cta, .secondary-cta { min-height: 48px; padding: 0 28px; font-size: 14px; }.secondary-cta { display: inline-grid; place-items: center; min-height: 48px; padding: 0 var(--space-xl); border: 1.5px solid var(--color-brand-green); border-radius: var(--radius-full); color: var(--color-brand-green); font-size: 14px; font-weight: var(--fw-semibold); }.secondary-cta:hover { color: var(--primary-foreground); background: var(--color-brand-green); }
+
+.hero-visual { position: relative; min-width: 0; padding: var(--space-md) var(--space-xs) var(--space-sm); }.console-shell { position: relative; overflow: hidden; aspect-ratio: 2.05; border: 8px solid var(--wp-console-frame); border-radius: var(--radius-2xl); background: var(--wp-console-chrome); box-shadow: var(--wp-console-shadow); transform: perspective(1400px) rotateY(-3deg) rotateX(1deg); }.console-shell__chrome { height: 40px; display: flex; align-items: center; gap: var(--space-sm); padding: 0 var(--space-md); background: var(--wp-console-chrome); }.console-shell__chrome > span { width: 8px; height: 8px; border-radius: 50%; background: var(--wp-console-dot); }.console-shell__chrome p { margin: 0 0 0 var(--space-sm); color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: 700; }.console-shell__chrome p span { margin-left: var(--space-sm); color: var(--color-text-muted); font-weight: 500; }.console-shell img { display: block; width: 100%; height: calc(100% - 40px); object-fit: cover; object-position: top; filter: var(--wp-console-filter); }
+.floating-card { position: absolute; z-index: 1; display: flex; align-items: center; gap: var(--space-sm); padding: 12px var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--wp-panel) 90%, transparent); box-shadow: var(--shadow-lg); color: var(--wp-tone-blue); font-size: 21px; backdrop-filter: blur(8px); }.floating-card span { min-width: 130px; color: var(--color-text-primary); }.floating-card strong, .floating-card small { display: block; }.floating-card strong { font-size: var(--fs-caption); }.floating-card small { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--fs-caption); }.floating-card--cloud { right: -30px; bottom: var(--space-lg); }.floating-card--security { left: -25px; top: 30%; color: var(--wp-tone-green); }
+
+/* Ecosystem Strip Section */
+.ecosystem-strip-section { padding: var(--wp-section-pad) 0; background: linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%); }
+.ecosystem-strip { display: flex; align-items: center; gap: var(--space-xl); padding: var(--space-lg) var(--space-xl); background: var(--wp-panel); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); }
+.ecosystem-strip__intro { flex: 0 0 auto; min-width: 200px; max-width: 260px; }
+.ecosystem-strip__eyebrow { margin: 0 0 var(--space-sm); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 1.5px; text-transform: uppercase; }
+.ecosystem-strip__heading { margin: 0 0 var(--space-xs); color: var(--wp-ink); font-size: 20px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+.ecosystem-strip__heading span { color: var(--color-brand-green); }
+.ecosystem-strip__subtitle { margin: 0; color: var(--wp-body-strong); font-size: 13px; line-height: 1.4; }
+.ecosystem-strip__tiles { display: flex; align-items: center; gap: var(--space-sm); flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.ecosystem-strip__tiles::-webkit-scrollbar { display: none; }
+.ecosystem-tile { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); padding: var(--space-sm) 12px; text-decoration: none; white-space: nowrap; transition: transform var(--duration-fast) var(--ease-out); }
+.ecosystem-tile:hover { transform: translateY(-2px); }
+.ecosystem-tile:focus-visible { outline: 2px solid var(--color-brand-green); outline-offset: 2px; border-radius: var(--radius-md); }
+.ecosystem-tile__icon { display: grid; width: 40px; height: 40px; place-items: center; border-radius: var(--radius-lg); font-size: 16px; color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }
+.ecosystem-tile__label { color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: var(--fw-semibold); }
+.ecosystem-tile__chevron { color: var(--wp-rule); font-size: 10px; flex-shrink: 0; }
+
+/* Tile color variants */
+.tile--green { --tone: var(--wp-tone-leaf); }
+.tile--purple { --tone: var(--wp-tone-purple); }
+.tile--teal { --tone: var(--wp-tone-teal); }
+.tile--pink { --tone: var(--wp-tone-pink); }
+.tile--amber { --tone: var(--wp-tone-amber); }
+.tile--sky { --tone: var(--wp-tone-sky); }
+.tile--indigo { --tone: var(--wp-tone-indigo); }
+.tile--rose { --tone: var(--wp-tone-rose); }
+
+.trust-strip { display: flex; align-items: center; gap: var(--space-xl); padding-block: var(--space-lg); border-top: 1px solid var(--wp-hairline); }.trust-strip > p { flex: 0 0 auto; margin: 0; color: var(--wp-body-strong); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: .7px; line-height: 1.35; text-transform: uppercase; }.trust-logos { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: var(--space-md); color: var(--wp-body-strong); }/* The partner SVGs are Simple Icons, which letterbox each mark inside a square
+   24x24 canvas. Their viewBoxes are cropped to the ink, so max-height now sizes
+   the visible mark rather than its padding - before cropping, the same 28px cap
+   drew Dell at 28px and VMware at 4.5px. Square marks are bound by height; the
+   two wordmarks (Oracle, VMware) by max-width, which is why they sit shorter. */
+.trust-logo { display: inline-flex; width: auto; height: auto; max-width: 84px; max-height: 36px; align-items: center; color: var(--wp-body-strong); }.trust-logo--oracle { max-width: 108px; }/* Four solid squares carry more optical weight than the outline marks, so
+   Microsoft is held slightly below the others rather than matched to them. */
+.trust-logo--microsoft { max-height: 32px; }
+/* The strip carries full brand colour, but VMware's mark is a dark grey that
+   drops to ~3.5:1 on the dark background. It is monochrome, so lifting its
+   brightness restores contrast without shifting any hue. */
+/* :host-context, not a plain ancestor selector — emulated encapsulation scopes
+   the latter so an attribute on <html> can never match it. */
+:host-context([data-theme='dark']) .trust-logo--vmware { filter: brightness(1.85); }.trust-message { padding-left: 28px; border-left: 1px solid var(--wp-rule); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+
+@media (max-width: 1199px) { .site-nav { gap: 12px; }.site-nav a { font-size: var(--fs-caption); }.header-actions { gap: var(--space-sm); }.hero__content { grid-template-columns: minmax(330px, .83fr) 1.17fr; } .ecosystem-strip { gap: var(--space-lg); padding: 20px var(--space-lg); } .ecosystem-strip__intro { min-width: 180px; max-width: 220px; } }
+@media (max-width: 1023px) { .site-header { min-height: 72px; }.site-nav, .header-actions { display: none; }.menu-button { display: inline-grid; margin-left: 0; }.theme-toggle { margin-left: auto; }
+  /* Below this width these are the only header controls, and both are driven
+     by thumb rather than cursor: 32px fails the 44px minimum touch target.
+     The icon glyph is unchanged - only the tappable box grows around it. */
+  .icon-button, .menu-button { width: 44px; height: 44px; }
+  .brand { min-height: 44px; }
+.hero { min-height: unset; }.hero__content { grid-template-columns: 1fr; }.hero-copy { max-width: 620px; }.hero-visual { max-width: 740px; padding-top: var(--space-sm); margin: 0 auto; }.proof-points { max-width: 610px; }.trust-message { display: none; } .ecosystem-strip { flex-direction: column; align-items: stretch; gap: 20px; padding: var(--space-lg) 20px; } .ecosystem-strip__intro { max-width: none; text-align: center; } .ecosystem-strip__heading { white-space: normal; } .ecosystem-strip__tiles { justify-content: flex-start; padding-bottom: var(--space-xs); } }
+@media (max-width: 639px) { .site-header, .hero__content, .trust-strip { padding-left: 20px; padding-right: 20px; }.brand img { width: 142px; }.hero__content { padding-top: var(--space-lg); }.hero-copy { padding-top: 0; }.hero-copy__description { font-size: 16px; }.proof-points { grid-template-columns: 1fr; gap: 12px; }.hero-copy__actions { display: grid; grid-template-columns: 1fr; }.primary-cta, .secondary-cta { width: 100%; }.hero-visual { display: none; }.trust-strip { align-items: flex-start; flex-direction: column; gap: var(--space-md); }.trust-logos { flex-wrap: wrap; justify-content: flex-start; gap: var(--space-md) var(--space-lg); }.trust-logos strong { font-size: 15px; } .ecosystem-strip { padding: 20px var(--space-md); border-radius: var(--radius-xl); }  .ecosystem-strip__heading { font-size: 18px; } .ecosystem-strip__subtitle { font-size: 12px; } .ecosystem-tile { padding: var(--space-sm) 12px; } .ecosystem-tile__icon { width: 36px; height: 36px; font-size: 14px; }  }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } .console-shell { transform: none; } }

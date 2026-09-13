@@ -1,0 +1,162 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "name": "Universal Design System",
+  "version": "1.1.0",
+  "description": "Technology-agnostic design tokens with light + dark themes. Use across React, Angular, Vue, plain HTML.",
+  "lastUpdated": "2026-04-29",
+
+  "color": {
+    "brand": {
+      "green":       { "value": "#679a41", "type": "color", "description": "Primary CTA, success" },
+      "green-light": { "value": "#7db84d", "type": "color", "description": "Hover/highlight green" },
+      "blue": {
+        "type": "color",
+        "description": "Theme-aware: bright on dark, navy on light. Use --color-brand-blue at runtime.",
+        "dark":  "#38bdf8",
+        "light": "#293c51"
+      },
+      "whatsapp":    { "value": "#25d366", "type": "color", "description": "WhatsApp CTA" }
+    },
+
+    "semantic": {
+      "error":   { "value": "#ef4444", "type": "color" },
+      "warning": { "value": "#f59e0b", "type": "color" },
+      "success": { "value": "#679a41", "type": "color" },
+      "info": {
+        "type": "color",
+        "description": "Theme-aware (mirrors brand-blue). Use --color-info at runtime.",
+        "dark":  "#38bdf8",
+        "light": "#293c51"
+      }
+    },
+
+    "dark": {
+      "bg-primary":   { "value": "#0f1318", "type": "color", "description": "Page background" },
+      "bg-secondary": { "value": "#141a22", "type": "color", "description": "Cards, sections" },
+      "bg-tertiary":  { "value": "#1a2230", "type": "color", "description": "Inputs, nested" },
+      "bg-elevated":  { "value": "#202b3a", "type": "color", "description": "Hover, elevated" },
+      "border":       { "value": "#202b3a", "type": "color" },
+      "text-primary":   { "value": "#eef2f7", "type": "color", "description": "Main text, contrast 14.5:1" },
+      "text-secondary": { "value": "#7a93ad", "type": "color", "description": "Secondary, contrast 6.2:1" },
+      "text-muted":     { "value": "#3d5570", "type": "color", "description": "Labels, contrast 4.8:1" },
+      "brand-blue":     { "value": "#38bdf8", "type": "color", "description": "Bright accent for dark theme (7.8:1 AAA)" },
+      "info":           { "value": "#38bdf8", "type": "color" },
+      "overlay":        { "value": "rgba(0,0,0,0.5)", "type": "color" }
+    },
+
+    "light": {
+      "bg-primary":   { "value": "#ffffff", "type": "color", "description": "Page background" },
+      "bg-secondary": { "value": "#f7f9fc", "type": "color", "description": "Cards, sections" },
+      "bg-tertiary":  { "value": "#eef2f7", "type": "color", "description": "Inputs, nested" },
+      "bg-elevated":  { "value": "#e2e8f0", "type": "color", "description": "Hover, elevated" },
+      "border":       { "value": "#e2e8f0", "type": "color" },
+      "text-primary":   { "value": "#0f1318", "type": "color", "description": "Main text, contrast 16.5:1" },
+      "text-secondary": { "value": "#4a5b6e", "type": "color", "description": "Secondary, contrast 7.4:1" },
+      "text-muted":     { "value": "#718096", "type": "color", "description": "Labels, contrast 4.6:1" },
+      "brand-blue":     { "value": "#293c51", "type": "color", "description": "Navy accent for light theme (~10:1 AAA)" },
+      "info":           { "value": "#293c51", "type": "color" },
+      "overlay":        { "value": "rgba(15,19,24,0.5)", "type": "color" }
+    }
+  },
+
+  "typography": {
+    "font-family": {
+      "heading":   { "value": "'Poppins', system-ui, -apple-system, sans-serif", "type": "fontFamily" },
+      "body":      { "value": "'Open Sans', system-ui, -apple-system, sans-serif", "type": "fontFamily" },
+      "monospace": { "value": "'Menlo', 'Monaco', 'Courier New', monospace", "type": "fontFamily" }
+    },
+    "font-weight": {
+      "light":     { "value": 300, "type": "fontWeight" },
+      "regular":   { "value": 400, "type": "fontWeight" },
+      "medium":    { "value": 500, "type": "fontWeight" },
+      "semibold":  { "value": 600, "type": "fontWeight" },
+      "bold":      { "value": 700, "type": "fontWeight" }
+    },
+    "scale": {
+      "display":    { "size": "56px", "weight": 700, "lineHeight": 1.2, "letterSpacing": "-0.5px",  "font": "heading" },
+      "h1":         { "size": "40px", "weight": 700, "lineHeight": 1.3, "letterSpacing": "-0.25px", "font": "heading" },
+      "h2":         { "size": "32px", "weight": 600, "lineHeight": 1.4, "letterSpacing": "0",       "font": "heading" },
+      "h3":         { "size": "24px", "weight": 600, "lineHeight": 1.5, "letterSpacing": "0",       "font": "heading" },
+      "body-large": { "size": "18px", "weight": 400, "lineHeight": 1.6, "letterSpacing": "0.2px",   "font": "body" },
+      "body":       { "size": "16px", "weight": 400, "lineHeight": 1.6, "letterSpacing": "0.2px",   "font": "body" },
+      "body-small": { "size": "14px", "weight": 400, "lineHeight": 1.5, "letterSpacing": "0.25px",  "font": "body" },
+      "label":      { "size": "14px", "weight": 600, "lineHeight": 1.4, "letterSpacing": "0.5px",   "font": "body" },
+      "caption":    { "size": "12px", "weight": 400, "lineHeight": 1.4, "letterSpacing": "0.3px",   "font": "body" }
+    }
+  },
+
+  "spacing": {
+    "xs":  { "value": "4px",  "type": "dimension" },
+    "sm":  { "value": "8px",  "type": "dimension" },
+    "md":  { "value": "16px", "type": "dimension" },
+    "lg":  { "value": "24px", "type": "dimension" },
+    "xl":  { "value": "32px", "type": "dimension" },
+    "2xl": { "value": "48px", "type": "dimension" },
+    "3xl": { "value": "64px", "type": "dimension" },
+    "4xl": { "value": "96px", "type": "dimension" }
+  },
+
+  "radius": {
+    "sm":   { "value": "4px",    "type": "dimension" },
+    "md":   { "value": "8px",    "type": "dimension" },
+    "lg":   { "value": "12px",   "type": "dimension" },
+    "xl":   { "value": "16px",   "type": "dimension" },
+    "2xl":  { "value": "24px",   "type": "dimension" },
+    "full": { "value": "9999px", "type": "dimension" }
+  },
+
+  "shadow": {
+    "dark": {
+      "sm":  { "value": "0 1px 2px rgba(0,0,0,0.20)" },
+      "md":  { "value": "0 4px 6px rgba(0,0,0,0.30)" },
+      "lg":  { "value": "0 10px 15px rgba(0,0,0,0.35)" },
+      "xl":  { "value": "0 20px 25px rgba(0,0,0,0.40)" },
+      "2xl": { "value": "0 25px 50px rgba(0,0,0,0.50)" }
+    },
+    "light": {
+      "sm":  { "value": "0 1px 2px rgba(15,19,24,0.05)" },
+      "md":  { "value": "0 4px 6px rgba(15,19,24,0.08)" },
+      "lg":  { "value": "0 10px 15px rgba(15,19,24,0.10)" },
+      "xl":  { "value": "0 20px 25px rgba(15,19,24,0.12)" },
+      "2xl": { "value": "0 25px 50px rgba(15,19,24,0.18)" }
+    }
+  },
+
+  "motion": {
+    "duration": {
+      "fast":   { "value": "150ms" },
+      "base":   { "value": "200ms" },
+      "slow":   { "value": "300ms" },
+      "slower": { "value": "400ms" }
+    },
+    "easing": {
+      "in-out": { "value": "cubic-bezier(0.4, 0, 0.2, 1)" },
+      "out":    { "value": "cubic-bezier(0, 0, 0.2, 1)" },
+      "in":     { "value": "cubic-bezier(0.4, 0, 1, 1)" },
+      "linear": { "value": "linear" }
+    }
+  },
+
+  "breakpoint": {
+    "mobile":  { "value": "375px" },
+    "tablet":  { "value": "768px" },
+    "desktop": { "value": "1024px" },
+    "wide":    { "value": "1440px" }
+  },
+
+  "container": {
+    "tablet":  { "value": "720px" },
+    "desktop": { "value": "1200px" },
+    "wide":    { "value": "1400px" }
+  },
+
+  "zIndex": {
+    "base":     { "value": 0 },
+    "dropdown": { "value": 100 },
+    "sticky":   { "value": 200 },
+    "overlay":  { "value": 300 },
+    "modal":    { "value": 400 },
+    "toast":    { "value": 500 },
+    "tooltip":  { "value": 600 }
+  }
+}

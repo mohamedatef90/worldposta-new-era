@@ -1,0 +1,207 @@
+/* ============================================================
+   WorldPosta marketing palette
+
+   A project-level extension of the universal design system. The bundle in
+   design-system/ stays untouched and portable; everything specific to the
+   WorldPosta marketing site lives here.
+
+   Every token is declared for both themes, so page CSS can drop hardcoded
+   hex values and still respond to `data-theme`. Where a value already has a
+   design-system equivalent it points at that token rather than repeating it.
+   ============================================================ */
+
+/* ---- Dark (default) ---- */
+:root,
+[data-theme='dark'] {
+  /* Text */
+  --wp-ink: var(--color-text-primary);
+  --wp-body: var(--color-text-secondary);
+  --wp-body-strong: #9db3c8;
+
+  /* Accents */
+  --wp-blue: var(--color-brand-blue);
+  --wp-green: var(--color-brand-green-light);
+  --wp-green-ink: #9ccf6f;
+  --wp-green-line: #5f8f3d;
+
+  /* Hero */
+  --wp-hero-from: #0f1318;
+  --wp-hero-via: #131c26;
+  --wp-hero-to: #16232f;
+  --wp-hero-veil: rgba(20, 34, 48, 0.84);
+  --wp-cloud-core: rgba(56, 189, 248, 0.16);
+  --wp-cloud-edge: rgba(56, 189, 248, 0.08);
+
+  /* Raised panels */
+  --wp-panel: var(--color-bg-secondary);
+  --wp-panel-line: var(--color-border);
+  --wp-panel-shadow: var(--shadow-lg);
+  --wp-panel-wash: rgba(32, 43, 58, 0.45);
+
+  /* Tinted section bands */
+  --wp-band-from: #0f1318;
+  --wp-band-to: #131b24;
+  --wp-band-glow: rgba(56, 189, 248, 0.1);
+  --wp-mist-from: #0f1318;
+  --wp-mist-via: #121a22;
+  --wp-mist-to: #101a16;
+  --wp-card-cool-from: #141c26;
+  --wp-card-cool-to: #131b24;
+  --wp-card-warm-from: #131d18;
+  --wp-card-warm-to: #121b17;
+
+  /* Console mockup */
+  --wp-console-frame: rgba(255, 255, 255, 0.06);
+  --wp-console-chrome: var(--color-bg-tertiary);
+  --wp-console-dot: #2c3a4c;
+  --wp-console-shadow: 0 28px 56px rgba(0, 0, 0, 0.55);
+  /* The CloudEdge screenshots ship dark; light mode inverts them to match. */
+  --wp-console-filter: none;
+
+  /* Hairlines */
+  --wp-hairline: var(--color-border);
+  --wp-rule: var(--color-text-muted);
+
+  /* Accent tone ramp — backgrounds are mixed from these, see --wp-tone-fill */
+  --wp-tone-fill: 24%;
+  --wp-tone-sky: #56b6f5;
+  --wp-tone-blue: #63a9f0;
+  --wp-tone-green: #56c98c;
+  --wp-tone-leaf: #8cc95c;
+  --wp-tone-teal: #4fc0dc;
+  --wp-tone-purple: #a98af0;
+  --wp-tone-pink: #f072ab;
+  --wp-tone-amber: #eaa84a;
+  --wp-tone-indigo: #8f88f0;
+  --wp-tone-rose: #f2708d;
+
+  /* Neutral wordmark colour for customer/partner logo walls */
+  --wp-logo-ink: #a8bccf;
+}
+
+/* ---- Light ---- */
+[data-theme='light'] {
+  /* Text */
+  --wp-ink: #071c4c;
+  --wp-body: #667085;
+  --wp-body-strong: #52627a;
+
+  /* Accents */
+  --wp-blue: #1374ea;
+  /* The logo is drawn in --color-brand-green (#679a41 - sampled straight off
+     WP-Logo.avif), so display headings follow it rather than a separate green.
+     The dark theme below already points at the -light variant for the same reason. */
+  --wp-green: var(--color-brand-green);
+  --wp-green-ink: #145536;
+  --wp-green-line: #529873;
+
+  /* Hero */
+  --wp-hero-from: #ffffff;
+  --wp-hero-via: #f4fbff;
+  --wp-hero-to: #e7f8ff;
+  --wp-hero-veil: rgba(221, 247, 255, 0.84);
+  --wp-cloud-core: rgba(255, 255, 255, 0.94);
+  --wp-cloud-edge: rgba(200, 240, 255, 0.7);
+
+  /* Raised panels */
+  --wp-panel: #ffffff;
+  --wp-panel-line: rgba(203, 229, 239, 0.9);
+  --wp-panel-shadow: 0 4px 20px rgba(40, 117, 157, 0.08);
+  --wp-panel-wash: rgba(255, 255, 255, 0.54);
+
+  /* Tinted section bands */
+  --wp-band-from: #e8f4fc;
+  --wp-band-to: #f0f9ff;
+  --wp-band-glow: rgba(161, 228, 255, 0.3);
+  --wp-mist-from: #f7fcff;
+  --wp-mist-via: #effbff;
+  --wp-mist-to: #f8fff8;
+  --wp-card-cool-from: #fbfdff;
+  --wp-card-cool-to: #f2fbff;
+  --wp-card-warm-from: #fbfffb;
+  --wp-card-warm-to: #edf9f2;
+
+  /* Console mockup */
+  --wp-console-frame: rgba(255, 255, 255, 0.9);
+  --wp-console-chrome: #ffffff;
+  --wp-console-dot: #d8e4ed;
+  --wp-console-shadow: 0 28px 56px rgba(40, 117, 157, 0.2);
+  --wp-console-filter: invert(0.92) hue-rotate(164deg) saturate(0.58) brightness(1.08) contrast(0.92);
+
+  /* Hairlines */
+  --wp-hairline: #edf3f6;
+  --wp-rule: #94aab8;
+
+  /* Accent tone ramp */
+  --wp-tone-fill: 14%;
+  --wp-tone-sky: #118de8;
+  --wp-tone-blue: #1876de;
+  --wp-tone-green: #13a85c;
+  --wp-tone-leaf: #4a8c2a;
+  --wp-tone-teal: #1397bb;
+  --wp-tone-purple: #7a4ee3;
+  --wp-tone-pink: #db2777;
+  --wp-tone-amber: #d97706;
+  --wp-tone-indigo: #4f46e5;
+  --wp-tone-rose: #e11d48;
+
+  --wp-logo-ink: #26384e;
+}
+
+/* ============================================================
+   Vertical rhythm
+
+   One knob for the space between major page sections. Every major
+   section sets `padding-block: var(--wp-section-pad)`, so the gap
+   between any two adjacent sections is always twice this value —
+   96px desktop, 64px tablet, 48px phone. All three sit on the
+   design system's 4px scale (§6), and sections should not add
+   their own one-off top/bottom padding on top of it.
+
+   Minor dividers that belong to the section above them (the trust
+   strip) use --space-lg instead, so they read as attached rather
+   than as a section of their own.
+   ============================================================ */
+:root {
+  --wp-section-pad: var(--space-2xl);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --wp-section-pad: var(--space-xl);
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --wp-section-pad: var(--space-lg);
+  }
+}
+
+/* ============================================================
+   Third-party brand marks.
+
+   Deliberately theme-independent: these are other companies' registered
+   colours and must not shift with our palette. This is the one documented
+   exception to the "tokens, never hardcoded hex" rule in
+   design-system/unidesign-system.md §14.
+   ============================================================ */
+:root {
+  --wp-brand-azure: #237ad0;
+  --wp-brand-cloud: #1675bd;
+  --wp-brand-crimson: #b31f2a;
+  --wp-brand-ember: #c13c2c;
+}
+
+/* ------------------------------------------------------------
+   Using a tone: set `--tone` on the element from one of the ramp
+   tokens above, then derive its wash. Kept as a two-line pattern in
+   component CSS rather than a global class so the existing variant
+   class names (`.tile--purple`, `.tone-blue`, …) keep working.
+
+     .tile--purple .icon { --tone: var(--wp-tone-purple); }
+     .icon {
+       color: var(--tone);
+       background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+     }
+   ------------------------------------------------------------ */
