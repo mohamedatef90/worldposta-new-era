@@ -3,9 +3,10 @@
 | | |
 |---|---|
 | **Date** | 2026-09-13 |
-| **Status** | Repo initialised and committed locally. **Not pushed, not deployed.** |
-| **Vercel account** | Connected (`matefm20-gmailcom's projects`, hobby plan) |
-| **GitHub** | `gh` CLI authenticated as `mohamedatef90` |
+| **Status** | **Deployed.** Pushed to GitHub, Vercel project linked, auto-deploy on push to `main`. |
+| **Live URL** | https://worldposta-new-era.vercel.app — public, but `noindex` (see §7) |
+| **Repo** | https://github.com/mohamedatef90/worldposta-new-era (private) |
+| **Vercel project** | `worldposta-new-era` in `matefm20-gmailcom's projects` (hobby) |
 
 ---
 
@@ -97,3 +98,47 @@ once pushed. Options, cheapest first:
    each new page actually uses.
 
 No action taken — this is a content decision, not a technical one.
+
+---
+
+## 7. Deployment log — 2026-09-13
+
+Pushed to GitHub and linked the Vercel project to the repo, so every push to
+`main` now deploys automatically. Build succeeded on the first attempt; Vercel
+auto-detected the Angular framework preset.
+
+### The one surprise
+
+Linking the repo created a **production** deployment, not a preview — on the
+public alias `worldposta-new-era.vercel.app`, returning HTTP 200 to anyone with
+**no `X-Robots-Tag`**. Only the deployment-specific URL was protected and
+`noindex`. That is exactly the exposure §4 warns about: the CSR empty shell,
+titled "WorldpostaNewEra", open to be indexed as the site's first impression.
+
+**Mitigated by serving `X-Robots-Tag: noindex, nofollow` on every route**
+(commit `790f8ab`), rather than disallowing in `robots.txt`. The reason matters:
+a crawler blocked by `robots.txt` never fetches the page, so it never sees a
+noindex and can still index a bare URL from external links. Allowing the fetch
+and returning the header is the reliable way to stay out of the index.
+
+The URL stays openable by anyone with the link — convenient for review — while
+staying out of search results and AI indexes.
+
+### Verified live
+
+| Check | Result |
+|---|---|
+| `GET /` | 200, `X-Robots-Tag: noindex, nofollow` |
+| `/index.html` cache | `max-age=0, must-revalidate` |
+| Hashed JS (`main-*.js`) | `max-age=31536000, immutable` |
+| Unhashed public asset | `max-age=3600, stale-while-revalidate=86400` |
+| Deep link `/some/deep/link` | 200 (SPA rewrite working, no 404) |
+| Page content in raw HTML | **Still absent** — CSR, as expected until Phase 1 |
+
+### Going live properly, later
+
+1. Complete SEO Phase 1 (SSR/prerender) and update `outputDirectory` (§5).
+2. Confirm `curl -s <url>/ | grep "Scalable Cloud"` matches.
+3. Do Phases 2–3 (metadata, real `robots.txt`, sitemap).
+4. **Only then** remove the `X-Robots-Tag` block from `vercel.json`.
+5. Attach the real domain and submit to Search Console.
