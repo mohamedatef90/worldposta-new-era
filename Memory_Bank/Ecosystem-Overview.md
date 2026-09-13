@@ -157,3 +157,42 @@ Two consequences:
   `posta.worldposta.com` — the production mail service predates this rebuild.
 - Read at the level of docs, manifests, routes and types. Individual component internals
   were not reviewed.
+
+---
+
+## 8. Screenshotting ecosystem screens (verified 2026-09-13)
+
+Two apps run **standalone with no backend, DB or real auth** — verified: CloudEdge has no
+`HttpClient` anywhere in `src/`, and the portal's `context.tsx`/`data.ts` make no API calls.
+Everything is mock data. Both were installed and driven with Playwright successfully.
+
+| App | Command | Port | Auth |
+|---|---|---|---|
+| Portal (unified-sign-in) | `npm run dev` | 3000 | `customer@worldposta.com` / `password` |
+| CloudEdge console | `npx ng serve --port 3001` | 3001 | none — mock auth, hardcoded `admin` |
+
+Portal mock passwords are **derived from the role**, not stored: `customer` → `password`,
+`admin` → `password_admin`, `super_admin` → `password_super_admin`, `reseller` →
+`password_reseller` (see `login` in `context.tsx`). Mock users are in `data.ts`.
+
+### Three gotchas, each of which cost a retry
+
+1. **Both apps use hash routing.** `http://localhost:3000/login` silently serves the landing
+   page; the real URL is `http://localhost:3000/#/login`. Same for the console:
+   `#/app/cloud-edge/resources/virtual-machines`.
+2. **CloudEdge has a splash-screen gate** (`app.component.ts`) that swallows the first
+   navigation and redirects to the dashboard. Wait ~6s after load, *then* set the hash.
+3. **Angular CLI's first run can be slow and silent.** `ng serve` printed nothing for a
+   while; a second attempt then failed with "Port 3001 is already in use" — the first server
+   was building all along. Wait on the port, don't assume failure from silence.
+
+### The other apps
+
+| App | Screenshot feasibility |
+|---|---|
+| **clouddrive** | `web/` proxies to a **real Drive origin** with `DRIVE_SESSION_COOKIE` in `web/.env.local` — currently **empty**, so it needs a session cookie from Atef. `node_modules` already present. |
+| **knowledge** | Frontend proxies `/api` → `localhost:3002`. Needs the Express backend + MySQL + Meilisearch. |
+| **objstore** | Frontend proxies `/api` → backend. Needs the Go service + Postgres + Redis + Ceph RGW. |
+| **posta** | Has a **prebuilt `frontend/apps/web/dist/`** — serve it statically to screenshot the shell without any backend (API calls will fail, UI renders). |
+| **WP_Posta** | iOS/SwiftUI — needs Xcode on macOS. **Not possible on this machine.** |
+| **link** | Already PNG mockups (M01–M15). Nothing to run. |
