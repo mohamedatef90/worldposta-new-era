@@ -324,11 +324,6 @@
   object-fit: cover;
 }
 
-.mockup-shell.cloudedge-visual img {
-  /* Screenshots ship dark; light mode inverts them, dark mode leaves them alone. */
-  filter: var(--wp-console-filter);
-}
-
 /* ============================================================
    Console preview (Virtual Machines tab)
 

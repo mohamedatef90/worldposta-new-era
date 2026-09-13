@@ -55,8 +55,6 @@
   --wp-console-chrome: var(--color-bg-tertiary);
   --wp-console-dot: #2c3a4c;
   --wp-console-shadow: 0 28px 56px rgba(0, 0, 0, 0.55);
-  /* The CloudEdge screenshots ship dark; light mode inverts them to match. */
-  --wp-console-filter: none;
 
   /* Hairlines */
   --wp-hairline: var(--color-border);
@@ -126,7 +124,6 @@
   --wp-console-chrome: #ffffff;
   --wp-console-dot: #d8e4ed;
   --wp-console-shadow: 0 28px 56px rgba(40, 117, 157, 0.2);
-  --wp-console-filter: invert(0.92) hue-rotate(164deg) saturate(0.58) brightness(1.08) contrast(0.92);
 
   /* Hairlines */
   --wp-hairline: #edf3f6;
