@@ -253,8 +253,11 @@ export class EcosystemTabsComponent {
           'High availability & global reach',
           'Enterprise-grade security',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
-        imageAlt: 'CloudEdge Console dashboard showing infrastructure overview',
+        // Captured from the live CloudEdge console (1600x900), so it matches the
+        // 800x450 the template declares — unlike dashboard.png, which is 1520x684.
+        image: '/worldposta-assets/hero/cloudedge/console-dashboard.png',
+        imageAlt:
+          'CloudEdge Console dashboard: CPU, memory, storage and active VM usage, top VMs by resource usage, and a security score of 87%',
         benefits: [
           {
             icon: faShieldHalved,
