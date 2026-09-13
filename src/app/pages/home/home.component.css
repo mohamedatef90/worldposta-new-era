@@ -123,3 +123,82 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 @media (max-width: 639px) { .site-header, .hero__content, .trust-strip { padding-left: 20px; padding-right: 20px; }.brand img { width: 142px; }.hero__content { padding-top: var(--space-lg); }.hero-copy { padding-top: 0; }.hero-copy__description { font-size: 16px; }.proof-points { grid-template-columns: 1fr; gap: 12px; }.hero-copy__actions { display: grid; grid-template-columns: 1fr; }.primary-cta, .secondary-cta { width: 100%; }.hero-visual { display: none; }.trust-strip { align-items: flex-start; flex-direction: column; gap: var(--space-md); }.trust-logos { flex-wrap: wrap; justify-content: flex-start; gap: var(--space-md) var(--space-lg); }.trust-logos strong { font-size: 15px; } .ecosystem-strip { padding: 20px var(--space-md); border-radius: var(--radius-xl); }  .ecosystem-strip__heading { font-size: 18px; } .ecosystem-strip__subtitle { font-size: 12px; } .ecosystem-tile { padding: var(--space-sm) 12px; } .ecosystem-tile__icon { width: 36px; height: 36px; font-size: 14px; }  }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } .console-shell { transform: none; } }
+
+/* ============================================================
+   Hero — phones (≤639px)
+
+   Overrides the block above. Kept separate and expanded rather than
+   appended to that one-liner, because the reasoning matters more than
+   the byte count here.
+
+   The console preview used to be `display: none` below 640px, which cut
+   the page's strongest proof — the actual product — from the only view
+   most visitors arrive on. It is reframed instead of dropped.
+   ============================================================ */
+@media (max-width: 639px) {
+  /* Rhythm: the eyebrow and headline are one unit, so they sit tight;
+     the gap widens toward the CTAs so the block has a cadence instead of
+     evenly-spaced rows. */
+  .eyebrow { margin-bottom: 10px; letter-spacing: 2.4px; }
+
+  /* Looser tracking than the desktop -2.4px: at phone sizes that much
+     negative tracking closes up the counters and crowds the right edge. */
+  h1 { font-size: clamp(36px, 10.8vw, 46px); letter-spacing: -1.4px; line-height: 1.04; }
+
+  .hero-copy__description { margin: 14px 0 22px; line-height: 1.55; }
+
+  .proof-points { gap: 14px; margin-bottom: var(--space-xl); }
+  .proof-points li { line-height: 1.35; }
+
+  .hero-copy__actions { gap: 12px; }
+
+  /* --- The product, adapted --- */
+  .hero-visual {
+    display: block;
+    max-width: none;
+    padding: 0;
+    margin-top: var(--space-xl);
+  }
+
+  /* Flattened: the perspective tilt reads as a rendering glitch at this
+     width rather than as depth. Taller box + `cover` crops *into* the
+     screenshot instead of scaling all 1520px down to an illegible smear,
+     so the sidebar and the first stat cards stay readable. */
+  .console-shell {
+    aspect-ratio: 1.2;
+    border-width: 5px;
+    border-radius: var(--radius-xl);
+    transform: none;
+  }
+
+  .console-shell__chrome { height: 32px; padding: 0 12px; }
+  .console-shell__chrome p { font-size: 11px; }
+  /* Secondary label — not worth the width it costs here. */
+  .console-shell__chrome p span { display: none; }
+
+  /* 58% rather than a round number: at this box the screenshot overflows by
+     ~210px, and the console's own sidebar accounts for the first ~51% of
+     that. Anchoring past it avoids framing a sliver of truncated nav
+     labels, which reads as a broken image rather than a product. */
+  .console-shell img {
+    height: calc(100% - 32px);
+    object-position: 58% top;
+  }
+
+  /* "Your Private Cloud / Full control. Maximum security." restates the
+     Enterprise Security proof point two blocks up. Dropped here rather
+     than repeated. */
+  .floating-card--cloud { display: none; }
+
+  /* The availability figure is the one claim not already made in the copy,
+     so it stays — pulled inside the frame, since the desktop position
+     hangs it 25px off the left edge and would force a sideways scroll. */
+  .floating-card--security {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: auto;
+    padding: 10px 12px;
+  }
+  .floating-card--security span { min-width: 0; }
+}

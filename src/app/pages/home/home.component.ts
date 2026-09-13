@@ -8,7 +8,7 @@ import {
   faChevronDown,
   faChevronRight,
   faCloud,
-  faDatabase,
+  faCoins,
   faEnvelope,
   faFolderOpen,
   faGauge,
@@ -110,7 +110,7 @@ export class Home {
 
   protected readonly proofPoints: readonly ProofPoint[] = [
     {
-      icon: faDatabase,
+      icon: faGauge,
       title: 'High Performance',
       description: 'Built for enterprise workloads.',
     },
@@ -120,7 +120,7 @@ export class Home {
       description: 'Your data. Your control. Always protected.',
     },
     {
-      icon: faDatabase,
+      icon: faCoins,
       title: 'Up to 50% Lower Cost',
       description: 'More power. Less cost.',
     },
