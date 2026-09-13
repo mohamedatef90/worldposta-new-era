@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
@@ -37,6 +37,7 @@ import {
   faShareNodes,
 } from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { ThemeService } from '@/shared/services/theme.service';
 
 interface TabItem {
   readonly id: string;
@@ -108,6 +109,11 @@ interface TabContent {
   readonly description: string;
   readonly bullets: readonly string[];
   readonly image: string;
+  /**
+   * Dark-theme variant of `image`. Only product screenshots that were captured
+   * twice have one; everything else falls back to `image`.
+   */
+  readonly imageDark?: string;
   readonly imageAlt: string;
   /** Label for the primary CTA; defaults to "Get started". */
   readonly cta?: string;
@@ -123,6 +129,8 @@ interface TabContent {
   styleUrl: './ecosystem-tabs.component.css',
 })
 export class EcosystemTabsComponent {
+  private readonly theme = inject(ThemeService);
+
   protected readonly icons = {
     check: faCheck,
     chevronRight: faChevronRight,
@@ -230,6 +238,16 @@ export class EcosystemTabsComponent {
 
   protected readonly activeTabId = signal<string>('cloud-infrastructure');
 
+  /**
+   * The panel screenshot for the active theme. A light screenshot on the dark
+   * page reads as a bright slab, so tabs that have a dark capture swap to it;
+   * the rest fall back to the light one.
+   */
+  protected readonly panelImage = computed(() => {
+    const content = this.tabContent();
+    return this.theme.isDark() && content.imageDark ? content.imageDark : content.image;
+  });
+
   /** Icon of the active tab, shown beside the badge. */
   protected readonly activeIcon = computed<IconDefinition>(() => {
     const id = this.activeTabId();
@@ -256,6 +274,7 @@ export class EcosystemTabsComponent {
         // Captured from the live CloudEdge console (1600x900), so it matches the
         // 800x450 the template declares — unlike dashboard.png, which is 1520x684.
         image: '/worldposta-assets/hero/cloudedge/console-dashboard.png',
+        imageDark: '/worldposta-assets/hero/cloudedge/console-dashboard-dark.png',
         imageAlt:
           'CloudEdge Console dashboard: CPU, memory, storage and active VM usage, top VMs by resource usage, and a security score of 87%',
         benefits: [
