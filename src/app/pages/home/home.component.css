@@ -165,7 +165,11 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
      screenshot instead of scaling all 1520px down to an illegible smear,
      so the sidebar and the first stat cards stay readable. */
   .console-shell {
-    aspect-ratio: 1.2;
+    /* Near-square on purpose. The source is 16:9, so a wide box leaves almost
+       no horizontal overflow to crop with (~100px) and scales the console to
+       ~27% — illegible. A taller box scales it to ~32% and yields ~175px of
+       overflow, which is what makes the crop below possible. */
+    aspect-ratio: 1.05;
     border-width: 5px;
     border-radius: var(--radius-xl);
     transform: none;
@@ -176,13 +180,15 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
   /* Secondary label — not worth the width it costs here. */
   .console-shell__chrome p span { display: none; }
 
-  /* 58% rather than a round number: at this box the screenshot overflows by
-     ~210px, and the console's own sidebar accounts for the first ~51% of
+  /* 62% rather than a round number: at this box the screenshot overflows by
+     ~175px, and the console's own sidebar accounts for the first ~58% of
      that. Anchoring past it avoids framing a sliver of truncated nav
-     labels, which reads as a broken image rather than a product. */
+     labels, which reads as a broken image rather than a product. Re-derive
+     this if the source image or the aspect-ratio above changes — it is a
+     function of both. */
   .console-shell img {
     height: calc(100% - 32px);
-    object-position: 58% top;
+    object-position: 62% top;
   }
 
   /* "Your Private Cloud / Full control. Maximum security." restates the

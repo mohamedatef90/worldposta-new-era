@@ -1,5 +1,5 @@
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
-import { Component, effect, inject, signal, viewChild, type ElementRef } from '@angular/core';
+import { Component, computed, effect, inject, signal, viewChild, type ElementRef } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
@@ -107,6 +107,17 @@ export class Home {
     search: faMagnifyingGlass,
     sun: faSun,
   };
+
+  /**
+   * Hero console screenshot for the active theme. Screenshots ship as a
+   * light/dark pair (see AGENT.md) — a single-theme shot is a slab of the
+   * wrong brightness on the opposite background.
+   */
+  protected readonly heroConsoleImage = computed(() =>
+    this.theme.isDark()
+      ? '/worldposta-assets/hero/cloudedge/console-dashboard-dark.png'
+      : '/worldposta-assets/hero/cloudedge/console-dashboard.png',
+  );
 
   protected readonly proofPoints: readonly ProofPoint[] = [
     {
