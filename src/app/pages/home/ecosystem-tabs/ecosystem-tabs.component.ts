@@ -546,8 +546,12 @@ export class EcosystemTabsComponent {
           'Auto-scaling & self-healing',
           'Integrated monitoring',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
-        imageAlt: 'Kubernetes cluster management dashboard',
+        // The console has no Kubernetes route, so there is no Kubernetes screen
+        // to capture. This shows the CloudEdge console dashboard, and the alt
+        // says so rather than describing a screen that does not exist.
+        image: '/worldposta-assets/hero/cloudedge/console-dashboard.png',
+        imageDark: '/worldposta-assets/hero/cloudedge/console-dashboard-dark.png',
+        imageAlt: 'CloudEdge Console dashboard showing cluster resource usage',
         benefits: [
           {
             icon: faCubes,
