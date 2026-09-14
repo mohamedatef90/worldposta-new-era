@@ -45,6 +45,10 @@
   --wp-mist-from: #0f1318;
   --wp-mist-via: #121a22;
   --wp-mist-to: #101a16;
+  /* Security band: the same depth as --wp-band, pulled toward the brand green
+     so that section reads apart from the two blue bands on the page. */
+  --wp-secure-from: #0f1712;
+  --wp-secure-to: #111c16;
   --wp-card-cool-from: #141c26;
   --wp-card-cool-to: #131b24;
   --wp-card-warm-from: #131d18;
@@ -118,6 +122,8 @@
   --wp-mist-from: #f7fcff;
   --wp-mist-via: #effbff;
   --wp-mist-to: #f8fff8;
+  --wp-secure-from: #f6fdf8;
+  --wp-secure-to: #f2fbf5;
   --wp-card-cool-from: #fbfdff;
   --wp-card-cool-to: #f2fbff;
   --wp-card-warm-from: #fbfffb;

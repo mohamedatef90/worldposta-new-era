@@ -4,7 +4,7 @@
 
 .security-section {
   padding-block: var(--wp-section-pad);
-  background: var(--wp-panel);
+  background: linear-gradient(180deg, var(--wp-secure-from) 0%, var(--wp-secure-to) 100%);
 }
 
 .eyebrow {
