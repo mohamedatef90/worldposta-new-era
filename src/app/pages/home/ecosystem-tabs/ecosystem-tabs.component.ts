@@ -63,6 +63,7 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { ThemeService } from '@/shared/services/theme.service';
 import { PanelCardsComponent, type PanelCard } from './panel-cards/panel-cards.component';
 import { NotesPanelComponent, type NotesView } from './notes-panel/notes-panel.component';
+import { ServicePickerComponent } from './service-picker/service-picker.component';
 
 interface TabItem {
   readonly id: string;
@@ -241,7 +242,7 @@ interface TabContent {
 
 @Component({
   selector: 'app-ecosystem-tabs',
-  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent],
+  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent, ServicePickerComponent],
   templateUrl: './ecosystem-tabs.component.html',
   styleUrl: './ecosystem-tabs.component.css',
 })
@@ -396,6 +397,28 @@ export class EcosystemTabsComponent {
   ];
 
   protected readonly activeTabId = signal<string>('cloud-infrastructure');
+
+  /**
+   * Phone-only disclosure state for the service list. On a phone the sidebar
+   * cost 537px of navigation before any content, and half its 19 tabs sat off
+   * screen in a horizontal scroller; collapsed behind the picker it costs one
+   * row. Desktop never reads this.
+   */
+  protected readonly pickerOpen = signal(false);
+
+  /** The picker face: what you are looking at, and which family it belongs to. */
+  protected readonly activeTab = computed(() => {
+    const id = this.activeTabId();
+    for (const group of this.tabGroups) {
+      const hit = group.items.find((item) => item.id === id);
+      if (hit) return { ...hit, groupLabel: group.label };
+    }
+    const first = this.tabGroups[0];
+    return { ...first.items[0], groupLabel: first.label };
+  });
+
+  /** Shown on the picker so the catalogue behind it is not a secret. */
+  protected readonly serviceCount = this.tabGroups.reduce((n, g) => n + g.items.length, 0);
 
   /**
    * The panel screenshot for the active theme. A light screenshot on the dark
@@ -1705,6 +1728,13 @@ export class EcosystemTabsComponent {
 
   protected setActiveTab(tabId: string): void {
     this.activeTabId.set(tabId);
+    // Picking a service is the end of the errand: fold the list away so the
+    // panel it just changed is what you are looking at.
+    this.pickerOpen.set(false);
+  }
+
+  protected togglePicker(): void {
+    this.pickerOpen.update((open) => !open);
   }
 
   protected handleKeydown(event: KeyboardEvent, groupId: string, itemIndex: number): void {

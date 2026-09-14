@@ -13,7 +13,16 @@
     </header>
 
     <div class="ecosystem-surface">
-      <aside class="tabs-sidebar" role="tablist" aria-label="WorldPosta services">
+      <app-service-picker
+        [service]="activeTab()"
+        [count]="serviceCount"
+        [open]="pickerOpen()"
+        controls="service-tablist"
+        (toggled)="togglePicker()"
+      />
+
+      <div class="tabs-collapse" [class.is-open]="pickerOpen()">
+      <aside id="service-tablist" class="tabs-sidebar" role="tablist" aria-label="WorldPosta services">
         <div class="tabs-sidebar__inner">
         @for (group of tabGroups; track group.id) {
           <div class="tab-group">
@@ -41,6 +50,7 @@
         }
         </div>
       </aside>
+      </div>
 
       <div
         class="tab-panel"

@@ -1028,7 +1028,38 @@
   }
 }
 
+.tabs-collapse {
+  display: contents;
+}
+
 @media (max-width: 768px) {
+  /* Animating grid-template-rows rather than height keeps the reveal on the
+     compositor and needs no measured pixel value. visibility flips with it so
+     the collapsed list leaves the tab order and the accessibility tree. */
+  .tabs-collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-base) var(--ease-out);
+  }
+
+  .tabs-collapse > * {
+    /* Grid items floor at min-height:auto, which held the collapsed list
+       open at its padding height instead of closing to nothing. */
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s var(--duration-base);
+  }
+
+  .tabs-collapse.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .tabs-collapse.is-open > * {
+    visibility: visible;
+    transition: visibility 0s;
+  }
+
   .ecosystem-header {
     margin-bottom: var(--space-xl);
   }
@@ -1037,31 +1068,22 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Padding lives on the inner wrapper, not the aside: padding is outside the
+     content box, so min-height cannot shrink it and it held the collapsed
+     grid row open at 16px. */
   .tabs-sidebar {
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
     max-height: none;
-    gap: var(--space-lg);
-    padding: var(--space-md);
+    padding: 0;
     border-right: none;
-    border-bottom: 1px solid var(--color-border);
-    -webkit-overflow-scrolling: touch;
   }
 
-  /* Here the groups sit in a horizontal scroller, so the wrapper carries the
-     row and nothing sticks. */
   .tabs-sidebar__inner {
     position: static;
-    flex-direction: row;
+    flex-direction: column;
     gap: var(--space-lg);
     max-height: none;
+    padding: 0 var(--space-md) var(--space-md);
     overflow: visible;
-  }
-
-  .tab-group {
-    flex: 0 0 auto;
-    min-width: 180px;
   }
 
   .tab-button {
@@ -1074,6 +1096,12 @@
 
   .tab-panel {
     min-height: auto;
+  }
+
+  /* The picker above already names the service and its family; repeating both
+     as a badge directly beneath it is the same line twice. */
+  .tab-panel .badge {
+    display: none;
   }
 
   .actions {

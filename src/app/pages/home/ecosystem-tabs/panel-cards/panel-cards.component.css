@@ -1,5 +1,10 @@
+/* These cards sit beside a 240px sidebar, so their width tracks the panel and
+   not the viewport: at 1127px the viewport was still 'desktop' while the cards
+   were 250px and clipping six activity lines. Sizing against the container
+   rather than the screen is what actually matches how they are laid out. */
 :host {
   display: block;
+  container-type: inline-size;
 }
 
 .panel-cards {
@@ -255,18 +260,21 @@
   white-space: nowrap;
 }
 
-@media (max-width: 1024px) {
-  /* Three cards across stop being readable well before the tab layout breaks. */
+/* A card needs ~330px before the longest activity subtitle ellipses, so the
+   breakpoints are three times that, then twice. */
+@container (max-width: 1020px) {
   .panel-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 768px) {
+@container (max-width: 660px) {
   .panel-cards {
     grid-template-columns: minmax(0, 1fr);
   }
+}
 
+@container (max-width: 420px) {
   .panel-donut {
     grid-template-columns: 120px minmax(0, 1fr);
   }

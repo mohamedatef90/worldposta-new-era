@@ -1,0 +1,24 @@
+<button
+  class="picker"
+  type="button"
+  [class.is-open]="open()"
+  [attr.aria-expanded]="open()"
+  [attr.aria-controls]="controls()"
+  (click)="toggled.emit()"
+>
+  <span class="picker__mark"><fa-icon [icon]="service().icon" aria-hidden="true" /></span>
+
+  <span class="picker__text">
+    <span class="picker__group">{{ service().groupLabel }}</span>
+    <strong class="picker__name">{{ service().label }}</strong>
+  </span>
+
+  <!-- The count is the whole point of the affordance: it says there is a
+       catalogue here, not just a label. -->
+  <span class="picker__hint" aria-hidden="true">
+    <span class="picker__count">{{ count() }}</span>
+    <fa-icon class="picker__chevron" [icon]="chevron" />
+  </span>
+
+  <span class="sr-only">{{ open() ? 'Hide' : 'Browse' }} all {{ count() }} services</span>
+</button>
