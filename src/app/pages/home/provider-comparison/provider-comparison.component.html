@@ -1,0 +1,91 @@
+<section class="compare-section" aria-labelledby="compare-heading">
+  <div class="compare-inner ds-container">
+    <div class="compare-intro">
+      <p class="eyebrow"><span></span>Cloud provider comparison</p>
+      <h2 id="compare-heading">
+        Find the Right Cloud for<br />
+        <span class="text-blue">Your Business.</span>
+      </h2>
+      <p class="compare-lede">
+        Compare WorldPosta with leading cloud providers side by side, and see what fits your
+        specific needs.
+      </p>
+      <a class="btn-primary" href="#compare">
+        Compare Providers
+        <fa-icon [icon]="arrowRight" aria-hidden="true" />
+      </a>
+    </div>
+
+    <div class="compare-scroll">
+      <table class="compare-table">
+        <caption class="sr-only">
+          WorldPosta compared with AWS, Microsoft Azure and Google Cloud across six capabilities.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Capability</span></th>
+            @for (provider of providers; track provider.name) {
+              <th scope="col" [class.compare-col--us]="provider.us">
+                @if (provider.logo) {
+                  <img
+                    [ngSrc]="provider.logo"
+                    [width]="provider.width ?? 120"
+                    [height]="provider.height ?? 31"
+                    [alt]="provider.name"
+                    loading="lazy"
+                  />
+                } @else {
+                  <!-- No third-party mark on file, so the name stands in for it. -->
+                  <span class="compare-wordmark">{{ provider.name }}</span>
+                }
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track row.feature) {
+            <tr>
+              <th scope="row">{{ row.feature }}</th>
+              @for (has of row.has; track $index) {
+                <td [class.compare-col--us]="providers[$index].us">
+                  <!-- Tick or dash plus a spoken word: never a bare colour. -->
+                  @if (has) {
+                    <fa-icon class="compare-yes" [icon]="check" aria-hidden="true" />
+                    <span class="sr-only">Included</span>
+                  } @else {
+                    <span class="compare-no" aria-hidden="true">—</span>
+                    <span class="sr-only">Not included</span>
+                  }
+                </td>
+              }
+            </tr>
+          }
+          <tr class="compare-actions">
+            <td></td>
+            @for (provider of providers; track provider.name) {
+              <td [class.compare-col--us]="provider.us">
+                <a class="compare-link" href="#learn-more">
+                  Learn more
+                  <fa-icon [icon]="arrowRight" aria-hidden="true" />
+                  <span class="sr-only">about {{ provider.name }}</span>
+                </a>
+              </td>
+            }
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ul class="compare-notes ds-container" aria-label="How to compare">
+    @for (note of notes; track note.title) {
+      <li class="compare-note" [attr.data-tone]="note.tone">
+        <span class="compare-note__icon"><fa-icon [icon]="note.icon" aria-hidden="true" /></span>
+        <div>
+          <strong>{{ note.title }}</strong>
+          <span>{{ note.description }}</span>
+        </div>
+      </li>
+    }
+  </ul>
+</section>

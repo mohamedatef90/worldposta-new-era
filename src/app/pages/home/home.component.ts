@@ -27,6 +27,11 @@ import {
 import { ThemeService } from '@/shared/services/theme.service';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { EcosystemTabsComponent } from './ecosystem-tabs/ecosystem-tabs.component';
+import { GetStartedComponent } from './get-started/get-started.component';
+import { ProviderComparisonComponent } from './provider-comparison/provider-comparison.component';
+import { SecuritySectionComponent } from './security-section/security-section.component';
+import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
+import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { PerformanceTrustComponent } from './performance-trust/performance-trust.component';
 
 interface ProofPoint {
@@ -43,7 +48,17 @@ interface EcosystemTile {
 }
 
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, EcosystemTabsComponent, PerformanceTrustComponent],
+  imports: [
+    FaIconComponent,
+    NgOptimizedImage,
+    EcosystemTabsComponent,
+    PerformanceTrustComponent,
+    SecuritySectionComponent,
+    WhyWorldpostaComponent,
+    ProviderComparisonComponent,
+    GetStartedComponent,
+    SiteFooterComponent,
+  ],
   // Escape closes the drawer from anywhere, including from inside it. Declared
   // on `host` rather than @HostListener, per the project conventions.
   host: { '(document:keydown.escape)': 'closeMenu()' },

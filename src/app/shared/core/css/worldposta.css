@@ -59,6 +59,10 @@
   /* Hairlines */
   --wp-hairline: var(--color-border);
   --wp-rule: var(--color-text-muted);
+  /* The trust strip is a container-width band, not full bleed, so a light
+     surface here would show its 59px edges against the dark page. It keeps
+     the page background in this theme. */
+  --wp-trust-surface: transparent;
 
   /* Accent tone ramp — backgrounds are mixed from these, see --wp-tone-fill */
   --wp-tone-fill: 24%;
@@ -128,6 +132,9 @@
   /* Hairlines */
   --wp-hairline: #edf3f6;
   --wp-rule: #94aab8;
+  /* Off-white surface for the trust strip - the same value the customer logo
+     plates sit on, so the two logo groups read as one material. */
+  --wp-trust-surface: #fcfcfc;
 
   /* Accent tone ramp */
   --wp-tone-fill: 14%;

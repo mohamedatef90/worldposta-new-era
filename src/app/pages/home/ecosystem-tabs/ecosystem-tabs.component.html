@@ -14,6 +14,7 @@
 
     <div class="ecosystem-surface">
       <aside class="tabs-sidebar" role="tablist" aria-label="WorldPosta services">
+        <div class="tabs-sidebar__inner">
         @for (group of tabGroups; track group.id) {
           <div class="tab-group">
             <h3 class="tab-group-label">{{ group.label }}</h3>
@@ -38,6 +39,7 @@
             </div>
           </div>
         }
+        </div>
       </aside>
 
       <div
@@ -47,7 +49,7 @@
         [attr.aria-labelledby]="'tab-' + activeTabId()"
         [attr.tabindex]="0"
       >
-        <div class="panel-main">
+        <div class="panel-main" [class.panel-main--wide]="tabContent().layout === 'wide'">
           <div class="panel-copy">
             <span class="badge">
               <span class="badge-icon"><fa-icon [icon]="activeIcon()" aria-hidden="true" /></span>
@@ -56,6 +58,14 @@
             <h3>{{ tabContent().heading }}</h3>
             <p class="description">{{ tabContent().description }}</p>
 
+            @if (tabContent().headerAction; as action) {
+              <a class="panel-copy__action" href="#action">
+                <fa-icon [icon]="icons.plus" aria-hidden="true" />
+                {{ action }}
+              </a>
+            }
+
+            @if (tabContent().layout !== 'wide') {
             <ul class="bullet-list" aria-label="Key features">
               <!-- Positional slots: the three bullets swap wholesale between tabs, so
                    index-tracking reuses the nodes instead of rebuilding the list. -->
@@ -74,11 +84,12 @@
               </a>
               <a class="btn-secondary" href="#learn-more">Learn more</a>
             </div>
+            }
           </div>
 
-          @if (tabContent().console; as view) {
+          @if (panelStats(); as stats) {
             <ul class="vm-stats" aria-label="Current usage">
-              @for (stat of view.stats; track stat.label) {
+              @for (stat of stats; track stat.label) {
                 <li class="vm-stat" [attr.data-tone]="stat.tone">
                   <span class="vm-stat__icon"><fa-icon [icon]="stat.icon" aria-hidden="true" /></span>
                   <p class="vm-stat__label">{{ stat.label }}</p>
@@ -86,7 +97,25 @@
                     {{ stat.value }}
                     @if (stat.delta) {
                       <span class="vm-stat__delta">
-                        <fa-icon [icon]="icons.arrowUp" aria-hidden="true" />{{ stat.delta }}
+                        <fa-icon
+                          [icon]="
+                            stat.deltaDirection === 'down'
+                              ? icons.arrowDown
+                              : stat.deltaDirection === 'flat'
+                                ? icons.minus
+                                : icons.arrowUp
+                          "
+                          aria-hidden="true"
+                        />
+                        <!-- The arrow is the only thing carrying direction visually,
+                             so the word is spoken for anyone not seeing it. -->
+                        <span class="vm-stat__delta-dir">{{
+                          stat.deltaDirection === 'down'
+                            ? 'down'
+                            : stat.deltaDirection === 'flat'
+                              ? 'no change'
+                              : 'up'
+                        }}</span>{{ stat.delta }}
                       </span>
                     }
                   </p>
@@ -122,7 +151,106 @@
           }
         </div>
 
-        @if (tabContent().console; as view) {
+        @if (tabContent().cards; as cards) {
+          <app-panel-cards [cards]="cards" />
+        }
+
+        @if (tabContent().calendar; as cal) {
+          <div class="cal-card">
+            <div class="cal-card__head">
+              <!-- Presentational: this preview steps through nothing, so the
+                   month controls are not real buttons. -->
+              <span class="cal-nav" aria-hidden="true">
+                <span class="cal-nav__step"><fa-icon [icon]="icons.chevronLeft" /></span>
+                <span class="cal-nav__step"><fa-icon [icon]="icons.chevronRight" /></span>
+              </span>
+              <h4 class="cal-card__month">{{ cal.month }}</h4>
+              <span class="cal-views" aria-hidden="true">
+                @for (view of cal.views; track view) {
+                  <span class="cal-views__item" [class.cal-views__item--current]="view === cal.activeView">{{ view }}</span>
+                }
+              </span>
+              <span class="vm-search" aria-hidden="true">
+                <fa-icon [icon]="icons.search" />
+                <span class="vm-search__placeholder">{{ cal.searchPlaceholder }}</span>
+              </span>
+              <a class="vm-create" href="#create">
+                <fa-icon [icon]="icons.plus" aria-hidden="true" />
+                {{ cal.createLabel }}
+              </a>
+            </div>
+
+            <div class="cal-body">
+              @if (calendarWeeks(); as weeks) {
+                <table class="cal-grid">
+                  <caption class="sr-only">
+                    Example calendar for {{ cal.month }} — illustrative sample data.
+                  </caption>
+                  <thead>
+                    <tr>
+                      @for (day of cal.weekdays; track day) {
+                        <th scope="col">{{ day }}</th>
+                      }
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (week of weeks; track $index) {
+                      <tr>
+                        @for (cell of week; track $index) {
+                          <td
+                            class="cal-day"
+                            [class.cal-day--outside]="cell.outside"
+                            [class.cal-day--today]="cell.today"
+                          >
+                            <span class="cal-day__number">{{ cell.day }}</span>
+                            @if (cell.event; as event) {
+                              <span class="cal-event" [attr.data-tone]="event.tone">
+                                <span class="cal-event__dot" aria-hidden="true"></span>
+                                <span class="cal-event__label">{{ event.label }}</span>
+                                <span class="cal-event__time">{{ event.time }}</span>
+                              </span>
+                            }
+                          </td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
+
+              <aside class="cal-agenda" aria-label="Upcoming events">
+                @for (day of cal.agenda; track day.title) {
+                  <div class="cal-agenda__group">
+                    <p class="cal-agenda__head">
+                      <strong>{{ day.title }}</strong>
+                      <span>{{ day.date }}</span>
+                    </p>
+                    <ul class="cal-agenda__list">
+                      @for (entry of day.entries; track entry.label) {
+                        <li class="cal-agenda__item" [attr.data-tone]="entry.tone">
+                          <span class="cal-event__dot" aria-hidden="true"></span>
+                          <span class="cal-agenda__text">
+                            <strong>{{ entry.label }}</strong>
+                            <span>{{ entry.time }}</span>
+                          </span>
+                          @if (entry.join) {
+                            <a class="cal-agenda__join" href="#join">Join</a>
+                          } @else {
+                            <span class="vm-actions" aria-hidden="true"><fa-icon [icon]="icons.ellipsis" /></span>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                }
+                <a class="cal-agenda__all" href="#events">
+                  {{ cal.viewAllLabel }}
+                  <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
+                </a>
+              </aside>
+            </div>
+          </div>
+        } @else if (tabContent().console; as view) {
           <div class="vm-table-card">
             <div class="vm-table-card__head">
               <h4 class="vm-table-card__title">
@@ -134,27 +262,31 @@
                 <fa-icon [icon]="icons.search" />
                 <span class="vm-search__placeholder">{{ view.searchPlaceholder }}</span>
               </span>
-              <a class="vm-create" href="#create">
-                <fa-icon [icon]="icons.plus" aria-hidden="true" />
-                {{ view.createLabel }}
-              </a>
+              @if (view.createLabel) {
+                <a class="vm-create" href="#create">
+                  <fa-icon [icon]="icons.plus" aria-hidden="true" />
+                  {{ view.createLabel }}
+                </a>
+              }
             </div>
 
             @if (consoleTable(); as table) {
               <div class="vm-table-scroll">
                 <table class="vm-table">
                   <caption class="sr-only">
-                    Example {{ view.title.toLowerCase() }}, showing {{ view.rows.length }} of {{ view.total }} — illustrative sample data.
+                    Example {{ view.title.toLowerCase() }}, showing {{ view.rows.length }} of {{ view.total | number }} — illustrative sample data.
                   </caption>
                   <thead>
                     <tr>
                       <th scope="col" class="vm-col-select" aria-hidden="true"><span class="vm-check"></span></th>
-                      <th scope="col">Name</th>
+                      <th scope="col">{{ table.nameLabel }}</th>
                       <!-- Status sits where the view declares it, not always first. -->
                       @for (column of table.columnsBefore; track column) {
                         <th scope="col">{{ column }}</th>
                       }
-                      <th scope="col">Status</th>
+                      @if (table.showStatus) {
+                        <th scope="col">Status</th>
+                      }
                       @for (column of table.columnsAfter; track column) {
                         <th scope="col">{{ column }}</th>
                       }
@@ -166,19 +298,25 @@
                       <tr>
                         <td class="vm-col-select" aria-hidden="true"><span class="vm-check"></span></td>
                         <th scope="row" class="vm-name">
-                          <span class="vm-name__icon"><fa-icon [icon]="row.icon" aria-hidden="true" /></span>
+                          @if (row.initials) {
+                            <span class="vm-name__icon vm-name__icon--initials" aria-hidden="true">{{ row.initials }}</span>
+                          } @else {
+                            <span class="vm-name__icon"><fa-icon [icon]="row.icon" aria-hidden="true" /></span>
+                          }
                           {{ row.name }}
                         </th>
                         @for (cell of row.before; track $index) {
                           <td>{{ cell }}</td>
                         }
-                        <td>
-                          <!-- Dot plus word: state is never carried by colour alone. -->
-                          <span class="vm-status" [attr.data-tone]="row.status.tone">
-                            <span class="vm-status__dot" aria-hidden="true"></span>
-                            {{ row.status.label }}
-                          </span>
-                        </td>
+                        @if (table.showStatus && row.status; as status) {
+                          <td>
+                            <!-- Dot plus word: state is never carried by colour alone. -->
+                            <span class="vm-status" [attr.data-tone]="status.tone">
+                              <span class="vm-status__dot" aria-hidden="true"></span>
+                              {{ status.label }}
+                            </span>
+                          </td>
+                        }
                         @for (cell of row.after; track $index; let last = $last) {
                           <td [class.vm-created]="last">{{ cell }}</td>
                         }
@@ -191,7 +329,9 @@
             }
 
             <div class="vm-table-card__foot">
-              <p class="vm-count">Showing 1 - {{ view.rows.length }} of {{ view.total }} results</p>
+              <p class="vm-count">
+                Showing 1 - {{ view.rows.length }} of {{ view.total | number }} {{ view.unitLabel ?? 'results' }}
+              </p>
               <span class="vm-pager" aria-hidden="true">
                 <span class="vm-pager__step">‹</span>
                 @for (page of pageNumbers(); track page) {

@@ -1,0 +1,61 @@
+<section class="start-section" aria-labelledby="start-heading">
+  <div class="start-inner ds-container">
+    <div class="start-copy">
+      <p class="eyebrow"><span></span>Get started</p>
+      <h2 id="start-heading">
+        Ready to Build a Smarter Cloud with
+        <span class="text-blue">WorldPosta?</span>
+      </h2>
+      <p class="start-lede">
+        Talk to our experts and find the right cloud, security and infrastructure solution for your
+        business.
+      </p>
+
+      <div class="start-actions">
+        <a class="btn-primary" href="#talk-to-expert">
+          Talk to an Expert
+          <fa-icon [icon]="arrowRight" aria-hidden="true" />
+        </a>
+        <a class="btn-secondary" href="#consultation">Request a Consultation</a>
+      </div>
+
+      <ul class="start-assurances">
+        @for (item of assurances; track item.title) {
+          <li [attr.data-tone]="item.tone">
+            <span class="start-assurances__icon"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+            <div>
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.description }}</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- Decorative: every capability named here is already a link elsewhere on
+         the page, so the whole arrangement is hidden from assistive tech. -->
+    <div class="start-visual" aria-hidden="true">
+      <div class="start-mark">
+        <span class="start-mark__halo"></span>
+        <img
+          class="start-mark__symbol"
+          [ngSrc]="symbol()"
+          width="184"
+          height="153"
+          alt=""
+          loading="lazy"
+        />
+        <span class="start-mark__tagline">Smarter Cloud. Stronger Business.</span>
+      </div>
+
+      @for (chip of chips; track chip.label) {
+        <span class="start-chip" [attr.data-place]="chip.place" [attr.data-tone]="chip.tone">
+          <span class="start-chip__icon"><fa-icon [icon]="chip.icon" /></span>
+          {{ chip.label }}
+        </span>
+      }
+    </div>
+  </div>
+
+  <p class="start-strapline ds-container"><span></span>Secure. Scalable. Always on.</p>
+</section>

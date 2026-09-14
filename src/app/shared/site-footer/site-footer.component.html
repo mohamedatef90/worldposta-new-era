@@ -1,0 +1,52 @@
+<footer class="site-footer">
+  <div class="site-footer__inner ds-container">
+    <div class="site-footer__brand">
+      <a class="site-footer__logo" href="#top" aria-label="WorldPosta home">
+        <img ngSrc="/worldposta-assets/WP-Logo.avif" width="180" height="46" alt="WorldPosta" loading="lazy" />
+      </a>
+      <p class="site-footer__tagline">
+        Smarter cloud, stronger business. Enterprise infrastructure, collaboration and security from
+        one connected platform.
+      </p>
+      <ul class="site-footer__contact">
+        @for (line of contact; track line.label) {
+          <li>
+            <fa-icon [icon]="line.icon" aria-hidden="true" />
+            {{ line.label }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    @for (column of columns; track column.title) {
+      <nav class="site-footer__column" [attr.aria-label]="column.title">
+        <h2>{{ column.title }}</h2>
+        <ul>
+          @for (link of column.links; track link.label) {
+            <li><a [href]="link.href">{{ link.label }}</a></li>
+          }
+        </ul>
+      </nav>
+    }
+
+    <div class="site-footer__cta">
+      <h2>Ready when you are</h2>
+      <p>Talk to an expert and map the right cloud for your business.</p>
+      <a class="site-footer__button" href="#talk-to-expert">
+        Talk to an Expert
+        <fa-icon [icon]="arrowRight" aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+
+  <div class="site-footer__bar">
+    <div class="site-footer__bar-inner ds-container">
+      <p>© {{ year }} WorldPosta. All rights reserved.</p>
+      <ul>
+        @for (item of legal; track item.label) {
+          <li><a [href]="item.href">{{ item.label }}</a></li>
+        }
+      </ul>
+    </div>
+  </div>
+</footer>

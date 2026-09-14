@@ -1,0 +1,257 @@
+:host {
+  display: block;
+}
+
+.why-section {
+  padding-top: var(--wp-section-pad);
+  background: linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%);
+}
+
+.why-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-md);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.eyebrow span {
+  width: 40px;
+  height: 2px;
+  background: var(--color-brand-green);
+}
+
+h2 {
+  margin: 0 0 var(--space-md);
+  color: var(--wp-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 3.2vw, 46px);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.032em;
+  line-height: 1.08;
+}
+
+.text-green { color: var(--wp-green); }
+
+.why-lede {
+  margin: 0 0 var(--space-lg);
+  color: var(--wp-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 48px;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-full);
+  color: var(--primary-foreground);
+  background: var(--color-brand-green);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.btn-primary:hover {
+  color: var(--primary-foreground);
+  background: var(--color-brand-green-light);
+}
+
+/* Challenge | arrow | solution, so each pair stays on one row. */
+.why-pairs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: var(--space-md) var(--space-sm);
+  align-items: center;
+}
+
+.why-pairs__head {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.why-pairs__head--challenge { grid-column: 1; }
+.why-pairs__head--solution { grid-column: 3; }
+
+.why-card {
+  display: flex;
+  gap: var(--space-md);
+  height: 100%;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+}
+
+.why-card h3 {
+  margin: 0 0 var(--space-xs);
+  color: var(--wp-ink);
+  font-size: 15px;
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+}
+
+.why-card p {
+  margin: 0;
+  color: var(--wp-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.why-card__icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: var(--radius-lg);
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 16%, var(--wp-panel));
+  font-size: 18px;
+}
+
+/* Challenges carry the warm/neutral accents, solutions a single calm green:
+   the contrast between the columns is part of the story. */
+.why-card--challenge { background: color-mix(in srgb, var(--tone) 7%, var(--wp-panel)); }
+.why-card--challenge[data-tone='rose'] { --tone: var(--wp-tone-rose); }
+.why-card--challenge[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+.why-card--challenge[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+.why-card--challenge[data-tone='indigo'] { --tone: var(--wp-tone-indigo); }
+.why-card--challenge[data-tone='pink'] { --tone: var(--wp-tone-pink); }
+
+.why-card--solution {
+  --tone: var(--wp-tone-green);
+  background: color-mix(in srgb, var(--wp-tone-green) 7%, var(--wp-panel));
+}
+
+.why-pairs__arrow {
+  display: grid;
+  place-items: center;
+  color: var(--wp-blue);
+  font-size: 14px;
+}
+
+/* ------------------------------------------------------------ proof strip */
+.why-proof {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding-block: var(--space-xl);
+  margin-top: var(--space-2xl);
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.why-proof__item {
+  display: flex;
+  gap: var(--space-md);
+  padding: 0 var(--space-lg);
+  border-left: 1px solid var(--color-border);
+}
+
+.why-proof__item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.why-proof__item[data-tone='blue'] { --tone: var(--wp-tone-blue); }
+.why-proof__item[data-tone='green'] { --tone: var(--wp-tone-green); }
+.why-proof__item[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+.why-proof__item[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+
+.why-proof__icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: var(--radius-lg);
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+  font-size: 19px;
+}
+
+.why-proof__item strong {
+  display: block;
+  color: var(--wp-ink);
+  font-size: 26px;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.6px;
+  line-height: 1.1;
+}
+
+.why-proof__label {
+  display: block;
+  margin-top: 2px;
+  color: var(--wp-ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+
+.why-proof__note {
+  display: block;
+  margin-top: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 1100px) {
+  .why-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .why-proof {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg) 0;
+  }
+
+  .why-proof__item:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Stacked, the arrow between a pair points the wrong way: it becomes a
+     downward step from challenge to solution, so it is simply dropped. */
+  .why-pairs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Both headings label columns that no longer exist once stacked — they would
+     land together at the top, describing nothing. Each pair reads on its own:
+     the tinted challenge card is followed directly by its green answer. */
+  .why-pairs__head { display: none; }
+  .why-pairs__arrow { display: none; }
+
+  .why-proof {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .why-proof__item {
+    padding: 0;
+    border-left: 0;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}

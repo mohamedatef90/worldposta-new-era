@@ -4,7 +4,12 @@
   font-family: var(--font-body);
 }
 
-.home-page { overflow: hidden; background: var(--color-bg-primary); }
+/* overflow-x:clip, not overflow:hidden. Both keep the decorative hero blobs
+   from widening the page, but `hidden` makes this a scroll container, which
+   stops position:sticky anywhere inside the page from working - the tab list in
+   the ecosystem section depends on it. `clip` creates no scroll container, and
+   unlike overflow-x:hidden it leaves the vertical axis genuinely visible. */
+.home-page { overflow-x: clip; background: var(--color-bg-primary); }
 .hero { position: relative; min-height: 600px; isolation: isolate; background: linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
 .hero::after { position: absolute; z-index: -1; inset: 38% 0 auto; height: 62%; background: linear-gradient(180deg, transparent, var(--wp-hero-veil)); content: ''; }
 .hero__cloud { position: absolute; z-index: -1; border-radius: var(--radius-full); filter: blur(2px); opacity: .72; background: radial-gradient(circle at 60% 30%, var(--wp-cloud-core), var(--wp-cloud-edge) 42%, transparent 70%); }
@@ -75,8 +80,10 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 .floating-card { position: absolute; z-index: 1; display: flex; align-items: center; gap: var(--space-sm); padding: 12px var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--wp-panel) 90%, transparent); box-shadow: var(--shadow-lg); color: var(--wp-tone-blue); font-size: 21px; backdrop-filter: blur(8px); }.floating-card span { min-width: 130px; color: var(--color-text-primary); }.floating-card strong, .floating-card small { display: block; }.floating-card strong { font-size: var(--fs-caption); }.floating-card small { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--fs-caption); }.floating-card--cloud { right: -30px; bottom: var(--space-lg); }.floating-card--security { left: -25px; top: 30%; color: var(--wp-tone-green); }
 
 /* Ecosystem Strip Section */
-.ecosystem-strip-section { padding: var(--wp-section-pad) 0; background: linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%); }
-.ecosystem-strip { display: flex; align-items: center; gap: var(--space-xl); padding: var(--space-lg) var(--space-xl); background: var(--wp-panel); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); }
+/* 10px rather than --wp-section-pad: this strip is deliberately tighter than
+   the surrounding section rhythm, so it does not follow that responsive token. */
+.ecosystem-strip-section { padding: 10px 0; background: linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%); }
+.ecosystem-strip { display: flex; align-items: center; gap: var(--space-2xl); padding: var(--space-lg) var(--space-xl); background: var(--wp-panel); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); }
 .ecosystem-strip__intro { flex: 0 0 auto; min-width: 200px; max-width: 260px; }
 .ecosystem-strip__eyebrow { margin: 0 0 var(--space-sm); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 1.5px; text-transform: uppercase; }
 .ecosystem-strip__heading { margin: 0 0 var(--space-xs); color: var(--wp-ink); font-size: 20px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
@@ -88,8 +95,8 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 .ecosystem-tile:hover { transform: translateY(-2px); }
 .ecosystem-tile:focus-visible { outline: 2px solid var(--color-brand-green); outline-offset: 2px; border-radius: var(--radius-md); }
 .ecosystem-tile__icon { display: grid; width: 40px; height: 40px; place-items: center; border-radius: var(--radius-lg); font-size: 16px; color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }
-.ecosystem-tile__label { color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: var(--fw-semibold); }
-.ecosystem-tile__chevron { color: var(--wp-rule); font-size: 10px; flex-shrink: 0; }
+.ecosystem-tile__label { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: var(--fw-semibold); }
+.ecosystem-tile__chevron { color: var(--color-text-muted); font-size: 10px; flex-shrink: 0; }
 
 /* Tile color variants */
 .tile--green { --tone: var(--wp-tone-leaf); }
@@ -101,7 +108,7 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 .tile--indigo { --tone: var(--wp-tone-indigo); }
 .tile--rose { --tone: var(--wp-tone-rose); }
 
-.trust-strip { display: flex; align-items: center; gap: var(--space-xl); padding-block: var(--space-lg); border-top: 1px solid var(--wp-hairline); }.trust-strip > p { flex: 0 0 auto; margin: 0; color: var(--wp-body-strong); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: .7px; line-height: 1.35; text-transform: uppercase; }.trust-logos { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: var(--space-md); color: var(--wp-body-strong); }/* The partner SVGs are Simple Icons, which letterbox each mark inside a square
+.trust-strip { display: flex; align-items: center; gap: var(--space-xl); padding-block: var(--space-lg); border-top: 1px solid var(--wp-hairline); background: var(--wp-trust-surface); }.trust-strip > p { flex: 0 0 auto; margin: 0; color: var(--wp-body-strong); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: .7px; line-height: 1.35; text-transform: uppercase; }.trust-logos { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: var(--space-md); color: var(--wp-body-strong); }/* The partner SVGs are Simple Icons, which letterbox each mark inside a square
    24x24 canvas. Their viewBoxes are cropped to the ink, so max-height now sizes
    the visible mark rather than its padding - before cropping, the same 28px cap
    drew Dell at 28px and VMware at 4.5px. Square marks are bound by height; the

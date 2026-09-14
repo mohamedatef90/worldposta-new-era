@@ -1,0 +1,71 @@
+<div class="panel-cards">
+  @for (card of cards(); track card.title) {
+    <section class="panel-card" [attr.aria-label]="card.title">
+      <div class="panel-card__head">
+        <h4 class="panel-card__title">{{ card.title }}</h4>
+        @if (card.link) {
+          <a class="panel-card__link" href="#view-all">{{ card.link }} <span aria-hidden="true">→</span></a>
+        }
+      </div>
+
+      @if (card.donut; as donut) {
+        <div class="panel-donut">
+          <div class="panel-donut__ring">
+            <svg viewBox="0 0 100 100" role="img" [attr.aria-label]="card.title + ': ' + donut.total + ' ' + donut.caption">
+              @for (ring of ringsByCard().get(card.title) ?? []; track ring.slice.label) {
+                <circle
+                  class="panel-donut__slice"
+                  [attr.data-tone]="ring.slice.tone"
+                  cx="50"
+                  cy="50"
+                  [attr.r]="radius"
+                  [attr.stroke-dasharray]="ring.dash"
+                  [attr.stroke-dashoffset]="ring.offset"
+                />
+              }
+            </svg>
+            <p class="panel-donut__centre">
+              <strong>{{ donut.total }}</strong>
+              <span>{{ donut.caption }}</span>
+            </p>
+          </div>
+          <ul class="panel-donut__legend">
+            @for (slice of donut.slices; track slice.label) {
+              <li [attr.data-tone]="slice.tone">
+                <span class="panel-dot" aria-hidden="true"></span>
+                <span class="panel-donut__label">{{ slice.label }}</span>
+                <span class="panel-donut__value">{{ slice.display }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (card.items; as items) {
+        <ul class="panel-list">
+          @for (item of items; track item.title) {
+            <li class="panel-list__item" [attr.data-tone]="item.tone ?? 'grey'">
+              @if (item.icon) {
+                <span class="panel-list__mark"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+              } @else if (item.initials) {
+                <!-- Initials, not a photo: the row already names the person. -->
+                <span class="panel-list__mark panel-list__mark--initials" aria-hidden="true">{{ item.initials }}</span>
+              }
+              <span class="panel-list__text">
+                <strong>{{ item.title }}</strong>
+                @if (item.subtitle) {
+                  <span>{{ item.subtitle }}</span>
+                }
+              </span>
+              @if (item.badge; as badge) {
+                <span class="panel-badge" [attr.data-tone]="badge.tone">{{ badge.label }}</span>
+              } @else if (item.meta) {
+                <span class="panel-list__meta">{{ item.meta }}</span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</div>

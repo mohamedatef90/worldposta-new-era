@@ -1,0 +1,57 @@
+<section class="security-section" aria-labelledby="security-heading">
+  <div class="ds-container">
+    <p class="eyebrow"><span></span>Security</p>
+    <h2 id="security-heading">
+      A More Secure<br />
+      <span class="text-green">Cloud</span> for Your Business.
+    </h2>
+    <p class="security-lede">
+      Enterprise-grade security across cloud, private cloud and on-prem — so you can innovate with
+      confidence.
+    </p>
+
+    <a class="btn-primary" href="#security-solutions">
+      Explore Our Security Solutions
+      <fa-icon [icon]="arrowRight" aria-hidden="true" />
+    </a>
+
+    <ul class="security-pillars">
+      @for (pillar of pillars; track pillar.title) {
+        <li class="security-pillar" [attr.data-tone]="pillar.tone">
+          <span class="security-pillar__icon"><fa-icon [icon]="pillar.icon" aria-hidden="true" /></span>
+          <h3>{{ pillar.title }}</h3>
+          <p>{{ pillar.description }}</p>
+        </li>
+      }
+    </ul>
+
+    <div class="security-partners">
+      <p class="eyebrow eyebrow--plain">Trusted security partners</p>
+      <ul class="security-partners__list">
+        @for (partner of partners; track partner.name) {
+          <li>
+            @if (partner.src) {
+              <img
+                [ngSrc]="partner.src"
+                [width]="partner.width ?? 50"
+                [height]="partner.height ?? 36"
+                [alt]="partner.name"
+                [class.security-partners__invert]="partner.invertOnDark"
+                loading="lazy"
+              />
+            } @else {
+              <!-- No mark on file yet, so the name stands in for it. -->
+              <span class="security-partners__wordmark">{{ partner.name }}</span>
+            }
+          </li>
+        }
+        <li>
+          <a class="security-partners__more" href="#partners">
+            and more
+            <fa-icon [icon]="arrowRight" aria-hidden="true" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

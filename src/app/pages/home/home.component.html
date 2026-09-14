@@ -144,16 +144,16 @@
         <p class="ecosystem-strip__subtitle">Unified tools for modern teams</p>
       </div>
       <nav class="ecosystem-strip__tiles" aria-label="Collaboration and Productivity services">
-        @for (tile of ecosystemTiles; track tile.label; let last = $last) {
+        @for (tile of ecosystemTiles; track tile.label) {
           <a class="ecosystem-tile" [class]="tile.colorClass" [href]="tile.href" [attr.aria-label]="tile.label + ' service'">
             <span class="ecosystem-tile__icon">
               <fa-icon [icon]="tile.icon" aria-hidden="true" />
             </span>
-            <span class="ecosystem-tile__label">{{ tile.label }}</span>
+            <span class="ecosystem-tile__label">
+              {{ tile.label }}
+              <fa-icon class="ecosystem-tile__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
+            </span>
           </a>
-          @if (!last) {
-            <fa-icon class="ecosystem-tile__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
-          }
         }
       </nav>
     </div>
@@ -174,4 +174,10 @@
 
   <app-ecosystem-tabs />
   <app-performance-trust />
+  <app-security-section />
+  <app-why-worldposta />
+  <app-provider-comparison />
+  <app-get-started />
 </main>
+
+<app-site-footer />

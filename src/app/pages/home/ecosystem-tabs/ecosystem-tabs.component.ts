@@ -1,5 +1,5 @@
 import { Component, signal, computed, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faCloud,
@@ -21,13 +21,31 @@ import {
   faUserShield,
   faPeopleGroup,
   faCheck,
+  faArrowDown,
   faArrowRight,
   faArrowUp,
+  faBan,
+  faBell,
+  faBorderAll,
   faBucket,
+  faChartColumn,
   faChartPie,
+  faChevronLeft,
   faChevronRight,
+  faCircleCheck,
+  faClipboardCheck,
+  faClock,
+  faDesktop,
+  faDollarSign,
   faEllipsis,
+  faFileExcel,
+  faFilePdf,
+  faFilePowerpoint,
+  faFileWord,
   faHardDrive,
+  faKey,
+  faLock,
+  faMinus,
   faMagnifyingGlass,
   faMemory,
   faMicrochip,
@@ -35,9 +53,13 @@ import {
   faRightLeft,
   faRoute,
   faShareNodes,
+  faSitemap,
+  faUser,
+  faWaveSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { ThemeService } from '@/shared/services/theme.service';
+import { PanelCardsComponent, type PanelCard } from './panel-cards/panel-cards.component';
 
 interface TabItem {
   readonly id: string;
@@ -63,6 +85,12 @@ interface ConsoleStat {
   readonly value: string;
   /** Optional change chip, e.g. "12%". */
   readonly delta?: string;
+  /**
+   * Which way the delta moved. Defaults to 'up'. Needed because a fall is the
+   * good news for some metrics - Backup & DR's recovery time is down 40% - and
+   * an up arrow there would state the opposite of what happened.
+   */
+  readonly deltaDirection?: 'up' | 'down' | 'flat';
   readonly tone: 'sky' | 'amber' | 'green' | 'purple';
   /** Sparkline series; rendered decoratively beside the value it restates. */
   readonly trend: readonly number[];
@@ -77,30 +105,99 @@ type StatusTone = 'good' | 'warning' | 'critical';
 
 interface ConsoleRow {
   readonly name: string;
-  readonly status: { readonly label: string; readonly tone: StatusTone };
+  /** Omitted in views with no Status column - see `ConsoleView.showStatus`. */
+  readonly status?: { readonly label: string; readonly tone: StatusTone };
   /** Values for `ConsoleView.columns`, in the same order. */
   readonly cells: readonly string[];
   /** Per-row mark, when a view mixes resource types. Falls back to `rowIcon`. */
   readonly icon?: IconDefinition;
+  /** Initials bubble, for rows that name a person. Takes precedence over icons. */
+  readonly initials?: string;
 }
 
 /** An in-product preview: stat tiles plus a sample resource table. */
 interface ConsoleView {
   readonly title: string;
   readonly total: number;
+  /**
+   * Header for the first column. Defaults to "Name"; Cost Management lists
+   * services rather than named resources.
+   */
+  readonly nameLabel?: string;
   /** Column headers after the fixed Name column, in render order. */
   readonly columns: readonly string[];
+  /**
+   * Whether the table carries a Status column. Defaults to true; Team Chat and
+   * Drive & Files list conversations and files, which have no state to report.
+   */
+  readonly showStatus?: boolean;
+  /** Noun for the row count, e.g. "files". Defaults to "results". */
+  readonly unitLabel?: string;
   /**
    * How many of `columns` precede the Status column. Status sits directly
    * after Name by default; Networking puts Type ahead of it.
    */
   readonly statusAfter?: number;
   readonly rowIcon: IconDefinition;
-  readonly createLabel: string;
+  /** Omitted on views whose table header carries filters instead. */
+  readonly createLabel?: string;
   readonly searchPlaceholder: string;
   readonly pages: number;
   readonly stats: readonly ConsoleStat[];
   readonly rows: readonly ConsoleRow[];
+}
+
+/** Accent for a calendar entry. Decoration only - the label and time carry it. */
+type EventTone = 'blue' | 'green' | 'purple' | 'amber';
+
+/** An event sitting in a day cell of the month grid. */
+interface CalendarEvent {
+  /** Day of the displayed month. */
+  readonly day: number;
+  readonly label: string;
+  readonly time: string;
+  readonly tone: EventTone;
+}
+
+interface AgendaEntry {
+  readonly label: string;
+  /** Full span, e.g. "10:00 AM - 11:00 AM". */
+  readonly time: string;
+  readonly tone: EventTone;
+  /** Renders the Join affordance, as the live meeting does. */
+  readonly join?: boolean;
+}
+
+interface AgendaDay {
+  /** "Today", "Tomorrow". */
+  readonly title: string;
+  readonly date: string;
+  readonly entries: readonly AgendaEntry[];
+}
+
+/**
+ * A month grid plus an agenda rail. The sibling of `ConsoleView`: same stat
+ * tiles above, but a calendar cannot be expressed as a resource table, so it
+ * gets its own shape rather than being bent into one.
+ */
+interface CalendarView {
+  readonly month: string;
+  readonly weekdays: readonly string[];
+  /** Trailing days of the previous month shown before the 1st. */
+  readonly leading: readonly number[];
+  readonly daysInMonth: number;
+  /** Leading days of the next month, filling out the last week. */
+  readonly trailing: readonly number[];
+  /** Day of this month drawn as today. */
+  readonly today: number;
+  readonly views: readonly string[];
+  readonly activeView: string;
+  readonly searchPlaceholder: string;
+  readonly createLabel: string;
+  readonly events: readonly CalendarEvent[];
+  readonly agenda: readonly AgendaDay[];
+  readonly viewAllLabel: string;
+  readonly stats: readonly ConsoleStat[];
 }
 
 interface TabContent {
@@ -119,12 +216,23 @@ interface TabContent {
   readonly cta?: string;
   /** When present, replaces the screenshot with a live-rendered console preview. */
   readonly console?: ConsoleView;
+  /** As `console`, for the one view that is a calendar rather than a table. */
+  readonly calendar?: CalendarView;
+  /** Card row under the stats, on the management-style tabs. */
+  readonly cards?: readonly PanelCard[];
+  /**
+   * 'wide' drops the left copy / right preview split for a full-width heading
+   * with a single trailing action, as the Management tabs are drawn.
+   */
+  readonly layout?: 'split' | 'wide';
+  /** The trailing action in a 'wide' header. */
+  readonly headerAction?: string;
   readonly benefits: readonly { icon: IconDefinition; title: string; description: string }[];
 }
 
 @Component({
   selector: 'app-ecosystem-tabs',
-  imports: [FaIconComponent, NgOptimizedImage],
+  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent],
   templateUrl: './ecosystem-tabs.component.html',
   styleUrl: './ecosystem-tabs.component.css',
 })
@@ -133,8 +241,11 @@ export class EcosystemTabsComponent {
 
   protected readonly icons = {
     check: faCheck,
+    chevronLeft: faChevronLeft,
     chevronRight: faChevronRight,
     arrowRight: faArrowRight,
+    arrowDown: faArrowDown,
+    minus: faMinus,
     arrowUp: faArrowUp,
     ellipsis: faEllipsis,
     plus: faPlus,
@@ -175,6 +286,36 @@ export class EcosystemTabsComponent {
   });
 
   /**
+   * Stat tiles for whichever preview the active tab renders. Console and
+   * calendar views both open with the same four tiles.
+   */
+  protected readonly panelStats = computed(
+    () => this.tabContent().console?.stats ?? this.tabContent().calendar?.stats ?? null,
+  );
+
+  /**
+   * The month grid as rows of seven cells, padded from the neighbouring months.
+   * Memoized for the same reason as the console table: a template method would
+   * hand `@for` fresh arrays on every pass.
+   */
+  protected readonly calendarWeeks = computed(() => {
+    const view = this.tabContent().calendar;
+    if (!view) return null;
+    const byDay = new Map(view.events.map((event) => [event.day, event]));
+    const cells = [
+      ...view.leading.map((day) => ({ day, outside: true, today: false, event: undefined })),
+      ...Array.from({ length: view.daysInMonth }, (_, index) => {
+        const day = index + 1;
+        return { day, outside: false, today: day === view.today, event: byDay.get(day) };
+      }),
+      ...view.trailing.map((day) => ({ day, outside: true, today: false, event: undefined })),
+    ];
+    const weeks: (typeof cells)[] = [];
+    for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+    return weeks;
+  });
+
+  /**
    * The active console's table, pre-sliced around the Status column. Memoized
    * rather than sliced in the template: a template method returns fresh arrays
    * on every change-detection pass, which trips NG0956 and makes `@for` tear
@@ -185,11 +326,15 @@ export class EcosystemTabsComponent {
     if (!view) return null;
     const split = view.statusAfter ?? 0;
     return {
+      nameLabel: view.nameLabel ?? 'Name',
+      showStatus: view.showStatus ?? true,
+      unitLabel: view.unitLabel ?? 'results',
       columnsBefore: view.columns.slice(0, split),
       columnsAfter: view.columns.slice(split),
       rows: view.rows.map((row) => ({
         name: row.name,
         status: row.status,
+        initials: row.initials,
         icon: row.icon ?? view.rowIcon,
         before: row.cells.slice(0, split),
         after: row.cells.slice(split),
@@ -209,6 +354,7 @@ export class EcosystemTabsComponent {
         { id: 'networking', label: 'Networking', icon: faNetworkWired },
         { id: 'security', label: 'Security', icon: faShieldHalved },
         { id: 'backup-dr', label: 'Backup & DR', icon: faCloudArrowUp },
+        { id: 'monitoring', label: 'Monitoring', icon: faChartColumn },
         { id: 'automation', label: 'Automation', icon: faGears },
         { id: 'cost-management', label: 'Cost Management', icon: faCoins },
       ],
@@ -508,17 +654,43 @@ export class EcosystemTabsComponent {
         ],
       },
       security: {
-        badge: 'CloudEdge Security',
-        heading: 'Enterprise Security & Compliance',
+        badge: 'Cloud & Infrastructure',
+        heading: 'Security',
         description:
-          'Protect your infrastructure with advanced security features. Built-in compliance, encryption, and threat detection keep your data safe.',
+          'Comprehensive, enterprise-grade security to protect your data, applications and infrastructure.',
         bullets: [
-          'Advanced threat detection',
-          'Compliance certifications',
-          'Zero-trust security',
+          'Advanced threat protection',
+          'Identity & access management',
+          'Compliance and continuous monitoring',
         ],
         image: '/worldposta-assets/hero/cloudedge/security-hub.png',
         imageAlt: 'Security dashboard with threat monitoring',
+        console: {
+          title: 'Security Services',
+          total: 8,
+          // Type sits ahead of Status here, as in the Networking view.
+          columns: ['Type', 'Region', 'Protected Resources', 'Last Updated'],
+          statusAfter: 1,
+          // Every row names a different kind of service, so each carries its own
+          // mark; this fallback only applies if one is ever added without it.
+          rowIcon: faShieldHalved,
+          createLabel: 'Add Policy',
+          searchPlaceholder: 'Search security services...',
+          pages: 2,
+          stats: [
+            { icon: faShieldHalved, label: 'Protected Resources', value: '320', delta: '18%', tone: 'sky', trend: [271, 278, 286, 294, 301, 308, 314, 320] },
+            { icon: faBan, label: 'Blocked Threats', value: '1.8M', delta: '24%', tone: 'amber', trend: [1.45, 1.5, 1.55, 1.62, 1.67, 1.72, 1.76, 1.8] },
+            { icon: faLock, label: 'Active Policies', value: '124', delta: '12%', tone: 'green', trend: [111, 113, 115, 117, 119, 121, 123, 124] },
+            { icon: faClipboardCheck, label: 'Compliance Score', value: '99.9%', delta: '5%', tone: 'purple', trend: [95.1, 96, 96.8, 97.4, 98.1, 98.8, 99.4, 99.9] },
+          ],
+          rows: [
+            { name: 'Web Application Firewall', icon: faBorderAll, status: { label: 'Active', tone: 'good' }, cells: ['WAF', 'UAE', '12 websites', 'Jan 12, 2024'] },
+            { name: 'DDoS Protection', icon: faShieldHalved, status: { label: 'Active', tone: 'good' }, cells: ['DDoS', 'Global', 'All applications', 'Jan 10, 2024'] },
+            { name: 'Identity & Access Management', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['IAM', 'UAE', '320 users', 'Jan 08, 2024'] },
+            { name: 'Key Management', icon: faKey, status: { label: 'Active', tone: 'good' }, cells: ['KMS', 'KSA', '48 keys', 'Jan 05, 2024'] },
+            { name: 'Vulnerability Scanning', icon: faMagnifyingGlass, status: { label: 'Scanning', tone: 'warning' }, cells: ['Scanner', 'UAE', '28 resources', 'Jan 02, 2024'] },
+          ],
+        },
         benefits: [
           {
             icon: faShieldHalved,
@@ -543,13 +715,42 @@ export class EcosystemTabsComponent {
         ],
       },
       'backup-dr': {
-        badge: 'CloudEdge Backup & DR',
-        heading: 'Backup & Disaster Recovery',
+        badge: 'Cloud & Infrastructure',
+        heading: 'Backup & DR',
         description:
-          'Protect your business with automated backups and disaster recovery. Restore your infrastructure in minutes, not hours.',
-        bullets: ['Automated backups', 'Point-in-time recovery', 'Cross-region replication'],
+          'Reliable backup and disaster recovery to keep your business resilient and always on.',
+        bullets: [
+          'Automated and secure backups',
+          'Fast recovery and minimal downtime',
+          'Scalable and flexible disaster recovery solutions',
+        ],
         image: '/worldposta-assets/hero/cloudedge/dashboard.png',
         imageAlt: 'Backup and recovery management dashboard',
+        cta: 'Create Backup',
+        console: {
+          title: 'Backup Jobs',
+          total: 42,
+          // Status sits directly after Name in this view, so no statusAfter.
+          columns: ['Type', 'Last Run', 'Next Run', 'Size'],
+          rowIcon: faCloudArrowUp,
+          createLabel: 'New Backup',
+          searchPlaceholder: 'Search backup jobs...',
+          pages: 5,
+          stats: [
+            { icon: faDatabase, label: 'Protected Workloads', value: '312', delta: '18%', tone: 'sky', trend: [264, 271, 279, 287, 294, 301, 307, 312] },
+            { icon: faShieldHalved, label: 'Backup Success Rate', value: '99.9%', delta: '2%', tone: 'amber', trend: [98, 98.3, 98.6, 98.9, 99.2, 99.5, 99.7, 99.9] },
+            // The only falling metric here, and the fall is the improvement.
+            { icon: faChartPie, label: 'Average Recovery Time', value: '15 min', delta: '40%', deltaDirection: 'down', tone: 'green', trend: [25, 23, 22, 20, 19, 17, 16, 15] },
+            { icon: faHardDrive, label: 'Total Backup Storage', value: '28.6 TB', delta: '22%', tone: 'purple', trend: [23.4, 24.2, 25, 25.8, 26.6, 27.4, 28, 28.6] },
+          ],
+          rows: [
+            { name: 'Production-Servers', icon: faBorderAll, status: { label: 'Completed', tone: 'good' }, cells: ['Full Backup', 'Jan 12, 2024 01:00 AM', 'Jan 13, 2024 01:00 AM', '1.2 TB'] },
+            { name: 'Databases', icon: faDatabase, status: { label: 'Completed', tone: 'good' }, cells: ['Incremental', 'Jan 11, 2024 11:30 PM', 'Jan 12, 2024 11:30 PM', '850 GB'] },
+            { name: 'Application-Files', icon: faFolderOpen, status: { label: 'Completed', tone: 'good' }, cells: ['Incremental', 'Jan 11, 2024 10:00 PM', 'Jan 12, 2024 10:00 PM', '420 GB'] },
+            { name: 'User-Data', icon: faUser, status: { label: 'In Progress', tone: 'warning' }, cells: ['Incremental', 'Jan 12, 2024 12:15 PM', 'Jan 13, 2024 12:15 PM', '230 GB'] },
+            { name: 'Disaster-Recovery', icon: faCloud, status: { label: 'Completed', tone: 'good' }, cells: ['Full Backup', 'Jan 10, 2024 02:00 AM', 'Jan 17, 2024 02:00 AM', '4.8 TB'] },
+          ],
+        },
         benefits: [
           {
             icon: faCloudArrowUp,
@@ -573,18 +774,105 @@ export class EcosystemTabsComponent {
           },
         ],
       },
-      automation: {
-        badge: 'CloudEdge Automation',
-        heading: 'Infrastructure as Code',
+      monitoring: {
+        badge: 'Cloud & Infrastructure',
+        heading: 'Monitoring',
         description:
-          'Automate your infrastructure deployment and management. Use industry-standard tools and templates to scale efficiently.',
+          'Gain real-time visibility and insights into your infrastructure, applications and services.',
         bullets: [
-          'Terraform integration',
-          'API-first architecture',
-          'CI/CD pipelines',
+          'Real-time performance monitoring',
+          'Proactive alerts and notifications',
+          'Custom dashboards and reporting',
+        ],
+        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        imageAlt: 'Monitoring dashboard with resource health and response times',
+        cta: 'View Dashboard',
+        console: {
+          title: 'Monitored Resources',
+          total: 128,
+          columns: ['Type', 'CPU', 'Memory', 'Response Time', 'Uptime'],
+          statusAfter: 1,
+          rowIcon: faChartColumn,
+          createLabel: 'Add Monitor',
+          searchPlaceholder: 'Search resources...',
+          pages: 5,
+          stats: [
+            { icon: faServer, label: 'Monitored Resources', value: '128', delta: '16%', tone: 'sky', trend: [110, 113, 116, 119, 121, 124, 126, 128] },
+            // Fewer alerts and faster responses are both improvements.
+            { icon: faBell, label: 'Active Alerts', value: '3', delta: '40%', deltaDirection: 'down', tone: 'amber', trend: [5, 5, 4, 4, 4, 3, 3, 3] },
+            { icon: faClock, label: 'Uptime', value: '99.98%', delta: '0.2%', tone: 'green', trend: [99.78, 99.81, 99.84, 99.87, 99.9, 99.93, 99.96, 99.98] },
+            { icon: faWaveSquare, label: 'Average Response Time', value: '120 ms', delta: '28%', deltaDirection: 'down', tone: 'purple', trend: [167, 160, 152, 145, 138, 131, 125, 120] },
+          ],
+          rows: [
+            { name: 'prod-web-01', icon: faServer, status: { label: 'Healthy', tone: 'good' }, cells: ['Virtual Machine', '24%', '56%', '120 ms', '99.99%'] },
+            { name: 'commerce-cluster', icon: faCubes, status: { label: 'Healthy', tone: 'good' }, cells: ['Kubernetes', '38%', '62%', '210 ms', '99.97%'] },
+            { name: 'app-database', icon: faDatabase, status: { label: 'Warning', tone: 'warning' }, cells: ['Database', '72%', '78%', '340 ms', '99.95%'] },
+            { name: 'vpc-network', icon: faNetworkWired, status: { label: 'Healthy', tone: 'good' }, cells: ['Network', '18%', '42%', '95 ms', '99.99%'] },
+            { name: 'web-loadbalancer', icon: faSitemap, status: { label: 'Healthy', tone: 'good' }, cells: ['Load Balancer', '26%', '48%', '110 ms', '99.98%'] },
+          ],
+        },
+        // Not in the reference mockup, which stops above this strip - these are
+        // drawn from the bullets above and are the one part of this tab awaiting
+        // your wording.
+        benefits: [
+          {
+            icon: faChartColumn,
+            title: 'Live Metrics',
+            description: 'Resource health and performance in real time',
+          },
+          {
+            icon: faBell,
+            title: 'Proactive Alerts',
+            description: 'Notified before an issue reaches your users',
+          },
+          {
+            icon: faWaveSquare,
+            title: 'Response Insight',
+            description: 'Latency tracked across every monitored service',
+          },
+          {
+            icon: faFileLines,
+            title: 'Custom Dashboards',
+            description: 'Build the view your team needs and share it',
+          },
+        ],
+      },
+      automation: {
+        badge: 'Cloud & Infrastructure',
+        heading: 'Automation',
+        description:
+          'Automate your cloud operations, streamline workflows and save time with intelligent automation.',
+        bullets: [
+          'Automate routine tasks and workflows',
+          'Reduce operational effort and human error',
+          'Integrate across your cloud services',
         ],
         image: '/worldposta-assets/hero/cloudedge/scheduled-tasks.png',
         imageAlt: 'Automation and scheduling dashboard',
+        cta: 'Create Automation',
+        console: {
+          title: 'Automation Workflows',
+          total: 48,
+          columns: ['Trigger', 'Last Run', 'Next Run'],
+          statusAfter: 1,
+          rowIcon: faGears,
+          createLabel: 'Create Workflow',
+          searchPlaceholder: 'Search workflows...',
+          pages: 5,
+          stats: [
+            { icon: faGears, label: 'Automations Executed', value: '12.4 K', delta: '26%', tone: 'sky', trend: [9.8, 10.2, 10.7, 11.1, 11.5, 11.9, 12.2, 12.4] },
+            { icon: faClock, label: 'Time Saved', value: '320 hrs', delta: '40%', tone: 'amber', trend: [229, 241, 254, 268, 281, 295, 308, 320] },
+            { icon: faFileLines, label: 'Active Workflows', value: '48', delta: '20%', tone: 'green', trend: [40, 41, 42, 44, 45, 46, 47, 48] },
+            { icon: faCircleCheck, label: 'Success Rate', value: '99.7%', delta: '3%', tone: 'purple', trend: [96.8, 97.2, 97.6, 98.1, 98.5, 98.9, 99.3, 99.7] },
+          ],
+          rows: [
+            { name: 'Auto Scale VMs', icon: faCloud, status: { label: 'Active', tone: 'good' }, cells: ['CPU > 70%', 'Jan 12, 2024 10:20 AM', 'Jan 12, 2024 11:00 AM'] },
+            { name: 'Daily Backup', icon: faDatabase, status: { label: 'Active', tone: 'good' }, cells: ['Schedule (Daily)', 'Jan 12, 2024 02:00 AM', 'Jan 13, 2024 02:00 AM'] },
+            { name: 'Security Alert Notification', icon: faShieldHalved, status: { label: 'Active', tone: 'good' }, cells: ['Security Event', 'Jan 11, 2024 08:15 PM', 'Continuous'] },
+            { name: 'Cost Report Generation', icon: faFileLines, status: { label: 'Paused', tone: 'warning' }, cells: ['Schedule (Weekly)', 'Jan 08, 2024 09:00 AM', 'Jan 15, 2024 09:00 AM'] },
+            { name: 'User Provisioning', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['New User', 'Jan 12, 2024 01:10 PM', 'Continuous'] },
+          ],
+        },
         benefits: [
           {
             icon: faGears,
@@ -609,13 +897,45 @@ export class EcosystemTabsComponent {
         ],
       },
       'cost-management': {
-        badge: 'CloudEdge Cost Management',
-        heading: 'Optimize Your Cloud Spending',
+        badge: 'Cloud & Infrastructure',
+        heading: 'Cost Management',
         description:
-          'Track, analyze, and optimize your cloud costs. Get insights and recommendations to reduce spending without sacrificing performance.',
-        bullets: ['Cost tracking & alerts', 'Optimization recommendations', 'Budget management'],
+          'Gain full visibility, optimize cloud spending and get more value from your infrastructure.',
+        bullets: [
+          'Real-time cost visibility and reporting',
+          'Identify savings and optimization opportunities',
+          'Set budgets, alerts and spending controls',
+        ],
         image: '/worldposta-assets/hero/cloudedge/dashboard.png',
         imageAlt: 'Cost analysis and optimization dashboard',
+        cta: 'View Cost Insights',
+        console: {
+          title: 'Cost Overview',
+          total: 24,
+          // This view lists services, not named resources.
+          nameLabel: 'Service',
+          // Status trails the budget figures here rather than leading the row.
+          columns: ['Resource', 'Current Spend', 'Change', 'Budget', 'Budget Used'],
+          statusAfter: 5,
+          rowIcon: faCoins,
+          createLabel: 'Create Budget',
+          searchPlaceholder: 'Search resources, services or tags...',
+          pages: 5,
+          stats: [
+            // Spend falling and alerts falling are both the good direction here.
+            { icon: faDollarSign, label: 'Total Cloud Spend', value: '$12,430', delta: '18%', deltaDirection: 'down', tone: 'sky', trend: [15158, 14700, 14200, 13800, 13400, 13000, 12700, 12430] },
+            { icon: faChartColumn, label: 'Potential Savings', value: '$3,250', delta: '24%', tone: 'amber', trend: [2621, 2720, 2810, 2900, 2990, 3080, 3170, 3250] },
+            { icon: faChartPie, label: 'Budget Utilization', value: '68%', delta: '12%', deltaDirection: 'down', tone: 'green', trend: [77, 76, 75, 73, 72, 70, 69, 68] },
+            { icon: faBell, label: 'Active Alerts', value: '5', delta: '50%', deltaDirection: 'down', tone: 'purple', trend: [10, 9, 9, 8, 7, 6, 6, 5] },
+          ],
+          rows: [
+            { name: 'Virtual Machines', icon: faDesktop, status: { label: 'On Track', tone: 'good' }, cells: ['prod-vm-cluster', '$4,320', '↓ 18%', '$6,000', '72%'] },
+            { name: 'Storage', icon: faDatabase, status: { label: 'On Track', tone: 'good' }, cells: ['prod-storage', '$2,180', '↑ 12%', '$3,000', '73%'] },
+            { name: 'Networking', icon: faNetworkWired, status: { label: 'On Track', tone: 'good' }, cells: ['vpc-network', '$1,560', '↓ 25%', '$2,500', '62%'] },
+            { name: 'Security', icon: faShieldHalved, status: { label: 'Attention', tone: 'warning' }, cells: ['waf-security', '$980', '↑ 8%', '$1,200', '82%'] },
+            { name: 'Backup & DR', icon: faCloudArrowUp, status: { label: 'On Track', tone: 'good' }, cells: ['daily-backup', '$640', '↓ 20%', '$1,000', '64%'] },
+          ],
+        },
         benefits: [
           {
             icon: faCoins,
@@ -640,13 +960,41 @@ export class EcosystemTabsComponent {
         ],
       },
       'business-email': {
-        badge: 'Posta Mail',
-        heading: 'Professional Business Email',
+        badge: 'Collaboration & Productivity',
+        heading: 'Business Email',
         description:
-          'Secure, reliable business email with your custom domain. Advanced spam filtering, calendar integration, and mobile apps included.',
-        bullets: ['Custom domain', 'Advanced spam filtering', 'Calendar integration'],
+          'Secure, reliable and professional email for your business, built for productivity.',
+        bullets: [
+          'Custom domain email (you@yourcompany.com)',
+          'Advanced security and anti-spam protection',
+          'Access from anywhere, on any device',
+        ],
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Business email interface',
+        cta: 'Create Email Account',
+        console: {
+          title: 'Email Accounts',
+          total: 1250,
+          columns: ['Email Address', 'Plan', 'Storage Used', 'Last Login'],
+          statusAfter: 2,
+          rowIcon: faEnvelope,
+          createLabel: 'Add Account',
+          searchPlaceholder: 'Search email accounts...',
+          pages: 5,
+          stats: [
+            { icon: faEnvelope, label: 'Active Mailboxes', value: '1,250', delta: '12%', tone: 'sky', trend: [1116, 1136, 1156, 1176, 1196, 1216, 1234, 1250] },
+            { icon: faShieldHalved, label: 'Spam Blocked', value: '99.8%', delta: '6%', tone: 'amber', trend: [94.2, 95, 95.8, 96.6, 97.4, 98.2, 99, 99.8] },
+            { icon: faDatabase, label: 'Storage Used', value: '680 GB', delta: '8%', tone: 'green', trend: [630, 637, 644, 651, 658, 665, 672, 680] },
+            { icon: faPeopleGroup, label: 'Active Users', value: '1,180', delta: '14%', tone: 'purple', trend: [1035, 1056, 1077, 1098, 1119, 1140, 1160, 1180] },
+          ],
+          rows: [
+            { name: 'Ahmed Hassan', icon: faUser, status: { label: 'Active', tone: 'good' }, cells: ['ahmed@yourcompany.com', 'Business Pro', '12 GB / 50 GB', 'Jan 12, 2024 10:24 AM'] },
+            { name: 'Sara Ali', icon: faUser, status: { label: 'Active', tone: 'good' }, cells: ['sara@yourcompany.com', 'Business Pro', '8 GB / 50 GB', 'Jan 12, 2024 09:18 AM'] },
+            { name: 'Marketing Team', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['marketing@yourcompany.com', 'Business Standard', '24 GB / 100 GB', 'Jan 11, 2024 06:45 PM'] },
+            { name: 'Sales Team', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['sales@yourcompany.com', 'Business Standard', '18 GB / 100 GB', 'Jan 11, 2024 04:12 PM'] },
+            { name: 'Support', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['support@yourcompany.com', 'Business Pro', '32 GB / 100 GB', 'Jan 10, 2024 11:03 AM'] },
+          ],
+        },
         benefits: [
           {
             icon: faEnvelope,
@@ -671,13 +1019,44 @@ export class EcosystemTabsComponent {
         ],
       },
       'team-chat': {
-        badge: 'Posta Chat',
-        heading: 'Real-Time Team Communication',
+        badge: 'Collaboration & Productivity',
+        heading: 'Team Chat',
         description:
-          'Instant messaging for teams. Channels, direct messages, file sharing, and integrations with your favorite tools.',
-        bullets: ['Channels & DMs', 'File sharing', 'App integrations'],
+          'Connect your teams, streamline communication and get work done — all in one secure platform.',
+        bullets: [
+          'Real-time messaging and group chats',
+          'Secure and compliant communication',
+          'Integrations with your favorite tools',
+        ],
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Team chat application',
+        cta: 'Open Team Chat',
+        console: {
+          title: 'Recent Conversations',
+          total: 24,
+          nameLabel: 'Name / Channel',
+          columns: ['Type', 'Last Message', 'Time', 'Unread'],
+          // A conversation has no state to report, so this view has no Status.
+          showStatus: false,
+          unitLabel: 'conversations',
+          rowIcon: faMessage,
+          createLabel: 'New Chat',
+          searchPlaceholder: 'Search conversations...',
+          pages: 5,
+          stats: [
+            { icon: faPeopleGroup, label: 'Active Users', value: '1,180', delta: '14%', tone: 'sky', trend: [1035, 1056, 1077, 1098, 1119, 1140, 1160, 1180] },
+            { icon: faMessage, label: 'Active Channels', value: '320', delta: '25%', tone: 'amber', trend: [256, 265, 274, 283, 292, 301, 311, 320] },
+            { icon: faFileLines, label: 'Messages Sent', value: '24.5K', delta: '32%', tone: 'green', trend: [18.6, 19.4, 20.3, 21.2, 22.1, 23, 23.8, 24.5] },
+            { icon: faClock, label: 'Average Response Time', value: '2 min', delta: '40%', deltaDirection: 'down', tone: 'purple', trend: [3.3, 3.1, 2.9, 2.7, 2.5, 2.3, 2.1, 2] },
+          ],
+          rows: [
+            { name: 'Marketing Team', icon: faPeopleGroup, cells: ['Group', 'Sarah: Great work on the campaign! 🎉', '10:24 AM', '2'] },
+            { name: 'Ahmed Hassan', icon: faUser, cells: ['Direct', "Let's review the proposal today.", '09:18 AM', '1'] },
+            { name: 'Product Updates', icon: faMessage, cells: ['Channel', 'System: New version deployed successfully.', '08:45 AM', '0'] },
+            { name: 'Sara Ali', icon: faUser, cells: ['Direct', 'Can you share the latest deck?', 'Yesterday', '0'] },
+            { name: 'All Company', icon: faMessage, cells: ['Channel', 'HR: Team building event next week.', 'Yesterday', '5'] },
+          ],
+        },
         benefits: [
           {
             icon: faMessage,
@@ -702,13 +1081,43 @@ export class EcosystemTabsComponent {
         ],
       },
       conferencing: {
-        badge: 'Posta Meet',
-        heading: 'Video Conferencing & Meetings',
+        badge: 'Collaboration & Productivity',
+        heading: 'Conferencing',
         description:
-          'High-quality video conferencing for teams. Screen sharing, recording, and virtual backgrounds included.',
-        bullets: ['HD video & audio', 'Screen sharing', 'Meeting recording'],
+          'Host secure, high-quality video meetings and bring your teams closer, from anywhere.',
+        bullets: [
+          'HD video and crystal-clear audio',
+          'Screen sharing, recording and live captions',
+          'Secure and reliable for teams of any size',
+        ],
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Video conferencing interface',
+        cta: 'Start a Meeting',
+        console: {
+          title: 'Upcoming Meetings',
+          total: 5,
+          nameLabel: 'Title',
+          columns: ['Date & Time', 'Organizer', 'Participants'],
+          statusAfter: 3,
+          unitLabel: 'meetings',
+          rowIcon: faVideo,
+          createLabel: 'Schedule Meeting',
+          searchPlaceholder: 'Search meetings...',
+          pages: 1,
+          stats: [
+            { icon: faPeopleGroup, label: 'Meetings Hosted', value: '1,320', delta: '28%', tone: 'sky', trend: [1031, 1074, 1117, 1160, 1203, 1246, 1283, 1320] },
+            { icon: faClock, label: 'Total Meeting Minutes', value: '56.4K', delta: '35%', tone: 'amber', trend: [41.8, 43.9, 46, 48.1, 50.2, 52.3, 54.4, 56.4] },
+            { icon: faDesktop, label: 'Active Users', value: '890', delta: '18%', tone: 'green', trend: [754, 774, 793, 813, 832, 852, 871, 890] },
+            { icon: faShieldHalved, label: 'Meeting Success Rate', value: '99.8%', delta: '2%', tone: 'purple', trend: [97.8, 98.1, 98.4, 98.7, 99, 99.3, 99.6, 99.8] },
+          ],
+          rows: [
+            { name: 'Marketing Sync', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 12, 2024 10:00 AM', 'Sara Ali', '+8'] },
+            { name: 'Product Roadmap', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 12, 2024 02:00 PM', 'Ahmed Hassan', '+12'] },
+            { name: 'Client Presentation', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 13, 2024 11:00 AM', 'Mona Khaled', '+5'] },
+            { name: 'Team Weekly', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 14, 2024 09:00 AM', 'Omar Adel', '+10'] },
+            { name: 'HR Update', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 15, 2024 03:00 PM', 'Nour Ibrahim', '+6'] },
+          ],
+        },
         benefits: [
           {
             icon: faVideo,
@@ -733,13 +1142,74 @@ export class EcosystemTabsComponent {
         ],
       },
       calendar: {
-        badge: 'Posta Calendar',
-        heading: 'Shared Calendars & Scheduling',
+        badge: 'Collaboration & Productivity',
+        heading: 'Calendar',
         description:
-          'Keep your team synchronized with shared calendars. Schedule meetings, set reminders, and manage resources effortlessly.',
-        bullets: ['Shared calendars', 'Meeting scheduler', 'Resource booking'],
+          'Plan, organize and stay in sync across your teams. Seamless scheduling for a more productive business.',
+        bullets: [
+          'Schedule meetings and events',
+          'Share calendars with your team',
+          'Integrate with email, chat and conferencing',
+        ],
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Calendar and scheduling interface',
+        cta: 'Create Event',
+        calendar: {
+          month: 'January 2024',
+          weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          // January 2024 opens on a Monday, so one December day leads the grid
+          // and three February days close it - 35 cells, five rows.
+          leading: [31],
+          daysInMonth: 31,
+          trailing: [1, 2, 3],
+          today: 22,
+          views: ['Day', 'Week', 'Month'],
+          activeView: 'Month',
+          searchPlaceholder: 'Search events...',
+          createLabel: 'Add Event',
+          stats: [
+            { icon: faPeopleGroup, label: 'Upcoming Meetings', value: '12', delta: '25%', tone: 'sky', trend: [9, 9, 10, 10, 11, 11, 12, 12] },
+            { icon: faCalendarDays, label: 'This Week', value: '28', delta: '16%', tone: 'amber', trend: [24, 24, 25, 26, 26, 27, 27, 28] },
+            { icon: faClock, label: 'Hours Scheduled', value: '46', delta: '32%', tone: 'green', trend: [35, 36, 38, 40, 41, 43, 44, 46] },
+            { icon: faCircleCheck, label: 'Event Completion Rate', value: '96%', delta: '4%', tone: 'purple', trend: [92.3, 92.9, 93.4, 94, 94.6, 95.1, 95.6, 96] },
+          ],
+          events: [
+            { day: 1, label: 'Team Sync', time: '10:00 AM', tone: 'blue' },
+            { day: 2, label: 'Product Review', time: '2:00 PM', tone: 'green' },
+            { day: 4, label: 'Client Meeting', time: '11:00 AM', tone: 'purple' },
+            { day: 8, label: 'Marketing Plan', time: '11:00 AM', tone: 'green' },
+            { day: 10, label: 'Security Workshop', time: '3:00 PM', tone: 'blue' },
+            { day: 12, label: 'Team Check-in', time: '10:00 AM', tone: 'green' },
+            { day: 15, label: 'HR Update', time: '1:00 PM', tone: 'purple' },
+            { day: 17, label: 'Product Demo', time: '2:00 PM', tone: 'amber' },
+            { day: 19, label: 'Budget Review', time: '11:00 AM', tone: 'purple' },
+            { day: 22, label: 'All Hands', time: '10:00 AM', tone: 'blue' },
+            { day: 24, label: 'Strategy Session', time: '3:00 PM', tone: 'blue' },
+            { day: 26, label: 'Client Follow-up', time: '1:00 PM', tone: 'green' },
+            { day: 30, label: 'Q&A Session', time: '2:00 PM', tone: 'green' },
+          ],
+          agenda: [
+            {
+              title: 'Today',
+              date: 'Mon, Jan 22, 2024',
+              entries: [
+                { label: 'All Hands Meeting', time: '10:00 AM - 11:00 AM', tone: 'blue', join: true },
+                { label: 'Marketing Sync', time: '1:00 PM - 2:00 PM', tone: 'green' },
+                { label: 'Product Demo Prep', time: '3:00 PM - 4:00 PM', tone: 'purple' },
+              ],
+            },
+            {
+              title: 'Tomorrow',
+              date: 'Tue, Jan 23, 2024',
+              entries: [
+                { label: 'Client Presentation', time: '11:00 AM - 12:00 PM', tone: 'amber' },
+                { label: 'Team Check-in', time: '2:00 PM - 3:00 PM', tone: 'green' },
+                { label: 'Security Workshop', time: '4:00 PM - 5:00 PM', tone: 'blue' },
+              ],
+            },
+          ],
+          viewAllLabel: 'View All Events',
+        },
         benefits: [
           {
             icon: faCalendarDays,
@@ -764,13 +1234,46 @@ export class EcosystemTabsComponent {
         ],
       },
       'drive-files': {
-        badge: 'Posta Drive',
-        heading: 'Cloud Storage & File Sharing',
+        badge: 'Collaboration & Productivity',
+        heading: 'Drive & Files',
         description:
-          'Store, sync, and share files securely. Real-time collaboration, version history, and advanced sharing controls.',
-        bullets: ['Unlimited storage', 'Real-time collaboration', 'Version history'],
+          'Store, share and collaborate on your files securely from anywhere.',
+        bullets: [
+          'Secure cloud storage for your business',
+          'Share files and folders with your teams',
+          'Access and collaborate from any device',
+        ],
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Cloud storage and file management interface',
+        cta: 'Upload Files',
+        console: {
+          title: 'My Drive',
+          total: 12480,
+          columns: ['Owner', 'Last Modified', 'Size'],
+          // Files and folders carry no status.
+          showStatus: false,
+          unitLabel: 'files',
+          rowIcon: faFolderOpen,
+          createLabel: 'Upload',
+          searchPlaceholder: 'Search files and folders...',
+          pages: 5,
+          stats: [
+            { icon: faFileLines, label: 'Total Files', value: '12,480', delta: '12%', tone: 'sky', trend: [11143, 11340, 11537, 11734, 11931, 12128, 12304, 12480] },
+            { icon: faPeopleGroup, label: 'Shared Folders', value: '320', delta: '18%', tone: 'amber', trend: [271, 278, 285, 292, 299, 306, 313, 320] },
+            { icon: faDatabase, label: 'Storage Used', value: '680 GB', delta: '8%', tone: 'green', trend: [630, 637, 644, 651, 658, 665, 672, 680] },
+            { icon: faUser, label: 'Active Collaborators', value: '48', delta: '14%', tone: 'purple', trend: [42, 43, 44, 45, 46, 47, 47, 48] },
+          ],
+          rows: [
+            { name: 'Marketing Materials', icon: faFolderOpen, cells: ['Me', 'Jan 12, 2024 10:24 AM', '—'] },
+            { name: 'Sales Enablement', icon: faFolderOpen, cells: ['Ahmed Hassan', 'Jan 11, 2024 02:15 PM', '—'] },
+            { name: 'HR', icon: faFolderOpen, cells: ['Sara Ali', 'Jan 10, 2024 11:03 AM', '—'] },
+            { name: 'Project Phoenix', icon: faFolderOpen, cells: ['Me', 'Jan 09, 2024 04:20 PM', '—'] },
+            { name: 'Product Brochure.pdf', icon: faFilePdf, cells: ['Marketing Team', 'Jan 08, 2024 01:12 PM', '4.2 MB'] },
+            { name: 'Q1 Strategy Deck.pptx', icon: faFilePowerpoint, cells: ['Omar Adel', 'Jan 07, 2024 03:45 PM', '12.8 MB'] },
+            { name: 'Budget 2024.xlsx', icon: faFileExcel, cells: ['Finance Team', 'Jan 06, 2024 09:30 AM', '1.1 MB'] },
+            { name: 'Meeting Notes.docx', icon: faFileWord, cells: ['Me', 'Jan 05, 2024 05:18 PM', '320 KB'] },
+          ],
+        },
         benefits: [
           {
             icon: faFolderOpen,
@@ -857,13 +1360,71 @@ export class EcosystemTabsComponent {
         ],
       },
       'iam-access': {
-        badge: 'CloudEdge IAM',
-        heading: 'Identity & Access Management',
-        description:
-          'Control who has access to what. Fine-grained permissions, multi-factor authentication, and audit logs for complete security.',
+        badge: 'Management',
+        heading: 'IAM & Access Management',
+        description: 'Control access, secure your resources, and empower your teams.',
         bullets: ['Fine-grained permissions', 'Multi-factor auth', 'Audit logs'],
         image: '/worldposta-assets/hero/cloudedge/dashboard.png',
         imageAlt: 'IAM and access control dashboard',
+        layout: 'wide',
+        headerAction: 'Add User',
+        cards: [
+          {
+            title: 'User Distribution by Role',
+            donut: {
+              total: '248',
+              caption: 'Users',
+              slices: [
+                { label: 'Administrators', value: 12, display: '12 (5%)', tone: 'blue' },
+                { label: 'Managers', value: 38, display: '38 (15%)', tone: 'green' },
+                { label: 'Standard Users', value: 168, display: '168 (68%)', tone: 'purple' },
+                { label: 'Guests', value: 30, display: '30 (12%)', tone: 'amber' },
+              ],
+            },
+          },
+          {
+            title: 'Access Requests',
+            link: 'View all',
+            items: [
+              { icon: faUser, tone: 'blue', title: 'New user invitation', subtitle: 'Nour Ibrahim · 2 hours ago', badge: { label: 'Pending', tone: 'warning' } },
+              { icon: faFolderOpen, tone: 'amber', title: 'Access to Project Folder', subtitle: 'Ahmed Hassan · 4 hours ago', badge: { label: 'Approved', tone: 'good' } },
+              { icon: faShieldHalved, tone: 'purple', title: 'Admin role request', subtitle: 'Sara Ali · 1 day ago', badge: { label: 'Pending', tone: 'warning' } },
+              { icon: faDatabase, tone: 'green', title: 'Access to Production', subtitle: 'Omar Adel · 1 day ago', badge: { label: 'Denied', tone: 'critical' } },
+            ],
+          },
+          {
+            title: 'Security & Compliance',
+            items: [
+              { icon: faLock, tone: 'blue', title: 'Multi-Factor Authentication', meta: 'Enabled' },
+              { icon: faKey, tone: 'green', title: 'Single Sign-On (SSO)', meta: 'Enabled' },
+              { icon: faFileLines, tone: 'purple', title: 'Access Policies', meta: 'Active' },
+              { icon: faChartColumn, tone: 'amber', title: 'Audit Logs', meta: 'Enabled' },
+            ],
+          },
+        ],
+        console: {
+          title: 'Users',
+          total: 248,
+          columns: ['Email', 'Role', 'Last Active'],
+          statusAfter: 2,
+          unitLabel: 'users',
+          rowIcon: faUser,
+          searchPlaceholder: 'Search users...',
+          pages: 5,
+          stats: [
+            { icon: faPeopleGroup, label: 'Total Users', value: '248', delta: '12%', tone: 'sky', trend: [221, 225, 229, 233, 237, 241, 245, 248] },
+            { icon: faShieldHalved, label: 'Active Users', value: '230', delta: '8%', tone: 'amber', trend: [213, 215, 218, 220, 223, 225, 228, 230] },
+            { icon: faEnvelope, label: 'Pending Invitations', value: '18', delta: '25%', deltaDirection: 'down', tone: 'green', trend: [24, 23, 22, 21, 20, 19, 18, 18] },
+            { icon: faKey, label: 'Roles & Permissions', value: '12', delta: '20%', tone: 'purple', trend: [10, 10, 11, 11, 11, 12, 12, 12] },
+          ],
+          rows: [
+            { name: 'Sara Ali', initials: 'SA', status: { label: 'Active', tone: 'good' }, cells: ['sara.ali@worldposta.com', 'Administrator', 'Today, 10:24 AM'] },
+            { name: 'Ahmed Hassan', initials: 'AH', status: { label: 'Active', tone: 'good' }, cells: ['ahmed.hassan@worldposta.com', 'Manager', 'Today, 09:12 AM'] },
+            { name: 'Mona Khaled', initials: 'MK', status: { label: 'Active', tone: 'good' }, cells: ['mona.khaled@worldposta.com', 'Standard User', 'Yesterday, 04:30 PM'] },
+            { name: 'Omar Adel', initials: 'OA', status: { label: 'Inactive', tone: 'warning' }, cells: ['omar.adel@worldposta.com', 'Standard User', 'Jan 20, 2024'] },
+            { name: 'Nour Ibrahim', initials: 'NI', status: { label: 'Active', tone: 'good' }, cells: ['nour.ibrahim@worldposta.com', 'Guest', 'Today, 11:05 AM'] },
+          ],
+        },
         benefits: [
           {
             icon: faUserShield,
@@ -888,13 +1449,81 @@ export class EcosystemTabsComponent {
         ],
       },
       'team-management': {
-        badge: 'WorldPosta Teams',
-        heading: 'Team & Organization Management',
+        badge: 'Management',
+        heading: 'Team Management',
         description:
-          'Manage your team, departments, and resources from one place. Onboarding, offboarding, and team permissions simplified.',
+          'Build, organize and empower your team. Manage members, roles and collaboration settings all in one place.',
         bullets: ['Team hierarchy', 'Bulk operations', 'Activity reports'],
         image: '/worldposta-assets/hero/cloudedge/dashboard.png',
         imageAlt: 'Team management dashboard',
+        layout: 'wide',
+        headerAction: 'Invite Member',
+        cards: [
+          {
+            title: 'Teams',
+            link: 'View all',
+            items: [
+              { icon: faPeopleGroup, tone: 'purple', title: 'Marketing', meta: '12 members' },
+              { icon: faPeopleGroup, tone: 'green', title: 'Sales', meta: '9 members' },
+              { icon: faPeopleGroup, tone: 'blue', title: 'Product', meta: '8 members' },
+              { icon: faPeopleGroup, tone: 'purple', title: 'IT', meta: '6 members' },
+              { icon: faPeopleGroup, tone: 'amber', title: 'Finance', meta: '5 members' },
+              { icon: faPeopleGroup, tone: 'green', title: 'HR', meta: '4 members' },
+              { icon: faPeopleGroup, tone: 'grey', title: 'Operations', meta: '4 members' },
+              { icon: faPeopleGroup, tone: 'blue', title: 'Management', meta: '3 members' },
+            ],
+          },
+          {
+            title: 'Role Distribution',
+            donut: {
+              total: '48',
+              caption: 'Members',
+              slices: [
+                { label: 'Administrators', value: 6, display: '6 (13%)', tone: 'blue' },
+                { label: 'Managers', value: 10, display: '10 (21%)', tone: 'green' },
+                { label: 'Standard Users', value: 28, display: '28 (58%)', tone: 'purple' },
+                { label: 'Guests', value: 4, display: '4 (8%)', tone: 'amber' },
+              ],
+            },
+          },
+          {
+            title: 'Recent Activity',
+            link: 'View all',
+            items: [
+              { icon: faUser, tone: 'blue', title: 'Sara Ali joined the Marketing team', subtitle: '2 hours ago' },
+              { icon: faArrowUp, tone: 'green', title: 'Ahmed Hassan was promoted to Manager', subtitle: '4 hours ago' },
+              { icon: faPeopleGroup, tone: 'purple', title: 'Mona Khaled joined the Product team', subtitle: '1 day ago' },
+              { icon: faEnvelope, tone: 'amber', title: 'Omar Adel invited a new member', subtitle: '1 day ago' },
+              { icon: faGears, tone: 'grey', title: 'Nour Ibrahim updated team settings', subtitle: '2 days ago' },
+            ],
+          },
+        ],
+        console: {
+          title: 'Team Members',
+          total: 48,
+          columns: ['Email', 'Team', 'Role', 'Last Active'],
+          statusAfter: 3,
+          unitLabel: 'members',
+          rowIcon: faUser,
+          // The mockup's table header carries All Teams / All Roles filters
+          // rather than a create action.
+          searchPlaceholder: 'Search members, teams or roles...',
+          pages: 5,
+          stats: [
+            { icon: faPeopleGroup, label: 'Total Members', value: '48', delta: '12%', tone: 'sky', trend: [43, 44, 44, 45, 46, 47, 47, 48] },
+            { icon: faUser, label: 'Active Members', value: '42', delta: '8%', tone: 'amber', trend: [39, 39, 40, 40, 41, 41, 42, 42] },
+            // No rise and no fall - a flat delta rather than an asserted one.
+            { icon: faEnvelope, label: 'Pending Invitations', value: '6', delta: '0%', deltaDirection: 'flat', tone: 'green', trend: [6, 6, 6, 6, 6, 6, 6, 6] },
+            { icon: faChartColumn, label: 'Teams', value: '8', delta: '33%', tone: 'purple', trend: [6, 6, 7, 7, 7, 8, 8, 8] },
+          ],
+          rows: [
+            { name: 'Sara Ali', initials: 'SA', status: { label: 'Active', tone: 'good' }, cells: ['sara.ali@worldposta.com', 'Marketing', 'Manager', 'Today, 10:24 AM'] },
+            { name: 'Ahmed Hassan', initials: 'AH', status: { label: 'Active', tone: 'good' }, cells: ['ahmed.hassan@worldposta.com', 'Sales', 'Standard User', 'Today, 09:12 AM'] },
+            { name: 'Mona Khaled', initials: 'MK', status: { label: 'Active', tone: 'good' }, cells: ['mona.khaled@worldposta.com', 'Product', 'Standard User', 'Yesterday, 04:30 PM'] },
+            { name: 'Omar Adel', initials: 'OA', status: { label: 'Active', tone: 'good' }, cells: ['omar.adel@worldposta.com', 'IT', 'Administrator', 'Jan 20, 2024'] },
+            { name: 'Nour Ibrahim', initials: 'NI', status: { label: 'Inactive', tone: 'warning' }, cells: ['nour.ibrahim@worldposta.com', 'HR', 'Standard User', 'Jan 18, 2024'] },
+          ],
+        },
         benefits: [
           {
             icon: faPeopleGroup,

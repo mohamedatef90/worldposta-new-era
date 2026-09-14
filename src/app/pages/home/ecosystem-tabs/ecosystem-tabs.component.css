@@ -61,7 +61,10 @@
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
+  /* clip, not hidden: both clip the rounded corners, but overflow:hidden makes
+     this a scroll container, which silently stops the sticky tab list below
+     from ever sticking. */
+  overflow: clip;
 }
 
 /* Sidebar Tabs */
@@ -74,6 +77,23 @@
   border-right: 1px solid var(--color-border);
   max-height: none;
   overflow: visible;
+}
+
+/* The tab list stays put while a tall panel scrolls past it - Virtual Machines
+   runs 916px against a 643px list, so without this the tabs scroll out of reach
+   before the panel ends. The aside stays stretched to the grid row, so the
+   sidebar column still meets the panel's full height. */
+.tabs-sidebar__inner {
+  position: sticky;
+  top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  /* On a viewport shorter than the list, the list scrolls inside itself rather
+     than putting its last tabs somewhere unreachable. */
+  max-height: calc(100dvh - var(--space-xl));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .tab-group {
@@ -413,6 +433,16 @@
   letter-spacing: 0;
 }
 
+/* Visually hidden, still read aloud: pairs the spoken direction with the arrow. */
+.vm-stat__delta-dir {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .vm-stat__spark {
   position: absolute;
   right: 0;
@@ -652,6 +682,300 @@
 }
 
 /* Responsive Design */
+/* ============================================================
+   Calendar preview (Calendar tab)
+
+   The sibling of the console table. A month is a grid of dates, not a list of
+   resources, so it gets a real <table> with weekday column headers - the same
+   structure a screen reader needs to read "Wed 10, Security Workshop".
+   ============================================================ */
+.cal-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--wp-panel);
+  overflow: hidden;
+}
+
+.cal-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cal-card__month {
+  margin: 0;
+  color: var(--wp-ink);
+  font-size: 17px;
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+.cal-nav { display: inline-flex; gap: var(--space-xs); }
+.cal-nav__step {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--wp-body);
+  font-size: 11px;
+}
+
+/* Segmented control, presentational: the preview does not switch views. */
+.cal-views {
+  display: inline-flex;
+  gap: var(--space-xs);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-secondary);
+}
+.cal-views__item {
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+.cal-views__item--current {
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+}
+
+.cal-card__head .vm-search { margin-left: auto; }
+
+.cal-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+}
+
+.cal-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.cal-grid th {
+  padding: 10px var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-align: center;
+}
+
+.cal-day {
+  height: 74px;
+  padding: var(--space-xs);
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.cal-day:last-child { border-right: 0; }
+.cal-day__number {
+  display: block;
+  padding: 0 var(--space-xs) var(--space-xs);
+  color: var(--wp-body-strong);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+/* Days borrowed from the neighbouring months stay legible but recede. */
+.cal-day--outside .cal-day__number { color: var(--color-text-muted); opacity: .55; }
+.cal-day--today .cal-day__number {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 0;
+  border-radius: var(--radius-full);
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  text-align: center;
+}
+
+/* Tone is decoration; the label and time carry the event. */
+.cal-event {
+  display: block;
+  padding: 5px 6px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+  font-size: 11px;
+  line-height: 1.25;
+}
+.cal-event__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--tone);
+}
+.cal-event__label {
+  color: var(--wp-ink);
+  font-weight: var(--fw-semibold);
+}
+.cal-event__time { display: block; margin-top: 2px; color: var(--wp-body); }
+
+.cal-event[data-tone='blue'],
+.cal-agenda__item[data-tone='blue'] { --tone: var(--wp-tone-blue); }
+.cal-event[data-tone='green'],
+.cal-agenda__item[data-tone='green'] { --tone: var(--wp-tone-green); }
+.cal-event[data-tone='purple'],
+.cal-agenda__item[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+.cal-event[data-tone='amber'],
+.cal-agenda__item[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+
+.cal-agenda {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-left: 1px solid var(--color-border);
+}
+.cal-agenda__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-sm);
+}
+.cal-agenda__head strong { color: var(--wp-ink); font-size: var(--fs-body); }
+.cal-agenda__head span { color: var(--color-text-muted); font-size: var(--fs-caption); }
+.cal-agenda__list { display: grid; gap: var(--space-xs); padding: 0; margin: 0; list-style: none; }
+.cal-agenda__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+}
+.cal-agenda__item:hover { background: var(--color-bg-secondary); }
+.cal-agenda__text { flex: 1; min-width: 0; }
+.cal-agenda__text strong {
+  display: block;
+  color: var(--wp-ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+.cal-agenda__text span { color: var(--color-text-muted); font-size: 11px; }
+.cal-agenda__join {
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+.cal-agenda__all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 44px;
+  margin-top: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--wp-ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+.cal-agenda__all:hover { background: var(--color-bg-secondary); }
+
+@media (max-width: 1024px) {
+  /* The agenda drops below the grid before the columns get too narrow to read. */
+  .cal-body { grid-template-columns: minmax(0, 1fr); }
+  .cal-agenda { border-left: 0; border-top: 1px solid var(--color-border); }
+}
+
+@media (max-width: 768px) {
+  .cal-card__head { flex-wrap: wrap; }
+  .cal-card__head .vm-search { margin-left: 0; }
+  .cal-day { height: 62px; }
+  .cal-event__time { display: none; }
+}
+
+/* With the full width available the four tiles run across in one row, as the
+   Management mockups draw them, rather than the 2x2 the split column needs. */
+.panel-main--wide .vm-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+  .panel-main--wide .vm-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .panel-main--wide .vm-stats { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Management tabs: one full-width column, heading left and action right, with
+   the stat tiles running the full width beneath rather than beside. */
+.panel-main--wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.panel-main--wide .panel-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: var(--space-lg);
+}
+
+.panel-main--wide .badge,
+.panel-main--wide h3,
+.panel-main--wide .description {
+  grid-column: 1;
+}
+
+.panel-copy__action {
+  display: inline-flex;
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-items: center;
+  gap: var(--space-sm);
+  align-self: center;
+  min-height: 44px;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-md);
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.panel-copy__action:hover {
+  color: var(--primary-foreground);
+  filter: brightness(1.08);
+}
+
+@media (max-width: 768px) {
+  .panel-main--wide .panel-copy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel-copy__action {
+    grid-row: auto;
+    grid-column: 1;
+    justify-content: center;
+    margin-top: var(--space-md);
+  }
+}
+
+/* Initials bubble, for tables whose rows are people rather than resources. */
+.vm-name__icon--initials {
+  border-radius: 50%;
+  color: var(--wp-tone-blue);
+  background: color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: .3px;
+}
+
 @media (max-width: 1280px) {
   .ecosystem-surface {
     grid-template-columns: 240px 1fr;
@@ -673,9 +997,12 @@
     grid-template-columns: 220px 1fr;
   }
 
+  /* No max-height here. The sidebar is a grid item and stretches to the row,
+     so it matches the panel however tall the panel gets. The 600px cap used to
+     fix the box at 600px while the tab list needed 829px, and with overflow
+     visible the last tabs rendered outside the sidebar background entirely. */
   .tabs-sidebar {
     padding: var(--space-md) var(--space-sm);
-    max-height: 600px;
   }
 
   .tab-button {
@@ -720,6 +1047,16 @@
     border-right: none;
     border-bottom: 1px solid var(--color-border);
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* Here the groups sit in a horizontal scroller, so the wrapper carries the
+     row and nothing sticks. */
+  .tabs-sidebar__inner {
+    position: static;
+    flex-direction: row;
+    gap: var(--space-lg);
+    max-height: none;
+    overflow: visible;
   }
 
   .tab-group {

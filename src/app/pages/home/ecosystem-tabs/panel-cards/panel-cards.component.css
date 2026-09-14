@@ -1,0 +1,258 @@
+:host {
+  display: block;
+}
+
+.panel-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.panel-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--wp-panel);
+}
+
+.panel-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.panel-card__title {
+  margin: 0;
+  color: var(--wp-ink);
+  font-size: 16px;
+  font-weight: var(--fw-bold);
+}
+
+.panel-card__link {
+  color: var(--wp-tone-blue);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.panel-card__link:hover {
+  text-decoration: underline;
+}
+
+/* Tones. Order follows the stat tiles: separated for colour-vision rather than
+   grouped by hue, and never the only thing distinguishing two rows. */
+[data-tone='blue'] { --tone: var(--wp-tone-blue); }
+[data-tone='green'] { --tone: var(--wp-tone-green); }
+[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+[data-tone='grey'] { --tone: var(--color-text-muted); }
+
+.panel-dot {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tone);
+}
+
+/* ---------------------------------------------------------------- lists */
+.panel-list {
+  display: grid;
+  gap: 2px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.panel-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+}
+
+.panel-list__item:hover {
+  background: var(--color-bg-secondary);
+}
+
+.panel-list__mark {
+  display: grid;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: var(--radius-md);
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+  font-size: 13px;
+}
+
+.panel-list__mark--initials {
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  letter-spacing: .3px;
+}
+
+.panel-list__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.panel-list__text strong {
+  display: block;
+  overflow: hidden;
+  color: var(--wp-ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-list__text span {
+  display: block;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-list__meta {
+  flex: 0 0 auto;
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+}
+
+/* Word plus colour, never colour alone. */
+.panel-badge {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+}
+
+.panel-badge[data-tone='good'] {
+  color: var(--wp-tone-green);
+  background: color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
+}
+
+.panel-badge[data-tone='warning'] {
+  color: var(--wp-tone-amber);
+  background: color-mix(in srgb, var(--wp-tone-amber) var(--wp-tone-fill), transparent);
+}
+
+.panel-badge[data-tone='critical'] {
+  color: var(--color-error);
+  background: color-mix(in srgb, var(--color-error) var(--wp-tone-fill), transparent);
+}
+
+.panel-badge[data-tone='neutral'] {
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
+}
+
+/* --------------------------------------------------------------- donut */
+.panel-donut {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.panel-donut__ring {
+  position: relative;
+}
+
+.panel-donut__ring svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Start the first slice at twelve o'clock rather than three. */
+  transform: rotate(-90deg);
+}
+
+.panel-donut__slice {
+  fill: none;
+  stroke: var(--tone);
+  stroke-width: 14;
+}
+
+.panel-donut__centre {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  margin: 0;
+  text-align: center;
+}
+
+.panel-donut__centre strong {
+  color: var(--wp-ink);
+  font-size: 26px;
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+}
+
+.panel-donut__centre span {
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+}
+
+.panel-donut__legend {
+  display: grid;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.panel-donut__legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.panel-donut__label {
+  flex: 1;
+  min-width: 0;
+  color: var(--wp-body-strong);
+  font-size: var(--fs-caption);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-donut__value {
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  /* Three cards across stop being readable well before the tab layout breaks. */
+  .panel-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .panel-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel-donut {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+}
