@@ -54,12 +54,15 @@ import {
   faRoute,
   faShareNodes,
   faSitemap,
+  faStar,
+  faTrash,
   faUser,
   faWaveSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { ThemeService } from '@/shared/services/theme.service';
 import { PanelCardsComponent, type PanelCard } from './panel-cards/panel-cards.component';
+import { NotesPanelComponent, type NotesView } from './notes-panel/notes-panel.component';
 
 interface TabItem {
   readonly id: string;
@@ -220,6 +223,10 @@ interface TabContent {
   readonly calendar?: CalendarView;
   /** Card row under the stats, on the management-style tabs. */
   readonly cards?: readonly PanelCard[];
+  /** As `console`, for the Notes tab, which is a three-pane rather than a table. */
+  readonly notes?: NotesView;
+  /** Stat tiles for a tab whose preview is not a console or calendar. */
+  readonly stats?: readonly ConsoleStat[];
   /**
    * 'wide' drops the left copy / right preview split for a full-width heading
    * with a single trailing action, as the Management tabs are drawn.
@@ -227,12 +234,14 @@ interface TabContent {
   readonly layout?: 'split' | 'wide';
   /** The trailing action in a 'wide' header. */
   readonly headerAction?: string;
+  /** Leading mark for `headerAction`; defaults to a plus. */
+  readonly headerActionIcon?: IconDefinition;
   readonly benefits: readonly { icon: IconDefinition; title: string; description: string }[];
 }
 
 @Component({
   selector: 'app-ecosystem-tabs',
-  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent],
+  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent],
   templateUrl: './ecosystem-tabs.component.html',
   styleUrl: './ecosystem-tabs.component.css',
 })
@@ -290,7 +299,11 @@ export class EcosystemTabsComponent {
    * calendar views both open with the same four tiles.
    */
   protected readonly panelStats = computed(
-    () => this.tabContent().console?.stats ?? this.tabContent().calendar?.stats ?? null,
+    () =>
+      this.tabContent().console?.stats ??
+      this.tabContent().calendar?.stats ??
+      this.tabContent().stats ??
+      null,
   );
 
   /**
@@ -1298,13 +1311,76 @@ export class EcosystemTabsComponent {
         ],
       },
       notes: {
-        badge: 'Posta Notes',
-        heading: 'Collaborative Note-Taking',
-        description:
-          'Capture ideas and organize knowledge. Rich text editing, checklists, and real-time collaboration for teams.',
-        bullets: ['Rich text editor', 'Team workspaces', 'Quick search'],
+        badge: 'Collaboration & Productivity',
+        heading: 'Notes',
+        description: 'Capture ideas, organize information and keep your team aligned.',
+        bullets: [
+          'Create and organize notes effortlessly',
+          'Share and collaborate with your team',
+          'Access your notes from anywhere',
+        ],
+        cta: 'Create Note',
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Note-taking application interface',
+        stats: [
+          { icon: faFileLines, label: 'Total Notes', value: '1,420', delta: '18%', tone: 'sky', trend: [980, 1040, 1105, 1160, 1235, 1300, 1365, 1420] },
+          { icon: faShareNodes, label: 'Shared Notes', value: '320', delta: '25%', tone: 'sky', trend: [190, 210, 232, 248, 268, 289, 305, 320] },
+          { icon: faFolderOpen, label: 'Notebooks', value: '24', delta: '9%', tone: 'green', trend: [18, 19, 20, 20, 21, 22, 23, 24] },
+          { icon: faClock, label: 'Recent Activity', value: '156', delta: '32%', tone: 'green', trend: [92, 101, 112, 120, 131, 140, 149, 156] },
+        ],
+        notes: {
+          railTitle: 'Notebooks',
+          rail: [
+            { icon: faFileLines, label: 'All Notes', count: '1,420', active: true },
+            { icon: faFileLines, label: 'My Notes', count: '320' },
+            { icon: faPeopleGroup, label: 'Shared with Me', count: '260' },
+            { icon: faStar, label: 'Starred', count: '85' },
+            { icon: faClock, label: 'Recent', count: '156' },
+            { icon: faTrash, label: 'Trash', count: '12' },
+          ],
+          booksTitle: 'My Notebooks',
+          books: [
+            { tone: 'purple', label: 'Marketing', count: '24' },
+            { tone: 'green', label: 'Product', count: '18' },
+            { tone: 'blue', label: 'Sales', count: '16' },
+            { tone: 'blue', label: 'HR', count: '12' },
+            { tone: 'amber', label: 'Personal', count: '28' },
+          ],
+          listTitle: 'All Notes',
+          searchPlaceholder: 'Search notes...',
+          createLabel: 'New Note',
+          columns: ['Title', 'Last Modified', 'Owner'],
+          rows: [
+            { title: 'Q1 Marketing Plan', modified: 'Jan 12, 2024 10:24 AM', owner: 'Me', tone: 'blue', starred: true, active: true },
+            { title: 'Product Ideas', modified: 'Jan 11, 2024 02:15 PM', owner: 'Ahmed Hassan', tone: 'green' },
+            { title: 'Meeting Notes - Strategy', modified: 'Jan 10, 2024 11:03 AM', owner: 'Sara Ali', tone: 'blue' },
+            { title: 'Client Requirements', modified: 'Jan 09, 2024 04:20 PM', owner: 'Omar Adel', tone: 'blue' },
+            { title: 'Team Action Items', modified: 'Jan 08, 2024 01:12 PM', owner: 'Me', tone: 'amber' },
+            { title: 'Budget Planning', modified: 'Jan 07, 2024 03:45 PM', owner: 'Finance Team', tone: 'purple' },
+            { title: 'HR Policies', modified: 'Jan 06, 2024 09:30 AM', owner: 'Nour Ibrahim', tone: 'blue' },
+            { title: 'Ideas - 2024', modified: 'Jan 05, 2024 05:18 PM', owner: 'Me', tone: 'amber' },
+          ],
+          footer: 'Showing 1 - 8 of 1,420 notes',
+          pages: 5,
+          detail: {
+            title: 'Q1 Marketing Plan',
+            modified: 'Last modified: Jan 12, 2024 10:24 AM',
+            owner: 'Owner: Me',
+            overview: 'Overview of the Q1 marketing strategy, key initiatives and expected outcomes.',
+            keyPointsTitle: 'Key Points',
+            keyPoints: [
+              'Launch new campaign in February',
+              'Increase brand awareness by 25%',
+              'Focus on digital channels',
+              'Align with sales team for lead generation',
+            ],
+            attachmentsTitle: 'Attachments (2)',
+            attachments: [
+              { kind: 'PDF', tone: 'amber', name: 'Campaign Brief.pdf', size: '2.4 MB' },
+              { kind: 'PPT', tone: 'amber', name: 'Q1 Strategy Deck.pptx', size: '12.8 MB' },
+            ],
+          },
+        },
         benefits: [
           {
             icon: faFileLines,
@@ -1329,13 +1405,89 @@ export class EcosystemTabsComponent {
         ],
       },
       dashboard: {
-        badge: 'Posta Dashboard',
-        heading: 'Business Analytics & Insights',
-        description:
-          'Visualize your business metrics in real-time. Customizable dashboards and reports to make data-driven decisions.',
+        badge: 'Collaboration & Productivity',
+        heading: 'Dashboard',
+        description: 'Your workspace at a glance. Stay organized, connected and productive.',
         bullets: ['Real-time metrics', 'Custom reports', 'Data visualization'],
         image: '/worldposta-assets/hero/posta/suite-light-1680.png',
         imageAlt: 'Analytics dashboard interface',
+        layout: 'wide',
+        headerAction: 'Mon, Jan 22, 2024',
+        headerActionIcon: faCalendarDays,
+        stats: [
+          { icon: faEnvelope, label: 'Unread Emails', value: '12', delta: '20%', tone: 'sky', trend: [6, 7, 8, 8, 9, 10, 11, 12] },
+          { icon: faMessage, label: 'Open Chats', value: '8', delta: '14%', tone: 'green', trend: [4, 5, 5, 6, 6, 7, 7, 8] },
+          { icon: faCalendarDays, label: 'Upcoming Meetings', value: '5', delta: '25%', tone: 'purple', trend: [2, 2, 3, 3, 4, 4, 5, 5] },
+          { icon: faFileLines, label: 'Recent Files', value: '24', delta: '33%', tone: 'amber', trend: [12, 14, 16, 17, 19, 21, 22, 24] },
+        ],
+        cards: [
+          {
+            title: 'Today\u2019s Schedule',
+            link: 'View Calendar',
+            items: [
+              { icon: faVideo, tone: 'blue', title: 'Marketing Sync', subtitle: 'Microsoft Teams', meta: '10:00 AM' },
+              { icon: faPeopleGroup, tone: 'green', title: 'Product Review', subtitle: 'Meeting Room 2', meta: '12:00 PM' },
+              { icon: faVideo, tone: 'blue', title: 'Client Presentation', subtitle: 'Zoom', meta: '3:00 PM' },
+              { icon: faMessage, tone: 'purple', title: 'Team Check-in', subtitle: 'Team Chat', meta: '5:00 PM' },
+            ],
+          },
+          {
+            title: 'Recent Files',
+            link: 'View all',
+            items: [
+              { icon: faFilePowerpoint, tone: 'amber', title: 'Q1 Strategy Deck.pptx', subtitle: 'Modified 2 hours ago' },
+              { icon: faFileWord, tone: 'blue', title: 'Marketing Plan 2024.docx', subtitle: 'Modified 4 hours ago' },
+              { icon: faFileExcel, tone: 'green', title: 'Budget Tracker.xlsx', subtitle: 'Modified 1 day ago' },
+              { icon: faFilePdf, tone: 'amber', title: 'Client Brief.pdf', subtitle: 'Modified 1 day ago' },
+              { icon: faFolderOpen, tone: 'grey', title: 'Campaign Assets.zip', subtitle: 'Modified 2 days ago' },
+            ],
+          },
+          {
+            title: 'Team Activity',
+            link: 'View all',
+            items: [
+              { initials: 'SA', tone: 'blue', title: 'Sara Ali', subtitle: 'updated Marketing Plan 2024.docx', note: '2 hours ago' },
+              { initials: 'AH', tone: 'green', title: 'Ahmed Hassan', subtitle: 'shared a folder with the team', note: '4 hours ago' },
+              { initials: 'MK', tone: 'purple', title: 'Mona Khaled', subtitle: 'added a comment on Client Brief.pdf', note: '6 hours ago' },
+              { initials: 'OA', tone: 'amber', title: 'Omar Adel', subtitle: 'created a new note', note: '1 day ago' },
+              { initials: 'NI', tone: 'blue', title: 'Nour Ibrahim', subtitle: 'uploaded Campaign Assets.zip', note: '1 day ago' },
+            ],
+          },
+          {
+            title: 'Storage Usage',
+            link: 'View details',
+            donut: {
+              total: '680 GB',
+              caption: 'of 1 TB',
+              slices: [
+                { label: 'Documents', value: 260, display: '260 GB', tone: 'blue' },
+                { label: 'Images', value: 180, display: '180 GB', tone: 'green' },
+                { label: 'Videos', value: 120, display: '120 GB', tone: 'purple' },
+                { label: 'Other', value: 120, display: '120 GB', tone: 'grey' },
+              ],
+            },
+          },
+          {
+            title: 'Active Users',
+            link: 'View all',
+            people: {
+              figure: '48',
+              delta: '14%',
+              caption: 'out of 60 licensed users',
+              avatars: ['SA', 'AH', 'MK', 'OA', 'NI'],
+              more: '+43',
+            },
+          },
+          {
+            title: 'Quick Actions',
+            actions: [
+              { icon: faEnvelope, tone: 'blue', label: 'Compose Email' },
+              { icon: faMessage, tone: 'green', label: 'Start a Chat' },
+              { icon: faVideo, tone: 'purple', label: 'Schedule Meeting' },
+              { icon: faCloudArrowUp, tone: 'amber', label: 'Upload File' },
+            ],
+          },
+        ],
         benefits: [
           {
             icon: faChartLine,

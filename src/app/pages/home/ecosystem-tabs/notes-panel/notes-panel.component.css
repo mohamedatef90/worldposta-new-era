@@ -1,0 +1,396 @@
+:host {
+  display: block;
+}
+
+.notes-pane {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) 280px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--wp-panel);
+}
+
+[data-tone='blue'] { --tone: var(--wp-tone-blue); }
+[data-tone='green'] { --tone: var(--wp-tone-green); }
+[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+[data-tone='grey'] { --tone: var(--color-text-muted); }
+
+/* ------------------------------------------------------------------ rail */
+.notes-rail {
+  padding: var(--space-md);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+
+.notes-rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+
+.notes-rail__head + .notes-rail__list {
+  margin-bottom: var(--space-lg);
+}
+
+.notes-rail__list {
+  display: grid;
+  gap: 2px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.notes-rail__list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 7px var(--space-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-caption);
+}
+
+.notes-rail__list li.is-active {
+  background: color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
+}
+
+.notes-rail__mark {
+  flex: 0 0 auto;
+  color: var(--wp-tone-blue);
+  font-size: 12px;
+}
+
+/* A notebook's colour is a label chip, never the only thing naming it. */
+.notes-rail__chip {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--tone);
+}
+
+.notes-rail__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--wp-body-strong);
+  font-weight: var(--fw-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notes-rail__count {
+  flex: 0 0 auto;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+/* ------------------------------------------------------------------ list */
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.notes-list__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.notes-list__title {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--wp-ink);
+  font-size: 16px;
+  font-weight: var(--fw-bold);
+}
+
+/* A still of the product's search field, not a working one. */
+.notes-list__search {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  overflow: hidden;
+  padding: 7px var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notes-list__create {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 7px var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+
+/* On a phone the date column does not fit, and clipping it would cut the data
+   mid-word. The table scrolls inside its own box instead; the page never does. */
+.notes-table__scroll {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.notes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.notes-table th,
+.notes-table td {
+  padding: 9px var(--space-sm);
+  text-align: left;
+}
+
+.notes-table th:first-child,
+.notes-table td:first-child {
+  padding-left: var(--space-lg);
+}
+
+.notes-table th {
+  border-block: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+
+.notes-table td {
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+}
+
+.notes-table tbody tr.is-active {
+  background: color-mix(in srgb, var(--wp-tone-blue) 8%, transparent);
+}
+
+.notes-row__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--wp-ink);
+  font-weight: var(--fw-semibold);
+}
+
+.notes-row__mark {
+  display: grid;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+  font-size: 11px;
+}
+
+.notes-row__star {
+  color: var(--wp-tone-amber);
+  font-size: 11px;
+}
+
+.notes-row__more {
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+}
+
+.notes-list__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  /* Pushes the footer to the bottom when the pane is taller than the table. */
+  margin-top: auto;
+  padding: var(--space-md) var(--space-lg);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+}
+
+.notes-pages {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.notes-pages__page,
+.notes-pages__step {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.notes-pages__page.is-active {
+  color: var(--primary-foreground);
+  background: var(--wp-tone-blue);
+  font-weight: var(--fw-semibold);
+}
+
+/* ---------------------------------------------------------------- detail */
+.notes-detail {
+  padding: var(--space-md) var(--space-lg);
+  border-left: 1px solid var(--color-border);
+}
+
+.notes-detail__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.notes-detail__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  color: var(--wp-ink);
+  font-size: 15px;
+  font-weight: var(--fw-bold);
+}
+
+.notes-detail__meta {
+  margin: var(--space-sm) 0 var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.notes-detail__body {
+  margin: 0 0 var(--space-md);
+  color: var(--wp-body);
+  font-size: var(--fs-caption);
+  line-height: 1.55;
+}
+
+.notes-detail__sub {
+  margin: 0 0 var(--space-sm);
+  color: var(--wp-ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+}
+
+.notes-detail__sub--ruled {
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-md);
+}
+
+.notes-detail__points {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.notes-detail__points li {
+  color: var(--wp-body);
+  font-size: var(--fs-caption);
+  line-height: 1.7;
+}
+
+.notes-detail__files {
+  display: grid;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.notes-detail__files li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.notes-file__mark {
+  display: grid;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+  font-size: 9px;
+  font-weight: var(--fw-bold);
+}
+
+.notes-file__text {
+  min-width: 0;
+}
+
+.notes-file__text strong {
+  display: block;
+  overflow: hidden;
+  color: var(--wp-ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notes-file__text span {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+/* The detail pane is the first to go: the rail and list carry the idea. */
+@media (max-width: 1280px) {
+  .notes-pane {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+
+  .notes-detail {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .notes-pane {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .notes-rail {
+    display: none;
+  }
+
+  .notes-list__head {
+    flex-wrap: wrap;
+  }
+
+  /* Owner is the least useful column on a phone. */
+  .notes-table th:nth-child(3),
+  .notes-table td:nth-child(3) {
+    display: none;
+  }
+
+  .notes-table {
+    min-width: 360px;
+  }
+}

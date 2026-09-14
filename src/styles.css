@@ -294,5 +294,13 @@
   background: var(--muted);
 }
 
+/* The site header is fixed, so an in-page anchor would otherwise land its
+   target underneath the bar. Keeps every #hash link clear of it. */
+html { scroll-padding-top: 96px; }
+
+@media (max-width: 1023px) {
+  html { scroll-padding-top: 88px; }
+}
+
 /* Set while the mobile nav drawer is open, so the page behind it cannot scroll. */
 body.nav-open { overflow: hidden; }

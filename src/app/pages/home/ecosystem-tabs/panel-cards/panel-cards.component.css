@@ -63,8 +63,13 @@
 }
 
 /* ---------------------------------------------------------------- lists */
+/* Cards in a row stretch to the tallest, so a short list used to leave a block
+   of dead space beneath it. The rows now spread over the height instead, which
+   is how the reference draws a five-row card beside an eight-row one. */
 .panel-list {
   display: grid;
+  flex: 1;
+  align-content: space-between;
   gap: 2px;
   padding: 0;
   margin: 0;
@@ -74,6 +79,7 @@
 .panel-list__item {
   display: flex;
   align-items: center;
+  min-width: 0;
   gap: var(--space-sm);
   padding: var(--space-sm);
   border-radius: var(--radius-md);
@@ -126,6 +132,11 @@
   white-space: nowrap;
 }
 
+.panel-list__note {
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
 .panel-list__meta {
   flex: 0 0 auto;
   color: var(--color-text-muted);
@@ -164,8 +175,12 @@
 /* --------------------------------------------------------------- donut */
 .panel-donut {
   display: grid;
+  flex: 1;
+  /* 150px, not more: the legend needs the rest of a third-width card, and
+     "Standard Users 28 (58%)" starts ellipsing above about 155px. */
   grid-template-columns: 150px minmax(0, 1fr);
   gap: var(--space-md);
+  align-content: center;
   align-items: center;
 }
 
@@ -254,5 +269,122 @@
 
   .panel-donut {
     grid-template-columns: 120px minmax(0, 1fr);
+  }
+}
+
+/* ------------------------------------------------------- people figure */
+.panel-people {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.panel-people__figure {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.panel-people__figure strong {
+  color: var(--wp-ink);
+  font-size: 34px;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+/* Arrow plus a spoken word, never the colour alone. */
+.panel-people__delta {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  color: var(--wp-tone-green);
+  background: color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+}
+
+.panel-people__caption {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+}
+
+.panel-people__faces {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.panel-people__faces li {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 2px solid var(--wp-panel);
+  border-radius: 50%;
+  margin-left: -8px;
+  color: var(--wp-tone-blue);
+  background: color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+}
+
+.panel-people__faces li:first-child {
+  margin-left: 0;
+}
+
+.panel-people__more {
+  color: var(--color-text-muted) !important;
+  background: var(--color-bg-secondary) !important;
+}
+
+/* ------------------------------------------------------ quick actions */
+.panel-actions {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.panel-action {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 56px;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--wp-body-strong);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+
+.panel-action:hover {
+  background: var(--color-bg-secondary);
+}
+
+.panel-action__mark {
+  display: grid;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: var(--radius-md);
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .panel-actions {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

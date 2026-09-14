@@ -12,7 +12,6 @@ import {
   faEnvelope,
   faFolderOpen,
   faGauge,
-  faGlobe,
   faLock,
   faMagnifyingGlass,
   faMessage,
@@ -61,7 +60,10 @@ interface EcosystemTile {
   ],
   // Escape closes the drawer from anywhere, including from inside it. Declared
   // on `host` rather than @HostListener, per the project conventions.
-  host: { '(document:keydown.escape)': 'closeMenu()' },
+  host: {
+    '(document:keydown.escape)': 'closeMenu()',
+    '(window:scroll)': 'onScroll()',
+  },
   selector: 'app-home',
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
@@ -75,6 +77,12 @@ export class Home {
    * this drawer is the only way to reach them on a phone.
    */
   protected readonly menuOpen = signal(false);
+
+  /**
+   * The bar is fixed and transparent over the hero, so it only takes a surface
+   * once the page has scrolled — otherwise it would cut a band across the hero.
+   */
+  protected readonly scrolled = signal(false);
 
   private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
   private readonly menuPanel = viewChild<ElementRef<HTMLElement>>('menuPanel');
@@ -101,6 +109,10 @@ export class Home {
     });
   }
 
+  protected onScroll(): void {
+    this.scrolled.set(this.document.defaultView!.scrollY > 8);
+  }
+
   protected toggleMenu(): void {
     this.menuOpen.update((open) => !open);
   }
@@ -116,7 +128,6 @@ export class Home {
     chevronDown: faChevronDown,
     chevronRight: faChevronRight,
     cloud: faCloud,
-    globe: faGlobe,
     lock: faLock,
     moon: faMoon,
     search: faMagnifyingGlass,

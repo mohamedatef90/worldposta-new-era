@@ -10,19 +10,29 @@
    the ecosystem section depends on it. `clip` creates no scroll container, and
    unlike overflow-x:hidden it leaves the vertical axis genuinely visible. */
 .home-page { overflow-x: clip; background: var(--color-bg-primary); }
-.hero { position: relative; min-height: 600px; isolation: isolate; background: linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
+.hero { position: relative; padding-top: 80px; min-height: 600px; isolation: isolate; background: linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
 .hero::after { position: absolute; z-index: -1; inset: 38% 0 auto; height: 62%; background: linear-gradient(180deg, transparent, var(--wp-hero-veil)); content: ''; }
 .hero__cloud { position: absolute; z-index: -1; border-radius: var(--radius-full); filter: blur(2px); opacity: .72; background: radial-gradient(circle at 60% 30%, var(--wp-cloud-core), var(--wp-cloud-edge) 42%, transparent 70%); }
 .hero__cloud--one { width: 510px; height: 360px; top: 70px; right: -105px; }
 .hero__cloud--two { width: 300px; height: 210px; left: 38%; bottom: var(--space-lg); opacity: .48; }
+
+/* The bar is fixed full-width while the header inside it stays container
+   width, so the surface spans the viewport but the content stays aligned with
+   the rest of the page. It lives outside .home-page: that element is
+   overflow-x:clip, and a clipping ancestor cannot be trusted to leave a fixed
+   child alone. */
+.site-header-bar { position: fixed; top: 0; right: 0; left: 0; z-index: 50; transition: background var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out); }
+
+/* Transparent over the hero, a real surface once you scroll off it. */
+.site-header-bar--scrolled { background: color-mix(in srgb, var(--wp-panel) 88%, transparent); box-shadow: 0 1px 0 var(--color-border), 0 6px 24px color-mix(in srgb, var(--wp-ink) 8%, transparent); backdrop-filter: blur(12px); }
 
 .site-header { min-height: 80px; display: flex; align-items: center; gap: 28px; position: relative; z-index: 4; }
 .brand { display: inline-flex; flex: 0 0 auto; align-items: center; }
 .brand img { width: 156px; height: auto; }
 .site-nav, .header-actions { display: flex; align-items: center; }
 .site-nav { flex: 1; justify-content: center; gap: var(--space-lg); }
-.site-nav a, .language-link, .sign-in { display: inline-flex; align-items: center; gap: var(--space-sm); color: var(--color-brand-blue); font-size: 12px; font-weight: var(--fw-semibold); white-space: nowrap; }
-.site-nav fa-icon, .language-link fa-icon { font-size: 9px; }
+.site-nav a, .sign-in { display: inline-flex; align-items: center; gap: var(--space-sm); color: var(--color-brand-blue); font-size: 12px; font-weight: var(--fw-semibold); white-space: nowrap; }
+.site-nav fa-icon { font-size: 9px; }
 .header-actions { gap: 12px; }
 .icon-button, .menu-button { display: inline-grid; width: 32px; height: 32px; place-items: center; border: 0; border-radius: var(--radius-full); background: transparent; color: var(--color-brand-blue); cursor: pointer; }
 .icon-button:hover, .menu-button:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
@@ -124,7 +134,7 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 :host-context([data-theme='dark']) .trust-logo--vmware { filter: brightness(1.85); }.trust-message { padding-left: 28px; border-left: 1px solid var(--wp-rule); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
 
 @media (max-width: 1199px) { .site-nav { gap: 12px; }.site-nav a { font-size: var(--fs-caption); }.header-actions { gap: var(--space-sm); }.hero__content { grid-template-columns: minmax(330px, .83fr) 1.17fr; } .ecosystem-strip { gap: var(--space-lg); padding: 20px var(--space-lg); } .ecosystem-strip__intro { min-width: 180px; max-width: 220px; } }
-@media (max-width: 1023px) { .site-header { min-height: 72px; }.site-nav, .header-actions { display: none; }.menu-button { display: inline-grid; margin-left: 0; }.theme-toggle { display: none; }
+@media (max-width: 1023px) { .hero { padding-top: 72px; } .site-header { min-height: 72px; }.site-nav, .header-actions { display: none; }.menu-button { display: inline-grid; margin-left: 0; }.theme-toggle { display: none; }
   /* Below this width these are the only header controls, and both are driven
      by thumb rather than cursor: 32px fails the 44px minimum touch target.
      The icon glyph is unchanged - only the tappable box grows around it. */

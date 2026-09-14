@@ -41,6 +41,42 @@
         </div>
       }
 
+      @if (card.people; as people) {
+        <div class="panel-people">
+          <p class="panel-people__figure">
+            <strong>{{ people.figure }}</strong>
+            @if (people.delta) {
+              <span class="panel-people__delta">
+                <span aria-hidden="true">↑</span> {{ people.delta }}
+                <span class="sr-only">increase</span>
+              </span>
+            }
+          </p>
+          <p class="panel-people__caption">{{ people.caption }}</p>
+          <ul class="panel-people__faces" aria-hidden="true">
+            @for (face of people.avatars; track face) {
+              <li>{{ face }}</li>
+            }
+            @if (people.more) {
+              <li class="panel-people__more">{{ people.more }}</li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (card.actions; as actions) {
+        <ul class="panel-actions">
+          @for (action of actions; track action.label) {
+            <li [attr.data-tone]="action.tone">
+              <a class="panel-action" href="#quick-action">
+                <span class="panel-action__mark"><fa-icon [icon]="action.icon" aria-hidden="true" /></span>
+                {{ action.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      }
+
       @if (card.items; as items) {
         <ul class="panel-list">
           @for (item of items; track item.title) {
@@ -55,6 +91,9 @@
                 <strong>{{ item.title }}</strong>
                 @if (item.subtitle) {
                   <span>{{ item.subtitle }}</span>
+                }
+                @if (item.note) {
+                  <span class="panel-list__note">{{ item.note }}</span>
                 }
               </span>
               @if (item.badge; as badge) {

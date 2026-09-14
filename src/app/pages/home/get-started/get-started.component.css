@@ -42,7 +42,7 @@ h2 {
   line-height: 1.08;
 }
 
-.text-blue { color: var(--wp-blue); }
+.text-green { color: var(--wp-green); }
 
 .start-lede {
   max-width: 52ch;

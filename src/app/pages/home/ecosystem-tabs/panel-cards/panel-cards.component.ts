@@ -21,6 +21,11 @@ export interface PanelListItem {
   readonly subtitle?: string;
   /** Trailing muted text — a count, a timestamp, a state word. */
   readonly meta?: string;
+  /**
+   * A third line under the subtitle. Rows whose subtitle runs long carry the
+   * timestamp here instead of in `meta`, which would squeeze it into ellipsis.
+   */
+  readonly note?: string;
   /** Trailing pill, for rows that carry a state. */
   readonly badge?: { readonly label: string; readonly tone: BadgeTone };
 }
@@ -40,12 +45,32 @@ export interface PanelDonut {
   readonly slices: readonly DonutSlice[];
 }
 
+/** A headline figure with the faces behind it — the Dashboard active-users card. */
+export interface PanelPeople {
+  readonly figure: string;
+  readonly delta?: string;
+  readonly caption: string;
+  /** Initials only: these stand for people the visitor cannot identify anyway. */
+  readonly avatars: readonly string[];
+  /** Overflow bubble, e.g. "+43". */
+  readonly more?: string;
+}
+
+/** One shortcut in a quick-actions grid. */
+export interface PanelAction {
+  readonly icon: IconDefinition;
+  readonly tone: CardTone;
+  readonly label: string;
+}
+
 export interface PanelCard {
   readonly title: string;
   /** Renders a "View all" affordance when present. */
   readonly link?: string;
   readonly items?: readonly PanelListItem[];
   readonly donut?: PanelDonut;
+  readonly people?: PanelPeople;
+  readonly actions?: readonly PanelAction[];
 }
 
 /**

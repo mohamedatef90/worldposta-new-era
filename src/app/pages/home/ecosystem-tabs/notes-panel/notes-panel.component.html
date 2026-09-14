@@ -1,0 +1,120 @@
+@if (view(); as v) {
+  <div class="notes-pane">
+    <!-- rail -->
+    <div class="notes-rail">
+      <p class="notes-rail__head">{{ v.railTitle }} <span aria-hidden="true">+</span></p>
+      <ul class="notes-rail__list">
+        @for (item of v.rail; track item.label) {
+          <li [class.is-active]="item.active">
+            <span class="notes-rail__mark"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+            <span class="notes-rail__label">{{ item.label }}</span>
+            <span class="notes-rail__count">{{ item.count }}</span>
+          </li>
+        }
+      </ul>
+
+      <p class="notes-rail__head">{{ v.booksTitle }} <span aria-hidden="true">+</span></p>
+      <ul class="notes-rail__list">
+        @for (book of v.books; track book.label) {
+          <li [attr.data-tone]="book.tone">
+            <span class="notes-rail__chip" aria-hidden="true"></span>
+            <span class="notes-rail__label">{{ book.label }}</span>
+            <span class="notes-rail__count">{{ book.count }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- list -->
+    <div class="notes-list">
+      <div class="notes-list__head">
+        <h4 class="notes-list__title">{{ v.listTitle }}</h4>
+        <span class="notes-list__search">
+          <fa-icon [icon]="search" aria-hidden="true" />
+          {{ v.searchPlaceholder }}
+        </span>
+        <span class="notes-list__create"><span aria-hidden="true">+</span> {{ v.createLabel }}</span>
+      </div>
+
+      <div class="notes-table__scroll">
+        <table class="notes-table">
+        <thead>
+          <tr>
+            @for (column of v.columns; track column) {
+              <th scope="col">{{ column }}</th>
+            }
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of v.rows; track row.title) {
+            <tr [class.is-active]="row.active">
+              <td>
+                <span class="notes-row__name">
+                  <span class="notes-row__mark" [attr.data-tone]="row.tone">
+                    <fa-icon [icon]="file" aria-hidden="true" />
+                  </span>
+                  {{ row.title }}
+                  @if (row.starred) {
+                    <fa-icon class="notes-row__star" [icon]="star" aria-hidden="true" />
+                    <span class="sr-only">Starred</span>
+                  }
+                </span>
+              </td>
+              <td>{{ row.modified }}</td>
+              <td>{{ row.owner }}</td>
+              <td class="notes-row__more" aria-hidden="true">···</td>
+            </tr>
+          }
+        </tbody>
+        </table>
+      </div>
+
+      <div class="notes-list__foot">
+        <span>{{ v.footer }}</span>
+        <span class="notes-pages" aria-hidden="true">
+          <span class="notes-pages__step">‹</span>
+          @for (page of pageList(v.pages); track page) {
+            <span class="notes-pages__page" [class.is-active]="page === 1">{{ page }}</span>
+          }
+          <span class="notes-pages__step">›</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- detail -->
+    @if (v.detail; as detail) {
+      <div class="notes-detail">
+        <div class="notes-detail__head">
+          <h4 class="notes-detail__title">
+            {{ detail.title }}
+            <fa-icon class="notes-row__star" [icon]="star" aria-hidden="true" />
+          </h4>
+          <span class="notes-row__more" aria-hidden="true">···</span>
+        </div>
+        <p class="notes-detail__meta">{{ detail.modified }}<br />{{ detail.owner }}</p>
+        <p class="notes-detail__body">{{ detail.overview }}</p>
+
+        <h5 class="notes-detail__sub">{{ detail.keyPointsTitle }}</h5>
+        <ul class="notes-detail__points">
+          @for (point of detail.keyPoints; track point) {
+            <li>{{ point }}</li>
+          }
+        </ul>
+
+        <h5 class="notes-detail__sub notes-detail__sub--ruled">{{ detail.attachmentsTitle }}</h5>
+        <ul class="notes-detail__files">
+          @for (attachment of detail.attachments; track attachment.name) {
+            <li>
+              <span class="notes-file__mark" [attr.data-tone]="attachment.tone">{{ attachment.kind }}</span>
+              <span class="notes-file__text">
+                <strong>{{ attachment.name }}</strong>
+                <span>{{ attachment.size }}</span>
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+}

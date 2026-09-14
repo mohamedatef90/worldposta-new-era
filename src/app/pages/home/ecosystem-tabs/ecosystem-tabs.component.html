@@ -60,7 +60,7 @@
 
             @if (tabContent().headerAction; as action) {
               <a class="panel-copy__action" href="#action">
-                <fa-icon [icon]="icons.plus" aria-hidden="true" />
+                <fa-icon [icon]="tabContent().headerActionIcon ?? icons.plus" aria-hidden="true" />
                 {{ action }}
               </a>
             }
@@ -150,6 +150,10 @@
             </div>
           }
         </div>
+
+        @if (tabContent().notes; as notes) {
+          <app-notes-panel [view]="notes" />
+        }
 
         @if (tabContent().cards; as cards) {
           <app-panel-cards [cards]="cards" />
