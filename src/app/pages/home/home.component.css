@@ -86,8 +86,82 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
 .proof-points strong, .proof-points small { display: block; }.proof-points strong { margin-bottom: var(--space-xs); font-size: var(--fs-caption); }.proof-points small { color: var(--color-text-muted); font-size: var(--fs-caption); line-height: 1.3; }
 .hero-copy__actions { display: flex; flex-wrap: wrap; gap: var(--space-md); }.primary-cta, .secondary-cta { min-height: 48px; padding: 0 28px; font-size: 14px; }.secondary-cta { display: inline-grid; place-items: center; min-height: 48px; padding: 0 var(--space-xl); border: 1.5px solid var(--color-brand-green); border-radius: var(--radius-full); color: var(--color-brand-green); font-size: 14px; font-weight: var(--fw-semibold); }.secondary-cta:hover { color: var(--primary-foreground); background: var(--color-brand-green); }
 
-.hero-visual { position: relative; min-width: 0; padding: var(--space-md) var(--space-xs) var(--space-sm); }.console-shell { position: relative; overflow: hidden; aspect-ratio: 2.05; border: 8px solid var(--wp-console-frame); border-radius: var(--radius-2xl); background: var(--wp-console-chrome); box-shadow: var(--wp-console-shadow); transform: perspective(1400px) rotateY(-3deg) rotateX(1deg); }.console-shell__chrome { height: 40px; display: flex; align-items: center; gap: var(--space-sm); padding: 0 var(--space-md); background: var(--wp-console-chrome); }.console-shell__chrome > span { width: 8px; height: 8px; border-radius: 50%; background: var(--wp-console-dot); }.console-shell__chrome p { margin: 0 0 0 var(--space-sm); color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: 700; }.console-shell__chrome p span { margin-left: var(--space-sm); color: var(--color-text-muted); font-weight: 500; }.console-shell img { display: block; width: 100%; height: calc(100% - 40px); object-fit: cover; object-position: top; }
-.floating-card { position: absolute; z-index: 1; display: flex; align-items: center; gap: var(--space-sm); padding: 12px var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--wp-panel) 90%, transparent); box-shadow: var(--shadow-lg); color: var(--wp-tone-blue); font-size: 21px; backdrop-filter: blur(8px); }.floating-card span { min-width: 130px; color: var(--color-text-primary); }.floating-card strong, .floating-card small { display: block; }.floating-card strong { font-size: var(--fs-caption); }.floating-card small { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--fs-caption); }.floating-card--cloud { right: -30px; bottom: var(--space-lg); }.floating-card--security { left: -25px; top: 30%; color: var(--wp-tone-green); }
+.hero-visual { position: relative; min-width: 0; padding: var(--space-md) 42px 52px var(--space-xs); }
+.console-shell { position: relative; overflow: hidden; aspect-ratio: 2.05; border: 8px solid var(--wp-console-frame); border-radius: var(--radius-2xl); background: var(--wp-console-chrome); box-shadow: var(--wp-console-shadow); transform: perspective(1400px) rotateY(-3deg) rotateX(1deg); }
+.console-shell__chrome { height: 40px; display: flex; align-items: center; gap: var(--space-sm); padding: 0 var(--space-md); background: var(--wp-console-chrome); }
+.console-shell__chrome > span { width: 8px; height: 8px; border-radius: 50%; background: var(--wp-console-dot); }
+.console-shell__chrome p { margin: 0 0 0 var(--space-sm); color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: 700; }
+.console-shell__chrome p span { margin-left: var(--space-sm); color: var(--color-text-muted); font-weight: 500; }
+.console-shell img { display: block; width: 100%; height: calc(100% - 40px); object-fit: cover; object-position: top; }
+
+/* The phone mirrors the real Posta inbox supplied with the app project. Its
+   overlap links the collaboration product to the infrastructure console. */
+.posta-phone {
+  position: absolute;
+  z-index: 3;
+  right: -18px;
+  bottom: 10px;
+  width: clamp(148px, 13vw, 166px);
+  aspect-ratio: .51;
+  overflow: hidden;
+  border: 6px solid var(--wp-console-frame);
+  border-radius: 24px;
+  background: var(--wp-console-chrome);
+  box-shadow: var(--wp-console-shadow);
+  transform: perspective(1400px) rotateY(-3deg) rotateX(1deg);
+  transform-origin: bottom right;
+}
+.posta-phone__screen { position: relative; overflow: hidden; height: 100%; border-radius: 17px; background: #fbfcfe; color: #111827; font-family: Inter, var(--font-body); }
+.posta-phone__status { display: flex; height: 29px; align-items: center; justify-content: space-between; padding: 4px 15px 0; color: #111827; font-size: 7px; font-weight: 800; }
+.posta-phone__signals { display: flex; align-items: end; gap: 2px; }
+.posta-phone__signals i { display: block; width: 2px; border-radius: 1px; background: #111827; }
+.posta-phone__signals i:nth-child(1) { height: 3px; }.posta-phone__signals i:nth-child(2) { height: 5px; }.posta-phone__signals i:nth-child(3) { height: 7px; }
+.posta-phone__topbar { display: grid; height: 34px; grid-template-columns: 24px 1fr 24px; align-items: center; padding: 0 10px; border-bottom: 1px solid #e7eaf0; }
+.posta-phone__menu { color: #687181; font-size: 13px; line-height: 1; }
+.posta-phone__brand { display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 9px; font-weight: 800; }
+.posta-phone__brand img { display: block; width: 16px; height: 16px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(33, 67, 215, .22)); }
+.posta-phone__avatar { display: grid; width: 18px; height: 18px; place-items: center; justify-self: end; border-radius: 50%; color: white; background: #8d62df; font-size: 7px; font-weight: 800; }
+.posta-phone__heading { position: relative; display: grid; gap: 2px; padding: 12px 13px 9px; }
+.posta-phone__heading > span { color: #2143d7; font-size: 6px; font-weight: 900; letter-spacing: .7px; }
+.posta-phone__heading strong { font-size: 13px; line-height: 1.05; }
+.posta-phone__heading small { position: absolute; top: 14px; right: 12px; padding: 4px 5px; border: 1px solid #e1e6ee; border-radius: 7px; color: #687181; font-size: 6px; }
+.posta-phone__filters { display: flex; gap: 10px; padding: 0 13px 8px; border-bottom: 1px solid #e5e9f0; color: #7a8290; font-size: 6px; }
+.posta-phone__filters strong { position: relative; color: #2143d7; }
+.posta-phone__filters strong::after { position: absolute; right: 0; bottom: -9px; left: 0; height: 2px; border-radius: 2px; background: #2143d7; content: ''; }
+.posta-phone__messages article { display: grid; grid-template-columns: 24px 1fr; gap: 7px; min-height: 54px; padding: 8px 9px; border-bottom: 1px solid #edf0f4; }
+.posta-phone__messages article:first-child { background: #eef5ff; box-shadow: inset 2px 0 #2143d7; }
+.posta-phone__messages .avatar { display: block; width: 24px; height: 24px; border: 1px solid rgba(17, 24, 39, .08); border-radius: 50%; background-image: url('/worldposta-assets/hero/posta/posta-avatar-sprite-v1.png'); background-repeat: no-repeat; background-size: 48px 48px; box-shadow: 0 2px 5px rgba(17, 24, 39, .12); }
+.avatar--ahmed { background-position: 0 0; }
+.avatar--sarah { background-position: -24px 0; }
+.avatar--platform { background-position: 0 -24px; }
+.avatar--layla { background-position: -24px -24px; }
+.posta-phone__messages article > span { min-width: 0; }
+.posta-phone__messages strong, .posta-phone__messages b, .posta-phone__messages small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.posta-phone__messages strong { margin-bottom: 3px; font-size: 7px; }
+.posta-phone__messages time { float: right; color: #2143d7; font-size: 5px; font-weight: 700; }
+.posta-phone__messages span > b { margin-bottom: 3px; font-size: 6.5px; }
+.posta-phone__messages small { color: #838b99; font-size: 5.5px; line-height: 1.35; }
+.posta-phone__dock { position: absolute; right: 11px; bottom: 8px; left: 11px; display: flex; height: 30px; align-items: center; justify-content: space-around; border: 1px solid #e2e7ee; border-radius: 14px; background: rgba(255, 255, 255, .92); box-shadow: 0 6px 15px rgba(23, 34, 58, .12); color: #8b93a1; font-size: 8px; backdrop-filter: blur(8px); }
+.posta-phone__dock .active { display: grid; width: 24px; height: 20px; place-items: center; border-radius: 10px; color: white; background: #2143d7; }
+
+/* Keep the phone UI native to the selected site theme. The light treatment
+   above stays untouched; only dark mode receives the product-dark palette. */
+:host-context([data-theme='dark']) .posta-phone__screen { background: #09111f; color: #f4f7fb; }
+:host-context([data-theme='dark']) .posta-phone__status { color: #f4f7fb; }
+:host-context([data-theme='dark']) .posta-phone__signals i { background: #f4f7fb; }
+:host-context([data-theme='dark']) .posta-phone__topbar { border-bottom-color: #243044; }
+:host-context([data-theme='dark']) .posta-phone__menu,
+:host-context([data-theme='dark']) .posta-phone__filters { color: #97a3b7; }
+:host-context([data-theme='dark']) .posta-phone__heading small { border-color: #2c3b51; color: #aab4c6; background: #101b2c; }
+:host-context([data-theme='dark']) .posta-phone__filters { border-bottom-color: #243044; }
+:host-context([data-theme='dark']) .posta-phone__messages article { border-bottom-color: #202c3f; }
+:host-context([data-theme='dark']) .posta-phone__messages article:first-child { background: #11233d; box-shadow: inset 2px 0 #5f83ff; }
+:host-context([data-theme='dark']) .posta-phone__messages small { color: #94a0b4; }
+:host-context([data-theme='dark']) .posta-phone__messages time,
+:host-context([data-theme='dark']) .posta-phone__filters strong,
+:host-context([data-theme='dark']) .posta-phone__heading > span { color: #7fa2ff; }
+:host-context([data-theme='dark']) .posta-phone__dock { border-color: #2a374b; background: rgba(13, 23, 39, .94); color: #98a5b8; }
+.floating-card { position: absolute; z-index: 1; display: flex; align-items: center; gap: var(--space-sm); padding: 12px var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--wp-panel) 90%, transparent); box-shadow: var(--shadow-lg); color: var(--wp-tone-blue); font-size: 21px; backdrop-filter: blur(8px); }.floating-card span { min-width: 130px; color: var(--color-text-primary); }.floating-card strong, .floating-card small { display: block; }.floating-card strong { font-size: var(--fs-caption); }.floating-card small { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--fs-caption); }.floating-card--cloud { top: auto; right: auto; bottom: -12px; left: 84px; }.floating-card--security { left: -25px; top: 34%; color: var(--wp-tone-green); }
 
 /* Ecosystem Strip Section */
 /* 10px rather than --wp-section-pad: this strip is deliberately tighter than
@@ -177,7 +251,7 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
   .hero-visual {
     display: block;
     max-width: none;
-    padding: 0;
+    padding: 0 34px 102px 0;
     margin-top: var(--space-xl);
   }
 
@@ -222,10 +296,12 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
      hangs it 25px off the left edge and would force a sideways scroll. */
   .floating-card--security {
     top: auto;
-    right: 12px;
-    bottom: 12px;
-    left: auto;
+    right: auto;
+    bottom: 38px;
+    left: 0;
     padding: 10px 12px;
   }
   .floating-card--security span { min-width: 0; }
+  .floating-card--cloud { display: flex; top: -17px; right: 42px; bottom: auto; left: auto; }
+  .posta-phone { right: -4px; bottom: 0; width: 122px; }
 }

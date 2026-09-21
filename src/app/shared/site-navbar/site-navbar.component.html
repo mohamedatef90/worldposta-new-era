@@ -1,0 +1,171 @@
+<header class="wp-nav" [class.wp-nav--menu-open]="openMenu() !== null">
+  <div class="wp-nav__bar">
+    <span class="wp-nav__brand" aria-label="WorldPosta">
+      <img class="wp-nav__logo wp-nav__logo--light" ngSrc="/worldposta-assets/WP-Logo-Light.avif" width="170" height="32" priority alt="WorldPosta" />
+      <img class="wp-nav__logo wp-nav__logo--dark" ngSrc="/worldposta-assets/WP-Logo.avif" width="170" height="32" priority alt="" aria-hidden="true" />
+    </span>
+
+    <nav class="wp-nav__primary" aria-label="Primary navigation">
+      <ul>
+        @for (menu of menus; track menu.id) {
+          @if (menu.kind === 'text') {
+            <li><span class="wp-nav__top wp-nav__top--text">{{ menu.label }}</span></li>
+          } @else {
+            <li
+              class="wp-nav__menu-root"
+              (mouseenter)="showMenu(menu.id)"
+              (mouseleave)="scheduleClose()"
+            >
+              <button
+                type="button"
+                class="wp-nav__top wp-nav__trigger"
+                [attr.aria-expanded]="openMenu() === menu.id"
+                [attr.aria-controls]="'wp-menu-' + menu.id"
+                (click)="showMenu(menu.id)"
+              >
+                {{ menu.label }}
+                <fa-icon class="wp-nav__chevron" [icon]="icons.chevronDown" aria-hidden="true" />
+              </button>
+
+              @if (openMenu() === menu.id) {
+                <div
+                  class="wp-mega"
+                  [id]="'wp-menu-' + menu.id"
+                  (mouseenter)="cancelClose()"
+                  (mouseleave)="scheduleClose()"
+                >
+                  <div class="wp-mega__inner">
+                    @if (menu.kind === 'tabs') {
+                      <div class="wp-mega__tabs" role="tablist" [attr.aria-label]="menu.label">
+                        @for (tab of menu.tabs; track tab.id) {
+                          <button
+                            type="button"
+                            role="tab"
+                            class="wp-mega__tab"
+                            [attr.aria-selected]="isActiveTab(menu.id, tab.id)"
+                            (click)="selectTab(menu.id, tab.id)"
+                          >
+                            <span>{{ tab.label }}</span>
+                            <span class="wp-mega__count">{{ tab.items.length }}</span>
+                          </button>
+                        }
+                        <span class="wp-mega__view-all">View all <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></span>
+                      </div>
+                      <div class="wp-mega__panel" role="tabpanel">
+                        <ul class="wp-mega__grid">
+                          @for (item of activeItems(menu); track item.name) {
+                            <li><ng-container [ngTemplateOutlet]="megaItem" [ngTemplateOutletContext]="{ $implicit: item }" /></li>
+                          }
+                        </ul>
+                      </div>
+                    } @else {
+                      <div class="wp-mega__panel wp-mega__panel--flat">
+                        <ul class="wp-mega__grid" [class.wp-mega__grid--compact]="menu.items.length <= 2">
+                          @for (item of menu.items; track item.name) {
+                            <li><ng-container [ngTemplateOutlet]="megaItem" [ngTemplateOutletContext]="{ $implicit: item }" /></li>
+                          }
+                        </ul>
+                        <span class="wp-mega__view-all wp-mega__view-all--flat">View all <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </li>
+          }
+        }
+      </ul>
+    </nav>
+
+    <div class="wp-nav__actions">
+      <div class="wp-theme" role="group" aria-label="Color theme">
+        <span class="wp-theme__glider" aria-hidden="true"></span>
+        <button type="button" class="wp-theme__segment" [attr.aria-pressed]="!theme.isDark()" aria-label="Use light theme" (click)="theme.set('light')">
+          <fa-icon [icon]="icons.sun" aria-hidden="true" />
+        </button>
+        <button type="button" class="wp-theme__segment" [attr.aria-pressed]="theme.isDark()" aria-label="Use dark theme" (click)="theme.set('dark')">
+          <fa-icon [icon]="icons.moon" aria-hidden="true" />
+        </button>
+      </div>
+
+      <div class="wp-language">
+        <button type="button" class="wp-language__trigger" [attr.aria-expanded]="languageOpen()" (click)="toggleLanguage()">
+          En <fa-icon [icon]="icons.chevronDown" aria-hidden="true" />
+        </button>
+        @if (languageOpen()) {
+          <div class="wp-language__panel">
+            <button type="button" class="wp-language__option wp-language__option--selected" (click)="closeLanguage()">English</button>
+            <button type="button" class="wp-language__option" (click)="closeLanguage()">العربية</button>
+          </div>
+        }
+      </div>
+
+      <span class="wp-nav__signin">Sign in</span>
+      <span class="wp-nav__cta">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></span>
+    </div>
+
+    <button
+      #menuButton
+      type="button"
+      class="wp-nav__hamburger"
+      [attr.aria-expanded]="mobileOpen()"
+      aria-controls="wp-mobile-nav"
+      [attr.aria-label]="mobileOpen() ? 'Close navigation' : 'Open navigation'"
+      (click)="toggleMobile()"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  @if (mobileOpen()) {
+    <div #mobilePanel class="wp-mobile" id="wp-mobile-nav" tabindex="-1">
+      <nav aria-label="Mobile navigation">
+        <ul class="wp-mobile__list">
+          @for (menu of menus; track menu.id) {
+            <li>
+              @if (menu.kind === 'text') {
+                <span class="wp-mobile__top">{{ menu.label }}</span>
+              } @else {
+                <button
+                  type="button"
+                  class="wp-mobile__top wp-mobile__expand"
+                  [attr.aria-expanded]="mobileSection() === menu.id"
+                  [attr.aria-controls]="'wp-mobile-' + menu.id"
+                  (click)="toggleMobileSection(menu.id)"
+                >
+                  {{ menu.label }}
+                  <fa-icon [icon]="icons.chevronDown" aria-hidden="true" />
+                </button>
+                @if (mobileSection() === menu.id) {
+                  <div class="wp-mobile__panel" [id]="'wp-mobile-' + menu.id">
+                    @for (item of mobileItems(menu); track item.name) {
+                      <div class="wp-mobile__item">
+                        <span class="wp-mobile__icon"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+                        <span><strong>{{ item.name }}</strong><small>{{ item.description }}</small></span>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </li>
+          }
+        </ul>
+      </nav>
+      <div class="wp-mobile__actions">
+        <span class="wp-mobile__auth">Sign in</span>
+        <span class="wp-mobile__cta">Start free</span>
+      </div>
+    </div>
+  }
+
+  @if (openMenu() !== null) {
+    <button type="button" class="wp-nav__scrim" aria-label="Close navigation menu" (click)="closeAll()"></button>
+  }
+</header>
+
+<ng-template #megaItem let-item>
+  <div class="wp-mega__item">
+    <span class="wp-mega__icon"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+    <span class="wp-mega__body"><strong>{{ item.name }}</strong><small>{{ item.description }}</small></span>
+  </div>
+</ng-template>

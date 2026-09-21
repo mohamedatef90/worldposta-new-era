@@ -1,82 +1,4 @@
-<div class="site-header-bar" [class.site-header-bar--scrolled]="scrolled()">
-  <header class="site-header ds-container">
-    <a class="brand" href="#top" aria-label="WorldPosta home">
-      <img
-        ngSrc="/worldposta-assets/WP-Logo.avif"
-        width="192"
-        height="56"
-        priority
-        alt="WorldPosta"
-      />
-    </a>
-
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="#cloudedge">CloudEdge <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#posta">Posta <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#cloudspace">CloudSpace <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#solutions">Solutions <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#service-provider">Service Provider <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#pricing">Pricing</a>
-      <a href="#resources">Resources <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-    </nav>
-
-    <button
-      class="icon-button theme-toggle"
-      type="button"
-      [attr.aria-label]="theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
-      (click)="theme.toggle()"
-    >
-      <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
-    </button>
-
-    <div class="header-actions">
-      <button class="icon-button" type="button" aria-label="Search WorldPosta">
-        <fa-icon [icon]="icons.search" aria-hidden="true" />
-      </button>
-      <a class="sign-in" href="#sign-in">Sign in</a>
-      <a class="header-cta" href="#start-free">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-    </div>
-    <button
-      #menuButton
-      class="menu-button"
-      type="button"
-      [attr.aria-label]="menuOpen() ? 'Close navigation menu' : 'Open navigation menu'"
-      [attr.aria-expanded]="menuOpen()"
-      aria-controls="mobile-nav"
-      (click)="toggleMenu()"
-    >
-      <fa-icon [icon]="menuOpen() ? icons.xmark : icons.bars" aria-hidden="true" />
-    </button>
-
-    @if (menuOpen()) {
-      <div class="mobile-nav__backdrop" (click)="closeMenu()" aria-hidden="true"></div>
-
-      <nav #menuPanel class="mobile-nav" id="mobile-nav" aria-label="Primary navigation">
-        <a href="#cloudedge" (click)="closeMenu()">CloudEdge</a>
-        <a href="#posta" (click)="closeMenu()">Posta</a>
-        <a href="#cloudspace" (click)="closeMenu()">CloudSpace</a>
-        <a href="#solutions" (click)="closeMenu()">Solutions</a>
-        <a href="#service-provider" (click)="closeMenu()">Service Provider</a>
-        <a href="#pricing" (click)="closeMenu()">Pricing</a>
-        <a href="#resources" (click)="closeMenu()">Resources</a>
-
-        <hr class="mobile-nav__rule" />
-
-        <!-- Deliberately does not close the drawer: the drawer re-themes
-             around you, which is the clearest confirmation the tap worked. -->
-        <button class="mobile-nav__toggle" type="button" (click)="theme.toggle()">
-          <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
-          {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
-        </button>
-
-        <a href="#sign-in" (click)="closeMenu()">Sign in</a>
-        <a class="mobile-nav__cta" href="#start-free" (click)="closeMenu()">
-          Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
-        </a>
-      </nav>
-    }
-  </header>
-</div>
+<app-site-navbar />
 
 <main class="home-page">
   <section class="hero" aria-labelledby="hero-heading">
@@ -125,6 +47,46 @@
             priority
             alt="CloudEdge Console dashboard showing cloud resources and security metrics"
           />
+        </div>
+        <div class="posta-phone" role="img" aria-label="Posta mobile app preview showing the unified inbox">
+          <div class="posta-phone__screen" aria-hidden="true">
+            <div class="posta-phone__status">
+              <span>9:41</span>
+              <span class="posta-phone__signals"><i></i><i></i><i></i></span>
+            </div>
+            <div class="posta-phone__topbar">
+              <span class="posta-phone__menu">≡</span>
+              <span class="posta-phone__brand"><img ngSrc="/worldposta-assets/hero/posta/posta-mark.png" width="18" height="18" alt="" />Posta</span>
+              <span class="posta-phone__avatar">L</span>
+            </div>
+            <div class="posta-phone__heading">
+              <span>ALL ACCOUNTS</span>
+              <strong>Unified inbox</strong>
+              <small>8 messages</small>
+            </div>
+            <div class="posta-phone__filters">
+              <strong>Focused</strong><span>Other</span><span>All</span>
+            </div>
+            <div class="posta-phone__messages">
+              <article>
+                <b class="avatar avatar--person avatar--ahmed"></b>
+                <span><strong>Ahmed Hassan <time>12:14 PM</time></strong><b>Q3 capacity plan — sign-off needed</b><small>The forecast is attached. Compute headroom looks comfortable.</small></span>
+              </article>
+              <article>
+                <b class="avatar avatar--person avatar--sarah"></b>
+                <span><strong>Sarah Johnson <time>11:02 AM</time></strong><b>Staging cutover passed every check</b><small>All 24 services healthy. No rollback required.</small></span>
+              </article>
+              <article>
+                <b class="avatar avatar--person avatar--platform"></b>
+                <span><strong>Platform Alerts <time>10:30 AM</time></strong><b>All regions healthy — nightly summary</b><small>247 nodes across 5 regions. Uptime at 99.97%.</small></span>
+              </article>
+              <article>
+                <b class="avatar avatar--person avatar--layla"></b>
+                <span><strong>Layla Mansour <time>Sep 7</time></strong><b>Migration window — Thursday 02:00</b><small>Confirming the mailbox migration window.</small></span>
+              </article>
+            </div>
+            <div class="posta-phone__dock"><span>⌂</span><span class="active">✉</span><span>◫</span><span>●</span></div>
+          </div>
         </div>
         <div class="floating-card floating-card--cloud"><fa-icon [icon]="icons.cloud" aria-hidden="true" /><span><strong>Your Private Cloud</strong><small>Full control. Maximum security.</small></span></div>
         <div class="floating-card floating-card--security"><fa-icon [icon]="icons.lock" aria-hidden="true" /><span><strong>99.99% availability</strong><small>Infrastructure you can rely on.</small></span></div>

@@ -1,11 +1,9 @@
-import { DOCUMENT, NgOptimizedImage } from '@angular/common';
-import { Component, computed, effect, inject, signal, viewChild, type ElementRef } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
-  faBars,
   faCalendarDays,
-  faChevronDown,
   faChevronRight,
   faCloud,
   faCoins,
@@ -13,15 +11,11 @@ import {
   faFolderOpen,
   faGauge,
   faLock,
-  faMagnifyingGlass,
   faMessage,
-  faMoon,
   faNoteSticky,
   faShieldHalved,
-  faSun,
   faUsers,
   faVideo,
-  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeService } from '@/shared/services/theme.service';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -32,6 +26,7 @@ import { SecuritySectionComponent } from './security-section/security-section.co
 import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { PerformanceTrustComponent } from './performance-trust/performance-trust.component';
+import { SiteNavbarComponent } from '@/shared/site-navbar/site-navbar.component';
 
 interface ProofPoint {
   readonly icon: IconDefinition;
@@ -57,81 +52,20 @@ interface EcosystemTile {
     ProviderComparisonComponent,
     GetStartedComponent,
     SiteFooterComponent,
+    SiteNavbarComponent,
   ],
-  // Escape closes the drawer from anywhere, including from inside it. Declared
-  // on `host` rather than @HostListener, per the project conventions.
-  host: {
-    '(document:keydown.escape)': 'closeMenu()',
-    '(window:scroll)': 'onScroll()',
-  },
   selector: 'app-home',
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
 export class Home {
   protected readonly theme = inject(ThemeService);
-  private readonly document = inject(DOCUMENT);
-
-  /**
-   * Below 1024px the primary nav, "Sign in" and "Start free" are all hidden, so
-   * this drawer is the only way to reach them on a phone.
-   */
-  protected readonly menuOpen = signal(false);
-
-  /**
-   * The bar is fixed and transparent over the hero, so it only takes a surface
-   * once the page has scrolled — otherwise it would cut a band across the hero.
-   */
-  protected readonly scrolled = signal(false);
-
-  private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
-  private readonly menuPanel = viewChild<ElementRef<HTMLElement>>('menuPanel');
-
-  constructor() {
-    // Locking the body stops the page scrolling behind the open drawer; the
-    // class lives in the global stylesheet since component styles cannot
-    // reach <body>.
-    effect(() => {
-      this.document.body.classList.toggle('nav-open', this.menuOpen());
-    });
-
-    // Move focus into the drawer when it opens and hand it back to the button
-    // when it closes, so keyboard and screen-reader users are not stranded.
-    effect(() => {
-      const open = this.menuOpen();
-      queueMicrotask(() => {
-        if (open) {
-          this.menuPanel()?.nativeElement.querySelector('a')?.focus();
-        } else if (this.document.activeElement === this.document.body) {
-          this.menuButton()?.nativeElement.focus();
-        }
-      });
-    });
-  }
-
-  protected onScroll(): void {
-    this.scrolled.set(this.document.defaultView!.scrollY > 8);
-  }
-
-  protected toggleMenu(): void {
-    this.menuOpen.update((open) => !open);
-  }
-
-  protected closeMenu(): void {
-    this.menuOpen.set(false);
-  }
 
   protected readonly icons = {
     arrowRight: faArrowRight,
-    bars: faBars,
-    xmark: faXmark,
-    chevronDown: faChevronDown,
     chevronRight: faChevronRight,
     cloud: faCloud,
     lock: faLock,
-    moon: faMoon,
-    search: faMagnifyingGlass,
-    sun: faSun,
   };
 
   /**
