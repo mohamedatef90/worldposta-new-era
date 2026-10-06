@@ -1,0 +1,727 @@
+<app-site-header #header>
+  <ng-container nav-links>
+    <a href="#features-console">Features</a>
+    <a href="#delivery">Delivery</a>
+    <a href="#security">Security</a>
+    <a href="#migration">Migration</a>
+    <a href="#hybrid">Posta Hybrid</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#stories">Customers</a>
+    <a href="#resources">Resources</a>
+  </ng-container>
+  <ng-container mobile-nav-links>
+    <a href="#features-console" (click)="header.closeMenu()">Features</a>
+    <a href="#delivery" (click)="header.closeMenu()">Delivery</a>
+    <a href="#security" (click)="header.closeMenu()">Security</a>
+    <a href="#migration" (click)="header.closeMenu()">Migration</a>
+    <a href="#hybrid" (click)="header.closeMenu()">Posta Hybrid</a>
+    <a href="#pricing" (click)="header.closeMenu()">Pricing</a>
+    <a href="#stories" (click)="header.closeMenu()">Customers</a>
+    <a href="#resources" (click)="header.closeMenu()">Resources</a>
+  </ng-container>
+</app-site-header>
+
+<main class="page" id="main">
+
+  <!-- ================= 1. HERO ================= -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__cloud hero__cloud--one" aria-hidden="true"></div>
+    <div class="hero__cloud hero__cloud--two" aria-hidden="true"></div>
+
+    <div class="hero__content ds-container" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Posta</p>
+        <h1 id="hero-heading">
+          <span>Secure Business</span>
+          <span><span class="text-blue">Email</span> for a</span>
+          <span>More Productive</span>
+          <span class="text-green">Business.</span>
+        </h1>
+        <p class="hero-copy__description">Professional email with enterprise-grade security, reliability, and full control — on your own domain.</p>
+        <div class="hero-actions">
+          <a class="btn btn--primary btn--lg" href="#start">Start Free Trial <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--ghost btn--lg" href="#pricing">View Plans</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Posta webmail on a laptop, used by a business professional">
+        <span class="hero-glow" aria-hidden="true"></span>
+        <svg class="hero-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M31 9 C35 8 37 7.5 41 7.5" fill="none" stroke="var(--wp-tone-green)" stroke-width="1.5" stroke-dasharray="3 5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <path d="M50 7.5 C52 7.5 53 7.5 55 7.5" fill="none" stroke="var(--wp-tone-green)" stroke-width="1.5" stroke-dasharray="3 5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <path d="M45.5 13.5 C45.5 15 45.5 16 45.5 17.6" fill="none" stroke="var(--wp-tone-green)" stroke-width="1.5" stroke-dasharray="3 5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          <path d="M84 9 C88 9 91 7 94 3.5" fill="none" stroke="var(--wp-tone-green)" stroke-width="1.5" stroke-dasharray="3 5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="hero-arc" aria-hidden="true"></span>
+        <span class="hero-bridge" aria-hidden="true"></span>
+        <span class="hero-lock" aria-hidden="true"><fa-icon [icon]="icons.lock" aria-hidden="true" /></span>
+        <span class="hero-plane" aria-hidden="true"><fa-icon [icon]="icons.paperPlane" aria-hidden="true" /></span>
+
+        <div class="floating-card floating-card--enc"><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></span><span><strong>End-to-End Encryption</strong><small>Your data stays protected.</small></span></div>
+        <div class="floating-card floating-card--dc"><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.database" aria-hidden="true" /></span><span><strong>Hosted in Our <br>Secure Data Centers</strong><small>Your data, our control.</small></span></div>
+
+        <div class="hero-mail" aria-hidden="true">
+          <img class="hero-man" ngSrc="/worldposta-assets/posta/hero-man.webp" width="486" height="792" priority alt="" />
+          <div class="pm-top">
+            <div class="pm-brand"><img class="posta-mark" ngSrc="/worldposta-assets/posta/posta-mark.webp" width="160" height="160" alt="" />Posta</div>
+            <div class="pm-search"><fa-icon [icon]="icons.magnifyingGlass" aria-hidden="true" />Search in mail</div>
+            <div class="pm-icons"><fa-icon [icon]="icons.circleQuestion" aria-hidden="true" /><fa-icon [icon]="icons.gear" aria-hidden="true" /><fa-icon [icon]="icons.tableCellsLarge" aria-hidden="true" /><span class="avatar" data-tone="indigo">J</span></div>
+          </div>
+          <div class="mail-ui">
+            <aside class="mail-ui__side">
+              <div class="mail-ui__compose"><fa-icon [icon]="icons.plus" aria-hidden="true" /> Compose</div>
+              <ul class="mail-ui__nav">
+                <li class="is-active"><fa-icon [icon]="icons.inbox" aria-hidden="true" />Inbox <b>12</b></li>
+                <li><fa-icon [icon]="icons.star" aria-hidden="true" />Starred</li>
+                <li><fa-icon [icon]="icons.paperPlane" aria-hidden="true" />Sent</li>
+                <li><fa-icon [icon]="icons.file" aria-hidden="true" />Drafts</li>
+                <li><fa-icon [icon]="icons.boxArchive" aria-hidden="true" />Archive</li>
+                <li><fa-icon [icon]="icons.trashCan" aria-hidden="true" />Trash</li>
+                <li><fa-icon [icon]="icons.circleXmark" aria-hidden="true" />Spam</li>
+              </ul>
+            </aside>
+            <div class="mail-ui__list">
+              <div class="mail-ui__tabs"><b>All</b><span>Unread</span><span>Mentions</span><span>Folders <fa-icon [icon]="icons.chevronDown" style="font-size:7px" aria-hidden="true" /></span></div>
+              <div class="mail-row is-active"><span class="avatar" data-tone="indigo">DW</span><div><strong>David Wilson</strong><span>Q3 Project Update</span><small>Hi, please find the latest project update…</small></div><time>10:24 AM<br><fa-icon [icon]="icons.paperclip" aria-hidden="true" /> <fa-icon [icon]="icons.star" style="color:#f5b301" aria-hidden="true" /></time></div>
+              <div class="mail-row"><span class="avatar" data-tone="amber">SL</span><div><strong>Sarah Lee</strong><span>Meeting Tomorrow</span><small>Let's discuss the roadmap for next quarter…</small></div><time>9:18 AM</time></div>
+              <div class="mail-row"><span class="avatar" data-tone="purple">MR</span><div><strong>Michael Roberts</strong><span>Invoice #4582</span><small>Please find the attached invoice.</small></div><time>Yesterday</time></div>
+              <div class="mail-row"><span class="avatar" data-tone="teal">EK</span><div><strong>Emma Keller</strong><span>Welcome to Posta</span><small>Your mailbox has been successfully set up.</small></div><time>May 20</time></div>
+              <div class="mail-row"><span class="avatar" data-tone="blue">JT</span><div><strong>James Turner</strong><span>Security Guidelines</span><small>Here are the updated security guidelines…</small></div><time>May 18</time></div>
+            </div>
+            <div class="mail-ui__read">
+              <div class="pm-tools"><fa-icon [icon]="icons.inbox" aria-hidden="true" /><fa-icon [icon]="icons.clock" aria-hidden="true" /><fa-icon [icon]="icons.boxArchive" aria-hidden="true" /><fa-icon [icon]="icons.squareCheck" aria-hidden="true" /><fa-icon [icon]="icons.trashCan" aria-hidden="true" /><span></span><fa-icon [icon]="icons.upRightAndDownLeftFromCenter" aria-hidden="true" /></div>
+              <div class="pm-subject"><h4>Q3 Project Update</h4><span><fa-icon [icon]="icons.reply" aria-hidden="true" /><fa-icon [icon]="icons.share" aria-hidden="true" /><fa-icon [icon]="icons.ellipsis" aria-hidden="true" /></span></div>
+              <div class="mail-ui__from"><span class="avatar" data-tone="indigo">DW</span><div><strong>David Wilson <em>&lt;david.wilson&#64;yourcompany.com&gt;</em></strong><small>to me <fa-icon [icon]="icons.chevronDown" style="font-size:7px" aria-hidden="true" /></small></div><small class="pm-time">10:24 AM <fa-icon [icon]="icons.star" style="color:#f5b301" aria-hidden="true" /></small></div>
+              <div class="mail-ui__body">
+                <p>Hi,</p>
+                <p>Please find the latest project update attached.<br>Let me know if you have any questions.</p>
+                <p>Best regards,<br><b>David Wilson</b><br>Head of Operations</p>
+              </div>
+              <p class="pm-attach-label">2 Attachments</p>
+              <div class="mail-ui__att">
+                <span><fa-icon [icon]="icons.filePdf" style="color:#e5484d" aria-hidden="true" /><span>Q3_Update.pdf<small>2.4 MB</small></span></span>
+                <span><fa-icon [icon]="icons.fileExcel" style="color:#1f9d55" aria-hidden="true" /><span>Budget_2024.xlsx<small>890 KB</small></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-container">
+      <ul class="hero-features" aria-label="Posta benefits">
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></span><div><strong>Maximum Security</strong><span>Advanced threat protection, end-to-end encryption.</span></div></li>
+        <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.database" aria-hidden="true" /></span><div><strong>Your Data, Our Control</strong><span>Hosted in secure, reliable data centers.</span></div></li>
+        <li><span class="tone-icon" data-tone="purple"><fa-icon [icon]="icons.gear" aria-hidden="true" /></span><div><strong>Full Administration</strong><span>Complete control over your email environment.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 2. EMAIL SERVICES — product screenshot view ================= -->
+  <section class="section section--panel" id="features-console" aria-labelledby="admin-heading-2">
+    <div class="ds-container">
+      <div class="eco-surface eco-surface--shot" appReveal>
+        <!-- Console chrome above the sidebar/panel grid, mirroring the real
+             Email Admin Suite's own top bar (brand, global search, help,
+             notifications, signed-in admin) rather than a marketing navbar. -->
+        <div aria-hidden="true" class="eco-topbar">
+          <span class="eco-topbar__brand">
+            <span class="eco-topbar__logo"><img class="posta-mark" ngSrc="/worldposta-assets/posta/posta-mark.webp" width="160" height="160" alt="" /><span>Posta</span></span>
+            <fa-icon class="eco-topbar__collapse" [icon]="icons.tableColumns" aria-hidden="true" />
+          </span>
+          <span class="eco-topbar__bar">
+            <span class="eco-topbar__search"><fa-icon [icon]="icons.magnifyingGlass" aria-hidden="true" />Search mailboxes, users, or domains&hellip;</span>
+            <span class="eco-topbar__actions">
+              <fa-icon [icon]="icons.circleQuestion" aria-hidden="true" />
+              <fa-icon [icon]="icons.bell" aria-hidden="true" />
+              <span class="eco-topbar__user">
+                <span class="eco-topbar__avatar">JD</span>
+                <span class="eco-topbar__user-text"><strong>John Doe</strong><small>IT Administrator</small></span>
+                <fa-icon class="eco-topbar__chevron" [icon]="icons.chevronDown" aria-hidden="true" />
+              </span>
+            </span>
+          </span>
+        </div>
+        <div class="eco-body">
+          <!-- Mirrors the real Email Admin Suite's own navigation, trimmed to
+               the Exchange Email items only (no Dashboard, no unrelated
+               Administration/More sections), so this panel reads as the
+               Posta email console it's showing a screenshot of. -->
+          <aside aria-hidden="true" class="admin-side">
+            <ul>
+              <li class="is-active"><fa-icon [icon]="icons.envelope" aria-hidden="true" />Mailboxes</li>
+              <li><fa-icon [icon]="icons.globe" aria-hidden="true" />Domains</li>
+              <li><fa-icon [icon]="icons.userGroup" aria-hidden="true" />Distribution Lists</li>
+              <li><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" />Security &amp; Gateway</li>
+              <li><fa-icon [icon]="icons.database" aria-hidden="true" />Storage &amp; Retention</li>
+              <li><fa-icon [icon]="icons.gear" aria-hidden="true" />Settings &amp; Policies</li>
+              <li><fa-icon [icon]="icons.chartSimple" aria-hidden="true" />Reports &amp; Logs</li>
+            </ul>
+            <h5>Management</h5>
+            <ul>
+              <li><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" />IAM &amp; Access</li>
+              <li><fa-icon [icon]="icons.users" aria-hidden="true" />Users</li>
+              <li><fa-icon [icon]="icons.headset" aria-hidden="true" />Tickets</li>
+              <li><fa-icon [icon]="icons.creditCard" aria-hidden="true" />Billing</li>
+            </ul>
+          </aside>
+          <div class="eco-panel eco-panel--shot">
+            <div class="shot-main">
+              <div class="eco-copy">
+                <span class="eco-badge"><span class="eco-badge__icon"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>Posta · Email Services</span>
+                <h2 class="h2" id="admin-heading-2">Business Email,<br/><span class="text-green">under your control.</span></h2>
+                <p class="eco-desc">Secure, reliable and professional email for your business, built for productivity.</p>
+                <ul class="check-list">
+                  <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Custom domain email (you&#64;yourcompany.com)</li>
+                  <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Advanced security and anti-spam protection</li>
+                  <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Access from anywhere, on any device</li>
+                </ul>
+                <div class="eco-actions">
+                  <a class="btn btn--primary" href="#start"><fa-icon [icon]="icons.plus" aria-hidden="true" /> Create Your Business Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+                  <a class="btn btn--outline" href="#pricing">View Plans</a>
+                </div>
+              </div>
+              <div class="shot-visual">
+                <div class="mockup-shell"><img ngSrc="/worldposta-assets/posta/email-exchange-mailboxes.jpg" width="1540" height="735" alt="Posta Email Admin Suite: the Exchange Email mailboxes list, showing display names, mailbox plans and drive quota per user" /></div>
+                <div class="eco-chip"><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.gaugeHigh" aria-hidden="true" /></span><span><strong>Posta Admin Console</strong><small>Real-time analytics &amp; compliance</small></span></div>
+              </div>
+            </div>
+
+            <div class="benefits-strip">
+              <div class="benefit-item">
+                <div class="benefit-icon"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></div>
+                <div class="benefit-text"><h4>Custom Domain Email</h4><p>you&#64;yourcompany.com, fully configured in minutes.</p></div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></div>
+                <div class="benefit-text"><h4>Advanced Security</h4><p>Anti-spam and anti-malware protection built in.</p></div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon"><fa-icon [icon]="icons.cloud" aria-hidden="true" /></div>
+                <div class="benefit-text"><h4>Access Anywhere</h4><p>Webmail, mobile and desktop clients, always in sync.</p></div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon"><fa-icon [icon]="icons.gear" aria-hidden="true" /></div>
+                <div class="benefit-text"><h4>Full Admin Control</h4><p>Manage mailboxes, domains and policies from one console.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. DELIVERY ASSURANCE ================= -->
+  <section class="section section--panel" id="delivery" aria-labelledby="delivery-heading">
+    <div class="ds-container">
+      <div class="split">
+        <div appReveal>
+          <p class="eyebrow">Delivery Assurance</p>
+          <h2 class="h2" id="delivery-heading">Mission-Critical Email<br><span class="text-blue">Delivered.</span> <span class="text-green">Always.</span></h2>
+          <p class="lede">Posta is engineered to ensure your important emails reach their destination 100% — without unnecessary blocking or false positives.</p>
+          <div class="dv-actions">
+            <a class="btn btn--primary" href="#start">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            <a class="btn btn--ghost" href="#delivery"><span class="dv-play"><fa-icon [icon]="icons.play" aria-hidden="true" /></span>Watch demo</a>
+          </div>
+        </div>
+
+        <div class="dx" appReveal aria-label="How Posta delivers email">
+          <div class="dx__stage">
+            <div class="dx__bg" aria-hidden="true">
+              <span class="dx__flow dx__flow--a"></span><span class="dx__flow dx__flow--b"></span><span class="dx__flow dx__flow--c"></span>
+              <img class="dx__map" ngSrc="/worldposta-assets/posta/world-map-dots.webp" width="1800" height="810" alt="" />
+            </div>
+
+            <svg class="dx__lines" viewBox="0 0 1000 690" aria-hidden="true">
+              <defs>
+                <marker id="dxArrowG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="var(--wp-tone-green)"/></marker>
+                <marker id="dxArrowB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 Z" fill="var(--wp-tone-blue)"/></marker>
+              </defs>
+              <!-- global routing orbits -->
+              <path class="dx-orbit" d="M470 96 C470 140 500 170 512 196"/>
+              <path class="dx-orbit" d="M808 58 C860 70 890 110 905 168"/>
+              <path class="dx-orbit" d="M418 236 C470 200 560 196 640 214 C700 228 720 250 728 262"/>
+              <ellipse class="dx-orbit dx-orbit--soft" cx="520" cy="600" rx="290" ry="58"/>
+              <g class="dx-nodes"><circle cx="486" cy="150" r="4.5"/><circle cx="870" cy="92" r="5"/><circle cx="560" cy="198" r="4.5"/><circle cx="700" cy="232" r="4.5"/><circle cx="350" cy="628" r="4"/></g>
+              <!-- source → engine -->
+              <path id="dxP1" class="dx-route" d="M298 232 C340 232 342 300 384 316" marker-end="url(#dxArrowG)"/>
+              <path id="dxP2" class="dx-route" d="M288 346 C320 346 350 346 384 346" marker-end="url(#dxArrowG)"/>
+              <path id="dxP3" class="dx-route dx-route--blue" d="M302 460 C344 460 342 392 384 378" marker-end="url(#dxArrowB)"/>
+              <!-- engine → inbox -->
+              <path id="dxP4" class="dx-route dx-route--strong" d="M664 352 C690 352 700 352 726 352" marker-end="url(#dxArrowG)"/>
+            </svg>
+
+            <span class="dx-node" style="--x:340;--y:262"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>
+            <span class="dx-node" style="--x:338;--y:346"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>
+            <span class="dx-node dx-node--blue" style="--x:342;--y:430"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>
+            <span class="dx-node dx-node--lg" style="--x:695;--y:352"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>
+
+            <div class="dx-kpi"><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.chartSimple" aria-hidden="true" /></span><span><strong>100% Delivery of Legitimate Emails</strong><small>Your important emails always reach the right people.</small></span></div>
+
+            <div class="dx-src dx-src--1"><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.building" aria-hidden="true" /></span><span><strong>Partners</strong><small>suppliers&#64;partner.com</small></span></div>
+            <div class="dx-src dx-src--2"><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.userGroup" aria-hidden="true" /></span><span><strong>Customers</strong><small>client&#64;customer.com</small></span></div>
+            <div class="dx-src dx-src--3"><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.users" aria-hidden="true" /></span><span><strong>Internal Teams</strong><small>ceo&#64;yourcompany.com</small></span></div>
+
+            <div class="dx-platform" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="dx-engine">
+              <div class="dx-engine__brand"><img class="posta-mark" ngSrc="/worldposta-assets/posta/posta-mark.webp" width="160" height="160" alt="" /> Posta</div>
+              <p>Intelligent Delivery Engine</p>
+              <ul>
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Reputation Analysis</li>
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Advanced Filtering</li>
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Policy-Based Routing</li>
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Real-Time Monitoring</li>
+              </ul>
+            </div>
+
+            <div class="dx-inbox">
+              <span class="dx-inbox__badge"><fa-icon [icon]="icons.check" aria-hidden="true" /></span>
+              <div class="dx-inbox__head"><img class="posta-mark" ngSrc="/worldposta-assets/posta/posta-mark.webp" width="160" height="160" alt="" /> Inbox <b>12</b></div>
+              <div class="dx-row"><span class="avatar" data-tone="blue">AC</span><div><strong>Alex Carter</strong><small>Project Approval</small></div><time>10:24</time></div>
+              <div class="dx-row"><span class="avatar" data-tone="amber">SL</span><div><strong>Sarah Lee</strong><small>Contract Signed</small></div><time>9:18</time></div>
+              <div class="dx-row"><span class="avatar" data-tone="sky">MT</span><div><strong>Michael Turner</strong><small>Weekly Update</small></div><time>8:45</time></div>
+              <div class="dx-row"><span class="avatar" data-tone="purple">JD</span><div><strong>John Davis</strong><small>New Opportunity</small></div><time>Yday</time></div>
+              <div class="dx-row"><span class="avatar" data-tone="teal">EK</span><div><strong>Emma Keller</strong><small>Partnership Discussion</small></div><time>Yday</time></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="note-strip" appReveal aria-label="Delivery capabilities">
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><div><strong>High Deliverability Reputation</strong><span class="d">Optimized IP and domain reputation to ensure your legitimate emails are delivered.</span></div></li>
+        <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></span><div><strong>Smart Filtering</strong><span class="d">Advanced and precise filtering to stop spam and threats without blocking valid business emails.</span></div></li>
+        <li><span class="tone-icon" data-tone="purple"><fa-icon [icon]="icons.sitemap" aria-hidden="true" /></span><div><strong>Policy-Based Routing</strong><span class="d">Intelligent routing to ensure critical emails (CEO, Finance, Operations) always get through.</span></div></li>
+        <li><span class="tone-icon" data-tone="amber"><fa-icon [icon]="icons.chartColumn" aria-hidden="true" /></span><div><strong>Real-Time Monitoring</strong><span class="d">Continuous monitoring and alerts to maintain 100% delivery for your important communications.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 4. START WITH POSTA ================= -->
+  <section class="section section--mist" id="start" aria-labelledby="start-heading">
+    <div class="ds-container">
+      <div class="signup">
+        <div appReveal>
+          <p class="eyebrow">Start with Posta</p>
+          <h2 class="h2" id="start-heading" style="font-size:clamp(34px,3.6vw,54px)">Your business email<br>is <span class="text-green">one minute</span> away.</h2>
+          <p class="lede">Create your first professional mailbox now. No credit card. No commitment. Just your business email, ready to use.</p>
+          <ul class="perk-row">
+            <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.creditCard" aria-hidden="true" /></span>No credit card<br>required</li>
+            <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.calendar" aria-hidden="true" /></span>30-day<br>free trial</li>
+            <li><span class="tone-icon" data-tone="sky"><fa-icon [icon]="icons.clock" aria-hidden="true" /></span>Set up<br>in minutes</li>
+          </ul>
+          <a class="btn btn--primary btn-full-sm" href="#signup-form">Create My Free Business Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <p class="signin-hint">Already have an account? <a href="#sign-in">Sign in</a></p>
+        </div>
+
+        <div class="signup__right" appReveal>
+          <ol class="steps-rail" aria-label="Three steps to your mailbox">
+            <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><span><b>1.</b> Choose<br>your email</span></li>
+            <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.user" aria-hidden="true" /></span><span><b>2.</b> Create<br>your account</span></li>
+            <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.circleCheck" aria-hidden="true" /></span><span><b>3.</b> Start using<br>Posta</span></li>
+          </ol>
+
+          <form class="form-card panel" id="signup-form" (submit)="onMockSubmit($event)" aria-labelledby="form1-title">
+            <div class="form-progress" aria-hidden="true"><i class="on"></i><i></i><i></i><span>1 of 3 · Account setup</span></div>
+            <h3 id="form1-title" style="margin-bottom:var(--space-lg)">Create your business email</h3>
+            <div class="field"><label for="f1-name">Your name</label><input class="input" id="f1-name" type="text" placeholder="John Doe" autocomplete="name"></div>
+            <div class="field"><label for="f1-biz">Business name</label><input class="input" id="f1-biz" type="text" placeholder="Your Company" autocomplete="organization"></div>
+            <div class="field"><label for="f1-user">Choose your email</label>
+              <div class="input-group"><input id="f1-user" type="text" placeholder="you"><span class="addon">&#64;yourcompany.com <fa-icon [icon]="icons.chevronDown" style="font-size:10px;margin-left:6px" aria-hidden="true" /></span></div>
+            </div>
+            <button class="btn btn--primary btn--block" type="submit">Create My Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></button>
+            <div class="ready-chip"><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><span><strong>you&#64;yourcompany.com</strong><small><fa-icon [icon]="icons.circleCheck" aria-hidden="true" /> Ready to use</small></span></div>
+          </form>
+        </div>
+      </div>
+
+      <ul class="note-strip" appReveal aria-label="Posta assurances">
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><div><strong>Secure business email</strong></div></li>
+        <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></span><div><strong>Enterprise-grade security</strong></div></li>
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.database" aria-hidden="true" /></span><div><strong>Microsoft Exchange-powered</strong></div></li>
+        <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.signal" aria-hidden="true" /></span><div><strong>99.99% SLA</strong></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 5. MIGRATION ================= -->
+  <section class="section section--panel" id="migration" aria-labelledby="migration-heading">
+    <div class="mig-bg" aria-hidden="true"><span class="mig-blob mig-blob--1"></span><span class="mig-blob mig-blob--2"></span><span class="mig-dots"></span><svg class="mig-waves" viewBox="0 0 1440 260" preserveAspectRatio="none"><path d="M0 170 C240 110 420 220 720 170 C1000 124 1180 210 1440 150 L1440 260 L0 260Z"/><path d="M0 210 C300 160 520 250 820 205 C1080 168 1250 236 1440 200 L1440 260 L0 260Z"/></svg></div>
+    <div class="ds-container split split--mig">
+      <div appReveal>
+        <p class="eyebrow">Effortless and risk-free transition</p>
+        <h2 class="h2" id="migration-heading">Migrate All Your Data To The <span class="text-green">New Mailbox</span> Easily.</h2>
+        <p class="lede">Move every mailbox, folder and file to Posta with a dedicated team, proven tools and zero interruption to your business.</p>
+        <a class="btn btn--primary" href="#contact">Plan My Migration <fa-icon [icon]="icons.paperPlane" aria-hidden="true" /></a>
+      </div>
+      <div class="tile-grid" appReveal>
+        @for (tile of migrationTiles; track tile.num) {
+          <article class="tile panel" [attr.data-tone]="tile.tone"><span class="tone-icon"><fa-icon [icon]="tile.icon" aria-hidden="true" /></span><span class="tile__num">{{ tile.num }}</span><h3>{{ tile.titleLines[0] }}<br>{{ tile.titleLines[1] }}</h3></article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. SECURITY ================= -->
+  <section class="section section--secure" id="security" aria-labelledby="security-heading">
+    <div class="ds-container">
+      <div class="split split--sec">
+        <div appReveal>
+          <p class="eyebrow">Built-in Security</p>
+          <h2 class="h2" id="security-heading">Your Email Is Your <span class="text-blue">Business.</span><br><span class="text-green">Protect</span> It Like One.</h2>
+          <p class="lede">Posta gives you multiple layers of security to keep your business communication safe, private, and always available.</p>
+        </div>
+
+        <div class="secure-visual" appReveal>
+          <svg class="secure-arc" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M80 110 C150 20 250 22 300 24 C360 22 470 20 560 100" fill="none" stroke="var(--wp-tone-green)" stroke-width="1.6" stroke-dasharray="5 5" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <div class="sec-radar" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="sec-glow" aria-hidden="true"></span>
+          <span class="secure-shield" aria-hidden="true"><fa-icon [icon]="icons.check" aria-hidden="true" /></span>
+          <div class="console-shell" aria-hidden="true">
+            <div class="mail-ui" style="grid-template-columns:120px minmax(0,1fr) minmax(0,1fr);min-height:300px">
+              <aside class="mail-ui__side">
+                <div class="mail-ui__compose"><fa-icon [icon]="icons.plus" aria-hidden="true" /> Compose</div>
+                <ul class="mail-ui__nav">
+                  <li class="is-active"><fa-icon [icon]="icons.inbox" aria-hidden="true" />Inbox <b>12</b></li>
+                  <li><fa-icon [icon]="icons.star" aria-hidden="true" />Starred</li>
+                  <li><fa-icon [icon]="icons.paperPlane" aria-hidden="true" />Sent</li>
+                  <li><fa-icon [icon]="icons.file" aria-hidden="true" />Drafts</li>
+                  <li><fa-icon [icon]="icons.boxArchive" aria-hidden="true" />Archive</li>
+                  <li><fa-icon [icon]="icons.trashCan" aria-hidden="true" />Trash</li>
+                </ul>
+              </aside>
+              <div class="mail-ui__list">
+                <div class="mail-ui__search"><fa-icon [icon]="icons.magnifyingGlass" aria-hidden="true" /> Search in mail</div>
+                <div class="mail-row is-active"><span class="avatar" data-tone="blue">JD</span><div><strong>John Davis</strong><span>Project Update</span></div><time>10:24</time></div>
+                <div class="mail-row"><span class="avatar" data-tone="amber">SL</span><div><strong>Sarah Lee</strong><span>Meeting Tomorrow</span></div><time>9:18</time></div>
+                <div class="mail-row"><span class="avatar" data-tone="sky">MT</span><div><strong>Michael Turner</strong><span>Invoice #4582</span></div><time>May 20</time></div>
+                <div class="mail-row"><span class="avatar" data-tone="teal">EK</span><div><strong>Emma Keller</strong><span>Security Guidelines</span></div><time>May 18</time></div>
+                <div class="mail-row"><span class="avatar" data-tone="purple">RW</span><div><strong>Robert Wilson</strong><span>Quarterly Review</span></div><time>May 17</time></div>
+              </div>
+              <div class="mail-ui__read">
+                <h4>Project Update</h4>
+                <div class="mail-ui__from"><span class="avatar" data-tone="blue">JD</span><div><strong>John Davis</strong><small>to me</small></div></div>
+                <div class="mail-ui__body"><p>Hi,</p><p>Please find the latest project update. Let me know if you have any questions.</p><p>Best regards,<br><b>John Davis</b><br>Operations Manager</p></div>
+                <div class="mail-ui__att"><span><fa-icon [icon]="icons.filePdf" style="color:#e5484d" aria-hidden="true" /><span>Project_Update.pdf<small>2.4 MB</small></span></span><span><fa-icon [icon]="icons.fileExcel" style="color:#1f9d55" aria-hidden="true" /><span>Timeline.xlsx<small>890 KB</small></span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="side-card side-card--l panel"><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.brain" aria-hidden="true" /></span><strong>AI-Powered Threat Detection</strong><p>Blocks phishing, malware and suspicious emails before they reach your inbox.</p></div>
+          <div class="side-card side-card--r1 panel"><span class="tone-icon" data-tone="purple"><fa-icon [icon]="icons.lock" aria-hidden="true" /></span><strong>Zero Trust Protection</strong><p>Every access is verified to prevent unauthorized use and data breaches.</p></div>
+          <div class="side-card side-card--r2 panel"><span class="tone-icon" data-tone="sky"><fa-icon [icon]="icons.database" aria-hidden="true" /></span><strong>Encryption Everywhere</strong><p>Your data is encrypted in transit and at rest using industry-leading standards.</p></div>
+        </div>
+      </div>
+
+      <ul class="note-strip" appReveal style="--cols:3" aria-label="Security pillars">
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></span><div><strong>End-to-End Security</strong><span class="d">From inbox to mailbox, your data is protected at every layer.</span></div></li>
+        <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.clockRotateLeft" aria-hidden="true" /></span><div><strong>24/7 Monitoring</strong><span class="d">Our security operations team keeps your email safe, always.</span></div></li>
+        <li><span class="tone-icon" data-tone="purple"><fa-icon [icon]="icons.server" aria-hidden="true" /></span><div><strong>Your Data, Our Control</strong><span class="d">Hosted in our secure data centers with full compliance and control.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 7. POSTA HYBRID ================= -->
+  <section class="section section--panel" id="hybrid" aria-labelledby="hybrid-heading">
+    <div class="ds-container split split--even">
+      <div appReveal>
+        <p class="eyebrow">Posta Hybrid</p>
+        <h2 class="h2" id="hybrid-heading" style="font-size:clamp(38px,4vw,60px)">Posta <span class="text-green">Hybrid</span></h2>
+        <p class="hybrid-sub">One Business. Multiple Email Platforms.</p>
+        <p class="lede">Use different email platforms within the same business domain. Keep some users on WorldPosta and others on Microsoft 365, Google Workspace or any provider — without forcing a full migration.</p>
+        <ul class="feature-trio">
+          <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.users" aria-hidden="true" /></span><strong>Choose What Fits</strong><p>Put each user or team on the platform that fits their needs.</p></li>
+          <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.clock" aria-hidden="true" /></span><strong>Migrate at Your Pace</strong><p>Move users gradually instead of changing your entire organization at once.</p></li>
+          <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.gear" aria-hidden="true" /></span><strong>One Business Email Environment</strong><p>Different platforms can coexist while using the same company domain.</p></li>
+        </ul>
+        <a class="btn btn--primary" href="#contact">Explore Posta Hybrid <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+
+      <div class="hb" appReveal aria-label="Example hybrid setup on one company domain">
+        <span class="hb__glow" aria-hidden="true"></span>
+        <ul class="hb-pillars" aria-hidden="true">
+          <li><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" />Compliance</li>
+          <li><fa-icon [icon]="icons.handHoldingDollar" aria-hidden="true" />Cost Efficiency</li>
+          <li><fa-icon [icon]="icons.gear" aria-hidden="true" />Flexibility</li>
+          <li><fa-icon [icon]="icons.clock" aria-hidden="true" />Uptime</li>
+        </ul>
+        <figure class="hb-scene"><img ngSrc="/worldposta-assets/posta/hybrid-scene.webp" alt="WorldPosta Suite admin console and Gmail connected through WorldPosta in one business" width="1090" height="390" /></figure>
+        <div class="hb-root"><span class="tone-icon" data-tone="indigo"><fa-icon [icon]="icons.building" aria-hidden="true" /></span><strong>Your Company</strong><small>&#64;company.com</small></div>
+        <svg class="hb-lines" viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden="true">
+          <path class="g" d="M176 0 V20 Q176 28 168 28 H58 Q50 28 50 36 V56"/>
+          <path class="b" d="M192 0 V34 Q192 40 186 40 H156 Q150 40 150 46 V56"/>
+          <path class="b" d="M208 0 V34 Q208 40 214 40 H244 Q250 40 250 46 V56"/>
+          <path class="g" d="M224 0 V20 Q224 28 232 28 H342 Q350 28 350 36 V56"/>
+        </svg>
+        <div class="hb-users">
+          <div class="hb-user" data-route="g"><img class="hb-avatar" ngSrc="/worldposta-assets/posta/avatar-ahmed.webp" alt="" width="200" height="200" /><strong>Ahmed Hassan</strong><small>ahmed&#64;company.com</small><span class="hb-prov"><img ngSrc="/worldposta-assets/brand-logos/wp-symbol.svg" width="1232" height="1024" alt="" />WorldPosta</span></div>
+          <div class="hb-user" data-route="b"><img class="hb-avatar" ngSrc="/worldposta-assets/posta/avatar-sara.webp" alt="" width="200" height="200" /><strong>Sara Williams</strong><small>sara&#64;company.com</small><span class="hb-prov"><img ngSrc="/worldposta-assets/brand-logos/partners/microsoft.svg" width="24" height="24" alt="" />Microsoft 365</span></div>
+          <div class="hb-user" data-route="b"><img class="hb-avatar" ngSrc="/worldposta-assets/posta/avatar-john.webp" alt="" width="200" height="200" /><strong>John Smith</strong><small>john&#64;company.com</small><span class="hb-prov"><fa-icon [icon]="icons.google" class="g" aria-hidden="true" />Google Workspace</span></div>
+          <div class="hb-user" data-route="g"><img class="hb-avatar" ngSrc="/worldposta-assets/posta/avatar-marketing-team.webp" alt="" width="144" height="144" /><strong>Marketing Team</strong><small>marketing&#64;company.com</small><span class="hb-prov"><img ngSrc="/worldposta-assets/brand-logos/wp-symbol.svg" width="1232" height="1024" alt="" />WorldPosta</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 8. GET STARTED (1 minute) ================= -->
+  <section class="section section--band" id="get-started" aria-labelledby="gs-heading">
+    <div class="ds-container">
+      <div class="signup2">
+        <div appReveal>
+          <p class="eyebrow">Get started with Posta</p>
+          <h2 class="h2" id="gs-heading" style="font-size:clamp(34px,3.6vw,54px)">Create your business email now in <span class="text-green">1 minute.</span></h2>
+          <p class="lede">Get your professional email with your own domain. No credit card. No commitment. Just sign up and start using it.</p>
+          <ul class="perk-row" style="margin-bottom:0">
+            <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.creditCard" aria-hidden="true" /></span>No credit card<br>required</li>
+            <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.bolt" aria-hidden="true" /></span>Set up<br>in 1 minute</li>
+            <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.calendarCheck" aria-hidden="true" /></span>30-day<br>free trial</li>
+          </ul>
+        </div>
+
+        <div class="device-visual" appReveal aria-hidden="true">
+          <div class="ready-float panel"><fa-icon [icon]="icons.check" class="ok" aria-hidden="true" /><span><strong>you&#64;yourcompany.com</strong><small>Ready to use</small></span></div>
+          <div class="phone"><img ngSrc="/worldposta-assets/posta/mobile-app.webp" alt="" width="620" height="1344" /></div>
+          <span class="mail-tile"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>
+        </div>
+
+        <form class="form-card panel" appReveal (submit)="onMockSubmit($event)" aria-labelledby="form2-title">
+          <h3 id="form2-title" style="margin-bottom:var(--space-lg)">Create your business email</h3>
+          <div class="field"><label for="f2-name">Your name</label><input class="input" id="f2-name" type="text" placeholder="John Doe" autocomplete="name"></div>
+          <div class="field"><label for="f2-biz">Business name</label><input class="input" id="f2-biz" type="text" placeholder="Your Company" autocomplete="organization"></div>
+          <div class="field"><label for="f2-user">Choose your email</label>
+            <div class="input-group"><input id="f2-user" type="text" placeholder="you"><span class="addon">&#64;yourcompany.com <fa-icon [icon]="icons.chevronDown" style="font-size:10px;margin-left:6px" aria-hidden="true" /></span></div>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Create My Free Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></button>
+          <div class="divider">or</div>
+          <button class="btn btn--google" type="button"><fa-icon [icon]="icons.google" style="color:#4285f4" aria-hidden="true" /> Continue with Google</button>
+          <p class="form-note">Already have an account? <a href="#sign-in" style="color:var(--wp-blue);font-weight:600">Sign in</a></p>
+        </form>
+      </div>
+
+      <ul class="note-strip" appReveal aria-label="Platform assurances">
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></span><div><strong>Enterprise-grade security</strong><span class="d">Your data is always protected</span></div></li>
+        <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.database" aria-hidden="true" /></span><div><strong>Microsoft Exchange-powered</strong><span class="d">Reliable and proven platform</span></div></li>
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.globe" aria-hidden="true" /></span><div><strong>99.99% uptime SLA</strong><span class="d">Business continuity assured</span></div></li>
+        <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.lock" aria-hidden="true" /></span><div><strong>Global compliance</strong><span class="d">ISO 27001, SOC 2, GDPR and more</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 9. PRICING ================= -->
+  <section class="section section--panel" id="pricing" aria-labelledby="pricing-heading">
+    <div class="ds-container">
+      <div class="pricing-head" appReveal>
+        <div>
+          <p class="eyebrow eyebrow--center">Pricing Plans</p>
+          <h2 class="h2" id="pricing-heading">Find the right plan for <span class="text-green">your business.</span></h2>
+          <p class="lede">Start free with 5 business emails, then choose a plan that grows with you.</p>
+        </div>
+        <div class="billing-toggle" role="group" aria-label="Billing period">
+          <button type="button" [attr.aria-pressed]="billing() === 'monthly'" (click)="setBilling('monthly')">Monthly</button>
+          <button type="button" [attr.aria-pressed]="billing() === 'annual'" (click)="setBilling('annual')">Annual<small>Save up to 20%</small></button>
+        </div>
+      </div>
+
+      <div class="plans" appReveal>
+        @for (plan of plans; track plan.name) {
+          <article class="plan panel" [class.plan--free]="plan.free" [class.plan--featured]="plan.featured">
+            @if (plan.free) {
+              <span class="plan-flag"><fa-icon [icon]="icons.gift" aria-hidden="true" /> {{ plan.flag }}</span>
+            }
+            @if (plan.featured) {
+              <span class="plan-ribbon">Recommended</span>
+            }
+            @if (!plan.free) {
+              <span class="tone-icon" [attr.data-tone]="plan.tone || null"><fa-icon [icon]="plan.icon!" aria-hidden="true" /></span>
+            }
+            <h3>{{ plan.name }}</h3>
+            <div class="plan__price"><strong>{{ billing() === 'annual' ? plan.price.annual : plan.price.monthly }}</strong><span>{{ plan.priceSuffix }}</span></div>
+            @if (plan.free) {
+              <p class="plan__desc">{{ plan.description }}</p>
+            } @else {
+              <p class="plan__billed">{{ billing() === 'annual' ? 'Billed annually' : 'Billed monthly' }}</p>
+            }
+            <ul>
+              @for (feature of plan.features; track feature) {
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />{{ feature }}</li>
+              }
+            </ul>
+            <a
+              class="btn"
+              [class.btn--primary]="plan.cta.variant === 'primary'"
+              [class.btn--outline]="plan.cta.variant === 'outline'"
+              [class.btn--blue]="plan.cta.variant === 'blue'"
+              [href]="plan.cta.href"
+            >
+              {{ plan.cta.label }} @if (plan.cta.variant === 'primary') { <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /> }
+            </a>
+          </article>
+        }
+      </div>
+
+      <div class="compare-block" appReveal>
+        <div class="compare-block__head">
+          <div>
+            <h3>Compare Plans at a Glance</h3>
+            <p>See the key differences between Posta plans and choose what fits your business.</p>
+          </div>
+          <a class="btn btn--soft" href="#plan-compare" (click)="expandCompare()">View Full Comparison <fa-icon [icon]="icons.upRightAndDownLeftFromCenter" aria-hidden="true" /></a>
+        </div>
+        <div class="compare-scroll">
+          <table class="compare-table" [class.is-expanded]="compareExpanded()" id="plan-compare">
+            <caption class="sr-only">Posta plans compared across key features</caption>
+            <thead>
+              <tr><th scope="col">Features</th><th scope="col" class="is-free">Posta Free</th><th scope="col">Posta Light</th><th scope="col" class="is-us">Posta Business</th><th scope="col">Posta Pro</th><th scope="col">Posta Enterprise</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row"><fa-icon [icon]="icons.envelope" aria-hidden="true" />Mailbox size</th><td class="is-free"><b>1 GB</b></td><td>10 GB</td><td class="is-us"><b>100 GB</b></td><td>200 GB</td><td>1 TB</td></tr>
+              <tr><th scope="row"><fa-icon [icon]="icons.users" aria-hidden="true" />Number of mailboxes</th><td class="is-free">5</td><td>Per user</td><td class="is-us">Per user</td><td>Per user</td><td>Per user</td></tr>
+              <tr><th scope="row"><fa-icon [icon]="icons.cloud" aria-hidden="true" />CloudSpace storage</th><td class="is-free">1 GB</td><td>2 GB</td><td class="is-us"><b>100 GB</b></td><td>1 TB</td><td>5 TB</td></tr>
+              <tr><th scope="row"><fa-icon [icon]="icons.clock" aria-hidden="true" />Restore deleted items</th><td class="is-free"><span class="compare-no">—</span><span class="sr-only">Not included</span></td><td>20 days</td><td class="is-us">40 days</td><td>60 days</td><td>100 days</td></tr>
+              <tr><th scope="row"><fa-icon [icon]="icons.globe" aria-hidden="true" />Hosted domains</th><td class="is-free">1</td><td>2</td><td class="is-us">5</td><td>10</td><td>Unlimited</td></tr>
+              <tr class="is-extra"><th scope="row"><fa-icon [icon]="icons.comments" aria-hidden="true" />Team chat (Posta Link)</th><td class="is-free"><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td><td><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td><td class="is-us"><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td><td><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td><td><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td></tr>
+              <tr class="is-extra"><th scope="row"><fa-icon [icon]="icons.video" aria-hidden="true" />Video meetings</th><td class="is-free"><span class="compare-no">—</span><span class="sr-only">Not included</span></td><td><span class="compare-no">—</span><span class="sr-only">Not included</span></td><td class="is-us"><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td><td><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td><td><fa-icon [icon]="icons.circleCheck" class="compare-yes" aria-hidden="true" /><span class="sr-only">Included</span></td></tr>
+              <tr class="is-extra"><th scope="row"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" />Advanced security</th><td class="is-free">Basic</td><td>Standard</td><td class="is-us">Advanced</td><td>Advanced</td><td>Enterprise</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn--soft compare-more" type="button" id="compareMore" aria-controls="plan-compare" [attr.aria-expanded]="compareExpanded()" (click)="toggleCompare()"><span>{{ compareExpanded() ? 'Show Less' : 'View Full Comparison' }}</span> <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 10. COMPLIANCE ================= -->
+  <section class="section section--mist" id="compliance" aria-labelledby="compliance-heading">
+    <div class="ds-container">
+      <div class="compliance-head" appReveal>
+        <div>
+          <p class="eyebrow">Compliance &amp; Trust</p>
+          <h2 class="h2" id="compliance-heading">Audited against the<br><span class="text-green">standards</span> you rely on.</h2>
+          <p class="lede" style="margin-bottom:0;max-width:62ch">Posta combines enterprise-grade email security with internationally recognized compliance, so your business communications stay protected — always.</p>
+        </div>
+        <figure class="compliance-visual" aria-hidden="true"><img ngSrc="/worldposta-assets/posta/compliance-visual.webp" alt="" width="621" height="269" /></figure>
+      </div>
+
+      <div class="cert-grid" appReveal>
+        @for (cert of certs; track cert.name) {
+          <article class="cert panel">
+            <span class="cert__mark">
+              @if (cert.mark) {
+                <span class="tone-icon" [attr.data-tone]="cert.tone"><img [ngSrc]="cert.mark" width="24" height="24" alt="" /></span>
+              } @else {
+                <span class="tone-icon" [attr.data-tone]="cert.tone"><fa-icon [icon]="cert.icon!" aria-hidden="true" /></span>
+              }
+            </span>
+            <strong>{{ cert.name }}</strong>
+            <small>{{ cert.description }}</small>
+            <span class="cert-pill"><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />{{ cert.pill }}</span>
+          </article>
+        }
+      </div>
+
+      <div class="nda-bar panel" appReveal>
+        <span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.fileLines" aria-hidden="true" /></span>
+        <div><strong>Attestation reports available under NDA</strong><span class="d">Access our compliance documentation via your account team.</span></div>
+        <a class="btn btn--primary" href="#contact">Request the compliance pack <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 11. SUCCESS STORIES ================= -->
+  <section class="section section--panel" id="stories" aria-labelledby="stories-heading">
+    <div class="ds-container">
+      <div class="stories-head" appReveal>
+        <div>
+          <p class="eyebrow">Real businesses. Real results</p>
+          <h2 class="h2" id="stories-heading">Success Stories<br>Across <span class="text-green">Industries.</span></h2>
+          <p class="lede" style="margin-bottom:0">See how organizations are leveraging WorldPosta Cloud to modernize their infrastructure, enhance security and achieve greater efficiency.</p>
+        </div>
+        <div class="stories-nav">
+          <a class="btn btn--outline" href="#stories">View All Case Studies <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <button class="round-btn" type="button" aria-label="Previous stories" (click)="scrollStories(-1)"><fa-icon [icon]="icons.chevronLeft" aria-hidden="true" /></button>
+          <button class="round-btn" type="button" aria-label="Next stories" (click)="scrollStories(1)"><fa-icon [icon]="icons.chevronRight" aria-hidden="true" /></button>
+        </div>
+      </div>
+
+      <div class="stories-track" appReveal #storiesTrack>
+        @for (story of stories; track story.cite) {
+          <article class="story panel">
+            <div class="story__visual story__visual--photo"><span class="story__chip story__chip--cover"><fa-icon [icon]="story.chipIcon" aria-hidden="true" /> {{ story.chipLabel }}</span><img [ngSrc]="story.photo" [width]="story.photoWidth" [height]="story.photoHeight" alt="{{ story.photoAlt }}" /></div>
+            <div class="story__body">
+              <div><div class="story__logo"><img [ngSrc]="story.logo" [width]="story.logoWidth" [height]="story.logoHeight" alt="{{ story.logoAlt }}" /></div><blockquote>&ldquo;{{ story.quote }}&rdquo;</blockquote><cite>{{ story.cite }}</cite></div>
+              <a class="story__more" href="#stories">Read<br>More<span><fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></span></a>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 12. RESOURCES ================= -->
+  <section class="section section--band" id="resources" aria-labelledby="resources-heading">
+    <div class="ds-container resources">
+      <div class="resources-intro" appReveal>
+        <p class="eyebrow">Resources</p>
+        <h2 class="h2" id="resources-heading">Explore Our <span class="text-green">Business Email</span> Guides &amp; Resources<span class="text-green">.</span></h2>
+        <p class="lede">In-depth guides to help you choose, secure, and manage the right business email solution.</p>
+      </div>
+      <div class="res-grid" appReveal>
+        @for (resource of resources; track resource.title) {
+          <article class="res-card panel">
+            <div class="res-card__cover">
+              <span class="tone-icon" [attr.data-tone]="resource.tone"><fa-icon [icon]="resource.icon" aria-hidden="true" /></span>
+              <img class="cover-img" [ngSrc]="resource.cover" width="1516" height="505" alt="{{ resource.coverAlt }}" />
+            </div>
+            <h3>{{ resource.title }}</h3>
+            <p>{{ resource.description }}</p>
+            @if (resource.href) {
+              <a class="btn btn--soft" [href]="resource.href" download>Download Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            } @else {
+              <a class="btn btn--soft" href="#resources">Download Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            }
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 13. CONTACT SALES ================= -->
+  <section class="section section--mist" id="contact" aria-labelledby="contact-heading">
+    <div class="ds-container">
+      <div class="contact">
+        <div appReveal>
+          <p class="eyebrow">Contact Sales</p>
+          <h2 class="h2" id="contact-heading" style="font-size:clamp(34px,3.4vw,52px)">Let&rsquo;s find the right solution for <span class="text-green">your business.</span></h2>
+          <p class="lede" style="margin-bottom:0">Our team is here to understand your needs and recommend the best Posta solution for your organization.</p>
+          <ul class="contact-perks">
+            <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.userCheck" aria-hidden="true" /></span><strong>Tailored recommendation</strong><span>Based on your business needs</span></li>
+            <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.commentDots" aria-hidden="true" /></span><strong>Expert consultation</strong><span>From our email and security specialists</span></li>
+            <li><span class="tone-icon" data-tone="leaf"><fa-icon [icon]="icons.gear" aria-hidden="true" /></span><strong>Fast response</strong><span>Usually within 1 business day</span></li>
+          </ul>
+        </div>
+
+        <form class="form-card panel" appReveal (submit)="onMockSubmit($event)" aria-labelledby="form3-title">
+          <h3 id="form3-title">Talk to our sales team</h3>
+          <p class="sub">Fill in your details and we&rsquo;ll get back to you shortly.</p>
+          <div class="field"><label for="f3-name">Full name *</label><input class="input" id="f3-name" type="text" placeholder="John Doe" autocomplete="name" required></div>
+          <div class="field"><label for="f3-email">Business email *</label><input class="input" id="f3-email" type="email" placeholder="you&#64;yourcompany.com" autocomplete="email" required></div>
+          <div class="field"><label for="f3-co">Company name *</label><input class="input" id="f3-co" type="text" placeholder="Your Company" autocomplete="organization" required></div>
+          <div class="field"><label for="f3-phone">Phone number</label>
+            <div class="input-group"><select aria-label="Country code" style="border-left:0;border-right:1px solid var(--color-border)"><option>🇪🇬 +20</option><option>🇦🇪 +971</option><option>🇸🇦 +966</option><option>🇬🇧 +44</option><option>🇺🇸 +1</option></select><input id="f3-phone" type="tel" placeholder="11 1234 5678" autocomplete="tel-national"></div>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Request a call <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></button>
+          <p class="form-note">Our team usually responds within 1 business day.</p>
+        </form>
+      </div>
+
+      <ul class="note-strip" appReveal aria-label="Why talk to us">
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><div><strong>Business Email Experts</strong><span class="d">Get advice from our specialists</span></div></li>
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.gear" aria-hidden="true" /></span><div><strong>Customized Solutions</strong><span class="d">For your industry and size</span></div></li>
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.clock" aria-hidden="true" /></span><div><strong>Quick Response</strong><span class="d">Usually within 1 business day</span></div></li>
+        <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.fileLines" aria-hidden="true" /></span><div><strong>No Obligation</strong><span class="d">Just a conversation</span></div></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<app-site-footer />

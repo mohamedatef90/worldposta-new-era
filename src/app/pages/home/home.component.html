@@ -1,82 +1,23 @@
-<div class="site-header-bar" [class.site-header-bar--scrolled]="scrolled()">
-  <header class="site-header ds-container">
-    <a class="brand" href="#top" aria-label="WorldPosta home">
-      <img
-        ngSrc="/worldposta-assets/WP-Logo.avif"
-        width="192"
-        height="56"
-        priority
-        alt="WorldPosta"
-      />
-    </a>
-
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="#cloudedge">CloudEdge <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#posta">Posta <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#cloudspace">CloudSpace <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#solutions">Solutions <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#service-provider">Service Provider <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-      <a href="#pricing">Pricing</a>
-      <a href="#resources">Resources <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
-    </nav>
-
-    <button
-      class="icon-button theme-toggle"
-      type="button"
-      [attr.aria-label]="theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
-      (click)="theme.toggle()"
-    >
-      <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
-    </button>
-
-    <div class="header-actions">
-      <button class="icon-button" type="button" aria-label="Search WorldPosta">
-        <fa-icon [icon]="icons.search" aria-hidden="true" />
-      </button>
-      <a class="sign-in" href="#sign-in">Sign in</a>
-      <a class="header-cta" href="#start-free">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-    </div>
-    <button
-      #menuButton
-      class="menu-button"
-      type="button"
-      [attr.aria-label]="menuOpen() ? 'Close navigation menu' : 'Open navigation menu'"
-      [attr.aria-expanded]="menuOpen()"
-      aria-controls="mobile-nav"
-      (click)="toggleMenu()"
-    >
-      <fa-icon [icon]="menuOpen() ? icons.xmark : icons.bars" aria-hidden="true" />
-    </button>
-
-    @if (menuOpen()) {
-      <div class="mobile-nav__backdrop" (click)="closeMenu()" aria-hidden="true"></div>
-
-      <nav #menuPanel class="mobile-nav" id="mobile-nav" aria-label="Primary navigation">
-        <a href="#cloudedge" (click)="closeMenu()">CloudEdge</a>
-        <a href="#posta" (click)="closeMenu()">Posta</a>
-        <a href="#cloudspace" (click)="closeMenu()">CloudSpace</a>
-        <a href="#solutions" (click)="closeMenu()">Solutions</a>
-        <a href="#service-provider" (click)="closeMenu()">Service Provider</a>
-        <a href="#pricing" (click)="closeMenu()">Pricing</a>
-        <a href="#resources" (click)="closeMenu()">Resources</a>
-
-        <hr class="mobile-nav__rule" />
-
-        <!-- Deliberately does not close the drawer: the drawer re-themes
-             around you, which is the clearest confirmation the tap worked. -->
-        <button class="mobile-nav__toggle" type="button" (click)="theme.toggle()">
-          <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
-          {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
-        </button>
-
-        <a href="#sign-in" (click)="closeMenu()">Sign in</a>
-        <a class="mobile-nav__cta" href="#start-free" (click)="closeMenu()">
-          Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
-        </a>
-      </nav>
-    }
-  </header>
-</div>
+<app-site-header #header>
+  <ng-container nav-links>
+    <a href="#cloudedge">CloudEdge <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a routerLink="/posta">Posta <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#cloudspace">CloudSpace <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#solutions">Solutions <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#service-provider">Service Provider <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#pricing">Pricing</a>
+    <a href="#resources">Resources <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+  </ng-container>
+  <ng-container mobile-nav-links>
+    <a href="#cloudedge" (click)="header.closeMenu()">CloudEdge</a>
+    <a routerLink="/posta" (click)="header.closeMenu()">Posta</a>
+    <a href="#cloudspace" (click)="header.closeMenu()">CloudSpace</a>
+    <a href="#solutions" (click)="header.closeMenu()">Solutions</a>
+    <a href="#service-provider" (click)="header.closeMenu()">Service Provider</a>
+    <a href="#pricing" (click)="header.closeMenu()">Pricing</a>
+    <a href="#resources" (click)="header.closeMenu()">Resources</a>
+  </ng-container>
+</app-site-header>
 
 <main class="home-page">
   <section class="hero" aria-labelledby="hero-heading">
