@@ -1,4 +1,23 @@
-<app-site-navbar />
+<app-site-header #header>
+  <ng-container nav-links>
+    <a href="#cloudedge">CloudEdge <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a routerLink="/posta">Posta <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#cloudspace">CloudSpace <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#solutions">Solutions <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#service-provider">Service Provider <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+    <a href="#pricing">Pricing</a>
+    <a href="#resources">Resources <fa-icon [icon]="icons.chevronDown" aria-hidden="true" /></a>
+  </ng-container>
+  <ng-container mobile-nav-links>
+    <a href="#cloudedge" (click)="header.closeMenu()">CloudEdge</a>
+    <a routerLink="/posta" (click)="header.closeMenu()">Posta</a>
+    <a href="#cloudspace" (click)="header.closeMenu()">CloudSpace</a>
+    <a href="#solutions" (click)="header.closeMenu()">Solutions</a>
+    <a href="#service-provider" (click)="header.closeMenu()">Service Provider</a>
+    <a href="#pricing" (click)="header.closeMenu()">Pricing</a>
+    <a href="#resources" (click)="header.closeMenu()">Resources</a>
+  </ng-container>
+</app-site-header>
 
 <main class="home-page">
   <section class="hero" aria-labelledby="hero-heading">

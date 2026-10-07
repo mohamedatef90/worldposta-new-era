@@ -1,0 +1,67 @@
+<div class="site-header-bar" [class.site-header-bar--scrolled]="scrolled()">
+  <header class="site-header ds-container">
+    <a class="brand" routerLink="/" aria-label="WorldPosta home">
+      <img
+        ngSrc="/worldposta-assets/WP-Logo.avif"
+        width="192"
+        height="56"
+        priority
+        alt="WorldPosta"
+      />
+    </a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <ng-content select="[nav-links]" />
+    </nav>
+
+    <button
+      class="icon-button theme-toggle"
+      type="button"
+      [attr.aria-label]="theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+      (click)="theme.toggle()"
+    >
+      <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
+    </button>
+
+    <div class="header-actions">
+      <button class="icon-button" type="button" aria-label="Search WorldPosta">
+        <fa-icon [icon]="icons.search" aria-hidden="true" />
+      </button>
+      <a class="sign-in" href="#sign-in">Sign in</a>
+      <a class="header-cta" href="#start-free">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+    </div>
+    <button
+      #menuButton
+      class="menu-button"
+      type="button"
+      [attr.aria-label]="menuOpen() ? 'Close navigation menu' : 'Open navigation menu'"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="mobile-nav"
+      (click)="toggleMenu()"
+    >
+      <fa-icon [icon]="menuOpen() ? icons.xmark : icons.bars" aria-hidden="true" />
+    </button>
+
+    @if (menuOpen()) {
+      <div class="mobile-nav__backdrop" (click)="closeMenu()" aria-hidden="true"></div>
+
+      <nav #menuPanel class="mobile-nav" id="mobile-nav" aria-label="Primary navigation">
+        <ng-content select="[mobile-nav-links]" />
+
+        <hr class="mobile-nav__rule" />
+
+        <!-- Deliberately does not close the drawer: the drawer re-themes
+             around you, which is the clearest confirmation the tap worked. -->
+        <button class="mobile-nav__toggle" type="button" (click)="theme.toggle()">
+          <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
+          {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
+        </button>
+
+        <a href="#sign-in" (click)="closeMenu()">Sign in</a>
+        <a class="mobile-nav__cta" href="#start-free" (click)="closeMenu()">
+          Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
+        </a>
+      </nav>
+    }
+  </header>
+</div>

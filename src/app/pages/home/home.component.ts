@@ -1,5 +1,6 @@
-import { NgOptimizedImage } from '@angular/common';
+import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
@@ -25,8 +26,9 @@ import { ProviderComparisonComponent } from './provider-comparison/provider-comp
 import { SecuritySectionComponent } from './security-section/security-section.component';
 import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
+import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { PerformanceTrustComponent } from './performance-trust/performance-trust.component';
-import { SiteNavbarComponent } from '@/shared/site-navbar/site-navbar.component';
+import { scrollToFragmentOnClick } from '@/shared/utils';
 
 interface ProofPoint {
   readonly icon: IconDefinition;
@@ -45,6 +47,8 @@ interface EcosystemTile {
   imports: [
     FaIconComponent,
     NgOptimizedImage,
+    RouterLink,
+    SiteHeaderComponent,
     EcosystemTabsComponent,
     PerformanceTrustComponent,
     SecuritySectionComponent,
@@ -54,15 +58,26 @@ interface EcosystemTile {
     SiteFooterComponent,
     SiteNavbarComponent,
   ],
+  // Plain `href="#id"` anchors resolve against `<base href="/">`, not the
+  // current route, so a bare click would navigate away instead of scrolling.
+  host: {
+    '(click)': 'onInPageAnchorClick($event)',
+  },
   selector: 'app-home',
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
 export class Home {
   protected readonly theme = inject(ThemeService);
+  private readonly document = inject(DOCUMENT);
+
+  protected onInPageAnchorClick(event: MouseEvent): void {
+    scrollToFragmentOnClick(event, this.document);
+  }
 
   protected readonly icons = {
     arrowRight: faArrowRight,
+    chevronDown: faChevronDown,
     chevronRight: faChevronRight,
     cloud: faCloud,
     lock: faLock,
