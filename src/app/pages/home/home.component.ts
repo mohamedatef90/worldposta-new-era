@@ -1,11 +1,9 @@
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
   faCalendarDays,
-  faChevronDown,
   faChevronRight,
   faCloud,
   faCoins,
@@ -26,6 +24,7 @@ import { GetStartedComponent } from './get-started/get-started.component';
 import { ProviderComparisonComponent } from './provider-comparison/provider-comparison.component';
 import { SecuritySectionComponent } from './security-section/security-section.component';
 import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
+import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { PerformanceTrustComponent } from './performance-trust/performance-trust.component';
@@ -48,7 +47,7 @@ interface EcosystemTile {
   imports: [
     FaIconComponent,
     NgOptimizedImage,
-    RouterLink,
+    MainNavLinksComponent,
     SiteHeaderComponent,
     EcosystemTabsComponent,
     PerformanceTrustComponent,
@@ -77,7 +76,6 @@ export class Home {
 
   protected readonly icons = {
     arrowRight: faArrowRight,
-    chevronDown: faChevronDown,
     chevronRight: faChevronRight,
     cloud: faCloud,
     lock: faLock,

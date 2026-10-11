@@ -1,24 +1,6 @@
 <app-site-header #header>
-  <ng-container nav-links>
-    <a href="#features-console">Features</a>
-    <a href="#delivery">Delivery</a>
-    <a href="#security">Security</a>
-    <a href="#migration">Migration</a>
-    <a href="#hybrid">Posta Hybrid</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#stories">Customers</a>
-    <a href="#resources">Resources</a>
-  </ng-container>
-  <ng-container mobile-nav-links>
-    <a href="#features-console" (click)="header.closeMenu()">Features</a>
-    <a href="#delivery" (click)="header.closeMenu()">Delivery</a>
-    <a href="#security" (click)="header.closeMenu()">Security</a>
-    <a href="#migration" (click)="header.closeMenu()">Migration</a>
-    <a href="#hybrid" (click)="header.closeMenu()">Posta Hybrid</a>
-    <a href="#pricing" (click)="header.closeMenu()">Pricing</a>
-    <a href="#stories" (click)="header.closeMenu()">Customers</a>
-    <a href="#resources" (click)="header.closeMenu()">Resources</a>
-  </ng-container>
+  <app-main-nav-links nav-links />
+  <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
 </app-site-header>
 
 <main class="page" id="main">

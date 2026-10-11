@@ -11,5 +11,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/posta/posta.component').then((module) => module.PostaComponent),
     title: 'Posta — Secure Business Email | WorldPosta',
   },
+  {
+    path: 'cloudedge',
+    loadComponent: () => import('./pages/cloudedge/cloudedge.component').then((module) => module.CloudEdgeComponent),
+    title: 'CloudEdge — Scalable Cloud Infrastructure | WorldPosta',
+  },
   { path: '**', redirectTo: '' },
 ];
