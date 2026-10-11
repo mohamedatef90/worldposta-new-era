@@ -201,7 +201,7 @@ export class CloudEdgeComponent {
   protected readonly challengePhoto = '/worldposta-assets/hero/cloudedge/challenge-desk.png';
 
   /** Private Cloud visual: the real CloudEdge Console composited onto the laptop screen, no illustrated cloud graphic. */
-  protected readonly privateCloudPhoto = '/worldposta-assets/hero/cloudedge/private-cloud-desk.png';
+  protected readonly privateCloudPhoto = '/worldposta-assets/hero/cloudedge/private-cloud-isolated.png';
 
   // ============================================================
   // CHALLENGES
@@ -460,3 +460,4 @@ export class CloudEdgeComponent {
 
   protected readonly zeroTrustCenterIcon = faShieldHalved;
 }
+

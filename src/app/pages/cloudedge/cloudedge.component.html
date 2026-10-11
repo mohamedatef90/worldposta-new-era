@@ -16,7 +16,7 @@
          the single cloud-and-wire accent are already composited into this
          photo, so it's rendered as one flat image rather than layered pieces. -->
     <div class="hero-photo" aria-hidden="true">
-      <img [ngSrc]="heroDeskPhoto" width="1253" height="705" priority alt="" />
+      <img [ngSrc]="heroDeskPhoto" width="1536" height="1024" priority alt="" />
     </div>
 
     <div class="hero__content ds-container" id="top">
@@ -35,14 +35,17 @@
           <a class="btn btn--primary" href="#start-free">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           <a class="btn btn--ghost" href="#talk-to-sales">Talk to an Expert</a>
         </div>
-
-        <ul class="hero-chips" aria-label="CloudEdge benefits">
-          @for (chip of heroChips; track chip.id) {
-            <li><span class="tone-icon" [attr.data-tone]="chip.tone"><fa-icon [icon]="chip.icon" aria-hidden="true" /></span>{{ chip.label }}</li>
-          }
-        </ul>
       </div>
     </div>
+  </section>
+
+  <!-- ================= TRUST BAR ================= -->
+  <section class="trust-bar-section">
+    <ul class="trust-bar ds-container" aria-label="CloudEdge benefits">
+      @for (chip of heroChips; track chip.id) {
+        <li><span class="tone-icon tone-icon--sm" [attr.data-tone]="chip.tone"><fa-icon [icon]="chip.icon" aria-hidden="true" /></span>{{ chip.label }}</li>
+      }
+    </ul>
   </section>
 
   <!-- ================= ECOSYSTEM STRIP ================= -->
@@ -150,25 +153,52 @@
            graphic standing in for the product. Faded on its left edge like
            the other photo sections. -->
         <div class="pc-photo" aria-hidden="true">
-          <img [ngSrc]="privateCloudPhoto" width="970" height="760" alt="" />
+          <img [ngSrc]="privateCloudPhoto" width="1448" height="1086" alt="" />
+          <div class="pc-dashboard-stage"><div class="pc-dashboard-screen"><img ngSrc="/worldposta-assets/hero/cloudedge/dashboard.png" width="1520" height="684" alt="" /></div></div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Short, subtle dotted threads from each capability back to the
-           laptop, tinted to match that card's own tone — a restrained
-           product-diagram accent, not a network illustration. -->
-        <svg class="pc-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path class="pc-line pc-line--blue" d="M 4 6 L 4 12 L 9.8 12 L 9.8 15.8" />
-          <path class="pc-line pc-line--green" d="M 96 6 L 96 12 L 78.9 12 L 78.9 15.8" />
-          <path class="pc-line pc-line--purple" d="M 4 94 L 4 88 L 9.8 88 L 9.8 84.1" />
-          <path class="pc-line pc-line--amber" d="M 96 94 L 96 88 L 78.9 88 L 78.9 84.1" />
-        </svg>
+  <!-- ================= ZERO TRUST ARCHITECTURE ================= -->
+  <section class="alt-section alt-section--tint" id="zero-trust" aria-labelledby="zero-trust-heading">
+    <div class="ds-container split-section split-section--wide">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Security</p>
+        <h2 id="zero-trust-heading" class="section-heading">
+          <span class="block">Zero Trust</span>
+          <span class="text-green block">Architecture (ZTA)</span>
+          <span class="security-heading-caption">Security Between Every Workload.</span>
+        </h2>
+        <p class="section-subtitle">Micro-segment your cloud environment and control traffic between servers, so only authorized connections are allowed.</p>
 
-        @for (card of privateCloudHub; track card.title) {
-          <div class="pc-card" [class]="'pc-card--' + card.position">
-            <span class="tone-icon" [attr.data-tone]="card.tone"><fa-icon [icon]="card.icon" aria-hidden="true" /></span>
-            <div><strong>{{ card.title }}</strong><span>{{ card.description }}</span></div>
+        <ul class="feature-row">
+          @for (f of zeroTrustFeatures; track f.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="f.tone"><fa-icon [icon]="f.icon" aria-hidden="true" /></span>
+              <strong>{{ f.title }}</strong>
+              <span>{{ f.description }}</span>
+            </li>
+          }
+        </ul>
+
+        <a class="btn btn--primary" href="#start-free">Strengthen Your Cloud Security <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+
+      <div class="split-section__visual">
+        <div class="security-reference">
+          <div class="security-reference__art" aria-hidden="true"><img ngSrc="/worldposta-assets/hero/cloudedge/security-reference.jpg" width="1600" height="660" alt="" /></div>
+          <div class="security-reference__labels security-reference__labels--allow">
+            @for (node of zeroTrustAllowed; track node.label) {
+              <div class="security-reference__label"><fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span></div>
+            }
           </div>
-        }
+          <div class="security-reference__labels security-reference__labels--deny">
+            @for (node of zeroTrustBlocked; track node.label) {
+              <div class="security-reference__label"><fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span></div>
+            }
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -196,7 +226,7 @@
            story, faded into the section's own background on its left edge
            exactly like the hero photo. -->
         <div class="challenge-photo" aria-hidden="true">
-          <img [ngSrc]="challengePhoto" width="1872" height="1248" alt="" />
+          <img ngSrc="/worldposta-assets/hero/cloudedge/challenge-reference.jpg" width="1600" height="666" alt="" />
         </div>
 
         <div class="checklist-stack">
@@ -224,75 +254,6 @@
     </div>
   </section>
 
-  <!-- ================= ZERO TRUST ARCHITECTURE ================= -->
-  <section class="alt-section alt-section--tint" id="zero-trust" aria-labelledby="zero-trust-heading">
-    <div class="ds-container split-section split-section--wide">
-      <div class="split-section__copy">
-        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Security</p>
-        <h2 id="zero-trust-heading" class="section-heading">
-          <span class="text-green block">Zero Trust</span>
-          <span class="text-green block">Architecture (ZTA)</span>
-          Security Between Every Workload.
-        </h2>
-        <p class="section-subtitle">Micro-segment your cloud environment and control traffic between servers, so only authorized connections are allowed.</p>
-
-        <ul class="feature-row">
-          @for (f of zeroTrustFeatures; track f.title) {
-            <li>
-              <span class="tone-icon" [attr.data-tone]="f.tone"><fa-icon [icon]="f.icon" aria-hidden="true" /></span>
-              <strong>{{ f.title }}</strong>
-              <span>{{ f.description }}</span>
-            </li>
-          }
-        </ul>
-
-        <a class="btn btn--primary" href="#start-free">Strengthen Your Cloud Security <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-      </div>
-
-      <div class="split-section__visual">
-        <!-- A single security-boundary container split into two tinted
-           zones (authorized / restricted), with the Zero Trust node
-           overlapping the line between them — the diagram reads as
-           "authorized workloads → Zero Trust control → blocked workloads"
-           at a glance. -->
-        <div class="zt-boundary">
-          <div class="zt-zone zt-zone--allow">
-            <p class="zt-zone__label"><fa-icon [icon]="icons.lock" aria-hidden="true" />Allowed / Authorized</p>
-            @for (node of zeroTrustAllowed; track node.label) {
-              <div class="zt-server zt-server--allow">
-                <fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span>
-                <fa-icon class="zt-server__mark" [icon]="icons.circleCheck" aria-hidden="true" />
-              </div>
-            }
-          </div>
-          <div class="zt-zone zt-zone--deny">
-            <p class="zt-zone__label"><fa-icon [icon]="icons.lock" aria-hidden="true" />Blocked / Restricted</p>
-            @for (node of zeroTrustBlocked; track node.label) {
-              <div class="zt-server zt-server--deny">
-                <fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span>
-                <fa-icon class="zt-server__mark" [icon]="icons.circleXmark" aria-hidden="true" />
-              </div>
-            }
-          </div>
-
-          <svg class="zt-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <path class="zt-line zt-line--allow" d="M 41.3 38.3 L 43.3 41.1" />
-            <path class="zt-line zt-line--allow" d="M 41.3 54.8 L 42.0 54.5" />
-            <path class="zt-line zt-line--allow" d="M 41.3 71.3 L 45.1 61.9" />
-            <path class="zt-line zt-line--deny" d="M 58.7 38.3 L 56.7 41.1" />
-            <path class="zt-line zt-line--deny" d="M 58.7 54.8 L 58.1 54.5" />
-            <path class="zt-line zt-line--deny" d="M 58.7 71.3 L 54.9 61.9" />
-          </svg>
-
-          <div class="zt-center">
-            <fa-icon [icon]="zeroTrustCenterIcon" aria-hidden="true" />
-            <span>ZERO TRUST</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= GLOBAL BUSINESS ================= -->
   <section class="alt-section" id="global-business" aria-labelledby="global-business-heading">
     <div class="ds-container split-section">
@@ -313,7 +274,7 @@
 
       <div class="split-section__visual">
         <div class="world-map">
-          <img ngSrc="/worldposta-assets/hero/cloudedge/network-map.svg" width="1000" height="700" alt="Dotted world map showing WorldPosta's global network of regions" />
+          <div class="world-map__art"><img ngSrc="/worldposta-assets/hero/cloudedge/global-infrastructure-reference.jpg" width="1600" height="660" alt="Dotted world map showing WorldPosta's global network of regions" /></div>
           <div class="floating-card world-map__card">
             <span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.globe" aria-hidden="true" /></span>
             <div><strong>Global Reach</strong><span>35+ regions worldwide</span></div>
@@ -328,7 +289,7 @@
     <div class="ds-container split-section">
       <div class="split-section__copy">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Zero Downtime Migration</p>
-        <h2 id="migration-heading" class="section-heading">Migrate to the Cloud with <span class="text-green block">Zero Downtime.</span></h2>
+        <h2 id="migration-heading" class="section-heading">Migrate to the Cloud<br />with <span class="text-green">Zero Downtime.</span></h2>
         <p class="section-subtitle">Move to WorldPosta Cloud with confidence. Our proven migration methodology ensures a seamless transition with zero downtime, so your business stays up and running.</p>
 
         <ul class="feature-grid">
@@ -345,6 +306,7 @@
 
       <div class="split-section__visual">
         <div class="migration-flow">
+          <div class="migration-art" aria-hidden="true"><img ngSrc="/worldposta-assets/hero/cloudedge/migration-reference.jpg" width="1600" height="660" alt="" /></div>
           <div class="migration-flow__row">
             <div class="migration-flow__card">
               <span>From</span>
@@ -381,7 +343,7 @@
       <div class="stories-head">
         <div>
           <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Real Businesses. Real Results</p>
-          <h2 id="stories-heading" class="section-heading">Success Stories Across <span class="text-green">Industries.</span></h2>
+          <h2 id="stories-heading" class="section-heading">Success Stories<br />Across <span class="text-green">Industries.</span></h2>
           <p class="section-subtitle">See how organizations are leveraging WorldPosta Cloud to modernize their infrastructure, enhance security and achieve greater efficiency.</p>
         </div>
         <div class="stories-head__actions">
@@ -403,6 +365,7 @@
             <img class="story__logo" [ngSrc]="story.logo" [width]="story.logoWidth" [height]="story.logoHeight" [alt]="story.logoAlt" />
             <p class="story__quote">&ldquo;{{ story.quote }}&rdquo;</p>
             <p class="story__cite">{{ story.cite }}</p>
+            <details class="story__read-more"><summary><span class="story__read-label">Read<br />More</span><span class="story__less-label">Read<br />Less</span><span class="story__read-arrow"><fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></span></summary><span class="sr-only">Full customer quote displayed.</span></details>
           </li>
         }
       </ul>
@@ -426,6 +389,12 @@
           }
         </ul>
 
+        <div class="whitepaper-cover">
+          <p class="whitepaper-cover__brand"><fa-icon [icon]="icons.cloud" aria-hidden="true" /> WorldPosta</p>
+          <h3>Cloud Providers Comparison Guide</h3>
+          <p>Performance. Security. Cost.<br />Make the right choice.</p>
+        </div>
+
         <div class="whitepaper-cta">
           <a class="btn btn--primary" href="#download">Download the White Paper <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           <p class="whitepaper-caption">No registration required</p>
@@ -434,13 +403,7 @@
 
       <div class="split-section__visual whitepaper-visual">
         <div class="compare-photo">
-          <img [ngSrc]="heroPhoto" width="1872" height="1248" alt="" />
-        </div>
-
-        <div class="whitepaper-cover">
-          <p class="whitepaper-cover__brand"><fa-icon [icon]="icons.cloud" aria-hidden="true" /> WorldPosta</p>
-          <h3>Cloud Providers Comparison Guide</h3>
-          <p>Performance. Security. Cost.<br />Make the right choice.</p>
+          <img ngSrc="/worldposta-assets/hero/cloudedge/whitepaper-reference.jpg" width="1600" height="533" alt="Cloud specialist reviewing cloud providers on a laptop" />
         </div>
 
         <div class="floating-card compare-card">
@@ -470,16 +433,13 @@
         <a class="btn btn--primary" href="#talk-to-sales">Talk to a Cloud Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
-      <div class="split-section__visual">
-        <div class="hub hub--es">
-          <span class="hub__center"><fa-icon [icon]="hubCenters.expertSupport" aria-hidden="true" /></span>
+      <div class="split-section__visual expert-support-visual">
+        <div class="support-cloud" aria-hidden="true"><img ngSrc="/worldposta-assets/hero/cloudedge/expert-support-reference.jpg" width="1600" height="660" alt="" /></div>
+        <ul class="expert-support-details" aria-label="Expert support services">
           @for (card of expertSupportHub; track card.title) {
-            <div class="hub__card" [class]="'hub__card--' + card.position">
-              <span class="tone-icon" [attr.data-tone]="card.tone"><fa-icon [icon]="card.icon" aria-hidden="true" /></span>
-              <div><strong>{{ card.title }}</strong><span>{{ card.description }}</span></div>
-            </div>
+            <li><span class="tone-icon" [attr.data-tone]="card.tone"><fa-icon [icon]="card.icon" aria-hidden="true" /></span><div><strong>{{ card.title }}</strong><span>{{ card.description }}</span></div></li>
           }
-        </div>
+        </ul>
       </div>
     </div>
   </section>
@@ -563,3 +523,13 @@
 </main>
 
 <app-site-footer />
+
+
+
+
+
+
+
+
+
+
