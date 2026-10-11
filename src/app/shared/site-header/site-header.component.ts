@@ -1,5 +1,5 @@
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
-import { Component, effect, inject, signal, viewChild, type ElementRef } from '@angular/core';
+import { Component, effect, inject, input, signal, viewChild, type ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faArrowRight, faBars, faMagnifyingGlass, faMoon, faSun, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -38,6 +38,14 @@ export class SiteHeaderComponent {
    * once the page has scrolled — otherwise it would cut a band across the hero.
    */
   protected readonly scrolled = signal(false);
+
+  /**
+   * Some pages' heroes should never show through the bar at all (e.g. a photo
+   * hero where a transparent header would sit awkwardly over a face). Those
+   * pages pass `[solid]="true"` to keep the bar's scrolled surface on from
+   * the start, instead of waiting for `scrolled`.
+   */
+  readonly solid = input(false);
 
   private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
   private readonly menuPanel = viewChild<ElementRef<HTMLElement>>('menuPanel');

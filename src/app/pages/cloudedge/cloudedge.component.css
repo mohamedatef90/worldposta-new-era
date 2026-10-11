@@ -1,0 +1,506 @@
+:host { display: block; }
+*, *::before, *::after { box-sizing: border-box; }
+h1, h2, h3 { font-family: var(--font-heading); margin: 0; color: var(--wp-ink); }
+p { margin: 0; }
+img { max-width: 100%; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.site-nav a { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: 12px; font-weight: var(--fw-semibold); white-space: nowrap; }
+.site-nav fa-icon { font-size: 9px; }
+@media (max-width: 1199px) { .site-nav a { font-size: var(--fs-caption); } }
+.mobile-nav a { display: flex; min-height: 48px; align-items: center; gap: var(--space-sm); padding: 0 12px; border-radius: var(--radius-md); color: var(--wp-ink); font-size: 16px; font-weight: var(--fw-semibold); text-decoration: none; }
+.mobile-nav a:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
+
+.page { overflow-x: clip; background: var(--color-bg-primary); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-sm); min-height: 48px; padding: 0 28px; border: 1.5px solid transparent; border-radius: var(--radius-full); font-family: var(--font-body); font-size: 14px; font-weight: var(--fw-semibold); text-decoration: none; white-space: nowrap; cursor: pointer; transition: transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out), box-shadow var(--duration-base) var(--ease-out); }
+.btn--primary { color: var(--primary-foreground); background: var(--color-brand-green); box-shadow: 0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); }
+.btn--primary:hover { color: var(--primary-foreground); background: var(--color-brand-green-light); transform: translateY(-2px); }
+.btn--ghost { color: var(--wp-ink); background: var(--wp-panel); border-color: var(--wp-panel-line); box-shadow: var(--shadow-sm); }
+.btn--ghost:hover { color: var(--wp-ink); border-color: var(--color-brand-green); transform: translateY(-2px); }
+.btn--outline { color: var(--color-brand-green); border-color: var(--color-brand-green); background: transparent; }
+.btn--outline:hover { color: var(--primary-foreground); background: var(--color-brand-green); }
+.btn--block { width: 100%; }
+.btn--xs { min-height: 32px; padding: 0 14px; font-size: 12px; }
+
+.block { display: block; }
+.text-rose { color: var(--wp-tone-rose); }
+
+/* ============================================================
+   HERO — identical in content and structure to the homepage
+   CloudEdge hero; this page just gives it its own URL.
+   ============================================================ */
+.hero { position: relative; overflow: hidden; padding-top: 80px; min-height: 640px; isolation: isolate; background: linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
+.hero::after { position: absolute; z-index: -1; inset: 38% 0 auto; height: 62%; background: linear-gradient(180deg, transparent, var(--wp-hero-veil)); content: ''; }
+.hero__cloud { position: absolute; z-index: -1; border-radius: var(--radius-full); filter: blur(2px); opacity: .72; background: radial-gradient(circle at 60% 30%, var(--wp-cloud-core), var(--wp-cloud-edge) 42%, transparent 70%); }
+/* Both blobs sit over the copy column and bleed into the photo's own
+   left-edge fade (see .hero-photo below) — the full-bleed photo is opaque
+   everywhere else, so a blob positioned behind it would simply be hidden. */
+.hero__cloud--one { width: 460px; height: 320px; top: -90px; left: 40px; opacity: .8; }
+/* Green accent blob — this page's one deliberate departure from the shared
+   all-blue cloud-blob treatment, per the "soft blue/green curved shapes"
+   brief. Scoped to this page only; Home/Posta keep the plain blue pair. */
+.hero__cloud--two { width: 420px; height: 300px; left: 160px; bottom: -110px; opacity: .7; background: radial-gradient(circle at 60% 30%, color-mix(in srgb, var(--color-brand-green) 38%, transparent), color-mix(in srgb, var(--color-brand-green) 14%, transparent) 42%, transparent 70%); }
+
+.hero__content { padding-top: var(--space-xl); padding-bottom: var(--wp-section-pad); }
+.hero-copy { position: relative; z-index: 1; max-width: 495px; padding-top: var(--space-md); }
+.eyebrow { display: flex; align-items: center; gap: var(--space-sm); margin: 0 0 12px; color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 3px; line-height: 1.4; text-transform: uppercase; }
+.eyebrow__rule { width: 28px; height: 1.5px; background: var(--color-text-muted); }
+h1 { font-size: clamp(44px, 4.2vw, 66px); line-height: .98; letter-spacing: -2.4px; font-weight: 700; }
+h1 span { display: block; }
+/* The blue accent word nests inside its line's own block-level span (so it
+   stays on that line, not its own), so it needs pulling back to inline. */
+h1 > span .text-blue { display: inline; }
+.text-blue { color: var(--wp-blue); }
+.text-green { color: var(--wp-green); font-size: .84em; white-space: nowrap; }
+@media (max-width: 639px) { .text-green { white-space: normal; } }
+.hero-copy__description { max-width: 465px; margin: var(--space-md) 0 20px; color: var(--color-text-secondary); font-size: 17px; font-weight: 500; line-height: 1.35; }
+
+.hero-copy__actions { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-lg); }
+.hero-copy__actions .btn { min-height: 48px; padding: 0 28px; font-size: 14px; }
+
+/* Tone icons — large, clearly-colored pastel rounded-square badges. Deliberately
+   big and solid (not small outline glyphs): the same treatment is used for the
+   feature list under the CTAs and the floating cards over the photo, so the
+   two read as the same feature shown twice, not two different icon systems. */
+.tone-icon { display: inline-grid; flex: 0 0 auto; width: 44px; height: 44px; place-items: center; border-radius: 13px; font-size: 19px; --tone: var(--wp-tone-sky); color: var(--tone); background: color-mix(in srgb, var(--tone) 18%, transparent); }
+.tone-icon[data-tone='green'] { --tone: var(--wp-tone-green); }
+.tone-icon[data-tone='blue'] { --tone: var(--wp-tone-blue); }
+.tone-icon[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+.tone-icon[data-tone='rose'] { --tone: var(--wp-tone-rose); }
+.tone-icon[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+.tone-icon[data-tone='sky'] { --tone: var(--wp-tone-sky); }
+
+/* ============================================================
+   ECOSYSTEM STRIP — "also part of the WorldPosta ecosystem", just
+   under the hero. Same pattern as the homepage's own strip, with
+   CloudEdge's managed-services lineup in place of collaboration tools.
+   ============================================================ */
+.ecosystem-strip-section { padding: 10px 0; background: linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%); }
+/* Column, not the homepage's side-by-side row: CloudEdge's labels ("Object
+   Storage as a Service", …) are long enough that a fixed-width intro column
+   left too little room for seven of them, forcing a horizontal scroll that
+   cut the last two off. Full-width wrapping tiles under the intro means
+   every tile is always on screen, never scrolled or clipped. */
+.ecosystem-strip { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-lg); padding: var(--space-lg) var(--space-xl); background: var(--wp-panel); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); }
+.ecosystem-strip__intro { max-width: 560px; }
+.ecosystem-strip__eyebrow { margin: 0 0 var(--space-sm); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 1.5px; text-transform: uppercase; }
+.ecosystem-strip__heading { margin: 0 0 var(--space-xs); color: var(--wp-ink); font-size: 20px; font-weight: 700; line-height: 1.2; }
+.ecosystem-strip__heading span { color: var(--color-brand-green); }
+.ecosystem-strip__subtitle { margin: 0; color: var(--wp-body-strong); font-size: 13px; line-height: 1.4; }
+.ecosystem-strip__tiles { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--space-sm); width: 100%; }
+.ecosystem-tile { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); padding: var(--space-sm) 12px; text-decoration: none; white-space: nowrap; transition: transform var(--duration-fast) var(--ease-out); }
+.ecosystem-tile:hover { transform: translateY(-2px); }
+.ecosystem-tile:focus-visible { outline: 2px solid var(--color-brand-green); outline-offset: 2px; border-radius: var(--radius-md); }
+.ecosystem-tile__icon { display: grid; width: 40px; height: 40px; place-items: center; border-radius: var(--radius-lg); font-size: 16px; color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }
+.ecosystem-tile__icon img { width: auto; height: auto; max-width: 28px; max-height: 16px; object-fit: contain; }
+.ecosystem-tile__label { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: var(--fw-semibold); }
+.ecosystem-tile__chevron { color: var(--color-text-muted); font-size: 10px; flex-shrink: 0; }
+
+/* Tile color variants */
+.tile--green { --tone: var(--wp-tone-leaf); }
+.tile--purple { --tone: var(--wp-tone-purple); }
+.tile--amber { --tone: var(--wp-tone-amber); }
+.tile--sky { --tone: var(--wp-tone-sky); }
+
+@media (max-width: 1199px) { .ecosystem-strip { gap: var(--space-md); padding: 20px var(--space-lg); } }
+@media (max-width: 639px) {
+  .ecosystem-strip { padding: 20px var(--space-md); border-radius: var(--radius-xl); }
+  .ecosystem-strip__heading { font-size: 18px; }
+  .ecosystem-strip__subtitle { font-size: 12px; }
+  .ecosystem-tile { flex: 1 1 calc(50% - var(--space-sm)); padding: var(--space-sm) 8px; }
+  .ecosystem-tile__label { white-space: normal; text-align: center; }
+  .ecosystem-tile__icon { width: 36px; height: 36px; font-size: 14px; }
+}
+
+.hero-chips { display: flex; flex-wrap: wrap; gap: var(--space-md) var(--space-lg); padding: 0; margin: 0; list-style: none; }
+.hero-chips li { display: flex; align-items: center; gap: var(--space-sm); color: var(--wp-ink); font-size: 13.5px; font-weight: var(--fw-semibold); }
+
+/* hero-photo — fades into the hero's own gradient on its left edge, so it
+   reads as part of the section's background rather than a framed screenshot
+   on top of it. Sized to the photo's own aspect ratio (aspect-ratio, not a
+   stretched inset box) rather than cropped with object-fit. The CloudEdge
+   console, the cloud icon and its connecting wire are already composited
+   into the photo itself, so there's nothing layered on top of it here. The
+   fade is kept short (not the wider fade a plain background photo would
+   use) because the cloud icon sits right at the photo's left edge — a
+   wider fade would wash it out along with the background behind it. */
+.hero-photo { position: absolute; z-index: 0; overflow: hidden; border-radius: 28px; left: 44%; right: 28px; top: 50%; aspect-ratio: 1.777; transform: translateY(-50%); mask-image: linear-gradient(to right, transparent, black 1.5%); -webkit-mask-image: linear-gradient(to right, transparent, black 1.5%); }
+.hero-photo > img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.floating-card { position: absolute; z-index: 1; display: flex; flex-direction: row; align-items: center; gap: 12px; max-width: 220px; padding: 12px 16px; border: 1px solid color-mix(in srgb, var(--wp-panel-line) 70%, transparent); border-radius: 15px; background: var(--wp-panel); box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--wp-ink) 16%, transparent), 0 2px 6px -2px color-mix(in srgb, var(--wp-ink) 10%, transparent); }
+.floating-card strong { font-size: 13px; line-height: 1.3; color: var(--color-text-primary); font-weight: var(--fw-semibold); }
+
+@media (max-width: 1199px) { .hero-photo { left: 50%; } }
+@media (max-width: 1023px) {
+  .hero { padding-top: 72px; min-height: unset; }
+  .hero-copy { max-width: 620px; }
+  .hero-photo { display: none; }
+}
+@media (max-width: 639px) {
+  .hero__content { padding-left: 20px; padding-right: 20px; padding-top: var(--space-lg); }
+  .hero-copy { padding-top: 0; }
+  .hero-copy__description { font-size: 16px; }
+  .hero-chips { gap: var(--space-sm) var(--space-md); }
+  .hero-copy__actions { display: grid; grid-template-columns: 1fr; }
+  .hero-copy__actions .btn { width: 100%; }
+}
+
+/* ============================================================
+   SHARED SECTION PRIMITIVES — reused across every section below
+   the ecosystem strip: the alternating section background, the
+   eyebrow/heading/subtitle block, and the two-column split layout.
+   ============================================================ */
+.alt-section { padding-block: var(--wp-section-pad); background: var(--color-bg-primary); }
+.alt-section--tint { background: var(--wp-band-from); }
+
+.section-heading { font-size: clamp(26px, 2.8vw, 38px); line-height: 1.18; letter-spacing: -.5px; font-weight: 800; margin-bottom: var(--space-md); }
+.section-subtitle { max-width: 54ch; color: var(--color-text-secondary); font-size: 15.5px; line-height: 1.5; margin-bottom: var(--space-lg); }
+
+.split-section { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl); align-items: center; }
+.split-section--wide { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); }
+.split-section__copy { max-width: 560px; }
+.split-section__visual { position: relative; min-height: 360px; }
+
+/* Generic icon+copy grids used for the "four features" lists. */
+.feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin: 0 0 var(--space-lg); padding: 0; list-style: none; }
+.feature-grid li { display: flex; gap: var(--space-sm); align-items: flex-start; }
+.feature-grid strong, .feature-grid span { display: block; }
+.feature-grid strong { color: var(--wp-ink); font-size: 15px; margin-bottom: 2px; }
+.feature-grid span { color: var(--color-text-muted); font-size: 13px; line-height: 1.4; }
+
+/* A neat 2x2 grid (Zero Trust's four benefits) rather than a wrapping row —
+   precise alignment, with a smaller, more subdued icon than the page's
+   usual tone-icon size since these are supporting detail, not the focus. */
+.feature-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg) var(--space-xl); margin: 0 0 var(--space-lg); padding: 0; list-style: none; }
+.feature-row li { display: flex; flex-direction: column; gap: 6px; }
+.feature-row strong { color: var(--wp-ink); font-size: 14px; }
+.feature-row span { color: var(--color-text-muted); font-size: 12.5px; line-height: 1.4; }
+.feature-row .tone-icon { width: 36px; height: 36px; font-size: 15px; margin-bottom: 2px; }
+
+@media (max-width: 639px) { .feature-row { grid-template-columns: 1fr; } }
+
+.stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); margin: 0 0 var(--space-lg); padding: 0; list-style: none; max-width: 460px; }
+.stat-grid li { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: var(--wp-panel); }
+.stat-grid strong { display: block; color: var(--wp-ink); font-size: 19px; font-weight: 800; line-height: 1.1; }
+.stat-grid span { color: var(--color-text-muted); font-size: 12px; }
+
+/* cc-trust-row — the Cloud Computing overview's three benefit cards.
+   grid-column: 1 / -1 spans the full cc-layout grid (sidebar + main), so
+   the row's own left/right edges line up exactly with the sidebar's left
+   edge and the dashboard's right edge, rather than being boxed into the
+   narrower copy column above it. */
+.cc-trust-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); margin: var(--space-2xl) 0 0; padding: 0; list-style: none; }
+.cc-trust-card { display: flex; align-items: center; gap: var(--space-md); min-height: 88px; padding: 18px 24px; border-radius: 16px; background: color-mix(in srgb, var(--wp-panel) 92%, var(--wp-blue) 5%); border: 1px solid color-mix(in srgb, var(--wp-blue) 20%, transparent); box-shadow: 0 10px 24px -18px color-mix(in srgb, var(--wp-ink) 24%, transparent); }
+.cc-trust-card .tone-icon { flex-shrink: 0; width: 44px; height: 44px; }
+.cc-trust-card__divider { align-self: stretch; width: 1px; flex-shrink: 0; background: color-mix(in srgb, var(--wp-blue) 20%, transparent); }
+.cc-trust-card span:last-child { color: var(--wp-ink); font-size: 14.5px; font-weight: 700; line-height: 1.3; }
+
+@media (max-width: 1023px) { .cc-trust-row { grid-template-columns: 1fr; } }
+
+@media (max-width: 1023px) {
+  .split-section, .split-section--wide { grid-template-columns: 1fr; }
+  .split-section__copy { max-width: none; }
+  .split-section__visual { min-height: 320px; }
+}
+@media (max-width: 639px) {
+  .alt-section { padding-block: var(--space-xl); }
+  .feature-grid, .stat-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   CHALLENGES — "From Challenges" / "To Opportunities" checklists.
+   ============================================================ */
+.challenge-visual { min-height: 460px; }
+.challenge-photo { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; box-shadow: var(--shadow-xl); mask-image: linear-gradient(to right, transparent, black 18%); -webkit-mask-image: linear-gradient(to right, transparent, black 18%); }
+.challenge-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* The two cards float at the photo's right, each nudged a little further
+   right than the last with a short red-to-green thread between them —
+   hierarchy and a soft line carry the "problem → opportunity" read instead
+   of a literal arrow. */
+.checklist-stack { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 0; width: min(300px, 92%); margin-left: auto; margin-right: 6%; }
+.checklist-card { padding: var(--space-lg); border-radius: var(--radius-xl); background: var(--wp-panel); box-shadow: var(--shadow-lg); }
+.checklist-card h3 { font-size: 15px; margin-bottom: var(--space-sm); }
+.checklist-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.checklist-card li { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--wp-ink); font-weight: 600; }
+.checklist-card--rose { border-top: 3px solid var(--wp-tone-rose); }
+.checklist-card--rose h3 { color: var(--wp-tone-rose); }
+.checklist-card--rose fa-icon { color: var(--wp-tone-rose); }
+.checklist-card--green { margin-left: 32px; border-top: 3px solid var(--color-brand-green); }
+.checklist-card--green h3 { color: var(--color-brand-green); }
+.checklist-card--green fa-icon { color: var(--color-brand-green); }
+.checklist-connector { width: 2px; height: 30px; margin: 10px 0 10px 24px; border-radius: 2px; background: linear-gradient(to bottom, var(--wp-tone-rose), var(--color-brand-green)); }
+
+@media (max-width: 1023px) {
+  .challenge-visual { min-height: 420px; }
+  .checklist-stack { margin: 0 auto; width: min(340px, 100%); }
+  .checklist-card--green { margin-left: 0; }
+}
+@media (max-width: 639px) { .challenge-photo { display: none; } }
+
+/* ============================================================
+   CLOUD COMPUTING OVERVIEW — sidebar + dashboard mockup.
+   ============================================================ */
+.cc-layout { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-2xl); align-items: start; }
+.cc-sidebar { display: flex; flex-direction: column; gap: 2px; padding: var(--space-md); border-radius: var(--radius-xl); background: var(--wp-panel); box-shadow: var(--wp-panel-shadow); position: sticky; top: 100px; }
+.cc-sidebar__title { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-text-muted); padding: 0 10px; margin-bottom: 6px; }
+.cc-sidebar__link { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: var(--radius-md); color: var(--wp-body-strong); font-size: 13.5px; font-weight: 600; text-decoration: none; }
+.cc-sidebar__link span { flex: 1; }
+.cc-sidebar__chevron { font-size: 10px; color: var(--color-text-muted); }
+.cc-sidebar__link:hover { background: color-mix(in srgb, var(--color-brand-green) 8%, transparent); }
+.cc-sidebar__link.is-active { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); color: var(--color-brand-green); }
+.cc-main .split-section__visual { min-height: 440px; }
+
+@media (max-width: 1023px) {
+  .cc-layout { grid-template-columns: 1fr; }
+  .cc-sidebar { position: static; flex-direction: row; overflow-x: auto; }
+  .cc-sidebar__title { display: none; }
+}
+
+/* ============================================================
+   HUB DIAGRAM — a center icon with labeled cards floating around
+   it. Used for Expert Support.
+   ============================================================ */
+.hub { position: relative; min-height: 380px; display: flex; align-items: center; justify-content: center; }
+.hub__center { display: grid; place-items: center; width: 108px; height: 108px; border-radius: 50%; background: linear-gradient(135deg, var(--wp-blue), var(--color-brand-green)); color: #fff; font-size: 38px; box-shadow: var(--shadow-xl); z-index: 1; }
+.hub__card { position: absolute; display: flex; align-items: center; gap: 10px; max-width: 200px; padding: 12px 14px; border-radius: 14px; background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-md); }
+.hub__card strong { display: block; color: var(--wp-ink); font-size: 13px; line-height: 1.25; }
+.hub__card span { color: var(--color-text-muted); font-size: 11.5px; line-height: 1.3; }
+.hub__card--compact { flex-direction: column; align-items: flex-start; gap: 8px; max-width: 150px; }
+.hub__card--compact strong { font-size: 12px; }
+
+/* Expert Support: three left, three right. */
+.hub--es { min-height: 440px; }
+.hub__card--es-1 { left: 0; top: 2%; }
+.hub__card--es-2 { right: 0; top: 2%; }
+.hub__card--es-3 { left: 2%; top: 42%; }
+.hub__card--es-4 { right: 2%; top: 42%; }
+.hub__card--es-5 { left: 0; bottom: 2%; }
+.hub__card--es-6 { right: 0; bottom: 2%; }
+
+@media (max-width: 1023px) {
+  .hub { display: flex; flex-wrap: wrap; gap: var(--space-md); min-height: auto; justify-content: center; }
+  .hub__center { display: none; }
+  .hub__card { position: static; max-width: none; width: calc(50% - var(--space-sm)); }
+}
+@media (max-width: 639px) { .hub__card { width: 100%; } }
+
+/* ============================================================
+   CLOUD COMPUTING DASHBOARD MOCKUP — the CloudEdge Console shown
+   as a premium floating panel (no device frame): a soft ambient
+   glow behind it, rounded corners and a soft shadow underneath,
+   near-front-facing with only the slightest perspective tilt.
+   ============================================================ */
+.cc-visual { display: flex; align-items: center; isolation: isolate; }
+.dashboard-glow { position: absolute; inset: -14% -10%; z-index: -1; border-radius: 40px; background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--wp-blue) 20%, transparent), transparent 60%), radial-gradient(circle at 75% 78%, color-mix(in srgb, var(--color-brand-green) 18%, transparent), transparent 62%); filter: blur(6px); }
+.dashboard-mockup { width: 100%; border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -20px color-mix(in srgb, var(--wp-ink) 28%, transparent), 0 10px 26px -12px color-mix(in srgb, var(--wp-ink) 18%, transparent); transform: perspective(1400px) rotateY(-2.5deg) rotateX(1deg); }
+.dashboard-mockup img { display: block; width: 100%; height: auto; }
+
+@media (max-width: 1023px) { .dashboard-mockup { transform: none; } }
+
+/* ============================================================
+   PRIVATE CLOUD VISUAL — the real CloudEdge Console composited onto
+   the laptop screen in the photo (no illustrated cloud graphic), with
+   the four capability cards floating around it and thin dotted
+   threads tying each one back to the laptop in its own tone color.
+   ============================================================ */
+/* Tighter gap than the generic split-section, so the product visual sits
+   closer to the copy instead of leaving a wide dead gap between them. */
+#private-cloud .split-section { gap: var(--space-xl); }
+
+.pc-visual { min-height: 460px; }
+.pc-photo { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; box-shadow: var(--shadow-xl); mask-image: linear-gradient(to right, transparent, black 5%); -webkit-mask-image: linear-gradient(to right, transparent, black 5%); }
+.pc-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Short and understated — a product-diagram accent, not a network map. */
+.pc-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.pc-line { fill: none; stroke-width: .4; stroke-linecap: round; stroke-dasharray: 1.2 1.8; opacity: .5; }
+.pc-line--blue { stroke: var(--wp-tone-blue); }
+.pc-line--green { stroke: var(--wp-tone-green); }
+.pc-line--purple { stroke: var(--wp-tone-purple); }
+.pc-line--amber { stroke: var(--wp-tone-amber); }
+
+/* Compact and secondary to the product: a small icon, tight padding and a
+   narrow capped width keep each card modest, hugging its own corner just
+   clear of the laptop screen. */
+.pc-card { position: absolute; z-index: 1; display: flex; align-items: center; gap: 6px; width: 132px; padding: 7px 9px; border-radius: 11px; background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-md); }
+.pc-card strong { display: block; color: var(--wp-ink); font-size: 10.5px; line-height: 1.2; }
+.pc-card span { color: var(--color-text-muted); font-size: 9px; line-height: 1.2; }
+.pc-card .tone-icon { width: 28px; height: 28px; font-size: 12px; border-radius: 9px; flex-shrink: 0; }
+.pc-card--pc-1 { left: 0; top: 0; }
+.pc-card--pc-2 { right: 0; top: 0; }
+.pc-card--pc-3 { left: 0; bottom: 0; }
+.pc-card--pc-4 { right: 0; bottom: 0; }
+
+@media (max-width: 1023px) {
+  .pc-visual { display: flex; flex-wrap: wrap; gap: var(--space-md); min-height: auto; }
+  .pc-photo, .pc-lines { display: none; }
+  .pc-card { position: static; max-width: none; width: calc(50% - var(--space-sm)); }
+}
+@media (max-width: 639px) { .pc-card { width: 100%; } }
+
+/* ============================================================
+   ZERO TRUST ARCHITECTURE — a single security-boundary container
+   split into two tinted zones either side of a central Zero Trust
+   node, with thin lines in each zone's own color carrying the
+   "authorized → control → blocked" story at a glance.
+   ============================================================ */
+.zt-boundary { position: relative; display: grid; grid-template-columns: 1fr 1fr; isolation: isolate; min-height: 364px; border-radius: 20px; overflow: hidden; border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); }
+.zt-zone { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 32px 28px; }
+.zt-zone--allow { background: color-mix(in srgb, var(--color-brand-green) 4%, var(--wp-panel)); }
+.zt-zone--deny { background: color-mix(in srgb, var(--wp-tone-rose) 4%, var(--wp-panel)); align-items: flex-end; }
+.zt-zone--deny .zt-server { flex-direction: row-reverse; }
+.zt-zone__label { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.zt-zone--allow .zt-zone__label { color: var(--color-brand-green); }
+.zt-zone--deny .zt-zone__label { color: var(--wp-tone-rose); }
+.zt-zone__label fa-icon { font-size: 12px; }
+
+.zt-server { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 230px; padding: 12px 14px; border-radius: 13px; background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); font-size: 13px; font-weight: 600; color: var(--wp-ink); }
+.zt-server__mark { margin-left: auto; font-size: 14px; }
+.zt-zone--deny .zt-server__mark { margin-left: 0; margin-right: auto; }
+.zt-server--allow .zt-server__mark { color: var(--color-brand-green); }
+.zt-server--deny .zt-server__mark { color: var(--wp-tone-rose); }
+
+.zt-lines { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; }
+.zt-line { fill: none; stroke-width: .5; opacity: .6; }
+.zt-line--allow { stroke: var(--color-brand-green); }
+.zt-line--deny { stroke: var(--wp-tone-rose); }
+
+.zt-center { position: absolute; z-index: 2; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 106px; height: 106px; border-radius: 50%; background: linear-gradient(135deg, var(--wp-blue), var(--color-brand-blue)); color: #fff; border: 4px solid var(--wp-panel); box-shadow: var(--shadow-xl); }
+.zt-center fa-icon { font-size: 25px; }
+.zt-center span { font-size: 9px; font-weight: 800; letter-spacing: 1.3px; }
+
+@media (max-width: 1023px) {
+  .zt-boundary { grid-template-columns: 1fr; min-height: unset; }
+  .zt-zone--deny { align-items: flex-start; }
+  .zt-zone--deny .zt-server { flex-direction: row; }
+  .zt-zone--deny .zt-server__mark { margin-left: auto; margin-right: 0; }
+  .zt-lines, .zt-center { display: none; }
+}
+
+/* ============================================================
+   GLOBAL BUSINESS — the dotted world map.
+   ============================================================ */
+.world-map { position: relative; }
+.world-map img { display: block; width: 100%; height: auto; }
+.world-map__card { position: absolute; right: 4%; top: 10%; }
+.world-map__card strong, .world-map__card span { display: block; }
+.world-map__card span { color: var(--color-text-muted); font-size: 12px; }
+
+/* ============================================================
+   ZERO DOWNTIME MIGRATION — from/to cards either side of a cloud
+   icon, plus a completed-checklist card.
+   ============================================================ */
+.migration-flow { display: flex; flex-direction: column; gap: var(--space-lg); }
+.migration-flow__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
+.migration-flow__card { flex: 1; padding: var(--space-md); border-radius: 14px; background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); position: relative; }
+.migration-flow__card span { display: block; font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.migration-flow__card strong { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--wp-ink); }
+.migration-flow__card--done { border-color: var(--color-brand-green); }
+.migration-flow__badge { position: absolute; top: -10px; right: -10px; color: var(--color-brand-green); background: var(--wp-panel); border-radius: 50%; font-size: 20px; }
+.migration-flow__center { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--wp-blue), var(--color-brand-green)); color: #fff; font-size: 22px; flex: 0 0 auto; }
+.migration-checklist { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); padding: var(--space-lg); border-radius: 16px; background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); }
+.migration-checklist ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.migration-checklist li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--wp-ink); font-weight: 600; }
+.migration-checklist li fa-icon { color: var(--color-brand-green); }
+.migration-checklist__ring { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; flex: 0 0 auto; }
+.migration-checklist__ring fa-icon { font-size: 34px; color: var(--color-brand-green); }
+.migration-checklist__ring strong { font-size: 13px; color: var(--wp-ink); }
+.migration-checklist__ring span { font-size: 12px; color: var(--color-brand-green); font-weight: 700; }
+
+@media (max-width: 639px) { .migration-checklist { flex-direction: column; } }
+
+/* ============================================================
+   SUCCESS STORIES — reused Posta customer cards, three across.
+   ============================================================ */
+.stories-head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-lg); margin-bottom: var(--space-xl); flex-wrap: wrap; }
+.stories-head__actions { display: flex; align-items: center; gap: var(--space-md); }
+.stories-arrows { display: flex; gap: 8px; }
+.stories-arrows button { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--wp-panel-line); background: var(--wp-panel); color: var(--wp-ink); cursor: pointer; }
+.stories-arrows button:hover { border-color: var(--color-brand-green); color: var(--color-brand-green); }
+.stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); list-style: none; padding: 0; margin: 0; }
+.story { border-radius: 16px; overflow: hidden; background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); }
+.story__photo { position: relative; aspect-ratio: 1.7; }
+.story__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.story__chip { position: absolute; top: 12px; left: 12px; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .95); font-size: 12px; font-weight: 700; color: var(--wp-ink); }
+.story__logo { display: block; height: 26px; width: auto; margin: var(--space-md) var(--space-md) 0; }
+.story__quote { margin: var(--space-sm) var(--space-md) 0; color: var(--wp-body-strong); font-size: 13.5px; line-height: 1.5; }
+.story__cite { margin: var(--space-sm) var(--space-md) var(--space-md); font-size: 12px; font-weight: 700; color: var(--wp-ink); }
+
+@media (max-width: 1023px) { .stories-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 639px) { .stories-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   COMPARE CLOUD PROVIDERS (white paper).
+   ============================================================ */
+.whitepaper-cta { margin-top: var(--space-md); }
+.whitepaper-caption { margin-top: 8px; font-size: 12px; color: var(--color-text-muted); }
+.whitepaper-visual { min-height: 320px; }
+.compare-photo { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1.4; box-shadow: var(--shadow-xl); }
+.compare-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 60% 10%; }
+.whitepaper-cover { position: absolute; left: -20px; bottom: -24px; width: 190px; padding: var(--space-md); border-radius: 14px; background: linear-gradient(135deg, #0ea5a3, #0f766e); color: #fff; box-shadow: var(--shadow-xl); }
+.whitepaper-cover__brand { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; opacity: .9; }
+.whitepaper-cover h3 { font-size: 15px; margin-bottom: 6px; color: #fff; }
+.whitepaper-cover p { font-size: 11px; line-height: 1.4; opacity: .9; }
+.compare-card { position: absolute; right: -12px; top: -16px; width: 250px; padding: var(--space-md); }
+.compare-card strong { display: block; margin-bottom: 10px; font-size: 13px; color: var(--wp-ink); }
+.compare-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+.compare-card li { display: flex; align-items: center; gap: 6px; font-size: 10.5px; }
+.compare-card li img { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
+.compare-card li span:first-of-type { flex: 0 0 auto; width: 92px; color: var(--wp-ink); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.compare-card__bar { flex: 1; height: 6px; border-radius: 999px; background: var(--wp-band-from); overflow: hidden; }
+.compare-card__bar span { display: block; height: 100%; border-radius: 999px; }
+.compare-card__bar span[data-tone='green'] { background: var(--color-brand-green); }
+.compare-card__bar span[data-tone='blue'] { background: var(--wp-tone-blue); }
+.compare-card__bar span[data-tone='amber'] { background: var(--wp-tone-amber); }
+.compare-card__bar span[data-tone='rose'] { background: var(--wp-tone-rose); }
+.compare-card__price { flex: 0 0 auto; font-size: 10px; color: var(--color-text-muted); font-weight: 700; }
+
+@media (max-width: 1023px) {
+  .whitepaper-cover, .compare-card { position: static; width: auto; margin-top: var(--space-md); }
+}
+
+/* ============================================================
+   PRICING.
+   ============================================================ */
+.pricing-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-xl); flex-wrap: wrap; margin-bottom: var(--space-xl); }
+.pricing-trust { display: flex; flex-direction: column; gap: var(--space-md); list-style: none; padding: var(--space-lg); margin: 0; background: var(--wp-panel); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); min-width: 280px; }
+.pricing-trust li { display: flex; align-items: center; gap: 10px; }
+.pricing-trust strong { display: block; font-size: 13px; color: var(--wp-ink); }
+.pricing-trust span { font-size: 11.5px; color: var(--color-text-muted); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); align-items: start; }
+.pricing-plan { position: relative; padding: var(--space-lg); border-radius: var(--radius-xl); background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); }
+.pricing-plan--featured { border-color: var(--color-brand-green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-green) 12%, transparent), var(--shadow-md); }
+.pricing-plan__badge { position: absolute; top: -14px; left: var(--space-lg); display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--color-brand-green); color: #fff; font-size: 11px; font-weight: 700; }
+.pricing-plan__head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-sm); margin-top: var(--space-sm); }
+.pricing-plan__head h3 { font-size: 18px; color: var(--wp-ink); }
+.pricing-plan__head p { font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+.pricing-plan__discount { padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--color-brand-green) 14%, transparent); color: var(--color-brand-green); font-size: 11px; font-weight: 700; white-space: nowrap; }
+.pricing-plan__price { margin-top: var(--space-md); font-size: 32px; font-weight: 800; color: var(--wp-ink); }
+.pricing-plan__price span { font-size: 14px; font-weight: 600; color: var(--color-text-muted); }
+.pricing-plan__billing { font-size: 12px; color: var(--color-text-muted); margin-bottom: var(--space-md); }
+.pricing-plan__features { list-style: none; padding: 0; margin: var(--space-md) 0 0; display: flex; flex-direction: column; gap: 9px; }
+.pricing-plan__features li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--wp-body-strong); }
+.pricing-plan__features fa-icon { color: var(--color-brand-green); font-size: 13px; flex: 0 0 auto; }
+.addon-panel { padding: var(--space-lg); border-radius: var(--radius-xl); background: var(--wp-panel); border: 1px solid var(--wp-panel-line); box-shadow: var(--shadow-sm); }
+.addon-panel h3 { display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--wp-ink); }
+.addon-panel > p { font-size: 12px; color: var(--color-text-muted); margin: 4px 0 var(--space-md); }
+.addon-panel ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-sm); }
+.addon-panel li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--wp-panel-line); }
+.addon-panel li:first-child { border-top: 0; padding-top: 0; }
+.addon-panel li div { flex: 1; min-width: 0; }
+.addon-panel li strong { display: block; font-size: 13px; color: var(--wp-ink); }
+.addon-panel li span { font-size: 11.5px; color: var(--color-text-muted); }
+
+@media (max-width: 1199px) { .pricing-grid { grid-template-columns: 1fr 1fr; } .addon-panel { grid-column: 1 / -1; } }
+@media (max-width: 639px) { .pricing-grid { grid-template-columns: 1fr; } .pricing-head { flex-direction: column; } }
+
+/* ============================================================
+   FINAL CTA.
+   ============================================================ */
+.final-cta-section { padding-block: var(--wp-section-pad); background: linear-gradient(135deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
+.final-cta { display: flex; justify-content: space-between; align-items: center; gap: var(--space-xl); padding: var(--space-2xl); border-radius: var(--radius-2xl); background: var(--wp-panel); box-shadow: var(--wp-panel-shadow); flex-wrap: wrap; }
+.final-cta__actions { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+.final-cta .section-heading { margin-bottom: var(--space-sm); }
+.final-cta .section-subtitle { margin-bottom: 0; }

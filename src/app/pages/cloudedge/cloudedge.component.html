@@ -1,0 +1,565 @@
+<app-site-header #header [solid]="true">
+  <app-main-nav-links nav-links />
+  <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
+</app-site-header>
+
+<main class="page" id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__cloud hero__cloud--one" aria-hidden="true"></div>
+    <div class="hero__cloud hero__cloud--two" aria-hidden="true"></div>
+
+    <!-- Fades into the hero's own gradient on its left edge, so it reads as
+         part of the section's background rather than a framed screenshot
+         sitting on top of it. The CloudEdge console on the laptop screen and
+         the single cloud-and-wire accent are already composited into this
+         photo, so it's rendered as one flat image rather than layered pieces. -->
+    <div class="hero-photo" aria-hidden="true">
+      <img [ngSrc]="heroDeskPhoto" width="1253" height="705" priority alt="" />
+    </div>
+
+    <div class="hero__content ds-container" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Your Partner in Digital Transformation</p>
+        <h1 id="hero-heading">
+          <span>Smarter <span class="text-blue">Cloud</span></span>
+          <span>for a Stronger</span>
+          <span class="text-green">Business.</span>
+        </h1>
+        <p class="hero-copy__description">
+          Secure, scalable and cost-efficient cloud solutions to power your growth — from communication to infrastructure.
+        </p>
+
+        <div class="hero-copy__actions">
+          <a class="btn btn--primary" href="#start-free">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--ghost" href="#talk-to-sales">Talk to an Expert</a>
+        </div>
+
+        <ul class="hero-chips" aria-label="CloudEdge benefits">
+          @for (chip of heroChips; track chip.id) {
+            <li><span class="tone-icon" [attr.data-tone]="chip.tone"><fa-icon [icon]="chip.icon" aria-hidden="true" /></span>{{ chip.label }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ECOSYSTEM STRIP ================= -->
+  <section class="ecosystem-strip-section" aria-labelledby="ecosystem-heading">
+    <div class="ecosystem-strip ds-container">
+      <div class="ecosystem-strip__intro">
+        <p class="ecosystem-strip__eyebrow">Also part of the WorldPosta ecosystem</p>
+        <h2 id="ecosystem-heading" class="ecosystem-strip__heading">Cloud Services &amp; <span>Solutions</span></h2>
+        <p class="ecosystem-strip__subtitle">Extend your cloud with managed services built for your business.</p>
+      </div>
+      <nav class="ecosystem-strip__tiles" aria-label="Cloud services and solutions">
+        @for (tile of ecosystemTiles; track tile.label) {
+          <a class="ecosystem-tile" [class]="tile.colorClass" [href]="tile.href" [attr.aria-label]="tile.label + ' service'">
+            <span class="ecosystem-tile__icon">
+              @if (tile.logo) {
+                <img [ngSrc]="tile.logo" width="28" height="14" alt="" />
+              } @else {
+                <fa-icon [icon]="tile.icon!" aria-hidden="true" />
+              }
+            </span>
+            <span class="ecosystem-tile__label">
+              {{ tile.label }}
+              <fa-icon class="ecosystem-tile__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
+            </span>
+          </a>
+        }
+      </nav>
+    </div>
+  </section>
+
+  <!-- ================= CLOUD COMPUTING OVERVIEW ================= -->
+  <section class="alt-section alt-section--tint" id="cloud-computing" aria-labelledby="cloud-computing-heading">
+    <div class="ds-container cc-layout">
+      <nav class="cc-sidebar" aria-label="CloudEdge sections">
+        <p class="cc-sidebar__title">CloudEdge</p>
+        @for (link of sidebarLinks; track link.label) {
+          <a [href]="link.href" class="cc-sidebar__link" [class.is-active]="link.active">
+            <fa-icon [icon]="link.icon" aria-hidden="true" />
+            <span>{{ link.label }}</span>
+            <fa-icon class="cc-sidebar__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
+          </a>
+        }
+      </nav>
+
+      <div class="split-section cc-main">
+        <div class="split-section__copy">
+          <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Computing</p>
+          <h2 id="cloud-computing-heading" class="section-heading">Flexible, Secure <span class="text-green block">Cloud Computing</span> for Your Business.</h2>
+          <p class="section-subtitle">Build, deploy and scale with a global cloud platform designed for performance, security and simplicity. Cloud Computing gives you the infrastructure you need — on your terms.</p>
+
+          <div class="hero-copy__actions">
+            <a class="btn btn--primary" href="#start-free">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            <a class="btn btn--ghost" href="#talk-to-sales">Talk to an Expert</a>
+          </div>
+        </div>
+
+        <div class="split-section__visual cc-visual">
+          <div class="dashboard-glow" aria-hidden="true"></div>
+          <div class="dashboard-mockup">
+            <img [ngSrc]="cloudComputingDashboard" width="1600" height="900" alt="CloudEdge Console dashboard showing CPU, memory, storage and active VM usage, top VMs by resource usage, and a 87% security score" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-width row: spans the same left-to-right boundary as the
+           sidebar + main content above it (grid-column 1 / -1 of cc-layout),
+           so the first card's left edge lines up with the sidebar and the
+           last card's right edge lines up with the dashboard. -->
+      <ul class="cc-trust-row">
+        @for (t of cloudComputingTrust; track t.label) {
+          <li class="cc-trust-card">
+            <span class="tone-icon" [attr.data-tone]="t.tone"><fa-icon [icon]="t.icon" aria-hidden="true" /></span>
+            <span class="cc-trust-card__divider" aria-hidden="true"></span>
+            <span>{{ t.label }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= PRIVATE CLOUD ================= -->
+  <section class="alt-section" id="private-cloud" aria-labelledby="private-cloud-heading">
+    <div class="ds-container split-section">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Private Cloud</p>
+        <h2 id="private-cloud-heading" class="section-heading">Your Own <span class="text-green block">Private Cloud.</span></h2>
+        <p class="section-subtitle">A dedicated, secure and high-performance cloud environment — fully yours, exactly as it is, with complete control and no shared resources.</p>
+
+        <ul class="feature-grid">
+          @for (f of privateCloudFeatures; track f.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="f.tone"><fa-icon [icon]="f.icon" aria-hidden="true" /></span>
+              <div><strong>{{ f.title }}</strong><span>{{ f.description }}</span></div>
+            </li>
+          }
+        </ul>
+
+        <a class="btn btn--primary" href="#start-free">Get Your Private Cloud <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+
+      <div class="split-section__visual pc-visual">
+        <!-- The real CloudEdge Console, perspective-matched onto the laptop
+           screen in the photo itself (same compositing approach as the hero
+           and Cloud Computing dashboard) — no illustrated cloud or server
+           graphic standing in for the product. Faded on its left edge like
+           the other photo sections. -->
+        <div class="pc-photo" aria-hidden="true">
+          <img [ngSrc]="privateCloudPhoto" width="970" height="760" alt="" />
+        </div>
+
+        <!-- Short, subtle dotted threads from each capability back to the
+           laptop, tinted to match that card's own tone — a restrained
+           product-diagram accent, not a network illustration. -->
+        <svg class="pc-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path class="pc-line pc-line--blue" d="M 4 6 L 4 12 L 9.8 12 L 9.8 15.8" />
+          <path class="pc-line pc-line--green" d="M 96 6 L 96 12 L 78.9 12 L 78.9 15.8" />
+          <path class="pc-line pc-line--purple" d="M 4 94 L 4 88 L 9.8 88 L 9.8 84.1" />
+          <path class="pc-line pc-line--amber" d="M 96 94 L 96 88 L 78.9 88 L 78.9 84.1" />
+        </svg>
+
+        @for (card of privateCloudHub; track card.title) {
+          <div class="pc-card" [class]="'pc-card--' + card.position">
+            <span class="tone-icon" [attr.data-tone]="card.tone"><fa-icon [icon]="card.icon" aria-hidden="true" /></span>
+            <div><strong>{{ card.title }}</strong><span>{{ card.description }}</span></div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= THE CHALLENGE ================= -->
+  <section class="alt-section" id="challenges" aria-labelledby="challenges-heading">
+    <div class="ds-container split-section">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>The Challenge</p>
+        <h2 id="challenges-heading" class="section-heading">Modern Businesses <span class="block">Face <span class="text-rose">Real Cloud Challenges.</span></span></h2>
+        <p class="section-subtitle">Rising costs, complex infrastructure and growing security requirements can slow your business down.</p>
+
+        <ul class="feature-grid">
+          @for (item of challengeItems; track item.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="item.tone"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+              <div><strong>{{ item.title }}</strong><span>{{ item.description }}</span></div>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="split-section__visual challenge-visual">
+        <!-- A frustrated person facing the "from challenges" side of the
+           story, faded into the section's own background on its left edge
+           exactly like the hero photo. -->
+        <div class="challenge-photo" aria-hidden="true">
+          <img [ngSrc]="challengePhoto" width="1872" height="1248" alt="" />
+        </div>
+
+        <div class="checklist-stack">
+          <div class="checklist-card checklist-card--rose">
+            <h3>From Challenges</h3>
+            <ul>
+              @for (item of fromChallenges; track item.label) {
+                <li><fa-icon [icon]="item.icon" aria-hidden="true" />{{ item.label }}</li>
+              }
+            </ul>
+          </div>
+          <!-- The transition is told through position and a soft red-to-green
+               thread between the cards, not a literal arrow. -->
+          <div class="checklist-connector" aria-hidden="true"></div>
+          <div class="checklist-card checklist-card--green">
+            <h3>To Opportunities</h3>
+            <ul>
+              @for (item of toOpportunities; track item.label) {
+                <li><fa-icon [icon]="item.icon" aria-hidden="true" />{{ item.label }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ZERO TRUST ARCHITECTURE ================= -->
+  <section class="alt-section alt-section--tint" id="zero-trust" aria-labelledby="zero-trust-heading">
+    <div class="ds-container split-section split-section--wide">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Security</p>
+        <h2 id="zero-trust-heading" class="section-heading">
+          <span class="text-green block">Zero Trust</span>
+          <span class="text-green block">Architecture (ZTA)</span>
+          Security Between Every Workload.
+        </h2>
+        <p class="section-subtitle">Micro-segment your cloud environment and control traffic between servers, so only authorized connections are allowed.</p>
+
+        <ul class="feature-row">
+          @for (f of zeroTrustFeatures; track f.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="f.tone"><fa-icon [icon]="f.icon" aria-hidden="true" /></span>
+              <strong>{{ f.title }}</strong>
+              <span>{{ f.description }}</span>
+            </li>
+          }
+        </ul>
+
+        <a class="btn btn--primary" href="#start-free">Strengthen Your Cloud Security <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+
+      <div class="split-section__visual">
+        <!-- A single security-boundary container split into two tinted
+           zones (authorized / restricted), with the Zero Trust node
+           overlapping the line between them — the diagram reads as
+           "authorized workloads → Zero Trust control → blocked workloads"
+           at a glance. -->
+        <div class="zt-boundary">
+          <div class="zt-zone zt-zone--allow">
+            <p class="zt-zone__label"><fa-icon [icon]="icons.lock" aria-hidden="true" />Allowed / Authorized</p>
+            @for (node of zeroTrustAllowed; track node.label) {
+              <div class="zt-server zt-server--allow">
+                <fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span>
+                <fa-icon class="zt-server__mark" [icon]="icons.circleCheck" aria-hidden="true" />
+              </div>
+            }
+          </div>
+          <div class="zt-zone zt-zone--deny">
+            <p class="zt-zone__label"><fa-icon [icon]="icons.lock" aria-hidden="true" />Blocked / Restricted</p>
+            @for (node of zeroTrustBlocked; track node.label) {
+              <div class="zt-server zt-server--deny">
+                <fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span>
+                <fa-icon class="zt-server__mark" [icon]="icons.circleXmark" aria-hidden="true" />
+              </div>
+            }
+          </div>
+
+          <svg class="zt-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path class="zt-line zt-line--allow" d="M 41.3 38.3 L 43.3 41.1" />
+            <path class="zt-line zt-line--allow" d="M 41.3 54.8 L 42.0 54.5" />
+            <path class="zt-line zt-line--allow" d="M 41.3 71.3 L 45.1 61.9" />
+            <path class="zt-line zt-line--deny" d="M 58.7 38.3 L 56.7 41.1" />
+            <path class="zt-line zt-line--deny" d="M 58.7 54.8 L 58.1 54.5" />
+            <path class="zt-line zt-line--deny" d="M 58.7 71.3 L 54.9 61.9" />
+          </svg>
+
+          <div class="zt-center">
+            <fa-icon [icon]="zeroTrustCenterIcon" aria-hidden="true" />
+            <span>ZERO TRUST</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GLOBAL BUSINESS ================= -->
+  <section class="alt-section" id="global-business" aria-labelledby="global-business-heading">
+    <div class="ds-container split-section">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Global Infrastructure</p>
+        <h2 id="global-business-heading" class="section-heading">Built for <span class="text-green">Global Business.</span></h2>
+        <p class="section-subtitle">Deploy your applications closer to your customers with our worldwide infrastructure, ensuring high performance, availability and compliance.</p>
+
+        <ul class="stat-grid">
+          @for (s of globalStats; track s.label) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="s.tone"><fa-icon [icon]="s.icon" aria-hidden="true" /></span>
+              <div><strong>{{ s.value }}</strong><span>{{ s.label }}</span></div>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="split-section__visual">
+        <div class="world-map">
+          <img ngSrc="/worldposta-assets/hero/cloudedge/network-map.svg" width="1000" height="700" alt="Dotted world map showing WorldPosta's global network of regions" />
+          <div class="floating-card world-map__card">
+            <span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.globe" aria-hidden="true" /></span>
+            <div><strong>Global Reach</strong><span>35+ regions worldwide</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ZERO DOWNTIME MIGRATION ================= -->
+  <section class="alt-section alt-section--tint" id="migration" aria-labelledby="migration-heading">
+    <div class="ds-container split-section">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Zero Downtime Migration</p>
+        <h2 id="migration-heading" class="section-heading">Migrate to the Cloud with <span class="text-green block">Zero Downtime.</span></h2>
+        <p class="section-subtitle">Move to WorldPosta Cloud with confidence. Our proven migration methodology ensures a seamless transition with zero downtime, so your business stays up and running.</p>
+
+        <ul class="feature-grid">
+          @for (f of migrationFeatures; track f.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="f.tone"><fa-icon [icon]="f.icon" aria-hidden="true" /></span>
+              <div><strong>{{ f.title }}</strong><span>{{ f.description }}</span></div>
+            </li>
+          }
+        </ul>
+
+        <a class="btn btn--primary" href="#start-free">Learn About Migration <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+
+      <div class="split-section__visual">
+        <div class="migration-flow">
+          <div class="migration-flow__row">
+            <div class="migration-flow__card">
+              <span>From</span>
+              <strong><fa-icon [icon]="icons.server" aria-hidden="true" /> On-Premise</strong>
+            </div>
+            <span class="migration-flow__center"><fa-icon [icon]="icons.cloud" aria-hidden="true" /></span>
+            <div class="migration-flow__card migration-flow__card--done">
+              <span>To</span>
+              <strong><fa-icon [icon]="icons.cloud" aria-hidden="true" /> WorldEdge Cloud</strong>
+              <fa-icon class="migration-flow__badge" [icon]="icons.circleCheck" aria-hidden="true" />
+            </div>
+          </div>
+
+          <div class="migration-checklist">
+            <ul>
+              @for (step of migrationChecklist; track step) {
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />{{ step }}</li>
+              }
+            </ul>
+            <div class="migration-checklist__ring">
+              <fa-icon [icon]="icons.circleCheck" aria-hidden="true" />
+              <strong>Migration Completed</strong>
+              <span>Zero Downtime</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUCCESS STORIES ================= -->
+  <section class="alt-section" id="stories" aria-labelledby="stories-heading">
+    <div class="ds-container">
+      <div class="stories-head">
+        <div>
+          <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Real Businesses. Real Results</p>
+          <h2 id="stories-heading" class="section-heading">Success Stories Across <span class="text-green">Industries.</span></h2>
+          <p class="section-subtitle">See how organizations are leveraging WorldPosta Cloud to modernize their infrastructure, enhance security and achieve greater efficiency.</p>
+        </div>
+        <div class="stories-head__actions">
+          <a class="btn btn--outline" href="#case-studies">View All Case Studies <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <div class="stories-arrows">
+            <button type="button" aria-label="Previous story"><fa-icon [icon]="icons.chevronLeft" aria-hidden="true" /></button>
+            <button type="button" aria-label="Next story"><fa-icon [icon]="icons.chevronRight" aria-hidden="true" /></button>
+          </div>
+        </div>
+      </div>
+
+      <ul class="stories-grid">
+        @for (story of stories; track story.cite) {
+          <li class="story">
+            <div class="story__photo">
+              <img [ngSrc]="story.photo" [width]="story.photoWidth" [height]="story.photoHeight" [alt]="story.photoAlt" />
+              <span class="story__chip"><fa-icon [icon]="story.chipIcon" aria-hidden="true" />{{ story.chipLabel }}</span>
+            </div>
+            <img class="story__logo" [ngSrc]="story.logo" [width]="story.logoWidth" [height]="story.logoHeight" [alt]="story.logoAlt" />
+            <p class="story__quote">&ldquo;{{ story.quote }}&rdquo;</p>
+            <p class="story__cite">{{ story.cite }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= COMPARE CLOUD PROVIDERS (WHITE PAPER) ================= -->
+  <section class="alt-section alt-section--tint" id="compare-providers" aria-labelledby="compare-providers-heading">
+    <div class="ds-container split-section">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Technical White Paper</p>
+        <h2 id="compare-providers-heading" class="section-heading">Compare Cloud Providers. <span class="text-green block">Make the Right Choice.</span></h2>
+        <p class="section-subtitle">Get an in-depth technical comparison of leading cloud providers, including performance, pricing, security, compliance and more.</p>
+
+        <ul class="feature-grid">
+          @for (f of whitePaperFeatures; track f.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="f.tone"><fa-icon [icon]="f.icon" aria-hidden="true" /></span>
+              <div><strong>{{ f.title }}</strong><span>{{ f.description }}</span></div>
+            </li>
+          }
+        </ul>
+
+        <div class="whitepaper-cta">
+          <a class="btn btn--primary" href="#download">Download the White Paper <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <p class="whitepaper-caption">No registration required</p>
+        </div>
+      </div>
+
+      <div class="split-section__visual whitepaper-visual">
+        <div class="compare-photo">
+          <img [ngSrc]="heroPhoto" width="1872" height="1248" alt="" />
+        </div>
+
+        <div class="whitepaper-cover">
+          <p class="whitepaper-cover__brand"><fa-icon [icon]="icons.cloud" aria-hidden="true" /> WorldPosta</p>
+          <h3>Cloud Providers Comparison Guide</h3>
+          <p>Performance. Security. Cost.<br />Make the right choice.</p>
+        </div>
+
+        <div class="floating-card compare-card">
+          <strong>Compare Providers</strong>
+          <ul>
+            @for (p of comparisonProviders; track p.name) {
+              <li>
+                <img [ngSrc]="p.logo" [width]="p.width" [height]="p.height" alt="" />
+                <span>{{ p.name }}</span>
+                <span class="compare-card__bar"><span [style.width.%]="p.barPct" [attr.data-tone]="p.tone"></span></span>
+                <span class="compare-card__price">{{ p.priceTier }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERT SUPPORT ================= -->
+  <section class="alt-section" id="expert-support" aria-labelledby="expert-support-heading">
+    <div class="ds-container split-section">
+      <div class="split-section__copy">
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Expert Support</p>
+        <h2 id="expert-support-heading" class="section-heading">More Than a Cloud. <span class="text-green block">A Partner at Every Step.</span></h2>
+        <p class="section-subtitle">Our cloud experts are with you from design to deployment and beyond, helping you get the most from your infrastructure — securely and efficiently.</p>
+        <a class="btn btn--primary" href="#talk-to-sales">Talk to a Cloud Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+
+      <div class="split-section__visual">
+        <div class="hub hub--es">
+          <span class="hub__center"><fa-icon [icon]="hubCenters.expertSupport" aria-hidden="true" /></span>
+          @for (card of expertSupportHub; track card.title) {
+            <div class="hub__card" [class]="'hub__card--' + card.position">
+              <span class="tone-icon" [attr.data-tone]="card.tone"><fa-icon [icon]="card.icon" aria-hidden="true" /></span>
+              <div><strong>{{ card.title }}</strong><span>{{ card.description }}</span></div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING ================= -->
+  <section class="alt-section alt-section--tint" id="pricing" aria-labelledby="pricing-heading">
+    <div class="ds-container">
+      <div class="pricing-head">
+        <div>
+          <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>CloudEdge Pricing</p>
+          <h2 id="pricing-heading" class="section-heading">Choose the Right Plan for <span class="text-green">Your Cloud</span></h2>
+          <p class="section-subtitle">High-performance, secure and flexible cloud — starting from <strong>$224/month</strong>.</p>
+        </div>
+        <ul class="pricing-trust">
+          @for (t of pricingTrust; track t.title) {
+            <li>
+              <span class="tone-icon" [attr.data-tone]="t.tone"><fa-icon [icon]="t.icon" aria-hidden="true" /></span>
+              <div><strong>{{ t.title }}</strong><span>{{ t.description }}</span></div>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="pricing-grid">
+        @for (plan of pricingPlans; track plan.id) {
+          <div class="pricing-plan" [class.pricing-plan--featured]="plan.featured">
+            @if (plan.badge) {
+              <span class="pricing-plan__badge"><fa-icon [icon]="icons.check" aria-hidden="true" />{{ plan.badge }}</span>
+            }
+            <div class="pricing-plan__head">
+              <div>
+                <h3>{{ plan.name }}</h3>
+                <p>{{ plan.blurb }}</p>
+              </div>
+              <span class="pricing-plan__discount">{{ plan.discount }}</span>
+            </div>
+            <p class="pricing-plan__price">{{ plan.price }}<span>/month</span></p>
+            <p class="pricing-plan__billing">Billed annually</p>
+            <a class="btn btn--primary btn--block" href="#start-free">Buy Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            <ul class="pricing-plan__features">
+              @for (feature of plan.features; track feature) {
+                <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />{{ feature }}</li>
+              }
+            </ul>
+          </div>
+        }
+
+        <div class="addon-panel">
+          <h3><fa-icon [icon]="icons.plus" aria-hidden="true" /> Customizable Add-Ons</h3>
+          <p>Easily enhance your plan with additional resources.</p>
+          <ul>
+            @for (addOn of addOns; track addOn.title) {
+              <li>
+                <span class="tone-icon" [attr.data-tone]="addOn.tone"><fa-icon [icon]="addOn.icon" aria-hidden="true" /></span>
+                <div><strong>{{ addOn.title }}</strong><span>{{ addOn.description }}</span></div>
+                <button type="button" class="btn btn--outline btn--xs"><fa-icon [icon]="icons.plus" aria-hidden="true" /> Add</button>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA ================= -->
+  <section class="final-cta-section">
+    <div class="ds-container">
+      <div class="final-cta">
+        <div>
+          <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Ready to Build Your Cloud</p>
+          <h2 class="section-heading">Let&rsquo;s Build Your Cloud <span class="text-green">Together.</span></h2>
+          <p class="section-subtitle">Talk to our experts and find the right cloud computing solution for your business.</p>
+        </div>
+        <div class="final-cta__actions">
+          <a class="btn btn--primary" href="#talk-to-sales">Talk to an Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--ghost" href="#request-consultation">Request a Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-site-footer />
