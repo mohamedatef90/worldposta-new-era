@@ -63,9 +63,9 @@ export class MainNavLinksComponent {
             "href": "/cloudedge"
           },
           {
-            "name": "Link",
+            "name": "SAP",
             "description": "Coming soon",
-            "href": "/link"
+            "href": "/sap"
           },
           {
             "name": "Virtual Data Center",
@@ -112,6 +112,11 @@ export class MainNavLinksComponent {
             "name": "Posta",
             "description": "Enterprise email hosting",
             "href": "/posta"
+          },
+          {
+            "name": "Link",
+            "description": "Coming soon",
+            "href": "/link"
           },
           {
             "name": "Posta Hybrid",
