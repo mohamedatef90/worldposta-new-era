@@ -11,24 +11,18 @@
     </a>
 
     <nav class="site-nav" aria-label="Primary navigation">
-      <ng-content select="[nav-links]" />
+      <ng-content select="[nav-links]"><app-main-nav-links /></ng-content>
     </nav>
 
-    <button
-      class="icon-button theme-toggle"
-      type="button"
-      [attr.aria-label]="theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
-      (click)="theme.toggle()"
-    >
-      <fa-icon [icon]="theme.isDark() ? icons.sun : icons.moon" aria-hidden="true" />
-    </button>
+    <div class="theme-switch" role="group" aria-label="Color theme">
+      <button type="button" [class.active]="!theme.isDark()" [attr.aria-pressed]="!theme.isDark()" aria-label="Light theme" (click)="theme.set('light')"><fa-icon [icon]="icons.sun" /></button>
+      <button type="button" [class.active]="theme.isDark()" [attr.aria-pressed]="theme.isDark()" aria-label="Dark theme" (click)="theme.set('dark')"><fa-icon [icon]="icons.moon" /></button>
+    </div>
 
     <div class="header-actions">
-      <button class="icon-button" type="button" aria-label="Search WorldPosta">
-        <fa-icon [icon]="icons.search" aria-hidden="true" />
-      </button>
-      <a class="sign-in" href="#sign-in">Sign in</a>
-      <a class="header-cta" href="#start-free">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      <select class="language-select" aria-label="Language"><option value="en">En</option></select>
+      <a class="sign-in" href="https://home.worldposta.com/">Sign in</a>
+      <a class="header-cta" href="https://www.worldposta.com/signup">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
     </div>
     <button
       #menuButton
@@ -46,7 +40,7 @@
       <div class="mobile-nav__backdrop" (click)="closeMenu()" aria-hidden="true"></div>
 
       <nav #menuPanel class="mobile-nav" id="mobile-nav" aria-label="Primary navigation">
-        <ng-content select="[mobile-nav-links]" />
+        <ng-content select="[mobile-nav-links]"><app-main-nav-links [mobile]="true" (linkClick)="closeMenu()" /></ng-content>
 
         <hr class="mobile-nav__rule" />
 
@@ -65,3 +59,4 @@
     }
   </header>
 </div>
+

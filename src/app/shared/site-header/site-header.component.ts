@@ -1,3 +1,4 @@
+import { MainNavLinksComponent } from '../main-nav-links/main-nav-links.component';
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { Component, effect, inject, input, signal, viewChild, type ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -12,7 +13,7 @@ import { ThemeService } from '@/shared/services/theme.service';
  * projected in rather than baked in here — see `[nav-links]` / `[mobile-nav-links]`.
  */
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, RouterLink],
+  imports: [MainNavLinksComponent, FaIconComponent, NgOptimizedImage, RouterLink],
   // Escape closes the drawer from anywhere, including from inside it. Declared
   // on `host` rather than @HostListener, per the project conventions.
   host: {
@@ -94,3 +95,4 @@ export class SiteHeaderComponent {
     sun: faSun,
   };
 }
+

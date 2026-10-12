@@ -1,0 +1,184 @@
+<app-site-header #header>
+ <app-main-nav-links nav-links />
+ <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
+</app-site-header>
+<main>
+<section class="hero wrap split">
+ <div><p class="eyebrow">CloudSpace</p><h1>More Than Tools.<br><span>A Better Way to Work.</span></h1><p class="lead">Everything your team needs to communicate, create, share and stay organized — all in one secure platform.</p>
+ <div class="tool-list">@for (tool of tools; track tool.name) {<div><span [class]="'icon '+tool.color"><fa-icon [icon]="tool.icon"/></span><div><h3>{{tool.name}}</h3><p>{{tool.copy}}</p></div></div>}</div>
+ <div class="actions"><a class="button" href="#cs-demo">Try CloudSpace Now →</a><a class="outline" href="#cs-connect">Explore Connect</a></div></div>
+ <div class="hero-reference-mockup">
+  <div class="hero-reference-crop">
+   <img ngSrc="/worldposta-assets/cloudspace/hero-atef-hq.png" width="1448" height="1086" priority alt="CloudSpace laptop and mobile workspace, surrounded by secure storage, collaboration, office apps, video meetings and enterprise security cards." />
+  </div>
+ </div>
+</section>
+<section class="band challenges-section" aria-labelledby="challenges-heading">
+ <div class="wrap challenges-layout">
+  <div class="challenges-copy">
+   <p class="eyebrow">Common challenges</p>
+   <h2 id="challenges-heading">Different Tools.<br><span>Bigger Challenges.</span></h2>
+   <p class="lead">Teams today are spread across tools, files and conversations — making it harder to stay connected, organized and productive.</p>
+   <div class="challenges-illustration">
+    <img ngSrc="/worldposta-assets/cloudspace/challenges-reference.jpg" width="1600" height="800" alt="An overwhelmed colleague at her laptop, surrounded by files, conversations and meetings across different apps." />
+   </div>
+  </div>
+  <div class="challenge-grid">
+   @for (challenge of challenges; track challenge.name; let i = $index) {
+    <article [class.challenge-green]="i === 1 || i === 2 || i === 5">
+     <span class="challenge-icon" aria-hidden="true"><fa-icon [icon]="challenge.icon" /></span>
+     <div><h3>{{challenge.name}}</h3><p>{{challenge.copy}}</p></div>
+    </article>
+   }
+  </div>
+ </div>
+</section>
+<section class="collaboration-story" aria-labelledby="collaboration-story-heading">
+ <div class="story-container">
+  <div class="story-copy"><p class="eyebrow">The challenge</p><h2 id="collaboration-story-heading">Modern Teams Face<br><span>Real Collaboration Challenges.</span></h2><p class="lead">Scattered files, disconnected communication and too many tools can slow your team down.</p>
+   <div class="story-points">
+    <div><span class="icon touch-red" aria-hidden="true"><fa-icon [icon]="icons.file"/></span><div><h3>Files everywhere</h3><p>Across drives, emails and personal devices.</p></div></div>
+    <div><span class="icon purple" aria-hidden="true"><fa-icon [icon]="icons.chat"/></span><div><h3>Disjointed communication</h3><p>Conversations happen in multiple apps.</p></div></div>
+    <div><span class="icon orange" aria-hidden="true"><fa-icon [icon]="icons.calendar"/></span><div><h3>Multiple calendars</h3><p>Meetings and schedules are hard to track.</p></div></div>
+    <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.users"/></span><div><h3>Too many tools</h3><p>Teams have to switch between different platforms.</p></div></div>
+   </div>
+  </div>
+  <div class="story-visual">
+   <div class="story-photo"><img ngSrc="/worldposta-assets/cloudspace/collaboration-challenge-reference.jpg" width="1600" height="666" alt="CloudSpace laptop on an office desk." /></div>
+   <div class="story-before"><h3>From Challenges</h3><ul>@for (item of ['Files scattered across different tools','Conversations in multiple apps','Meetings and schedules hard to track','Too many logins and tools']; track item) {<li><span aria-hidden="true">×</span>{{item}}</li>}</ul></div>
+   <span class="story-arrow" aria-hidden="true">↘</span>
+   <div class="story-after"><h3>To <span>A Smarter Way to Work</span></h3><ul>@for (item of ['All your files in one secure place','Team chat, video meetings and more','Unified calendar and schedules','Everything in one workspace']; track item) {<li><span aria-hidden="true"><fa-icon [icon]="icons.check"/></span>{{item}}</li>}</ul></div>
+  </div>
+ </div>
+</section>
+<section id="cs-connect" class="wrap split section connect-section" aria-labelledby="connect-heading">
+ <div class="connect-copy">
+  <p class="eyebrow">Introducing</p>
+  <h2 id="connect-heading">Connect<br>for <span>Smarter Teams.</span></h2>
+  <p class="lead">Chat, meet, collaborate and stay aligned — all in one secure platform, built for your business.</p>
+  <div class="benefit-grid">
+   <div><span class="icon green" aria-hidden="true"><fa-icon [icon]="icons.chat"/></span><h3>Team Chat</h3><p>Instant and organized.</p></div>
+   <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.video"/></span><h3>Video Meetings</h3><p>High quality,<br>no time limits.</p></div>
+   <div><span class="icon green" aria-hidden="true"><fa-icon [icon]="icons.users"/></span><h3>Unlimited Users</h3><p>Add your whole team at no extra cost.</p></div>
+   <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.lock"/></span><h3>Secure &amp; Private</h3><p>Your conversations and data stay yours.</p></div>
+  </div>
+  <a class="button" href="#cs-demo">Register for Free →</a>
+  <p class="fine">Unlimited users and unlimited meeting hours for the <strong>first 3 months.</strong></p>
+ </div>
+ <div class="connect-artwork"><img ngSrc="/worldposta-assets/cloudspace/connect-mockup-hq.png" width="1448" height="1086" alt="Connect workspace with a four-person video meeting and team chat, featuring unlimited users, unlimited meeting hours, a three-month free offer and enterprise security." /></div>
+</section>
+<section id="cs-ecosystem" class="ecosystem-section" aria-labelledby="ecosystem-heading">
+ <div class="ecosystem-container">
+  <div class="ecosystem-layout">
+   <div class="ecosystem-copy">
+    <p class="eyebrow">CloudSpace ecosystem</p>
+    <h2 id="ecosystem-heading">One Workspace.<br><span>Everything Your</span><br>Team Needs.</h2>
+    <p class="lead">From files and documents to team chat, video meetings, calendar, notes and more — CloudSpace brings all your collaboration tools together in one secure platform.</p>
+    <div class="ecosystem-actions"><a class="button" href="#cs-demo">Request a Free Demo →</a><a class="outline" href="#ecosystem-tools">Explore CloudSpace →</a></div>
+    <div class="ecosystem-benefits">
+     <div><span class="icon green" aria-hidden="true"><fa-icon [icon]="icons.users"/></span><h3>Unlimited Users</h3><p>Add your whole team at no extra cost.</p></div>
+     <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.shield"/></span><h3>Secure &amp; Private</h3><p>Your data stays safe and protected.</p></div>
+     <div><span class="icon purple" aria-hidden="true"><fa-icon [icon]="icons.apps"/></span><h3>Easy to Manage</h3><p>Simple deployment and administration.</p></div>
+    </div>
+   </div>
+   <div class="ecosystem-scene" id="ecosystem-tools">
+    <div class="ecosystem-cloud-title"><h3><span>Cloud</span>Space</h3><p>Collaborate · Organize · Create · Share<br>All in one secure workspace.</p></div>
+    <div class="ecosystem-tools">
+     @for (name of ['Drive','Connect','Calendar','Notes','Apps']; track name) {
+      @for (tool of tools; track tool.name) {
+       @if (tool.name === name) {
+        <article [class]="'ecosystem-tool ecosystem-tool-'+name.toLowerCase()">
+         <span [class]="'icon '+tool.color" aria-hidden="true"><fa-icon [icon]="tool.icon"/></span>
+         <h3>{{name === 'Apps' ? 'Documents' : name}}</h3>
+         <p>{{name === 'Apps' ? 'Create and edit together in real time.' : tool.copy}}</p>
+         @if (name === 'Calendar') {
+          <div class="ecosystem-calendar" aria-label="Calendar preview, March 2026"><strong>March 2026 <span>‹ ›</span></strong><div class="calendar-week">@for (day of ['S','M','T','W','T','F','S']; track $index) {<span>{{day}}</span>}</div><div class="calendar-dates">@for (day of [8,9,10,11,12,13,14,15,16,17,18,19,20,21]; track day) {<span [class.selected]="day === 12">{{day}}</span>}</div></div>
+         } @else {
+          <ul>@for (item of tool.items; track item; let i = $index) {<li><span [class]="'mini-tool-icon mini-tool-icon-'+i" aria-hidden="true"><fa-icon [icon]="name === 'Connect' ? icons.chat : name === 'Notes' ? icons.notes : icons.file"/></span>{{item}}</li>}<li class="more-tools">··· <span>and more…</span></li></ul>
+         }
+        </article>
+       }
+      }
+     }
+    </div>
+   </div>
+  </div>
+  <div class="ecosystem-footer-benefits">
+   <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.chat"/></span><p><strong>Increase Team Productivity</strong><span>All tools in one place.</span></p></div>
+   <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.calendar"/></span><p><strong>Work from Anywhere</strong><span>On any device.</span></p></div>
+   <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.shield"/></span><p><strong>Enterprise-Grade Security</strong><span>Your data, always protected.</span></p></div>
+   <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.apps"/></span><p><strong>Scale with Your Business</strong><span>Flexible and cost-efficient.</span></p></div>
+  </div>
+ </div>
+</section>
+
+<section id="cs-demo" class="wrap split section demo demo-reference"><div><p class="eyebrow">Get started with CloudSpace</p><h2>Bring Your Team<br>Together with <span>CloudSpace.</span></h2><p class="lead">Get a personalized demo and see how CloudSpace can simplify communication, collaboration and productivity for your business.</p><div class="benefit-grid">@for (benefit of benefits; track benefit.name) {<div><span class="icon green"><fa-icon [icon]="benefit.icon"/></span><h3>{{benefit.name}}</h3><p>{{benefit.copy}}</p></div>}</div><div class="trust"><small>Trusted by businesses<br>across industries</small><b>ORACLE</b><b>SAP</b><b>Microsoft</b><b>vmware</b><b>Dell</b></div></div><div class="demo-form-scene"><form (submit)="prepareRequest($event)" class="request-form"><h2>Request a <span>Free Demo</span></h2><p>Discover how CloudSpace can work for your team.</p><div class="fields"><label>Full Name *<input name="Full name" required autocomplete="name" placeholder="Your name"></label><label>Business Email *<input name="Business email" type="email" required autocomplete="email" placeholder="you@company.com"></label><label>Company Name *<input name="Company" required autocomplete="organization" placeholder="Your company"></label><label>Phone Number<input name="Phone" type="tel" autocomplete="tel" placeholder="+1 (647) 556-6256"></label><label>Inquiry Type *<select name="Inquiry" required><option value="">Select an option</option><option>Product demo</option><option>Sales consultation</option><option>Customized solution</option><option>Support</option></select></label><label>Number of Employees<select name="Employees"><option value="">Select an option</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–1000</option><option>1000+</option></select></label><label class="full">How can we help you?<textarea name="Requirements" rows="4" placeholder="Tell us more about your requirements…"></textarea></label></div><label class="consent"><input type="checkbox" required> <span>I accept the <a href="/#privacy">Privacy Policy</a> and <a href="/#terms">Terms of Service</a></span></label><button class="button" type="submit">Request a Free Demo →</button><p class="fine">Your information will only be used to contact you. This opens a request in your email app.</p><p role="status">{{contactStatus()}}</p></form></div></section>
+
+<section class="meeting-section" aria-labelledby="meeting-heading">
+ <div class="datasheet-card">
+  <div class="datasheet-cover" aria-hidden="true"><div class="datasheet-book"><small>CLOUDSPACE</small><strong>CloudSpace<br>Datasheet</strong><p>Unlock a smarter,<br>more connected way<br>to work.</p><div class="book-wave"></div><span>Drive · Connect · Calendar</span></div></div>
+  <div class="datasheet-copy"><p class="eyebrow">Product datasheet</p><h2>CloudSpace <span>Datasheet</span></h2><p>Discover how CloudSpace brings your essential tools together — for secure document management, collaboration, and communication.</p><a class="button outline" href="/worldposta-assets/legacy/datasheets/CloudSpace_Datasheet.pdf" download="CloudSpace-Datasheet.pdf">Download Now →</a></div>
+  <div class="datasheet-highlights"><div><span class="icon blue"><fa-icon [icon]="icons.file"/></span><p><strong>Product overview</strong><small>Key features and benefits</small></p></div><div><span class="icon green"><fa-icon [icon]="icons.chart"/></span><p><strong>Use cases</strong><small>Real business scenarios</small></p></div><div><span class="icon purple"><fa-icon [icon]="icons.shield"/></span><p><strong>Technical details</strong><small>Security, compliance and more</small></p></div></div>
+ </div>
+ <div class="meeting-grid"><div class="meeting-copy"><p class="eyebrow">Talk to our experts</p><h2 id="meeting-heading">Schedule a Meeting and<br>See <span>CloudSpace in Action.</span></h2><p class="lead">Get a personalized demo and discover how CloudSpace can simplify communication, collaboration and productivity for your business.</p><div class="meeting-perks"><div><span class="icon green"><fa-icon [icon]="icons.users"/></span><h3>Tailored to<br>your needs</h3><p>See the features that matter to your business.</p></div><div><span class="icon blue"><fa-icon [icon]="icons.chat"/></span><h3>Expert guidance</h3><p>Get answers from our specialists.</p></div><div><span class="icon purple"><fa-icon [icon]="icons.apps"/></span><h3>No commitment</h3><p>Just a friendly conversation.</p></div></div></div><form (submit)="prepareRequest($event)" class="request-form"><h2>Request a <span>Demo</span></h2><p>Fill in the form and our team will get back to you shortly.</p><div class="fields"><label>Full Name *<input name="Full name" required autocomplete="name" placeholder="Your name"></label><label>Business Email *<input name="Business email" type="email" required autocomplete="email" placeholder="you@company.com"></label><label>Company Name *<input name="Company" required autocomplete="organization" placeholder="Your company"></label><label>Phone Number<input name="Phone" type="tel" autocomplete="tel" placeholder="+1 (647) 556-6256"></label><label>Inquiry Type *<select name="Inquiry" required><option value="">Select an option</option><option>Product demo</option><option>Sales consultation</option><option>Customized solution</option><option>Support</option></select></label><label>Number of Employees<select name="Employees"><option value="">Select an option</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–1000</option><option>1000+</option></select></label><label class="full">How can we help you?<textarea name="Requirements" rows="4" placeholder="Tell us more about your requirements…"></textarea></label></div><label class="consent"><input type="checkbox" required> <span>I accept the <a href="/#privacy">Privacy Policy</a> and <a href="/#terms">Terms of Service</a></span></label><button class="button" type="submit">Request a Demo →</button><p class="fine">Your information will only be used to contact you. This opens a request in your email app.</p><p role="status">{{contactStatus()}}</p></form></div>
+</section>
+
+<section id="cs-contact" class="contact-reference" aria-labelledby="contact-reference-heading">
+ <div class="contact-reference-container">
+  <div class="contact-reference-copy">
+   <p class="eyebrow">Contact WorldPosta</p>
+   <h2 id="contact-reference-heading">Talk to World<span>Posta.</span><br>Cloud. Email. <em>Collaboration.</em><br>All in one place.</h2>
+   <p class="lead">Tell us what your business needs and our team will help you choose the right solution across cloud, email, and collaboration tools.</p>
+   <div class="contact-reference-actions"><a class="button" href="mailto:info@worldposta.com">Talk to Sales →</a><a class="outline" href="#cs-demo">Request a Consultation ›</a></div>
+   <div class="contact-reference-perks"><span><fa-icon [icon]="icons.users"/>Expert Guidance</span><span><fa-icon [icon]="icons.chart"/>Fast Response</span><span><fa-icon [icon]="icons.shield"/>Tailored Solutions</span></div>
+  </div>
+  <div class="contact-products">
+   <img class="contact-worldposta-logo" ngSrc="/worldposta-assets/WP-Logo.avif" width="600" height="154" alt="WorldPosta" />
+   <p class="contact-products-label">A complete business ecosystem</p>
+   <div class="contact-product-grid">
+    <article class="contact-product edge"><div class="product-orbit"><span><fa-icon [icon]="icons.cost"/></span></div><h3>Cloud<span>Edge</span></h3><p>Flexible Cloud Solutions<br>for Your Business</p><ul><li><fa-icon [icon]="icons.folder"/>Cloud Computing</li><li><fa-icon [icon]="icons.file"/>Storage &amp; Backup</li><li><fa-icon [icon]="icons.apps"/>Networking</li><li><fa-icon [icon]="icons.shield"/>Security &amp; DR</li></ul></article>
+    <article class="contact-product space"><div class="product-orbit"><span><fa-icon [icon]="icons.users"/></span></div><h3>Cloud<span>Space</span></h3><p>Collaboration &amp; Productivity<br>for Every Team</p><ul><li><fa-icon [icon]="icons.folder"/>Drive &amp; Files</li><li><fa-icon [icon]="icons.chat"/>Connect — Chat &amp; Meetings</li><li><fa-icon [icon]="icons.calendar"/>Calendar &amp; Scheduling</li><li><fa-icon [icon]="icons.file"/>Docs, Sheets &amp; Presentations</li></ul></article>
+    <article class="contact-product posta"><div class="product-orbit"><span><fa-icon [icon]="icons.mail"/></span></div><h3>Posta</h3><p>Secure Business Email<br>for Your Organization</p><ul><li><fa-icon [icon]="icons.mail"/>Business Email</li><li><fa-icon [icon]="icons.shield"/>Email Security</li><li><fa-icon [icon]="icons.chat"/>Migration &amp; Hybrid</li><li><fa-icon [icon]="icons.apps"/>Domains &amp; Administration</li></ul></article>
+   </div>
+   <p class="contact-products-caption">Cloud. Email. Collaboration. <strong>One WorldPosta ecosystem.</strong></p>
+  </div>
+ </div>
+</section>
+<section id="cs-get-in-touch" class="get-in-touch" aria-labelledby="get-in-touch-heading">
+ <div class="touch-container">
+  <div class="touch-copy"><p class="eyebrow">Get in touch</p><h2 id="get-in-touch-heading">Let’s Talk<br><span>About Your Needs.</span></h2><p class="lead">Whether you have a question, need a demo, or want a customized solution — our team is here to help.</p>
+   <dl class="touch-details">
+    <div><span class="icon green" aria-hidden="true"><fa-icon [icon]="icons.phone"/></span><div><dt>Call Us</dt><dd><a href="tel:+16475566256">+1 (647) 556-6256</a></dd></div></div>
+    <div><span class="icon blue" aria-hidden="true"><fa-icon [icon]="icons.location"/></span><div><dt>Our Address</dt><dd>439 University Ave #504,<br>Toronto, ON M5G, Canada.</dd></div></div>
+    <div><span class="icon touch-red" aria-hidden="true"><fa-icon [icon]="icons.mail"/></span><div><dt>Email Us</dt><dd><a href="mailto:info@worldposta.com">info@worldposta.com</a></dd></div></div>
+    <div><span class="icon orange" aria-hidden="true"><fa-icon [icon]="icons.support"/></span><div><dt>Support</dt><dd><a href="mailto:support@worldposta.com">support@worldposta.com</a></dd></div></div>
+    <div><span class="icon purple" aria-hidden="true"><fa-icon [icon]="icons.clock"/></span><div><dt>Opening Hours</dt><dd>Monday – Friday<br>09:00 AM – 06:00 PM</dd></div></div>
+   </dl>
+  </div>
+  <div class="touch-form-column"><div class="touch-photo"><img ngSrc="/worldposta-assets/cloudspace/get-in-touch-reference.jpg" width="1600" height="900" alt="A colleague working at her laptop in a bright office." /></div><form (submit)="prepareRequest($event)" class="request-form"><h2>Send Us a Message</h2><p>Fill in the form and our team will get back to you shortly.</p><div class="fields"><label>Full Name *<input name="Full name" required autocomplete="name" placeholder="Your name"></label><label>Business Email *<input name="Business email" type="email" required autocomplete="email" placeholder="you@company.com"></label><label>Company Name *<input name="Company" required autocomplete="organization" placeholder="Your company"></label><label>Phone Number<input name="Phone" type="tel" autocomplete="tel" placeholder="+1 (647) 556-6256"></label><label>Inquiry Type *<select name="Inquiry" required><option value="">Select an option</option><option>Product demo</option><option>Sales consultation</option><option>Customized solution</option><option>Support</option></select></label><label>Number of Employees<select name="Employees"><option value="">Select an option</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–1000</option><option>1000+</option></select></label><label class="full">How can we help you?<textarea name="Requirements" rows="4" placeholder="Tell us more about your requirements…"></textarea></label></div><label class="consent"><input type="checkbox" required> <span>I accept the <a href="/#privacy">Privacy Policy</a> and <a href="/#terms">Terms of Service</a></span></label><button class="button" type="submit">Submit Request →</button><p class="fine">Your information will only be used to contact you. This opens a request in your email app.</p><p role="status">{{contactStatus()}}</p></form></div></div></section>
+<section class="loop-section" aria-labelledby="loop-heading"><div class="newsletter loop-panel">
+ <div class="loop-copy"><p class="loop-badge"><fa-icon [icon]="icons.send" aria-hidden="true"/>Stay in the loop</p><h2 id="loop-heading">Get The Latest Updates<br>From <span>WorldPosta</span></h2><p class="lead">Subscribe to our newsletter for product news, insights and exclusive offers.</p></div>
+ <div class="loop-signup"><div class="loop-illustration" aria-hidden="true"><div class="loop-orbit"></div><div class="loop-message"><span class="icon green"><fa-icon [icon]="icons.mail"/></span><div class="loop-message-lines"><i></i><i></i><i></i></div><div class="loop-message-bottom"><i></i><i></i></div></div><div class="loop-chart"><fa-icon [icon]="icons.chart"/></div><div class="loop-notification"><fa-icon [icon]="icons.bell"/></div><div class="loop-dots"></div></div>
+ <form (submit)="subscribe($event)" class="loop-form"><label class="loop-email-label" for="newsletter-email">Email address</label><div><div class="loop-email"><fa-icon [icon]="icons.mail" aria-hidden="true"/><input id="newsletter-email" name="email" type="email" required autocomplete="email" placeholder="Enter your email address"></div><button class="button" type="submit">Subscribe →</button></div><p class="fine">No spam. Unsubscribe anytime. Opens a subscription request in your email app.</p><p role="status">{{newsletterStatus()}}</p></form>
+ </div>
+</div></section>
+</main>
+<app-site-footer/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

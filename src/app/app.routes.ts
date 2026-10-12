@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  { path: 'seamless-migration', loadComponent: () => import('./pages/seamless-migration/seamless-migration.component').then(m => m.SeamlessMigration), title: 'Seamless Migration | WorldPosta' },
+  { path: 'cloudspace', loadComponent: () => import('./pages/cloudspace/cloudspace.component').then(m => m.CloudSpace), title: 'CloudSpace — Collaboration & Productivity | WorldPosta' },
   {
     path: '',
     loadComponent: () => import('./pages/home/home.component').then((module) => module.Home),
@@ -18,3 +20,5 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '' },
 ];
+
+
