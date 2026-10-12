@@ -63,6 +63,11 @@ export class MainNavLinksComponent {
             "href": "/cloudedge"
           },
           {
+            "name": "Link",
+            "description": "Coming soon",
+            "href": "/link"
+          },
+          {
             "name": "Virtual Data Center",
             "description": "Run a full VDC, not just VMs",
             "href": "https://www.worldposta.com/virtual-data-centre-vs-traditional-vms"
