@@ -310,14 +310,12 @@ body.nav-open { overflow: hidden; }
 .hero-palette .hero-palette-blue{color:var(--wp-blue)!important}
 .hero-palette .hero-palette-green{color:var(--wp-green)!important}
 
-/* Readable detailed visuals on every marketing page. */
-.visual-reader{position:relative;z-index:3;max-width:min(1440px,90%);margin:20px auto 0;color:var(--color-text-primary);text-align:left;grid-column:1/-1;flex-basis:100%}
-.visual-reader>summary{width:fit-content;min-height:44px;display:flex;align-items:center;gap:10px;cursor:pointer;border:1px solid var(--color-border);border-radius:10px;padding:10px 16px;background:var(--color-bg-secondary);color:var(--wp-blue);font-size:16px;font-weight:650;list-style:none}
-.visual-reader>summary::-webkit-details-marker{display:none}
-.visual-reader>summary:focus-visible,.visual-reader-canvas:focus-visible{outline:3px solid var(--wp-blue);outline-offset:4px}
-.visual-reader-canvas{overflow:auto;max-height:75vh;margin-top:16px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-primary)}
-.visual-reader-canvas img{display:block;position:static!important;width:1600px!important;height:auto!important;max-width:none!important;min-width:0!important;transform:none!important;filter:none!important;opacity:1!important;clip-path:none!important;object-fit:contain!important}
-.visual-reader-description{font-size:16px!important;line-height:1.6!important;max-width:1000px;color:var(--color-text-secondary);margin:14px 0 0}
-/* Keep descriptions readable without changing screenshot internals. */
+/* Readable marketing content. */
 :is(.operations-grid,.operation-outcome,.sap-services-grid,.partner-strengths,.partner-advantage,.success-card-copy,.contact-outcomes,.benefit-card,.workflow-features,.trial-perks,.final-highlights,.consultation-benefits,.process-steps,.process-metrics,.drive-benefits,.feature-text,.collaboration-steps,.collaboration-outcomes,.global-workflow,.trial-outcomes,.managed-card,.audience-content,.basis-risk-grid,.coverage-card,.proactive-steps,.proactive-benefits,.value-benefits,.consultation-points) p{font-size:max(1rem,16px)!important;line-height:1.5!important}
 @media(max-width:850px){.visual-reader{width:90%;max-width:100%;box-sizing:border-box}.visual-reader-canvas{max-height:65vh}}
+/* Shared major-section rhythm, using the same responsive token as CloudEdge. */
+main > section:not(:first-of-type):not(.ecosystem-strip-section):not(.trust-bar-section):not(.ecosystem-strip):not(.trust-strip){padding-block:var(--wp-section-pad)!important;margin-block:0!important}
+
+
+.polished-icon{width:28px!important;height:28px!important;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+:is(.form-note,.form-status,.trial-note,.trial-terms,.final-note,.contact-note,.consultation-note,.trial-form-note,.team-use-note,.link-features p,.consultation-trust span,.global-activity li>span:nth-child(2),.global-activity small){font-size:14px!important;line-height:1.5!important}

@@ -1,9 +1,10 @@
+import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { Component, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 @Component({
-  imports: [NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent],
+  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent],
   templateUrl: './drive.component.html',
   styleUrl: './drive.component.css',
 })

@@ -1916,3 +1916,4 @@ button, input, select { font-family: inherit; }
   .hero-bridge::before { left: 37px; }
   .hero-bridge::after { right: 37px; }
 }
+#resources.section{padding-block:var(--wp-section-pad)!important}
