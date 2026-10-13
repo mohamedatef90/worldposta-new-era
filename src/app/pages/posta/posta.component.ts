@@ -81,7 +81,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { RevealDirective } from '@/shared/directives/reveal.directive';
@@ -149,7 +148,7 @@ interface ResourceCard {
  * sections below are specific to Posta and own their content + CSS.
  */
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, RevealDirective, MainNavLinksComponent, SiteFooterComponent, SiteHeaderComponent],
+  imports: [FaIconComponent, NgOptimizedImage, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {

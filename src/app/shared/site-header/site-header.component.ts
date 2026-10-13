@@ -7,10 +7,8 @@ import { faArrowRight, faBars, faMagnifyingGlass, faMoon, faSun, faXmark } from 
 import { ThemeService } from '@/shared/services/theme.service';
 
 /**
- * Chrome shared by every page: brand, theme toggle, search, sign-in/CTA and the
- * mobile drawer with its focus management. Each page's own primary-nav links
- * differ (same-page anchors into that page's own sections), so they are
- * projected in rather than baked in here — see `[nav-links]` / `[mobile-nav-links]`.
+ * Chrome shared by every page. The primary tabs live here, in one nav
+ * component, for both the desktop bar and the mobile drawer.
  */
 @Component({
   imports: [MainNavLinksComponent, FaIconComponent, NgOptimizedImage, RouterLink],
@@ -18,6 +16,7 @@ import { ThemeService } from '@/shared/services/theme.service';
   // on `host` rather than @HostListener, per the project conventions.
   host: {
     '(document:keydown.escape)': 'closeMenu()',
+    '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'onScroll()',
   },
   selector: 'app-site-header',
@@ -33,6 +32,8 @@ export class SiteHeaderComponent {
    * this drawer is the only way to reach them on a phone.
    */
   protected readonly menuOpen = signal(false);
+  protected readonly langOpen = signal(false);
+  protected readonly lang = signal<'en' | 'ar'>('en');
 
   /**
    * The bar is fixed and transparent over the hero, so it only takes a surface
@@ -81,9 +82,25 @@ export class SiteHeaderComponent {
     this.menuOpen.update((open) => !open);
   }
 
+  protected toggleLang(): void {
+    this.langOpen.update((open) => !open);
+  }
+
+  protected setLang(lang: 'en' | 'ar'): void {
+    this.lang.set(lang);
+    this.langOpen.set(false);
+  }
+
+  protected onDocumentClick(event: Event): void {
+    if (!(event.target instanceof Element) || !event.target.closest('.lang-menu')) {
+      this.langOpen.set(false);
+    }
+  }
+
   /** Public: pages close the drawer themselves when a projected nav link is clicked. */
   closeMenu(): void {
     this.menuOpen.set(false);
+    this.langOpen.set(false);
   }
 
   protected readonly icons = {

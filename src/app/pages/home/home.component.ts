@@ -24,7 +24,6 @@ import { GetStartedComponent } from './get-started/get-started.component';
 import { ProviderComparisonComponent } from './provider-comparison/provider-comparison.component';
 import { SecuritySectionComponent } from './security-section/security-section.component';
 import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
-import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { PerformanceTrustComponent } from './performance-trust/performance-trust.component';
@@ -47,7 +46,6 @@ interface EcosystemTile {
   imports: [
     FaIconComponent,
     NgOptimizedImage,
-    MainNavLinksComponent,
     SiteHeaderComponent,
     EcosystemTabsComponent,
     PerformanceTrustComponent,
