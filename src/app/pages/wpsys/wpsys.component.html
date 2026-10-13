@@ -1,0 +1,85 @@
+<app-site-header #header [solid]="true">
+  <app-main-nav-links nav-links />
+  <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
+</app-site-header>
+<main>
+  <section class="wpsys-hero" aria-labelledby="wpsys-title">
+    <div class="wpsys-art"><img ngSrc="/worldposta-assets/wpsys-hero-reference.jpg" width="1600" height="800" priority alt="WPSYS IT Solutions surrounded by cloud operations, IT automation, cybersecurity, expert support and SAP operations, beside an IT specialist working on a laptop" /></div>
+    <div class="wpsys-wrap">
+      <div class="wpsys-copy">
+        <p class="wpsys-eyebrow"><span aria-hidden="true"></span><span>WPSYS<small>IT SOLUTIONS</small></span></p>
+        <h1 id="wpsys-title" class="hero-palette">IT that works.<br><span class="hero-palette-blue">Security that protects.</span><br><span class="hero-palette-green">Operations that scale.</span></h1>
+        <p class="wpsys-lead">WPSYS provides managed IT, cybersecurity, cloud operations and automation for enterprises and service providers — with one expert team behind your environment.</p>
+        <div class="wpsys-actions"><a class="wpsys-primary" href="#wpsys-contact">Talk to an Expert <span aria-hidden="true">→</span></a><a class="wpsys-secondary" href="#wpsys-approach">Explore Our Services</a></div>
+      </div>
+      <ul class="wpsys-proof" id="wpsys-services" aria-label="WPSYS service benefits">
+        <li><span class="proof-icon support" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 18v-3a12 12 0 0 1 24 0v3M4 16H2v9h6v-9ZM28 16h2v9h-6v-9ZM28 25c0 5-4 5-9 5"/></svg></span><div><h2>24/7 IT Support</h2><p>Always on, whenever you need us.</p></div></li>
+        <li><span class="proof-icon security" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3c4 3 8 4 11 5v9c0 6-6 10-11 13C11 27 5 23 5 17V8c3-1 7-2 11-5ZM10 16l4 4 8-9"/></svg></span><div><h2>Secure Operations</h2><p>Protecting your business and data.</p></div></li>
+        <li><span class="proof-icon team" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="12" cy="9" r="5"/><path d="M3 28v-5c0-10 18-10 18 0v5M24 5c7 0 7 10 0 10m0 4c7 0 7 5 7 9"/></svg></span><div><h2>One Expert Team</h2><p>End-to-end support under one SLA.</p></div></li>
+      </ul>
+    </div>
+  </section><details class="visual-reader"><summary>View visual at full size<span aria-hidden="true"> ↗</span></summary><div class="visual-reader-canvas" tabindex="0" role="region" aria-label="Full-size visual, scroll to see details"><img src="/worldposta-assets/wpsys-hero-reference.jpg" alt="WPSYS IT Solutions surrounded by cloud operations, IT automation, cybersecurity, expert support and SAP operations, beside an IT specialist working on a laptop" loading="lazy" /></div><p class="visual-reader-description">WPSYS IT Solutions surrounded by cloud operations, IT automation, cybersecurity, expert support and SAP operations, beside an IT specialist working on a laptop</p></details>
+  <section class="wpsys-process" id="wpsys-approach" aria-labelledby="wpsys-process-title">
+    <div class="wpsys-wrap">
+      <p class="process-eyebrow"><span aria-hidden="true"></span>HOW WPSYS HELPS YOU</p>
+      <div class="process-heading"><h2 id="wpsys-process-title">From Complexity<br><span>to Control.</span></h2><p>We take the complexity out of managing your IT environment with a proven approach that delivers a secure, efficient and future-ready operation.</p></div>
+      <ol class="process-steps">
+        <li class="process-blue"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="17" cy="17" r="11"/><path d="m25 25 11 11M14 20l6-7"/></svg></span><h3>Assess</h3><p>We understand your current environment, challenges and goals.</p><span class="step-number" aria-hidden="true">01</span></li>
+        <li class="process-green"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 3h14l7 7v27H10ZM24 3v10h7M15 19h11M15 25h11M15 31h7"/></svg></span><h3>Design</h3><p>We create a tailored managed service plan for your needs.</p><span class="step-number" aria-hidden="true">02</span></li>
+        <li class="process-purple"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m16 3 8 0 2 5 5 2 5-1 3 6-4 4v5l4 4-3 6-5-1-5 2-2 5h-8l-2-5-5-2-5 1-3-6 4-4v-5l-4-4 3-6 5 1 5-2Z"/><circle cx="20" cy="21" r="7"/></svg></span><h3>Implement</h3><p>We deploy and integrate solutions with minimal disruption.</p><span class="step-number" aria-hidden="true">03</span></li>
+        <li class="process-amber"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="5" y="4" width="30" height="23" rx="2"/><path d="M20 27v7M10 35h20M12 20l15-10"/></svg></span><h3>Manage</h3><p>We continuously monitor, support and optimize your environment.</p><span class="step-number" aria-hidden="true">04</span></li>
+        <li class="process-green"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><h3>Grow</h3><p>We help you scale, innovate and stay ahead with expert guidance.</p><span class="step-number" aria-hidden="true">05</span></li>
+      </ol>
+      <ul class="process-metrics" aria-label="WPSYS performance metrics">
+        <li class="process-green"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><ellipse cx="20" cy="9" rx="13" ry="6"/><path d="M7 9v22c0 8 26 8 26 0V9M7 17c0 8 26 8 26 0M7 24c0 8 26 8 26 0"/></svg></span><div><strong>40%</strong><p>Average operational<br>cost reduction</p></div></li>
+        <li class="process-blue"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M20 9v12h10"/></svg></span><div><strong>99.9%</strong><p>Infrastructure<br>uptime</p></div></li>
+        <li class="process-purple"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><div><strong>30%</strong><p>Improved<br>efficiency</p></div></li>
+        <li class="process-amber"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13"/></svg></span><div><strong>24/7</strong><p>Security<br>coverage</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wpsys-contact" id="wpsys-contact" aria-labelledby="wpsys-contact-title">
+    <div class="wpsys-wrap contact-layout">
+      <div class="wpsys-contact-copy">
+        <p class="process-eyebrow"><span aria-hidden="true"></span>LET’S TALK</p>
+        <h2 id="wpsys-contact-title">Let’s Talk About<br><span>Your IT.</span></h2>
+        <p class="contact-intro">Tell us what you’re managing today. We’ll help you find a smarter, more secure and more efficient way forward.</p>
+        <ul class="consultation-benefits">
+          <li class="process-blue"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M35 18c0 9-8 15-17 15H9l-6 4 2-11a16 16 0 1 1 30-8ZM12 17h1m6 0h1m6 0h1"/></svg></span><h3>Expert<br>Consultation</h3><p>Talk to a specialist who understands your business.</p></li>
+          <li class="process-green"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m22 3-13 20h11l-4 14 15-23H21l5-11Z"/></svg></span><h3>Tailored<br>Recommendations</h3><p>Get practical solutions based on your actual needs.</p></li>
+          <li class="process-purple"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><h3>No Obligation</h3><p>Just a conversation to help you move forward.</p></li>
+        </ul>
+      </div>
+      <div class="consultation-art"><img ngSrc="/worldposta-assets/wpsys-contact-reference.jpg" width="1600" height="660" alt="Two IT specialists reviewing a laptop together" /></div>
+      <form class="wpsys-contact-form" (submit)="submitContact($event)">
+        <h3>Get in Touch</h3><p>Fill out the form and our experts will get back to you within one business day.</p>
+        <div class="contact-fields">
+          <label>Full Name *<input name="fullName" placeholder="Your full name" autocomplete="name" required /></label>
+          <label>Work Email *<input name="email" type="email" placeholder="you@company.com" autocomplete="email" required /></label>
+          <label>Company Name *<input name="company" placeholder="Your company name" autocomplete="organization" required /></label>
+          <label>Phone Number *<input name="phone" type="tel" placeholder="+20 100 123 4567" autocomplete="tel" required /></label>
+          <label class="contact-full">Industry *<select name="industry" required><option value="">Select your industry</option><option>Technology</option><option>Financial Services</option><option>Manufacturing</option><option>Retail</option><option>Healthcare</option><option>Education</option><option>Government</option><option>Service Provider</option><option>Other</option></select></label>
+        </div>
+        <fieldset class="contact-services"><legend>What do you need help with? *</legend>
+          <label><input type="radio" name="service" value="Managed IT & Infrastructure" required />Managed IT &amp; Infrastructure</label>
+          <label><input type="radio" name="service" value="Cybersecurity & SOC" />Cybersecurity &amp; SOC</label>
+          <label><input type="radio" name="service" value="Cloud Management" />Cloud Management</label>
+          <label><input type="radio" name="service" value="SAP Operations" />SAP Operations</label>
+          <label><input type="radio" name="service" value="IT Automation" />IT Automation</label>
+          <label><input type="radio" name="service" value="Not sure — I need guidance" />Not sure — I need guidance</label>
+        </fieldset>
+        <button type="submit">Talk to a WPSYS Expert <span aria-hidden="true">→</span></button>
+        <p class="contact-note">No commitment. No complicated process. Just a conversation with an expert.</p>
+        <p class="contact-note">Your email app will open with a draft. Review and send it to complete your enquiry.</p>
+        <p class="contact-status" role="status">{{ contactStatus() }}</p>
+      </form>
+    </div>
+  </section><details class="visual-reader"><summary>View visual at full size<span aria-hidden="true"> ↗</span></summary><div class="visual-reader-canvas" tabindex="0" role="region" aria-label="Full-size visual, scroll to see details"><img src="/worldposta-assets/wpsys-contact-reference.jpg" alt="Two IT specialists reviewing a laptop together" loading="lazy" /></div><p class="visual-reader-description">Two IT specialists reviewing a laptop together</p></details>
+</main>
+
+
+
+
+
+

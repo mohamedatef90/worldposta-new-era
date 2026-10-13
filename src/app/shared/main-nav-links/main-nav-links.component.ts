@@ -64,7 +64,7 @@ export class MainNavLinksComponent {
           },
           {
             "name": "SAP",
-            "description": "Coming soon",
+            "description": "Managed SAP hosting, security and operations",
             "href": "/sap"
           },
           {
@@ -114,8 +114,8 @@ export class MainNavLinksComponent {
             "href": "/posta"
           },
           {
-            "name": "Link",
-            "description": "Coming soon",
+            "name": "Drive", "description": "Files, sharing and team collaboration", "href": "/drive" }, { "name": "Link",
+            "description": "Team chat, meetings and connected workspaces",
             "href": "/link"
           },
           {
@@ -209,7 +209,7 @@ export class MainNavLinksComponent {
     "allHref": "/service-provider",
     "items": [
       {
-        "name": "Overview",
+        "name": "SAP Basis Operations", "description": "SAP administration, monitoring and optimization", "href": "/sap-basis-operations" }, { "name": "WPSYS", "description": "Managed IT, cybersecurity and cloud operations", "href": "/wpsys" }, { "name": "Overview",
         "description": "The operator model, in five minutes",
         "href": "https://www.worldposta.com/operator-overview"
       },
@@ -277,5 +277,10 @@ export class MainNavLinksComponent {
  protected close(){this.open.set('');}
  protected outside(event:Event){if(!(event.target instanceof Element)||!event.target.closest('app-main-nav-links'))this.close();}
 }
+
+
+
+
+
 
 
