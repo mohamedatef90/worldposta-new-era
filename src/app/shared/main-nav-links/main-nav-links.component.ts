@@ -64,7 +64,7 @@ export class MainNavLinksComponent {
           },
           {
             "name": "SAP",
-            "description": "Coming soon",
+            "description": "Managed SAP hosting, security and operations",
             "href": "/sap"
           },
           {
@@ -115,7 +115,7 @@ export class MainNavLinksComponent {
           },
           {
             "name": "Link",
-            "description": "Coming soon",
+            "description": "Team chat, meetings and connected workspaces",
             "href": "/link"
           },
           {
@@ -270,5 +270,7 @@ export class MainNavLinksComponent {
  protected close(){this.open.set('');}
  protected outside(event:Event){if(!(event.target instanceof Element)||!event.target.closest('app-main-nav-links'))this.close();}
 }
+
+
 
 

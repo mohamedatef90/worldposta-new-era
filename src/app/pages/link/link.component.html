@@ -1,0 +1,25 @@
+<app-site-header #header [solid]="true">
+  <app-main-nav-links nav-links />
+  <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
+</app-site-header>
+<main>
+  <section class="link-hero" aria-labelledby="link-title">
+    <div class="link-art"><img ngSrc="/worldposta-assets/posta-link-hero-reference.jpg" width="1600" height="533" priority alt="Posta Link collaboration workspace with team chat, a four-person video meeting, workspaces, Posta Drive, calendar and WorldPosta integrations" /></div>
+    <div class="link-wrap">
+      <div class="link-copy">
+        <p class="link-eyebrow"><span aria-hidden="true"></span>POSTA LINK</p>
+        <h1 id="link-title">One Place to<br><span>Multiply Your<br>Team’s Productivity.</span></h1>
+        <p class="link-lead">Chat, meet, collaborate and work together — with seamless integration across the WorldPosta ecosystem.</p>
+        <div class="link-actions"><a class="link-primary" href="https://www.worldposta.com/signup">Get Started Free <span aria-hidden="true">→</span></a><button type="button" (click)="watchVideo()"><span class="play" aria-hidden="true">▶</span> Watch Video</button></div>
+        <p class="video-notice" role="status">{{ videoNotice() }}</p>
+        <ul class="link-features" aria-label="Posta Link features">
+          <li class="chat"><span aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 4h24v20H13l-7 5v-5H4ZM9 11h14M9 16h10"/></svg></span><h2>Team Chat</h2><p>1-1 &amp; Group chat</p></li>
+          <li class="meet"><span aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="3" y="7" width="17" height="18" rx="3"/><path d="m20 12 9-5v18l-9-5Z"/></svg></span><h2>Video Meetings</h2><p>Calls &amp; conferences</p></li>
+          <li class="teams"><span aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="9" r="5"/><path d="M7 28v-5c0-10 18-10 18 0v5M5 7a4 4 0 0 0 0 8M27 7a4 4 0 0 1 0 8M4 20c-4 0-4 4-4 8h4m24-8c4 0 4 4 4 8h-4"/></svg></span><h2>Workspaces</h2><p>Organize your teams</p></li>
+          <li class="files"><span aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 8h11l3 4h12v17H3ZM3 8V4h12l3 4h11v4"/></svg></span><h2>File Sharing</h2><p>With Posta Drive</p></li>
+          <li class="calendar"><span aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="23" rx="2"/><path d="M4 13h24M10 3v7M22 3v7M9 18h3m5 0h3m-11 6h3m5 0h3"/></svg></span><h2>Calendar</h2><p>Plan &amp; stay aligned</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
