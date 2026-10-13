@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  { path: 'sap-basis-operations', loadComponent: () => import('./pages/sap-basis-operations/sap-basis-operations.component').then(m => m.SapBasisOperations), title: 'SAP Basis Operations | WorldPosta' },
+  { path: 'drive', loadComponent: () => import('./pages/drive/drive.component').then(m => m.Drive), title: 'Posta Drive | WorldPosta' },
+  { path: 'wpsys', loadComponent: () => import('./pages/wpsys/wpsys.component').then(m => m.Wpsys), title: 'WPSYS — Managed IT Solutions | WorldPosta' },
   { path: 'link', loadComponent: () => import('./pages/link/link.component').then(m => m.PostaLink), title: 'Posta Link — Team Collaboration | WorldPosta' },
   { path: 'sap', loadComponent: () => import('./pages/sap/sap.component').then(m => m.Sap), title: 'SAP Cloud Operations | WorldPosta' },
   { path: 'seamless-migration', loadComponent: () => import('./pages/seamless-migration/seamless-migration.component').then(m => m.SeamlessMigration), title: 'Seamless Migration | WorldPosta' },
@@ -22,6 +25,9 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '' },
 ];
+
+
+
 
 
 
