@@ -1,11 +1,10 @@
 import { NgOptimizedImage } from '@angular/common';
-import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { Component, signal } from '@angular/core';
 
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 @Component({
-  imports: [NgOptimizedImage, MainNavLinksComponent, SiteHeaderComponent, SiteFooterComponent],
+  imports: [NgOptimizedImage, SiteHeaderComponent, SiteFooterComponent],
   templateUrl: './seamless-migration.component.html',
   styleUrl: './seamless-migration.component.css',
 })

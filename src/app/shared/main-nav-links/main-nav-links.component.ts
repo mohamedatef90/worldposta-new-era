@@ -34,9 +34,9 @@ interface Menu { id:string; label:string; href?:string; allHref?:string; tabs?:C
  }
  `,
  styles:[`
- .nav-link{display:flex;align-items:center;gap:7px;min-height:44px;padding:0 10px;color:#39453e;font:inherit;font-size:14px;white-space:nowrap;background:none;border:0;text-decoration:none;cursor:pointer;border-radius:8px}
- .nav-link:hover{background:#edf2e7;color:#578832}.chevron{width:6px;height:6px;border-right:1.5px solid;border-bottom:1.5px solid;transform:rotate(45deg);margin:-3px 2px 0}
- .mega-panel{position:absolute;left:0;right:0;top:calc(100% + 10px);display:flex;background:#fdfdf9;border:1px solid #d7d9cf;border-radius:18px;padding:20px;box-shadow:0 18px 40px #10201620;color:#27362d;max-height:70vh;overflow:auto}
+ .nav-link{display:flex;align-items:center;gap:6px;min-height:44px;padding:10px 12px;color:var(--color-text-secondary);font:inherit;font-size:14px;font-weight:500;white-space:nowrap;background:none;border:0;text-decoration:none;cursor:pointer;border-radius:6px}
+ .nav-link:hover,.nav-link[aria-expanded="true"]{background:color-mix(in srgb, var(--color-brand-green) 10%, transparent);color:var(--color-text-primary)}.chevron{width:6px;height:6px;border-right:1.5px solid;border-bottom:1.5px solid;transform:rotate(45deg);margin:-3px 2px 0;transition:transform .2s ease}.nav-link[aria-expanded="true"] .chevron{transform:rotate(225deg);margin-top:2px;color:var(--color-brand-green)}
+ .mega-panel{position:absolute;left:0;right:0;top:calc(100% + 8px);display:flex;background:var(--wp-panel);border:1px solid var(--wp-panel-line);border-radius:18px;padding:20px;box-shadow:var(--shadow-lg);color:var(--color-text-primary);max-height:70vh;overflow:auto}
  .mega-categories{width:210px;flex-shrink:0;border-right:1px solid #e3e5dd;padding-right:18px;display:flex;flex-direction:column;gap:5px}
  .mega-categories button,.mega-categories a{border:0;background:none;color:inherit;font:inherit;text-align:left;display:flex;justify-content:space-between;padding:14px;border-radius:9px;cursor:pointer;text-decoration:none;font-size:14px}
  .mega-categories button.active{background:#eaf1df;color:#56872e;font-weight:700}.mega-categories a{margin-top:auto;color:#56872e}.mega-grid{padding-left:18px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px}
@@ -257,11 +257,18 @@ export class MainNavLinksComponent {
   },
   {
     "id": "docs",
-    "label": "Docs",
+    "label": "Resources",
     "href": "/knowledge-base"
   }
 ];
- protected readonly menus:Menu[]=this.catalog.flatMap(menu=>menu.id==='products' ? (menu.tabs??[]).map(category=>category.items.length===1 ? {id:category.id,label:category.label,href:category.items[0]!.href} : {id:category.id,label:category.label,items:category.items}) : [menu]);
+ protected readonly menus:Menu[]=this.topLevelMenus();
+ private topLevelMenus():Menu[]{
+  const products=this.catalog.find(menu=>menu.id==='products');
+  const gate=this.catalog.find(menu=>menu.id==='postagate');
+  const productTabs=(products?.tabs??[]).map(category=>category.items.length===1?{id:category.id,label:category.label,href:category.items[0]!.href}:{id:category.id,label:category.label,items:category.items});
+  const rest=this.catalog.filter(menu=>menu.id!=='products'&&menu.id!=='postagate');
+  return [...productTabs,...(gate?[gate]:[]),...rest];
+ }
  protected readonly open=signal('');protected readonly selected=signal('');
  protected prefix(){return this.mobile()?'mobile-menu-':'desktop-menu-';}
  protected toggle(id:string){this.open.update(value=>value===id?'':id);this.selected.set(this.menus.find(m=>m.id===id)?.tabs?.[0]?.id??'');}

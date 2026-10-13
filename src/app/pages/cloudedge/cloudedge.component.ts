@@ -36,7 +36,6 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { scrollToFragmentOnClick } from '@/shared/utils';
@@ -140,7 +139,7 @@ interface AddOn {
  * reference section mockups, section for section.
  */
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, MainNavLinksComponent, SiteFooterComponent, SiteHeaderComponent],
+  imports: [FaIconComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {

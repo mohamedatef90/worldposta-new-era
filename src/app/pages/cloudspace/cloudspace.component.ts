@@ -1,4 +1,3 @@
-import { MainNavLinksComponent } from '../../shared/main-nav-links/main-nav-links.component';
 import { SiteHeaderComponent } from '../../shared/site-header/site-header.component';
 import { scrollToFragmentOnClick } from '../../shared/utils';
 import { Component, inject, signal } from '@angular/core';
@@ -9,7 +8,7 @@ import { SiteFooterComponent } from '../../shared/site-footer/site-footer.compon
 @Component({
  selector: 'app-cloudspace',
  host: { '(click)': 'onInPageAnchorClick($event)' },
- imports: [MainNavLinksComponent, SiteHeaderComponent, NgOptimizedImage, FaIconComponent, SiteFooterComponent],
+ imports: [SiteHeaderComponent, NgOptimizedImage, FaIconComponent, SiteFooterComponent],
  templateUrl: './cloudspace.component.html',
  styleUrl: './cloudspace.component.css',
 })

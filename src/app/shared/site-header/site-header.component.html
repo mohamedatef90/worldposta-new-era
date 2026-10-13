@@ -10,21 +10,34 @@
       />
     </a>
 
-    <nav class="site-nav" aria-label="Primary navigation">
-      <ng-content select="[nav-links]"><app-main-nav-links /></ng-content>
+    <nav class="site-nav" aria-label="Primary">
+      <app-main-nav-links />
     </nav>
 
-    <div class="theme-switch" role="group" aria-label="Color theme">
-      <button type="button" [class.active]="!theme.isDark()" [attr.aria-pressed]="!theme.isDark()" aria-label="Light theme" (click)="theme.set('light')"><fa-icon [icon]="icons.sun" /></button>
-      <button type="button" [class.active]="theme.isDark()" [attr.aria-pressed]="theme.isDark()" aria-label="Dark theme" (click)="theme.set('dark')"><fa-icon [icon]="icons.moon" /></button>
-    </div>
+    <div class="header-end">
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" [class.active]="!theme.isDark()" [attr.aria-pressed]="!theme.isDark()" aria-label="Light theme" (click)="theme.set('light')"><fa-icon [icon]="icons.sun" /></button>
+        <button type="button" [class.active]="theme.isDark()" [attr.aria-pressed]="theme.isDark()" aria-label="Dark theme" (click)="theme.set('dark')"><fa-icon [icon]="icons.moon" /></button>
+      </div>
 
-    <div class="header-actions">
-      <select class="language-select" aria-label="Language"><option value="en">En</option></select>
-      <a class="sign-in" href="https://home.worldposta.com/">Sign in</a>
-      <a class="header-cta" href="https://www.worldposta.com/signup">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-    </div>
-    <button
+      <div class="lang-menu">
+        <button type="button" class="lang-trigger" aria-haspopup="menu" [attr.aria-expanded]="langOpen()" aria-label="Select language" (click)="toggleLang()">
+          <span>{{ lang() === 'ar' ? 'Ar' : 'En' }}</span>
+          <span class="lang-chevron" aria-hidden="true"></span>
+        </button>
+        @if (langOpen()) {
+          <ul class="lang-panel" role="menu" aria-label="Select language">
+            <li role="none"><button type="button" role="menuitemradio" [attr.aria-checked]="lang() === 'en'" (click)="setLang('en')">En</button></li>
+            <li role="none"><button type="button" role="menuitemradio" [attr.aria-checked]="lang() === 'ar'" (click)="setLang('ar')">Ar</button></li>
+          </ul>
+        }
+      </div>
+
+      <div class="header-actions">
+        <a class="sign-in" href="https://home.worldposta.com/">Sign in</a>
+        <a class="header-cta" href="https://www.worldposta.com/signup">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      </div>
+      <button
       #menuButton
       class="menu-button"
       type="button"
@@ -35,12 +48,13 @@
     >
       <fa-icon [icon]="menuOpen() ? icons.xmark : icons.bars" aria-hidden="true" />
     </button>
+    </div>
 
     @if (menuOpen()) {
       <div class="mobile-nav__backdrop" (click)="closeMenu()" aria-hidden="true"></div>
 
       <nav #menuPanel class="mobile-nav" id="mobile-nav" aria-label="Primary navigation">
-        <ng-content select="[mobile-nav-links]"><app-main-nav-links [mobile]="true" (linkClick)="closeMenu()" /></ng-content>
+        <app-main-nav-links [mobile]="true" (linkClick)="closeMenu()" />
 
         <hr class="mobile-nav__rule" />
 
@@ -51,8 +65,8 @@
           {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
         </button>
 
-        <a href="#sign-in" (click)="closeMenu()">Sign in</a>
-        <a class="mobile-nav__cta" href="#start-free" (click)="closeMenu()">
+        <a href="https://home.worldposta.com/" (click)="closeMenu()">Sign in</a>
+        <a class="mobile-nav__cta" href="https://www.worldposta.com/signup" (click)="closeMenu()">
           Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
         </a>
       </nav>
