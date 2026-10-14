@@ -191,16 +191,16 @@ export class CloudEdgeComponent {
   ];
 
   /** AI-generated stand-in for the customer's own photo; swap for the real asset when supplied. */
-  protected readonly heroPhoto = '/worldposta-assets/hero/cloudedge/partner-photo.png';
+  protected readonly heroPhoto = '/worldposta-assets/hero/cloudedge/partner-photo.avif';
 
   /** Hero visual: over-the-shoulder desk shot with the CloudEdge console, cloud icon and connecting wire already composited in. */
-  protected readonly heroDeskPhoto = '/worldposta-assets/hero/cloudedge/partner-photo-desk.png';
+  protected readonly heroDeskPhoto = '/worldposta-assets/hero/cloudedge/partner-photo-desk.avif';
 
   /** The Challenge section's supporting photography — a frustrated person at their desk, laptop flagging a system error. */
-  protected readonly challengePhoto = '/worldposta-assets/hero/cloudedge/challenge-desk.png';
+  protected readonly challengePhoto = '/worldposta-assets/hero/cloudedge/challenge-desk.avif';
 
   /** Private Cloud visual: the real CloudEdge Console composited onto the laptop screen, no illustrated cloud graphic. */
-  protected readonly privateCloudPhoto = '/worldposta-assets/hero/cloudedge/private-cloud-isolated.png';
+  protected readonly privateCloudPhoto = '/worldposta-assets/hero/cloudedge/private-cloud-isolated.avif';
 
   // ============================================================
   // CHALLENGES
@@ -247,7 +247,7 @@ export class CloudEdgeComponent {
   ];
 
   /** The CloudEdge Console screenshot, presented as a floating dashboard mockup instead of the feature hub. */
-  protected readonly cloudComputingDashboard = '/worldposta-assets/hero/cloudedge/console-dashboard.png';
+  protected readonly cloudComputingDashboard = '/worldposta-assets/hero/cloudedge/console-dashboard.avif';
 
   // ============================================================
   // PRIVATE CLOUD
@@ -315,13 +315,13 @@ export class CloudEdgeComponent {
   // ============================================================
   protected readonly stories: readonly Story[] = [
     {
-      photo: '/worldposta-assets/posta/story-bbva.webp',
+      photo: '/worldposta-assets/posta/story-bbva.avif',
       photoAlt: 'BBVA headquarters building',
       photoWidth: 1100,
       photoHeight: 376,
       chipIcon: faBuildingColumns,
       chipLabel: 'Banking',
-      logo: '/worldposta-assets/brand-logos/customers/bbva.webp',
+      logo: '/worldposta-assets/brand-logos/customers/bbva.avif',
       logoAlt: 'BBVA',
       logoWidth: 214,
       logoHeight: 64,
@@ -329,13 +329,13 @@ export class CloudEdgeComponent {
       cite: 'IT Director, BBVA',
     },
     {
-      photo: '/worldposta-assets/posta/story-iberia.webp',
+      photo: '/worldposta-assets/posta/story-iberia.avif',
       photoAlt: 'Iberia aircraft in flight',
       photoWidth: 1100,
       photoHeight: 418,
       chipIcon: faPlane,
       chipLabel: 'Aviation',
-      logo: '/worldposta-assets/brand-logos/customers/iberia.webp',
+      logo: '/worldposta-assets/brand-logos/customers/iberia.avif',
       logoAlt: 'Iberia',
       logoWidth: 288,
       logoHeight: 64,
@@ -343,13 +343,13 @@ export class CloudEdgeComponent {
       cite: 'Head of Infrastructure, Iberia',
     },
     {
-      photo: '/worldposta-assets/posta/story-government.webp',
+      photo: '/worldposta-assets/posta/story-government.avif',
       photoAlt: 'Government building',
       photoWidth: 1100,
       photoHeight: 380,
       chipIcon: faLandmark,
       chipLabel: 'Government',
-      logo: '/worldposta-assets/brand-logos/customers/lseg.webp',
+      logo: '/worldposta-assets/brand-logos/customers/lseg.avif',
       logoAlt: 'LSEG',
       logoWidth: 148,
       logoHeight: 64,

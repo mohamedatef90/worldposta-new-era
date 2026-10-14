@@ -454,9 +454,9 @@ export class EcosystemTabsComponent {
           'Enterprise-grade security',
         ],
         // Captured from the live CloudEdge console (1600x900), so it matches the
-        // 800x450 the template declares — unlike dashboard.png, which is 1520x684.
-        image: '/worldposta-assets/hero/cloudedge/console-dashboard.png',
-        imageDark: '/worldposta-assets/hero/cloudedge/console-dashboard-dark.png',
+        // 800x450 the template declares — unlike dashboard.avif, which is 1520x684.
+        image: '/worldposta-assets/hero/cloudedge/console-dashboard.avif',
+        imageDark: '/worldposta-assets/hero/cloudedge/console-dashboard-dark.avif',
         imageAlt:
           'CloudEdge Console dashboard: CPU, memory, storage and active VM usage, top VMs by resource usage, and a security score of 87%',
         benefits: [
@@ -488,7 +488,7 @@ export class EcosystemTabsComponent {
         description:
           'Flexible, secure and high-performance virtual machines to power your business applications.',
         bullets: ['On-demand provisioning', 'Scalable resources (CPU, Memory, Storage)', 'Enterprise-grade security'],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Virtual machines management interface',
         cta: 'Create VM',
         console: {
@@ -549,8 +549,8 @@ export class EcosystemTabsComponent {
         // The console has no Kubernetes route, so there is no Kubernetes screen
         // to capture. This shows the CloudEdge console dashboard, and the alt
         // says so rather than describing a screen that does not exist.
-        image: '/worldposta-assets/hero/cloudedge/console-dashboard.png',
-        imageDark: '/worldposta-assets/hero/cloudedge/console-dashboard-dark.png',
+        image: '/worldposta-assets/hero/cloudedge/console-dashboard.avif',
+        imageDark: '/worldposta-assets/hero/cloudedge/console-dashboard-dark.avif',
         imageAlt: 'CloudEdge Console dashboard showing cluster resource usage',
         benefits: [
           {
@@ -585,7 +585,7 @@ export class EcosystemTabsComponent {
           'Durable and secure',
           'Seamless integration with your cloud environment',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Cloud storage management interface',
         cta: 'Create Bucket',
         console: {
@@ -643,7 +643,7 @@ export class EcosystemTabsComponent {
           'Advanced security and traffic control',
           'Seamless integration with your cloud resources',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Network topology and configuration dashboard',
         cta: 'Create Network',
         console: {
@@ -703,7 +703,7 @@ export class EcosystemTabsComponent {
           'Identity & access management',
           'Compliance and continuous monitoring',
         ],
-        image: '/worldposta-assets/hero/cloudedge/security-hub.png',
+        image: '/worldposta-assets/hero/cloudedge/security-hub.avif',
         imageAlt: 'Security dashboard with threat monitoring',
         console: {
           title: 'Security Services',
@@ -764,7 +764,7 @@ export class EcosystemTabsComponent {
           'Fast recovery and minimal downtime',
           'Scalable and flexible disaster recovery solutions',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Backup and recovery management dashboard',
         cta: 'Create Backup',
         console: {
@@ -824,7 +824,7 @@ export class EcosystemTabsComponent {
           'Proactive alerts and notifications',
           'Custom dashboards and reporting',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Monitoring dashboard with resource health and response times',
         cta: 'View Dashboard',
         console: {
@@ -887,7 +887,7 @@ export class EcosystemTabsComponent {
           'Reduce operational effort and human error',
           'Integrate across your cloud services',
         ],
-        image: '/worldposta-assets/hero/cloudedge/scheduled-tasks.png',
+        image: '/worldposta-assets/hero/cloudedge/scheduled-tasks.avif',
         imageAlt: 'Automation and scheduling dashboard',
         cta: 'Create Automation',
         console: {
@@ -946,7 +946,7 @@ export class EcosystemTabsComponent {
           'Identify savings and optimization opportunities',
           'Set budgets, alerts and spending controls',
         ],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Cost analysis and optimization dashboard',
         cta: 'View Cost Insights',
         console: {
@@ -1009,7 +1009,7 @@ export class EcosystemTabsComponent {
           'Advanced security and anti-spam protection',
           'Access from anywhere, on any device',
         ],
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Business email interface',
         cta: 'Create Email Account',
         console: {
@@ -1068,7 +1068,7 @@ export class EcosystemTabsComponent {
           'Secure and compliant communication',
           'Integrations with your favorite tools',
         ],
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Team chat application',
         cta: 'Open Team Chat',
         console: {
@@ -1130,7 +1130,7 @@ export class EcosystemTabsComponent {
           'Screen sharing, recording and live captions',
           'Secure and reliable for teams of any size',
         ],
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Video conferencing interface',
         cta: 'Start a Meeting',
         console: {
@@ -1191,7 +1191,7 @@ export class EcosystemTabsComponent {
           'Share calendars with your team',
           'Integrate with email, chat and conferencing',
         ],
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Calendar and scheduling interface',
         cta: 'Create Event',
         calendar: {
@@ -1283,7 +1283,7 @@ export class EcosystemTabsComponent {
           'Share files and folders with your teams',
           'Access and collaborate from any device',
         ],
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Cloud storage and file management interface',
         cta: 'Upload Files',
         console: {
@@ -1347,7 +1347,7 @@ export class EcosystemTabsComponent {
           'Access your notes from anywhere',
         ],
         cta: 'Create Note',
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Note-taking application interface',
         stats: [
           { icon: faFileLines, label: 'Total Notes', value: '1,420', delta: '18%', tone: 'sky', trend: [980, 1040, 1105, 1160, 1235, 1300, 1365, 1420] },
@@ -1436,7 +1436,7 @@ export class EcosystemTabsComponent {
         heading: 'Dashboard',
         description: 'Your workspace at a glance. Stay organized, connected and productive.',
         bullets: ['Real-time metrics', 'Custom reports', 'Data visualization'],
-        image: '/worldposta-assets/hero/posta/suite-light-1680.png',
+        image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
         imageAlt: 'Analytics dashboard interface',
         layout: 'wide',
         headerAction: 'Mon, Jan 22, 2024',
@@ -1543,7 +1543,7 @@ export class EcosystemTabsComponent {
         heading: 'IAM & Access Management',
         description: 'Control access, secure your resources, and empower your teams.',
         bullets: ['Fine-grained permissions', 'Multi-factor auth', 'Audit logs'],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'IAM and access control dashboard',
         layout: 'wide',
         headerAction: 'Add User',
@@ -1633,7 +1633,7 @@ export class EcosystemTabsComponent {
         description:
           'Build, organize and empower your team. Manage members, roles and collaboration settings all in one place.',
         bullets: ['Team hierarchy', 'Bulk operations', 'Activity reports'],
-        image: '/worldposta-assets/hero/cloudedge/dashboard.png',
+        image: '/worldposta-assets/hero/cloudedge/dashboard.avif',
         imageAlt: 'Team management dashboard',
         layout: 'wide',
         headerAction: 'Invite Member',

@@ -1,8 +1,8 @@
 :host{display:block;background:var(--color-bg-primary)}main{padding-top:80px}.process-eyebrow{display:flex;gap:20px;align-items:center;font-size:16px;font-weight:750;color:var(--color-text-secondary);margin:0 0 20px}.process-eyebrow span{height:2px;width:52px;background:var(--color-brand-green)}.process-icon{display:grid;place-items:center;width:82px;height:82px;border-radius:50%;background:color-mix(in srgb,currentColor 11%,transparent);flex-shrink:0}.process-icon svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:2.7;stroke-linecap:round;stroke-linejoin:round}.process-blue{color:var(--wp-blue)}.process-green{color:var(--color-brand-green)}.process-purple{color:var(--wp-tone-purple)}
 .wpsys-connected{padding-block:var(--wp-section-pad);background:var(--color-bg-primary)}.connected-reference{width:min(1600px,100%);margin:auto}.connected-reference img{display:block;width:100%;height:auto}@media(max-width:760px){.connected-reference{overflow-x:auto;max-width:100%}.connected-reference img{width:1200px;max-width:none}}
-.wpsys-drive{padding-block:var(--wp-section-pad);background:var(--color-bg-primary);color:var(--color-text-primary);overflow:hidden}.drive-wrap{width:min(1440px,90%);margin:auto;display:grid;grid-template-columns:38% 62%;gap:20px;align-items:center}.drive-copy{min-width:0}.drive-copy .process-eyebrow{font-size:14px;margin-bottom:24px}.drive-copy h1{font-size:clamp(36px,3.7vw,60px);line-height:1.03;letter-spacing:-1.7px;font-weight:800;margin:0 0 18px;color:var(--color-text-primary)}.drive-copy h1 span{color:var(--color-brand-green)}.drive-lead{font-size:20px;line-height:1.4;color:var(--color-text-secondary);margin:0 0 24px}.drive-benefits{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0;margin:0 0 28px;text-align:center}.drive-benefits .process-icon{margin:0 auto 12px;width:76px;height:76px}.drive-benefits h3{font-size:18px;line-height:1.3;font-weight:750;color:var(--color-text-primary);margin:0 0 8px}.drive-benefits p{font-size:15px;line-height:1.4;color:var(--color-text-secondary);margin:0}.drive-actions{display:flex;align-items:center;gap:30px}.drive-actions a{display:flex;align-items:center;justify-content:center;gap:18px;min-height:56px;padding:16px 28px;border-radius:10px;font-size:18px;font-weight:700;text-decoration:none}.drive-start{min-width:180px;background:var(--color-brand-green);color:var(--color-text-on-brand,white)}.drive-more{color:var(--wp-blue)}.drive-start:hover{background:var(--color-brand-green-light)}.drive-actions a:focus-visible{outline:3px solid var(--wp-blue);outline-offset:4px}.drive-reference{position:relative;aspect-ratio:980/660;overflow:hidden}.drive-reference img{position:absolute;width:163.265%;height:auto;right:0;top:0;max-width:none}
-@media(max-width:1200px){.drive-copy h1{font-size:44px}.drive-wrap{grid-template-columns:42% 58%;gap:18px}.drive-lead{font-size:18px}.drive-benefits{gap:14px}.drive-benefits h3{font-size:16px}.drive-benefits p{font-size:14px}.drive-benefits .process-icon{width:60px;height:60px}.drive-actions{gap:12px}.drive-actions a{font-size:16px;padding-inline:18px}.drive-start{min-width:130px}}
-@media(max-width:850px){.drive-wrap{grid-template-columns:1fr;gap:28px}.drive-copy h1{font-size:clamp(36px,6vw,50px)}.drive-lead{max-width:650px}.drive-benefits{max-width:620px}.drive-reference{width:100%}}
+.wpsys-drive{padding-block:var(--wp-section-pad);background:var(--color-bg-primary);color:var(--color-text-primary);overflow:hidden}.drive-wrap{width:min(1440px,90%);margin:auto;display:grid;grid-template-columns:38% 62%;gap:20px;align-items:center}.drive-copy{min-width:0}.drive-copy .process-eyebrow{font-size:14px;margin-bottom:24px}.drive-copy h1{font-size:clamp(44px,4.2vw,66px);line-height:.98;letter-spacing:-2.4px;font-weight:700;margin:0 0 18px;color:var(--color-text-primary)}.drive-copy h1 span{color:var(--color-brand-green)}.drive-lead{font-size:17px;font-weight:500;line-height:1.35;color:var(--color-text-secondary);margin:0 0 24px}.drive-benefits{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0;margin:0 0 28px;text-align:center}.drive-benefits .process-icon{margin:0 auto 12px;width:76px;height:76px}.drive-benefits h3{font-size:18px;line-height:1.3;font-weight:750;color:var(--color-text-primary);margin:0 0 8px}.drive-benefits p{font-size:15px;line-height:1.4;color:var(--color-text-secondary);margin:0}.drive-actions{display:flex;align-items:center;gap:30px}.drive-actions a{display:flex;align-items:center;justify-content:center;gap:18px;min-height:48px;padding:0 28px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none}.drive-start{min-width:180px;background:var(--color-brand-green);color:var(--color-text-on-brand,white)}.drive-more{color:var(--wp-blue)}.drive-start:hover{background:var(--color-brand-green-light)}.drive-actions a:focus-visible{outline:3px solid var(--wp-blue);outline-offset:4px}.drive-reference{position:relative;aspect-ratio:980/660;overflow:hidden}.drive-reference img{position:absolute;width:163.265%;height:auto;right:0;top:0;max-width:none}
+@media(max-width:1200px){.drive-wrap{grid-template-columns:42% 58%;gap:18px}.drive-benefits{gap:14px}.drive-benefits h3{font-size:16px}.drive-benefits p{font-size:14px}.drive-benefits .process-icon{width:60px;height:60px}.drive-actions{gap:12px}.drive-start{min-width:130px}}
+@media(max-width:850px){.drive-wrap{grid-template-columns:1fr;gap:28px}.drive-lead{max-width:650px}.drive-benefits{max-width:620px}.drive-reference{width:100%}}
 @media(max-width:480px){.drive-actions{flex-direction:column;align-items:stretch}.drive-benefits{gap:12px}.drive-benefits h3{font-size:15px}.drive-benefits p{font-size:14px}.drive-benefits .process-icon{width:52px;height:52px}.drive-benefits svg{width:30px;height:30px}}
 
 .drive-connected{padding-block:var(--wp-section-pad);background:var(--color-bg-primary);color:var(--color-text-primary);overflow:hidden}.connected-layout{width:min(1450px,91%);margin:auto;display:grid;grid-template-columns:25% 34% 4% 37%;align-items:start;gap:0}.challenge-copy{position:relative;z-index:1;padding-top:20px}.drive-connected .process-eyebrow{font-size:12px;gap:14px;margin-bottom:22px}.drive-connected .process-eyebrow span{width:35px}.challenge-copy h2{font-size:clamp(34px,3.1vw,50px);line-height:1.04;letter-spacing:-1.4px;font-weight:800;color:var(--color-text-primary);margin:0 0 20px}.challenge-copy h2 span,.solution-panel h2 span{color:var(--color-brand-green)}.challenge-copy>p:last-child,.solution-panel>p:last-of-type{font-size:17px;line-height:1.4;color:var(--color-text-secondary);margin:0}.challenge-art{position:relative;aspect-ratio:540/535;overflow:hidden}.challenge-art img{position:absolute;width:296.296%;height:auto;max-width:none;right:-118.519%;top:0}.connected-arrow{align-self:center;justify-self:center;width:64px;height:64px;border-radius:50%;background:var(--color-bg-secondary);color:var(--wp-blue);display:grid;place-items:center;font-size:42px;position:relative;z-index:2}.solution-panel{padding-left:16px}.solution-panel h2{font-size:clamp(27px,2.35vw,38px);font-weight:800;line-height:1.08;letter-spacing:-1px;color:var(--color-text-primary);margin:0 0 12px}.solution-art{position:relative;aspect-ratio:620/330;overflow:hidden;margin-top:12px}.solution-art img{position:absolute;width:258.065%;height:auto;max-width:none;right:0;top:-60.606%}
@@ -38,3 +38,152 @@
 @media(max-width:1100px){.audience-content{padding:20px}.audience-title{gap:14px}.audience-title .process-icon{width:54px;height:54px}.audience-title h3{font-size:20px}.audience-title p,.audience-content li{font-size:15px}.audience-cta{padding:26px;gap:24px}.audience-cta a{min-width:180px;font-size:17px}}
 @media(max-width:760px){.audience-grid{grid-template-columns:1fr}.audience-title h3{font-size:24px}.audience-title p,.audience-content li{font-size:17px}.audience-content{padding:26px}.audience-title .process-icon{width:70px;height:70px}.audience-cta{flex-direction:column;align-items:stretch}.audiences-lead{font-size:18px}.audiences-lead br{display:none}.audience-cta h3{font-size:23px}.audience-cta p{font-size:17px}}
 .features-layout,.collaboration-layout,.global-layout,.drive-trial-layout,.managed-heading,.audience-grid{align-items:stretch}.feature-art{align-self:center}.collaboration-art,.global-art,.trial-device-art{align-self:center}.audience-card{display:flex;flex-direction:column}.audience-content{flex:1}.drive-feature-grid,.managed-grid{grid-auto-rows:1fr}
+
+/* Product interface taken from the supplied CloudDrive source archive. */
+.wpsys-drive .drive-wrap { grid-template-columns: minmax(0, 38fr) minmax(0, 62fr); gap: var(--space-xl); }
+.drive-reference.drive-product-visual { position: relative; aspect-ratio: 1200 / 687; overflow: hidden; width: 100%; border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--wp-panel-shadow); }
+.drive-reference.drive-product-visual .drive-workspace-image { position: static; display: block; width: 100%; height: auto; max-width: 100%; }
+.drive-product-brand { position: absolute; left: 0; top: 0; width: 20%; height: 9.3%; display: flex; align-items: center; gap: 6%; padding-inline: 1.5%; box-sizing: border-box; background: #fff; color: #293c51; font-family: var(--font-body); font-weight: 600; container-type: inline-size; }
+.drive-reference.drive-product-visual .drive-product-brand img { position: static; display: block; flex-shrink: 0; width: 18%; height: auto; max-width: 100%; }
+.drive-product-brand span { font-size: clamp(8px, 1vw, 16px); white-space: nowrap; }
+@media(max-width:1100px) { .wpsys-drive .drive-wrap { grid-template-columns: minmax(0, 42fr) minmax(0, 58fr); gap: var(--space-lg); } }
+@media(max-width:850px) { .wpsys-drive .drive-wrap { grid-template-columns: 1fr; } .drive-product-brand span { font-size: clamp(7px, 1.9vw, 15px); } }
+
+/* Match CloudEdge's compact hero benefit badges. */
+.wpsys-drive .drive-benefits { gap: var(--space-md); margin-bottom: var(--space-lg); }
+.wpsys-drive .drive-benefits .process-icon { width: 44px; height: 44px; border-radius: 13px; margin-bottom: var(--space-sm); }
+.wpsys-drive .drive-benefits .process-icon svg { width: 22px; height: 22px; stroke-width: 2.5; }
+.wpsys-drive .drive-benefits h3 { font-size: 15px; margin-bottom: var(--space-xs); }
+.wpsys-drive .drive-benefits p { font-size: 13px !important; line-height: 1.4 !important; }
+@media(max-width:480px) { .wpsys-drive .drive-benefits { gap: var(--space-sm); } .wpsys-drive .drive-benefits h3 { font-size: 13px; } .wpsys-drive .drive-benefits p { font-size: 12px !important; } }
+
+
+/* Office files flow into the same Drive workspace. */
+.drive-visual-group { position: relative; min-width: 0; padding-top: 102px; padding-bottom: 0; }
+.drive-app-connections { position: absolute; top: 0; left: 0; width: 100%; height: 104px; overflow: visible; pointer-events: none; }
+.drive-app-connections path { fill: none; stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+.drive-app-connections .drive-orbit { stroke: var(--wp-blue); opacity: .2; stroke-dasharray: 5 7; }
+.word-connection { stroke: var(--wp-blue); opacity: .5; }
+.excel-connection { stroke: var(--wp-green); opacity: .5; }
+.powerpoint-connection { stroke: var(--wp-tone-amber); opacity: .5; }
+.drive-app-connections circle { fill: var(--wp-blue); opacity: .65; }
+.drive-app-connections circle:nth-last-child(2) { fill: var(--wp-green); }
+.drive-app-connections circle:last-child { fill: var(--wp-tone-amber); }
+.drive-office-apps { position: absolute; top: 0; left: 0; right: 0; height: 78px; }
+.drive-office-app { position: absolute; top: 6px; display: grid; place-items: center; width: 66px; height: 66px; background: var(--wp-panel); border: 1px solid var(--color-border); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); transform: translateX(-50%); }
+.drive-office-app:nth-child(1) { left: 23%; transform: translateX(-50%) rotate(-7deg); }
+.drive-office-app:nth-child(2) { left: 51%; top: 0; }
+.drive-office-app:nth-child(3) { left: 79%; transform: translateX(-50%) rotate(7deg); }
+.drive-office-app img { display: block; width: 46px; height: 46px; }
+.drive-office-app span { position: absolute; top: 74px; font-family: var(--font-body); font-size: 11px; font-weight: 600; color: var(--wp-body); white-space: nowrap; background: var(--color-bg-primary); padding-inline: 4px; }
+.drive-reference.drive-product-visual { position: relative; z-index: 1; }
+@media(max-width:1100px) { .drive-office-app { width: 56px; height: 56px; } .drive-office-app img { width: 38px; height: 38px; } .drive-office-app span { top: 62px; font-size: 10px; } }
+@media(max-width:480px) { .drive-visual-group { padding-top: 88px; } .drive-app-connections { height: 90px; } .drive-office-app { width: 48px; height: 48px; border-radius: var(--radius-lg); } .drive-office-app img { width: 33px; height: 33px; } .drive-office-app span { top: 54px; font-size: 9px; } }
+
+/* The full original ecosystem: Office + Calendar + connected Link collaboration. */
+.drive-visual-group { min-height: 420px; }
+.drive-visual-group .drive-reference.drive-product-visual { width: 78%; }
+.drive-office-app:nth-child(1) { left: 16%; }
+.drive-office-app:nth-child(2) { left: 39%; }
+.drive-office-app:nth-child(3) { left: 62%; }
+.drive-office-app:nth-child(4) { left: 85%; top: 0; }
+.calendar-connection { stroke: var(--wp-blue); opacity: .5; }
+.drive-link-connection { position: absolute; right: 17%; top: 170px; width: 70px; height: 48px; z-index: 3; overflow: visible; }
+.drive-link-connection path { fill: none; stroke: var(--wp-blue); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.drive-link-connection path:first-child { stroke: var(--wp-green); }
+.drive-link-preview { position: absolute; right: 0; top: 222px; width: 27%; padding: 12px; box-sizing: border-box; border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--wp-panel); box-shadow: var(--wp-panel-shadow); z-index: 4; color: var(--wp-ink); font-family: var(--font-body); }
+.drive-link-heading { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+.drive-link-heading strong { display: block; font-size: 17px; font-family: var(--font-heading); }
+.drive-link-heading div > span { display: block; font-size: 9px; line-height: 1.4; color: var(--wp-body); }
+.drive-link-logo { display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; background: var(--wp-blue); border-radius: 50%; color: white; }
+.drive-link-logo svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 3; }
+.drive-link-call { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.drive-link-call > div { display: grid; place-items: center; min-height: 64px; border-radius: var(--radius-md); background: color-mix(in srgb,var(--wp-blue) 10%,var(--wp-panel)); }
+.drive-link-call > div:last-child { background: color-mix(in srgb,var(--wp-green) 12%,var(--wp-panel)); }
+.drive-link-call span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--wp-blue); color: white; font-size: 10px; }
+.drive-link-call > div:last-child span { background: var(--wp-green); }
+.drive-link-call small { font-size: 8px; color: var(--wp-body); }
+.drive-link-chat p { width: fit-content; margin: 8px 0; padding: 7px; border-radius: var(--radius-md); background: var(--color-bg-secondary); font-size: 9px; line-height: 1.4; }
+.drive-link-chat p:last-child { margin-left: auto; background: color-mix(in srgb,var(--wp-blue) 12%,var(--wp-panel)); }
+.drive-link-compose { display:flex; justify-content:space-between; border-top:1px solid var(--color-border); padding-top:10px; margin-top:14px; font-size:8px; color:var(--wp-body); }
+@media(max-width:480px) { .drive-visual-group { min-height: 330px; } .drive-link-preview { top: 157px; width: 35%; padding: 8px; } .drive-link-connection { top: 120px; right: 22%; width: 45px; } .drive-link-heading strong { font-size: 13px; } .drive-link-heading div > span { font-size: 8px; } .drive-link-logo { width: 26px; height: 26px; } .drive-link-call > div { min-height: 50px; } .drive-link-chat p { font-size: 8px; } }
+
+/* Native text and vector controls remain sharp at every display density. */
+.drive-visual-group .drive-crisp-ui { width: 85%; aspect-ratio: auto; background: var(--wp-panel); color: var(--wp-ink); font-family: var(--font-body); }
+.drive-ui-top { display:flex; align-items:center; gap:12px; padding:14px; border-bottom:1px solid var(--color-border); }
+.drive-ui-brand { display:flex; align-items:center; gap:7px; flex-shrink:0; }
+.drive-reference.drive-crisp-ui .drive-ui-brand img { position:static; width:28px; height:22px; }
+.drive-ui-brand strong { font-size:14px; }
+.drive-ui-search { flex:1; padding:9px 12px; border:1px solid var(--color-border); border-radius:var(--radius-full); background:var(--color-bg-secondary); font-size:12px; color:var(--wp-body); }
+.drive-ui-avatar { display:grid; place-items:center; width:27px; height:27px; flex-shrink:0; border-radius:50%; background:var(--wp-green); color:white; font-size:12px; }
+.drive-ui-body { display:grid; grid-template-columns:118px minmax(0,1fr); min-height:340px; }
+.drive-ui-sidebar { padding:12px 9px; border-right:1px solid var(--color-border); display:flex; flex-direction:column; gap:5px; font-size:11px; color:var(--wp-body); }
+.drive-ui-sidebar > span { padding:8px 5px; border-radius:var(--radius-sm); white-space:nowrap; }
+.drive-ui-sidebar .drive-ui-new { background:var(--color-brand-green); color:white; font-weight:600; margin-bottom:10px; }
+.drive-ui-sidebar .drive-ui-active { background:color-mix(in srgb,var(--wp-green) 12%,transparent); color:var(--wp-green-ink); font-weight:600; }
+.drive-ui-storage { margin-top:auto; padding-top:18px; font-size:11px; }
+.drive-ui-storage i { display:block; height:4px; border-radius:4px; background:var(--color-border); margin:8px 0; }
+.drive-ui-storage small { font-size:10px; }
+.drive-ui-files { min-width:0; }
+.drive-ui-title { display:flex; justify-content:space-between; align-items:center; padding:16px 14px; font-size:15px; }
+.drive-ui-title > span { color:var(--wp-green); font-size:18px; }
+.drive-ui-columns,.drive-ui-row { display:grid; grid-template-columns:minmax(0,1fr) 65px 16px; gap:8px; align-items:center; padding:12px 12px; border-bottom:1px solid var(--color-border); }
+.drive-ui-columns { font-size:11px; color:var(--wp-body); background:var(--color-bg-secondary); }
+.drive-ui-row { font-size:12px; min-height:24px; }
+.drive-ui-row > span:not(:first-child) { font-size:10px; color:var(--wp-body); }
+.drive-ui-filename { display:flex; gap:8px; align-items:center; min-width:0; white-space:nowrap; }
+.drive-reference.drive-crisp-ui .drive-ui-filename img { position:static; width:23px; height:23px; flex-shrink:0; }
+.drive-ui-filename svg { width:23px; height:23px; fill:var(--wp-blue); flex-shrink:0; }
+.drive-ui-section { padding:8px 12px; background:var(--color-bg-secondary); font-size:11px; color:var(--wp-body); }
+.drive-ui-footer { padding:13px 12px; font-size:11px; color:var(--wp-body); }
+.drive-ui-footer span { color:var(--wp-green); }
+.drive-link-preview { top:290px; width:29%; }
+.drive-link-heading div > span { font-size:11px; }
+.drive-link-chat p { font-size:11px; }
+.drive-link-call small { font-size:10px; }
+.drive-link-compose { font-size:10px; }
+.drive-office-app span { font-size:12px; }
+.drive-link-connection { top:225px; right:10%; }
+@media(max-width:1100px) and (min-width:851px) { .drive-ui-body { grid-template-columns:94px minmax(0,1fr); } .drive-ui-columns,.drive-ui-row { grid-template-columns:minmax(0,1fr) 16px; } .drive-ui-row > span:nth-child(2),.drive-ui-columns > span:nth-child(2) { display:none; } .drive-ui-sidebar { font-size:10px; } .drive-ui-search { padding:8px; font-size:11px; } }
+@media(max-width:850px) { .drive-visual-group .drive-crisp-ui { width:100%; } .drive-link-preview { position:relative; top:auto; right:auto; width: min(290px,100%); margin:18px 0 0 auto; } .drive-link-connection { display:none; } }
+@media(max-width:480px) { .drive-ui-top { gap:8px; padding:10px; } .drive-ui-brand strong { font-size:12px; } .drive-ui-search { font-size:11px; padding:8px; } .drive-ui-avatar { display:none; } .drive-ui-body { grid-template-columns:82px minmax(0,1fr); } .drive-ui-sidebar { font-size:9px; padding:10px 4px; } .drive-ui-sidebar > span { padding:8px 3px; } .drive-ui-columns,.drive-ui-row { grid-template-columns:minmax(0,1fr) 14px; gap:4px; padding:12px 8px; } .drive-ui-row > span:nth-child(2),.drive-ui-columns > span:nth-child(2) { display:none; } .drive-ui-row { font-size:11px; } .drive-ui-filename { gap:5px; } .drive-reference.drive-crisp-ui .drive-ui-filename img { width:20px; height:20px; } }
+
+
+
+/* Match the supplied full-color comparison reference; text remains native. */
+.drive-connected.drive-connected { padding-block:40px!important; background:radial-gradient(ellipse at 53% 55%,color-mix(in srgb,var(--wp-blue) 4%,transparent),transparent 64%),var(--color-bg-primary); }
+.drive-connected .connected-layout { position:relative; width:min(1480px,94%); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:40px; margin:auto; align-items:start; }
+.drive-connected .challenge-composition,.drive-connected .solution-panel { display:grid; grid-template-rows:210px auto; gap:0; min-width:0; padding:0; grid-column:auto; }
+.drive-connected .challenge-copy,.drive-connected .solution-heading { padding:0; }
+.drive-connected .process-eyebrow { margin-bottom:12px; font-size:13px; gap:12px; color:var(--wp-body); }
+.drive-connected .process-eyebrow span { width:36px; }
+.drive-connected .challenge-copy h2,.drive-connected .solution-panel h2 { font-family:var(--font-heading); font-size:clamp(32px,2.85vw,46px); font-weight:700; line-height:1.1; letter-spacing:-1.4px; margin:0 0 18px; color:var(--wp-ink); }
+.drive-connected .challenge-copy h2 span,.drive-connected .solution-panel h2 span { color:var(--wp-green); }
+.drive-connected .challenge-copy > p,.drive-connected .solution-heading > p { font-size:18px; line-height:1.45; color:var(--wp-body); margin:0; }
+.drive-connected .reference-challenge-art,.drive-connected .reference-solution-art { position:relative; width:100%; height:auto; aspect-ratio:780/510; margin:0; overflow:hidden; border:0; border-radius:0; background:transparent; mask-image:none; mix-blend-mode:multiply; align-self:end; }
+.drive-connected .reference-challenge-art img { position:absolute; width:203.333%; height:auto; max-width:none; top:-64.706%; left:0; right:auto; }
+.drive-connected .reference-solution-art img { position:absolute; width:203.333%; height:auto; max-width:none; top:-64.706%; left:-100%; right:auto; }
+.drive-connected .reference-challenge-art::after { display:none; }
+.drive-connected .connected-arrow { position:absolute; top:55%; left:50%; display:grid; place-items:center; width:42px; height:42px; margin:0; transform:translate(-50%,-50%); border-radius:50%; background:color-mix(in srgb,var(--wp-blue) 6%,var(--color-bg-primary)); color:var(--wp-blue); font-size:28px; }
+.drive-connected .connected-benefits { width:min(1480px,94%); display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; margin:8px auto 0; padding:22px 24px; border-radius:20px; border:1px solid var(--color-border); background:var(--wp-panel); box-shadow:var(--wp-panel-shadow); }
+.drive-connected .connected-benefits li { display:flex; align-items:center; gap:14px; min-width:0; }
+.drive-connected .connected-benefits li+li { border-left:1px solid var(--color-border); padding:0 0 0 20px; }
+.drive-connected .connected-benefits .process-icon { width:54px; height:54px; border-radius:50%; flex-shrink:0; }
+.drive-connected .connected-benefits .process-icon svg { width:28px; height:28px; }
+.drive-connected .connected-benefits h3 { font-size:15px; line-height:1.3; color:var(--wp-ink); margin:0 0 5px; }
+.drive-connected .connected-benefits p { font-size:13px!important; line-height:1.4!important; color:var(--wp-body); margin:0; }
+:host-context([data-theme='dark']) .drive-connected .reference-challenge-art,:host-context([data-theme='dark']) .drive-connected .reference-solution-art { mix-blend-mode:normal; }
+@media(max-width:1200px) { .drive-connected .challenge-composition,.drive-connected .solution-panel { grid-template-rows:230px auto; } .drive-connected .connected-layout { gap:24px; } .drive-connected .challenge-copy > p,.drive-connected .solution-heading > p { font-size:16px; } .drive-connected .connected-benefits { grid-template-columns:1fr 1fr; } .drive-connected .connected-benefits li+li { border:0; padding:0; } }
+@media(max-width:850px) { .drive-connected .connected-layout { grid-template-columns:1fr; gap:32px; } .drive-connected .challenge-composition,.drive-connected .solution-panel { grid-template-rows:auto auto; gap:20px; } .drive-connected .reference-challenge-art { grid-column:auto; } .drive-connected .connected-arrow { display:none; } }
+@media(max-width:480px) { .drive-connected.drive-connected { padding-block:32px!important; } .drive-connected .challenge-copy h2,.drive-connected .solution-panel h2 { font-size:28px; letter-spacing:-1px; } .drive-connected .connected-benefits { grid-template-columns:1fr; padding:18px; gap:18px; } .drive-connected .connected-benefits .process-icon { width:42px; height:42px; } }
+
+.drive-connected .challenge-composition,.drive-connected .solution-panel { display:block; min-height:210px; }
+.comparison-reference-scene { grid-column:1/-1; position:relative; width:100%; aspect-ratio:1586/510; overflow:hidden; margin-top:-40px; }
+.comparison-reference-scene img { position:absolute; width:100%; height:auto; max-width:none; left:0; top:-64.706%; }
+.drive-connected .connected-layout { row-gap:0; }
+@media(max-width:1200px) { .drive-connected .challenge-composition,.drive-connected .solution-panel { min-height:230px; } .comparison-reference-scene { margin-top:-24px; } }
+@media(max-width:850px) { .drive-connected .challenge-composition,.drive-connected .solution-panel { min-height:0; } .drive-connected .connected-layout { row-gap:24px; } .comparison-reference-scene { margin-top:0; } }
+
+.comparison-reference-scene { margin-top:0; }
+.drive-connected .connected-benefits h3 { font-family:var(--font-body); font-size:14px; font-weight:700; }
+

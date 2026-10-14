@@ -370,13 +370,13 @@ export class PostaComponent {
 
   protected readonly stories: readonly Story[] = [
     {
-      photo: '/worldposta-assets/posta/story-bbva.webp',
+      photo: '/worldposta-assets/posta/story-bbva.avif',
       photoAlt: 'BBVA headquarters building',
       photoWidth: 1100,
       photoHeight: 376,
       chipIcon: faBuildingColumns,
       chipLabel: 'Banking',
-      logo: '/worldposta-assets/brand-logos/customers/bbva.webp',
+      logo: '/worldposta-assets/brand-logos/customers/bbva.avif',
       logoAlt: 'BBVA',
       logoWidth: 214,
       logoHeight: 64,
@@ -384,13 +384,13 @@ export class PostaComponent {
       cite: 'IT Director, BBVA',
     },
     {
-      photo: '/worldposta-assets/posta/story-iberia.webp',
+      photo: '/worldposta-assets/posta/story-iberia.avif',
       photoAlt: 'Iberia aircraft in flight',
       photoWidth: 1100,
       photoHeight: 418,
       chipIcon: faPlane,
       chipLabel: 'Aviation',
-      logo: '/worldposta-assets/brand-logos/customers/iberia.webp',
+      logo: '/worldposta-assets/brand-logos/customers/iberia.avif',
       logoAlt: 'Iberia',
       logoWidth: 288,
       logoHeight: 64,
@@ -398,13 +398,13 @@ export class PostaComponent {
       cite: 'Head of Infrastructure, Iberia',
     },
     {
-      photo: '/worldposta-assets/posta/story-government.webp',
+      photo: '/worldposta-assets/posta/story-government.avif',
       photoAlt: 'Government building',
       photoWidth: 1100,
       photoHeight: 380,
       chipIcon: faLandmark,
       chipLabel: 'Government',
-      logo: '/worldposta-assets/brand-logos/customers/lseg.webp',
+      logo: '/worldposta-assets/brand-logos/customers/lseg.avif',
       logoAlt: 'LSEG',
       logoWidth: 148,
       logoHeight: 64,
@@ -417,7 +417,7 @@ export class PostaComponent {
     {
       icon: faEnvelope,
       tone: 'blue',
-      cover: '/worldposta-assets/posta/datasheet-zoho.webp',
+      cover: '/worldposta-assets/posta/datasheet-zoho.avif',
       coverAlt: 'Posta vs. Zoho datasheet cover',
       title: 'Posta Vs. Zoho',
       description: 'Compare key factors like security, integration, performance, and support.',
@@ -426,7 +426,7 @@ export class PostaComponent {
     {
       icon: faScaleBalanced,
       tone: 'purple',
-      cover: '/worldposta-assets/posta/datasheet-zimbra.webp',
+      cover: '/worldposta-assets/posta/datasheet-zimbra.avif',
       coverAlt: 'Posta vs. Zimbra datasheet cover',
       title: 'Posta Vs. Zimbra',
       description: 'Find the right business email solution based on your specific needs.',
@@ -435,7 +435,7 @@ export class PostaComponent {
     {
       icon: faShieldHalved,
       tone: 'green',
-      cover: '/worldposta-assets/posta/datasheet-security.webp',
+      cover: '/worldposta-assets/posta/datasheet-security.avif',
       coverAlt: 'Posta Security Framework datasheet cover',
       title: 'Posta Security Framework',
       description: 'Learn how Posta protects your business with advanced security.',
@@ -444,7 +444,7 @@ export class PostaComponent {
     {
       icon: faFile,
       tone: 'amber',
-      cover: '/worldposta-assets/posta/datasheet-comm-hub.webp',
+      cover: '/worldposta-assets/posta/datasheet-comm-hub.avif',
       coverAlt: 'Posta Communication Hub datasheet cover',
       title: 'Posta Datasheet — Communication Hub',
       description: 'Explore enterprise-grade email and collaboration powered by Microsoft.',

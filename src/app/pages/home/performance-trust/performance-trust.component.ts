@@ -74,15 +74,15 @@ export class PerformanceTrustComponent {
   ];
 
   protected readonly customerLogos: readonly BrandLogo[] = [
-    { name: 'BBVA', src: 'customers/bbva.webp', width: 214, height: 64 },
-    { name: 'DFM', src: 'customers/dfm.webp', width: 140, height: 64 },
-    { name: 'LSEG', src: 'customers/lseg.webp', width: 148, height: 64 },
-    { name: 'KBC', src: 'customers/kbc.webp', width: 81, height: 64 },
-    { name: 'ITV', src: 'customers/itv.webp', width: 128, height: 64 },
-    { name: 'Iberia', src: 'customers/iberia.webp', width: 288, height: 64 },
-    { name: 'First Abu Dhabi Bank', src: 'customers/fab.webp', width: 109, height: 64 },
-    { name: 'Ferrovial', src: 'customers/ferrovial.webp', width: 114, height: 64 },
-    { name: 'Michelin', src: 'customers/michelin.webp', width: 114, height: 64 },
+    { name: 'BBVA', src: 'customers/bbva.avif', width: 214, height: 64 },
+    { name: 'DFM', src: 'customers/dfm.avif', width: 140, height: 64 },
+    { name: 'LSEG', src: 'customers/lseg.avif', width: 148, height: 64 },
+    { name: 'KBC', src: 'customers/kbc.avif', width: 81, height: 64 },
+    { name: 'ITV', src: 'customers/itv.avif', width: 128, height: 64 },
+    { name: 'Iberia', src: 'customers/iberia.avif', width: 288, height: 64 },
+    { name: 'First Abu Dhabi Bank', src: 'customers/fab.avif', width: 109, height: 64 },
+    { name: 'Ferrovial', src: 'customers/ferrovial.avif', width: 114, height: 64 },
+    { name: 'Michelin', src: 'customers/michelin.avif', width: 114, height: 64 },
   ];
 
   protected readonly certifications: readonly Certification[] = [

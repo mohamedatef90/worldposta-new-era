@@ -86,8 +86,8 @@ export class Home {
    */
   protected readonly heroConsoleImage = computed(() =>
     this.theme.isDark()
-      ? '/worldposta-assets/hero/cloudedge/console-dashboard-dark.png'
-      : '/worldposta-assets/hero/cloudedge/console-dashboard.png',
+      ? '/worldposta-assets/hero/cloudedge/console-dashboard-dark.avif'
+      : '/worldposta-assets/hero/cloudedge/console-dashboard.avif',
   );
 
   protected readonly proofPoints: readonly ProofPoint[] = [

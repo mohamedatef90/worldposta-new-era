@@ -92,12 +92,12 @@ from crawlers the same way. It needs a deliberate answer in Phase 5.
 ### 2.6 Performance observations
 
 - 3 × `NG02952` warnings (declared vs intrinsic aspect ratio) on `WP-Logo.avif`
-  and `cloudedge/dashboard.png` — a layout-shift (CLS) risk.
+  and `cloudedge/dashboard.avif` — a layout-shift (CLS) risk.
 - Google Fonts is loaded via a render-blocking `<link>` in `index.html`
   (Poppins + Open Sans). Preconnects are already in place.
 - `.avif` and `.webp` variants exist in `public/worldposta-assets/` but several
-  components still reference the `.png` (e.g. `hero/posta/suite-light-1680.png`,
-  `hero/cloudedge/dashboard.png`).
+  components still reference the `.png` (e.g. `hero/posta/suite-light-1680.avif`,
+  `hero/cloudedge/dashboard.avif`).
 - `NgOptimizedImage` is used consistently — good; keep it.
 - Bundle budgets are configured (500 kB warn / 1 MB error, initial).
 
