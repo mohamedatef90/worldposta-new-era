@@ -80,3 +80,4 @@
 @media(max-width:1200px){.final-wrap{grid-template-columns:1fr 1fr;gap:28px}.final-copy{grid-column:1/-1}.final-copy h2{font-size:44px}.final-highlights{max-width:620px}.final-lead{max-width:650px}.final-device-art{width:100%}}
 @media(max-width:650px){.final-wrap{grid-template-columns:1fr;width:90%;gap:26px}.final-copy{grid-column:auto}.final-copy h2{font-size:clamp(34px,7vw,44px)}.final-lead{font-size:18px}.final-signup{padding:24px}.final-highlights{grid-template-columns:1fr 1fr;gap:22px}.final-highlights h3{font-size:16px}.final-highlights p{font-size:14px}}
 
+.link-benefits-wrap,.trial-wrap,.closing-wrap{align-items:center}.success-grid,.drive-feature-grid{grid-auto-rows:1fr}.workflow-features li,.final-highlights li{height:100%}

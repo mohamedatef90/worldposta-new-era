@@ -25,3 +25,4 @@
 @media(max-width:760px){.consultation-layout{grid-template-columns:1fr}.consultation-copy h2{font-size:clamp(34px,6vw,48px)}.consultation-copy>p:last-of-type{font-size:18px}.consultation-expert-art{display:block;width:min(440px,100%);margin:auto;max-height:560px}}
 @media(max-width:420px){.consultation-fields{grid-template-columns:1fr}.basis-consultation-form{padding:22px}.basis-consultation-form>h3{font-size:27px}.consultation-points{gap:12px}.consultation-points h3{font-size:14px}.consultation-points p{font-size:13px}.consultation-points .risk-icon{width:56px;height:56px}}
 .consultation-expert-art:after{content:"";position:absolute;left:0;bottom:0;width:22%;height:15%;background:var(--color-bg-primary)}
+.coverage-grid,.basis-risk-grid{grid-auto-rows:1fr}.coverage-card,.basis-risk-grid article{height:100%}.proactive-layout,.value-layout{align-items:center}.proactive-art,.value-art{border-radius:20px}.proactive-benefits,.value-benefits{align-items:stretch}

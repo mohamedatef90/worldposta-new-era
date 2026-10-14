@@ -130,3 +130,31 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 @media(max-width:850px){.closing-wrap{grid-template-columns:1fr;gap:32px}.closing-copy h2{font-size:clamp(32px,6vw,46px)}.closing-form{max-width:600px}.closing-benefits{gap:20px}}
 @media(max-width:560px){.closing-benefits{grid-template-columns:1fr}.closing-benefits h3{font-size:17px}.closing-benefits p{font-size:15px}.closing-benefits .operation-icon{width:52px;height:52px}.closing-form{padding:22px}.closing-copy h2 br{display:none}.closing-copy h2 span{display:block}.sap-closing .eyebrow{gap:12px;line-height:1.4}.closing-lead{font-size:18px}}
 
+@media(min-width:851px){
+.sap-operations .operations-wrap{display:grid;grid-template-columns:1.12fr 1fr;gap:0 32px;align-items:stretch}
+.sap-operations .operations-copy{display:contents}
+.sap-operations .operations-copy>.eyebrow,.sap-operations .operations-copy>h2,.sap-operations .operations-lead{grid-column:1/-1;max-width:800px}
+.sap-operations .operations-grid{grid-column:1;grid-row:4}
+.sap-operations .operations-grid article{min-height:215px}
+.sap-operations .operations-art{position:relative;inset:auto;grid-column:2;grid-row:4;height:auto;min-height:446px;clip-path:none;z-index:0;border-radius:20px;overflow:hidden}
+.sap-operations .operations-art img{height:123.08%;width:auto;right:0;top:-4%;max-width:none}
+.sap-operations .operations-art:after{background:linear-gradient(90deg,var(--color-bg-primary),transparent 23%)}
+.sap-operations .operations-strip{grid-column:1/-1;margin-top:24px}
+}
+@media(max-width:850px){.sap-operations .operations-art{height:400px;margin:24px 0}.sap-operations .operations-strip{margin-top:24px}}
+@media(min-width:851px){.sap-operations .operations-art img{width:216.216%;height:auto;top:-5%;right:0}.sap-operations .operations-art:after{background:linear-gradient(90deg,var(--color-bg-primary),transparent 10%)}}
+@media(min-width:851px){
+.sap-continuous .operations-wrap,.sap-services .operations-wrap{display:grid;grid-template-columns:1.12fr 1fr;gap:0 32px;align-items:stretch}
+.sap-continuous .continuous-copy,.sap-services .services-copy{display:contents}
+.sap-continuous .continuous-copy>.eyebrow,.sap-continuous .continuous-copy>h2,.sap-continuous .operations-lead,.sap-services .services-copy>.eyebrow,.sap-services .services-copy>h2,.sap-services .services-lead{grid-column:1/-1;max-width:850px}
+.sap-continuous .operations-grid,.sap-services .sap-services-grid{grid-column:1;grid-row:4}
+.sap-continuous .operations-grid article{min-height:185px}
+.sap-continuous .continuous-art,.sap-services .services-art{position:relative;inset:auto;grid-column:2;grid-row:4;height:auto;min-height:0;max-height:none;clip-path:none;z-index:0;border-radius:20px;overflow:hidden}
+.sap-continuous .continuous-art img{height:100%;width:auto;right:0;top:0;aspect-ratio:8/3}
+.sap-continuous .continuous-art:after{background:linear-gradient(90deg,var(--color-bg-primary),transparent 15%)}
+.sap-continuous .operations-strip{grid-column:1/-1;margin-top:24px}
+.sap-services .services-art img{width:216.216%;height:auto;right:0;top:0}
+.sap-services .services-art:after{background:linear-gradient(90deg,var(--color-bg-primary),transparent 10%)}
+.sap-services .services-cta{grid-column:1/-1;justify-self:start}
+}
+@media(min-width:851px){.sap-continuous .continuous-art img{width:200%;height:auto;right:0;top:0}.sap-continuous .continuous-art:after{background:linear-gradient(90deg,var(--color-bg-primary),transparent 10%)}}
