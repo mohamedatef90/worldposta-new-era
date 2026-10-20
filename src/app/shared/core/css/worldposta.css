@@ -218,3 +218,6 @@
 /* SAP operations hero */
 :root,[data-theme='dark']{--wp-sap-surface:#101a26;--wp-sap-ink:#f1f5ff;--wp-sap-muted:#abb9d0;--wp-sap-green:#55d18b;--wp-sap-blue:#64baff;--wp-sap-button:#16753c;--wp-sap-white:#ffffff}
 [data-theme='light']{--wp-sap-surface:#f9fcff;--wp-sap-ink:#090c62;--wp-sap-muted:#646786;--wp-sap-green:#138744;--wp-sap-blue:#087bc1;--wp-sap-button:#218b2f;--wp-sap-white:#ffffff}
+
+/* Fixed colours for brand marks and on-brand labels. */
+:root{--wp-on-brand:#ffffff;--wp-black:#000000;--wp-brand-google:#4285f4}

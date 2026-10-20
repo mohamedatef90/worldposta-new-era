@@ -1,7 +1,7 @@
 :host {
-  display: block;
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
+  display:block;
+  color:var(--color-text-primary);
+  font-family:var(--font-body);
 }
 
 /* overflow-x:clip, not overflow:hidden. Both keep the decorative hero blobs
@@ -9,94 +9,94 @@
    stops position:sticky anywhere inside the page from working - the tab list in
    the ecosystem section depends on it. `clip` creates no scroll container, and
    unlike overflow-x:hidden it leaves the vertical axis genuinely visible. */
-.home-page { overflow-x: clip; background: var(--color-bg-primary); }
-.hero { position: relative; padding-top: 80px; min-height: 600px; isolation: isolate; background: linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
-.hero::after { position: absolute; z-index: -1; inset: 38% 0 auto; height: 62%; background: linear-gradient(180deg, transparent, var(--wp-hero-veil)); content: ''; }
-.hero__cloud { position: absolute; z-index: -1; border-radius: var(--radius-full); filter: blur(2px); opacity: .72; background: radial-gradient(circle at 60% 30%, var(--wp-cloud-core), var(--wp-cloud-edge) 42%, transparent 70%); }
-.hero__cloud--one { width: 510px; height: 360px; top: 70px; right: -105px; }
-.hero__cloud--two { width: 300px; height: 210px; left: 38%; bottom: var(--space-lg); opacity: .48; }
+.home-page { overflow-x:clip; background:var(--color-bg-primary); }
+.hero { position:relative; padding-top:80px; min-height:600px; isolation:isolate; background:linear-gradient(125deg, var(--wp-hero-from) 8%, var(--wp-hero-via) 61%, var(--wp-hero-to)); }
+.hero::after { position:absolute; z-index:-1; inset:38% 0 auto; height:62%; background:linear-gradient(180deg, transparent, var(--wp-hero-veil)); content:''; }
+.hero__cloud { position:absolute; z-index:-1; border-radius:var(--radius-full); filter:blur(2px); opacity:.72; background:radial-gradient(circle at 60% 30%, var(--wp-cloud-core), var(--wp-cloud-edge) 42%, transparent 70%); }
+.hero__cloud--one { width:510px; height:360px; top:70px; right:-105px; }
+.hero__cloud--two { width:300px; height:210px; left:38%; bottom:var(--space-lg); opacity:.48; }
 
 /* Styling for the primary-nav links projected into <app-site-header>: these
    anchors are declared here, in the consuming page's own template, so this is
    the component whose scoped styles can actually reach them. */
-.site-nav a { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: 12px; font-weight: var(--fw-semibold); white-space: nowrap; }
-.site-nav fa-icon { font-size: 9px; }
-@media (max-width: 1199px) { .site-nav a { font-size: var(--fs-caption); } }
+.site-nav a { display:inline-flex; align-items:center; gap:var(--space-sm); font-size:var(--fs-caption); font-weight:var(--fw-semibold); white-space:nowrap; }
+.site-nav fa-icon { font-size:9px; }
+@media (max-width:1199px) { .site-nav a { font-size:var(--fs-caption); } }
 
 /* Styling for the mobile-drawer links projected into <app-site-header>, for
    the same reason as `.site-nav a` above. */
-.mobile-nav a { display: flex; min-height: 48px; align-items: center; gap: var(--space-sm); padding: 0 12px; border-radius: var(--radius-md); color: var(--wp-ink); font-size: 16px; font-weight: var(--fw-semibold); text-decoration: none; }
-.mobile-nav a:hover { background: color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
+.mobile-nav a { display:flex; min-height:48px; align-items:center; gap:var(--space-sm); padding:0 12px; border-radius:var(--radius-md); color:var(--wp-ink); font-size:var(--fs-body); font-weight:var(--fw-semibold); text-decoration:none; }
+.mobile-nav a:hover { background:color-mix(in srgb, var(--color-brand-green) 12%, transparent); }
 
-.primary-cta { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-sm); border-radius: var(--radius-full); color: var(--primary-foreground); background: var(--color-brand-green); font-weight: var(--fw-semibold); box-shadow: 0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); transition: transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out); }
-.primary-cta:hover { color: var(--primary-foreground); background: var(--color-brand-green-light); transform: translateY(-2px); }
+.primary-cta { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-sm); border-radius:var(--radius-full); color:var(--primary-foreground); background:var(--color-brand-green); font-weight:var(--fw-semibold); box-shadow:0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); transition:transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out); }
+.primary-cta:hover { color:var(--primary-foreground); background:var(--color-brand-green-light); transform:translateY(-2px); }
 
-.hero__content { display: grid; grid-template-columns: minmax(0, .9fr) minmax(500px, 1.35fr); gap: var(--space-xl); align-items: center; padding-top: var(--space-xl); padding-bottom: var(--wp-section-pad); }
-.hero-copy { max-width: 495px; padding-top: var(--space-md); }
-.eyebrow { margin: 0 0 12px; color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 3px; line-height: 1.4; text-transform: uppercase; }
-h1 { margin: 0; color: var(--wp-ink); font-size: clamp(44px, 4.2vw, 66px); line-height: .98; letter-spacing: -2.4px; font-weight: 700; }
-h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { color: var(--wp-green); font-size: .84em; white-space: nowrap; }
-@media (max-width: 639px) { .text-green { white-space: normal; } }
-.hero-copy__description { max-width: 465px; margin: var(--space-md) 0 20px; color: var(--color-text-secondary); font-size: 17px; font-weight: 500; line-height: 1.35; }
-.proof-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); padding: 0; margin: 0 0 var(--space-lg); list-style: none; }
-.proof-points li { display: flex; align-items: flex-start; gap: var(--space-sm); color: var(--wp-ink); font-size: var(--fs-caption); line-height: 1.2; }
-.proof-icon { display: inline-grid; flex: 0 0 auto; width: 36px; height: 36px; place-items: center; border-radius: var(--radius-lg); font-size: 16px; --tone: var(--wp-tone-sky); color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }.proof-points li:nth-child(2) .proof-icon { --tone: var(--wp-tone-green); }.proof-points li:nth-child(3) .proof-icon { --tone: var(--wp-tone-teal); }
-.proof-points strong, .proof-points small { display: block; }.proof-points strong { margin-bottom: var(--space-xs); font-size: var(--fs-caption); }.proof-points small { color: var(--color-text-muted); font-size: var(--fs-caption); line-height: 1.3; }
-.hero-copy__actions { display: flex; flex-wrap: wrap; gap: var(--space-md); }.primary-cta, .secondary-cta { min-height: 48px; padding: 0 28px; font-size: 14px; }.secondary-cta { display: inline-grid; place-items: center; min-height: 48px; padding: 0 var(--space-xl); border: 1.5px solid var(--color-brand-green); border-radius: var(--radius-full); color: var(--color-brand-green); font-size: 14px; font-weight: var(--fw-semibold); }.secondary-cta:hover { color: var(--primary-foreground); background: var(--color-brand-green); }
+.hero__content { display:grid; grid-template-columns:minmax(0, .9fr) minmax(500px, 1.35fr); gap:var(--space-xl); align-items:center; padding-top:var(--space-xl); padding-bottom:var(--wp-section-pad); }
+.hero-copy { max-width:495px; padding-top:var(--space-md); }
+.eyebrow { margin:0 0 12px; color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:3px; line-height:1.4; text-transform:uppercase; }
+h1 { margin:0; color:var(--wp-ink); font-size:clamp(44px, 4.2vw, 66px); line-height:.98; letter-spacing:-2.4px; font-weight:var(--fw-bold); }
+h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { color:var(--wp-green); font-size:.84em; white-space:nowrap; }
+@media (max-width:639px) { .text-green { white-space:normal; } }
+.hero-copy__description { max-width:465px; margin:var(--space-md) 0 20px; color:var(--color-text-secondary); font-size:17px; font-weight:var(--fw-medium); line-height:1.35; }
+.proof-points { display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-sm); padding:0; margin:0 0 var(--space-lg); list-style:none; }
+.proof-points li { display:flex; align-items:flex-start; gap:var(--space-sm); color:var(--wp-ink); font-size:var(--fs-caption); line-height:1.2; }
+.proof-icon { display:inline-grid; flex:0 0 auto; width:36px; height:36px; place-items:center; border-radius:var(--radius-lg); font-size:var(--fs-body); --tone:var(--wp-tone-sky); color:var(--tone); background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }.proof-points li:nth-child(2) .proof-icon { --tone:var(--wp-tone-green); }.proof-points li:nth-child(3) .proof-icon { --tone:var(--wp-tone-teal); }
+.proof-points strong, .proof-points small { display:block; }.proof-points strong { margin-bottom:var(--space-xs); font-size:var(--fs-caption); }.proof-points small { color:var(--color-text-muted); font-size:var(--fs-caption); line-height:1.3; }
+.hero-copy__actions { display:flex; flex-wrap:wrap; gap:var(--space-md); }.primary-cta, .secondary-cta { min-height:48px; padding:0 28px; font-size:var(--fs-body-sm); }.secondary-cta { display:inline-grid; place-items:center; min-height:48px; padding:0 var(--space-xl); border:1.5px solid var(--color-brand-green); border-radius:var(--radius-full); color:var(--color-brand-green); font-size:var(--fs-body-sm); font-weight:var(--fw-semibold); }.secondary-cta:hover { color:var(--primary-foreground); background:var(--color-brand-green); }
 
-.hero-visual { position: relative; min-width: 0; padding: var(--space-md) var(--space-xs) var(--space-sm); }.console-shell { position: relative; overflow: hidden; aspect-ratio: 2.05; border: 8px solid var(--wp-console-frame); border-radius: var(--radius-2xl); background: var(--wp-console-chrome); box-shadow: var(--wp-console-shadow); transform: perspective(1400px) rotateY(-3deg) rotateX(1deg); }.console-shell__chrome { height: 40px; display: flex; align-items: center; gap: var(--space-sm); padding: 0 var(--space-md); background: var(--wp-console-chrome); }.console-shell__chrome > span { width: 8px; height: 8px; border-radius: 50%; background: var(--wp-console-dot); }.console-shell__chrome p { margin: 0 0 0 var(--space-sm); color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: 700; }.console-shell__chrome p span { margin-left: var(--space-sm); color: var(--color-text-muted); font-weight: 500; }.console-shell img { display: block; width: 100%; height: calc(100% - 40px); object-fit: cover; object-position: top; }
-.floating-card { position: absolute; z-index: 1; display: flex; align-items: center; gap: var(--space-sm); padding: 12px var(--space-md); border: 1px solid var(--wp-panel-line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--wp-panel) 90%, transparent); box-shadow: var(--shadow-lg); color: var(--wp-tone-blue); font-size: 21px; backdrop-filter: blur(8px); }.floating-card span { min-width: 130px; color: var(--color-text-primary); }.floating-card strong, .floating-card small { display: block; }.floating-card strong { font-size: var(--fs-caption); }.floating-card small { margin-top: var(--space-xs); color: var(--color-text-muted); font-size: var(--fs-caption); }.floating-card--cloud { right: -30px; bottom: var(--space-lg); }.floating-card--security { left: -25px; top: 30%; color: var(--wp-tone-green); }
+.hero-visual { position:relative; min-width:0; padding:var(--space-md) var(--space-xs) var(--space-sm); }.console-shell { position:relative; overflow:hidden; aspect-ratio:2.05; border:8px solid var(--wp-console-frame); border-radius:var(--radius-2xl); background:var(--wp-console-chrome); box-shadow:var(--wp-console-shadow); transform:perspective(1400px) rotateY(-3deg) rotateX(1deg); }.console-shell__chrome { height:40px; display:flex; align-items:center; gap:var(--space-sm); padding:0 var(--space-md); background:var(--wp-console-chrome); }.console-shell__chrome > span { width:8px; height:8px; border-radius:50%; background:var(--wp-console-dot); }.console-shell__chrome p { margin:0 0 0 var(--space-sm); color:var(--color-text-primary); font-size:var(--fs-caption); font-weight:var(--fw-bold); }.console-shell__chrome p span { margin-left:var(--space-sm); color:var(--color-text-muted); font-weight:var(--fw-medium); }.console-shell img { display:block; width:100%; height:calc(100% - 40px); object-fit:cover; object-position:top; }
+.floating-card { position:absolute; z-index:1; display:flex; align-items:center; gap:var(--space-sm); padding:12px var(--space-md); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:color-mix(in srgb, var(--wp-panel) 90%, transparent); box-shadow:var(--shadow-lg); color:var(--wp-tone-blue); font-size:21px; backdrop-filter:blur(8px); }.floating-card span { min-width:130px; color:var(--color-text-primary); }.floating-card strong, .floating-card small { display:block; }.floating-card strong { font-size:var(--fs-caption); }.floating-card small { margin-top:var(--space-xs); color:var(--color-text-muted); font-size:var(--fs-caption); }.floating-card--cloud { right:-30px; bottom:var(--space-lg); }.floating-card--security { left:-25px; top:30%; color:var(--wp-tone-green); }
 
 /* Ecosystem Strip Section */
-/* 10px rather than --wp-section-pad: this strip is deliberately tighter than
+/* 10px rather than --wp-section-pad:this strip is deliberately tighter than
    the surrounding section rhythm, so it does not follow that responsive token. */
-.ecosystem-strip-section { padding: 10px 0; background: linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%); }
-.ecosystem-strip { display: flex; align-items: center; gap: var(--space-2xl); padding: var(--space-lg) var(--space-xl); background: var(--wp-panel); border-radius: var(--radius-xl); box-shadow: var(--wp-panel-shadow); }
-.ecosystem-strip__intro { flex: 0 0 auto; min-width: 200px; max-width: 260px; }
-.ecosystem-strip__eyebrow { margin: 0 0 var(--space-sm); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 1.5px; text-transform: uppercase; }
-.ecosystem-strip__heading { margin: 0 0 var(--space-xs); color: var(--wp-ink); font-size: 20px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
-.ecosystem-strip__heading span { color: var(--color-brand-green); }
-.ecosystem-strip__subtitle { margin: 0; color: var(--wp-body-strong); font-size: 13px; line-height: 1.4; }
-.ecosystem-strip__tiles { display: flex; align-items: center; gap: var(--space-sm); flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
-.ecosystem-strip__tiles::-webkit-scrollbar { display: none; }
-.ecosystem-tile { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); padding: var(--space-sm) 12px; text-decoration: none; white-space: nowrap; transition: transform var(--duration-fast) var(--ease-out); }
-.ecosystem-tile:hover { transform: translateY(-2px); }
-.ecosystem-tile:focus-visible { outline: 2px solid var(--color-brand-green); outline-offset: 2px; border-radius: var(--radius-md); }
-.ecosystem-tile__icon { display: grid; width: 40px; height: 40px; place-items: center; border-radius: var(--radius-lg); font-size: 16px; color: var(--tone); background: color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }
-.ecosystem-tile__label { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-primary); font-size: var(--fs-caption); font-weight: var(--fw-semibold); }
-.ecosystem-tile__chevron { color: var(--color-text-muted); font-size: 10px; flex-shrink: 0; }
+.ecosystem-strip-section { padding:10px 0; background:linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%); }
+.ecosystem-strip { display:flex; align-items:center; gap:var(--space-2xl); padding:var(--space-lg) var(--space-xl); background:var(--wp-panel); border-radius:var(--radius-xl); box-shadow:var(--wp-panel-shadow); }
+.ecosystem-strip__intro { flex:0 0 auto; min-width:200px; max-width:260px; }
+.ecosystem-strip__eyebrow { margin:0 0 var(--space-sm); color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:1.5px; text-transform:uppercase; }
+.ecosystem-strip__heading { margin:0 0 var(--space-xs); color:var(--wp-ink); font-size:20px; font-weight:var(--fw-bold); line-height:1.2; white-space:nowrap; }
+.ecosystem-strip__heading span { color:var(--color-brand-green); }
+.ecosystem-strip__subtitle { margin:0; color:var(--wp-body-strong); font-size:13px; line-height:1.4; }
+.ecosystem-strip__tiles { display:flex; align-items:center; gap:var(--space-sm); flex:1; min-width:0; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
+.ecosystem-strip__tiles::-webkit-scrollbar { display:none; }
+.ecosystem-tile { display:flex; flex-direction:column; align-items:center; gap:var(--space-sm); padding:var(--space-sm) 12px; text-decoration:none; white-space:nowrap; transition:transform var(--duration-fast) var(--ease-out); }
+.ecosystem-tile:hover { transform:translateY(-2px); }
+.ecosystem-tile:focus-visible { outline:2px solid var(--color-brand-green); outline-offset:2px; border-radius:var(--radius-md); }
+.ecosystem-tile__icon { display:grid; width:40px; height:40px; place-items:center; border-radius:var(--radius-lg); font-size:var(--fs-body); color:var(--tone); background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }
+.ecosystem-tile__label { display:inline-flex; align-items:center; gap:6px; color:var(--color-text-primary); font-size:var(--fs-caption); font-weight:var(--fw-semibold); }
+.ecosystem-tile__chevron { color:var(--color-text-muted); font-size:10px; flex-shrink:0; }
 
 /* Tile color variants */
-.tile--green { --tone: var(--wp-tone-leaf); }
-.tile--purple { --tone: var(--wp-tone-purple); }
-.tile--teal { --tone: var(--wp-tone-teal); }
-.tile--pink { --tone: var(--wp-tone-pink); }
-.tile--amber { --tone: var(--wp-tone-amber); }
-.tile--sky { --tone: var(--wp-tone-sky); }
-.tile--indigo { --tone: var(--wp-tone-indigo); }
-.tile--rose { --tone: var(--wp-tone-rose); }
+.tile--green { --tone:var(--wp-tone-leaf); }
+.tile--purple { --tone:var(--wp-tone-purple); }
+.tile--teal { --tone:var(--wp-tone-teal); }
+.tile--pink { --tone:var(--wp-tone-pink); }
+.tile--amber { --tone:var(--wp-tone-amber); }
+.tile--sky { --tone:var(--wp-tone-sky); }
+.tile--indigo { --tone:var(--wp-tone-indigo); }
+.tile--rose { --tone:var(--wp-tone-rose); }
 
-.trust-strip { display: flex; align-items: center; gap: var(--space-xl); padding-block: var(--space-lg); border-top: 1px solid var(--wp-hairline); background: var(--wp-trust-surface); }.trust-strip > p { flex: 0 0 auto; margin: 0; color: var(--wp-body-strong); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: .7px; line-height: 1.35; text-transform: uppercase; }.trust-logos { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: var(--space-md); color: var(--wp-body-strong); }/* The partner SVGs are Simple Icons, which letterbox each mark inside a square
+.trust-strip { display:flex; align-items:center; gap:var(--space-xl); padding-block:var(--space-lg); border-top:1px solid var(--wp-hairline); background:var(--wp-trust-surface); }.trust-strip > p { flex:0 0 auto; margin:0; color:var(--wp-body-strong); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:.7px; line-height:1.35; text-transform:uppercase; }.trust-logos { display:flex; flex:1; align-items:center; justify-content:space-between; gap:var(--space-md); color:var(--wp-body-strong); }/* The partner SVGs are Simple Icons, which letterbox each mark inside a square
    24x24 canvas. Their viewBoxes are cropped to the ink, so max-height now sizes
    the visible mark rather than its padding - before cropping, the same 28px cap
    drew Dell at 28px and VMware at 4.5px. Square marks are bound by height; the
    two wordmarks (Oracle, VMware) by max-width, which is why they sit shorter. */
-.trust-logo { display: inline-flex; width: auto; height: auto; max-width: 84px; max-height: 36px; align-items: center; color: var(--wp-body-strong); }.trust-logo--oracle { max-width: 108px; }/* Four solid squares carry more optical weight than the outline marks, so
+.trust-logo { display:inline-flex; width:auto; height:auto; max-width:84px; max-height:36px; align-items:center; color:var(--wp-body-strong); }.trust-logo--oracle { max-width:108px; }/* Four solid squares carry more optical weight than the outline marks, so
    Microsoft is held slightly below the others rather than matched to them. */
-.trust-logo--microsoft { max-height: 32px; }
+.trust-logo--microsoft { max-height:32px; }
 /* The strip carries full brand colour, but VMware's mark is a dark grey that
    drops to ~3.5:1 on the dark background. It is monochrome, so lifting its
    brightness restores contrast without shifting any hue. */
 /* :host-context, not a plain ancestor selector — emulated encapsulation scopes
    the latter so an attribute on <html> can never match it. */
-:host-context([data-theme='dark']) .trust-logo--vmware { filter: brightness(1.85); }.trust-message { padding-left: 28px; border-left: 1px solid var(--wp-rule); color: var(--color-text-muted); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+:host-context([data-theme='dark']) .trust-logo--vmware { filter:brightness(1.85); }.trust-message { padding-left:28px; border-left:1px solid var(--wp-rule); color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
 
-@media (max-width: 1199px) { .hero__content { grid-template-columns: minmax(330px, .83fr) 1.17fr; } .ecosystem-strip { gap: var(--space-lg); padding: 20px var(--space-lg); } .ecosystem-strip__intro { min-width: 180px; max-width: 220px; } }
-@media (max-width: 1023px) { .hero { padding-top: 72px; }
-.hero { min-height: unset; }.hero__content { grid-template-columns: 1fr; }.hero-copy { max-width: 620px; }.hero-visual { max-width: 740px; padding-top: var(--space-sm); margin: 0 auto; }.proof-points { max-width: 610px; }.trust-message { display: none; } .ecosystem-strip { flex-direction: column; align-items: stretch; gap: 20px; padding: var(--space-lg) 20px; } .ecosystem-strip__intro { max-width: none; text-align: center; } .ecosystem-strip__heading { white-space: normal; } .ecosystem-strip__tiles { justify-content: flex-start; padding-bottom: var(--space-xs); } }
-@media (max-width: 639px) { .hero__content, .trust-strip { padding-left: 20px; padding-right: 20px; }.hero__content { padding-top: var(--space-lg); }.hero-copy { padding-top: 0; }.hero-copy__description { font-size: 16px; }.proof-points { grid-template-columns: 1fr; gap: 12px; }.hero-copy__actions { display: grid; grid-template-columns: 1fr; }.primary-cta, .secondary-cta { width: 100%; }.hero-visual { display: none; }.trust-strip { align-items: flex-start; flex-direction: column; gap: var(--space-md); }.trust-logos { flex-wrap: wrap; justify-content: flex-start; gap: var(--space-md) var(--space-lg); }.trust-logos strong { font-size: 15px; } .ecosystem-strip { padding: 20px var(--space-md); border-radius: var(--radius-xl); }  .ecosystem-strip__heading { font-size: 18px; } .ecosystem-strip__subtitle { font-size: 12px; } .ecosystem-tile { padding: var(--space-sm) 12px; } .ecosystem-tile__icon { width: 36px; height: 36px; font-size: 14px; }  }
+@media (max-width:1199px) { .hero__content { grid-template-columns:minmax(330px, .83fr) 1.17fr; } .ecosystem-strip { gap:var(--space-lg); padding:20px var(--space-lg); } .ecosystem-strip__intro { min-width:180px; max-width:220px; } }
+@media (max-width:1023px) { .hero { padding-top:72px; }
+.hero { min-height:unset; }.hero__content { grid-template-columns:1fr; }.hero-copy { max-width:620px; }.hero-visual { max-width:740px; padding-top:var(--space-sm); margin:0 auto; }.proof-points { max-width:610px; }.trust-message { display:none; } .ecosystem-strip { flex-direction:column; align-items:stretch; gap:20px; padding:var(--space-lg) 20px; } .ecosystem-strip__intro { max-width:none; text-align:center; } .ecosystem-strip__heading { white-space:normal; } .ecosystem-strip__tiles { justify-content:flex-start; padding-bottom:var(--space-xs); } }
+@media (max-width:639px) { .hero__content, .trust-strip { padding-left:20px; padding-right:20px; }.hero__content { padding-top:var(--space-lg); }.hero-copy { padding-top:0; }.hero-copy__description { font-size:var(--fs-body); }.proof-points { grid-template-columns:1fr; gap:12px; }.hero-copy__actions { display:grid; grid-template-columns:1fr; }.primary-cta, .secondary-cta { width:100%; }.hero-visual { display:none; }.trust-strip { align-items:flex-start; flex-direction:column; gap:var(--space-md); }.trust-logos { flex-wrap:wrap; justify-content:flex-start; gap:var(--space-md) var(--space-lg); }.trust-logos strong { font-size:15px; } .ecosystem-strip { padding:20px var(--space-md); border-radius:var(--radius-xl); }  .ecosystem-strip__heading { font-size:var(--fs-body-lg); } .ecosystem-strip__subtitle { font-size:var(--fs-caption); } .ecosystem-tile { padding:var(--space-sm) 12px; } .ecosystem-tile__icon { width:36px; height:36px; font-size:var(--fs-body-sm); }  }
 
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } .console-shell { transform: none; } }
+@media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition-duration:.01ms !important; } .console-shell { transform:none; } }
 
 /* ============================================================
    Hero — phones (≤639px)
@@ -105,36 +105,36 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
    appended to that one-liner, because the reasoning matters more than
    the byte count here.
 
-   The console preview used to be `display: none` below 640px, which cut
+   The console preview used to be `display:none` below 640px, which cut
    the page's strongest proof — the actual product — from the only view
    most visitors arrive on. It is reframed instead of dropped.
    ============================================================ */
 @media (max-width: 639px) {
-  /* Rhythm: the eyebrow and headline are one unit, so they sit tight;
+  /* Rhythm:the eyebrow and headline are one unit, so they sit tight;
      the gap widens toward the CTAs so the block has a cadence instead of
      evenly-spaced rows. */
-  .eyebrow { margin-bottom: 10px; letter-spacing: 2.4px; }
+  .eyebrow { margin-bottom:10px; letter-spacing:2.4px; }
 
-  /* Looser tracking than the desktop -2.4px: at phone sizes that much
+  /* Looser tracking than the desktop -2.4px:at phone sizes that much
      negative tracking closes up the counters and crowds the right edge. */
-  h1 { font-size: clamp(36px, 10.8vw, 46px); letter-spacing: -1.4px; line-height: 1.04; }
+  h1 { font-size:clamp(36px, 10.8vw, 46px); letter-spacing:-1.4px; line-height:1.04; }
 
-  .hero-copy__description { margin: 14px 0 22px; line-height: 1.55; }
+  .hero-copy__description { margin:14px 0 22px; line-height:1.55; }
 
-  .proof-points { gap: 14px; margin-bottom: var(--space-xl); }
-  .proof-points li { line-height: 1.35; }
+  .proof-points { gap:14px; margin-bottom:var(--space-xl); }
+  .proof-points li { line-height:1.35; }
 
-  .hero-copy__actions { gap: 12px; }
+  .hero-copy__actions { gap:12px; }
 
   /* --- The product, adapted --- */
   .hero-visual {
-    display: block;
-    max-width: none;
-    padding: 0;
-    margin-top: var(--space-xl);
+    display:block;
+    max-width:none;
+    padding:0;
+    margin-top:var(--space-xl);
   }
 
-  /* Flattened: the perspective tilt reads as a rendering glitch at this
+  /* Flattened:the perspective tilt reads as a rendering glitch at this
      width rather than as depth. Taller box + `cover` crops *into* the
      screenshot instead of scaling all 1520px down to an illegible smear,
      so the sidebar and the first stat cards stay readable. */
@@ -144,41 +144,45 @@ h1 span { display: block; }.text-blue { color: var(--wp-blue); }.text-green { co
        ~27% — illegible. A taller box scales it to ~32% and yields ~175px of
        overflow, which is what makes the crop below possible. */
     aspect-ratio: 1.05;
-    border-width: 5px;
-    border-radius: var(--radius-xl);
-    transform: none;
+    border-width:5px;
+    border-radius:var(--radius-xl);
+    transform:none;
   }
 
-  .console-shell__chrome { height: 32px; padding: 0 12px; }
-  .console-shell__chrome p { font-size: 11px; }
+  .console-shell__chrome { height:32px; padding:0 12px; }
+  .console-shell__chrome p { font-size:11px; }
   /* Secondary label — not worth the width it costs here. */
-  .console-shell__chrome p span { display: none; }
+  .console-shell__chrome p span { display:none; }
 
-  /* 62% rather than a round number: at this box the screenshot overflows by
+  /* 62% rather than a round number:at this box the screenshot overflows by
      ~175px, and the console's own sidebar accounts for the first ~58% of
      that. Anchoring past it avoids framing a sliver of truncated nav
      labels, which reads as a broken image rather than a product. Re-derive
      this if the source image or the aspect-ratio above changes — it is a
      function of both. */
   .console-shell img {
-    height: calc(100% - 32px);
-    object-position: 62% top;
+    height:calc(100% - 32px);
+    object-position:62% top;
   }
 
   /* "Your Private Cloud / Full control. Maximum security." restates the
      Enterprise Security proof point two blocks up. Dropped here rather
      than repeated. */
-  .floating-card--cloud { display: none; }
+  .floating-card--cloud { display:none; }
 
   /* The availability figure is the one claim not already made in the copy,
      so it stays — pulled inside the frame, since the desktop position
      hangs it 25px off the left edge and would force a sideways scroll. */
   .floating-card--security {
-    top: auto;
-    right: 12px;
-    bottom: 12px;
-    left: auto;
-    padding: 10px 12px;
+    top:auto;
+    right:12px;
+    bottom:12px;
+    left:auto;
+    padding:10px 12px;
   }
-  .floating-card--security span { min-width: 0; }
+  .floating-card--security span { min-width:0; }
 }
+
+/* Keep decorative artwork inside the mobile page; nested tables remain scrollable. */
+:host{display:block;overflow-x:clip}
+

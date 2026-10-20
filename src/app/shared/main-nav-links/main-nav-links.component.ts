@@ -176,7 +176,7 @@ export class MainNavLinksComponent {
           {
             "name": "Cloud SOC",
             "description": "24/7 security operations center",
-            "href": "https://www.worldposta.com/cloud-based-soc-solutions"
+            "href": "/cloud-based-soc-solutions"
           },
           {
             "name": "Ransomware Protection",
@@ -209,7 +209,10 @@ export class MainNavLinksComponent {
     "allHref": "/service-provider",
     "items": [
       {
-        "name": "SAP Basis Operations", "description": "SAP administration, monitoring and optimization", "href": "/sap-basis-operations" }, { "name": "WPSYS", "description": "Managed IT, cybersecurity and cloud operations", "href": "/wpsys" }, { "name": "Overview",
+        "name": "SAP Basis Operations", "description": "SAP administration, monitoring and optimization", "href": "/sap-basis-operations" }, { "name": "WPSYS", "description": "Managed IT, cybersecurity and cloud operations", "href": "/wpsys" },
+      { "name": "WPSYS SOC", "description": "24/7 security operations center", "href": "/cloud-based-soc-solutions" },
+      { "name": "Posta Portal", "description": "Manage your services from one portal", "href": "/posta-portal" },
+      { "name": "IT Automation", "description": "Automate IT tasks and streamline workflows", "href": "/it-software-automation-tools" }, { "name": "Overview",
         "description": "The operator model, in five minutes",
         "href": "https://www.worldposta.com/operator-overview"
       },
@@ -254,6 +257,11 @@ export class MainNavLinksComponent {
     "id": "pricing",
     "label": "Pricing",
     "href": "#pricing"
+  },
+  {
+    "id": "our-story",
+    "label": "Our Story",
+    "href": "/our-story"
   },
   {
     "id": "docs",
