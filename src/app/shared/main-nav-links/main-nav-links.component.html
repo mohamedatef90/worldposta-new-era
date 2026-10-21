@@ -1,0 +1,46 @@
+@for (menu of menus; track menu.id) {
+  @if (menu.href) {
+    <a class="nav-tab" [routerLink]="menu.href" routerLinkActive="is-active" (click)="follow()">
+      <fa-icon class="tab-icon" [icon]="menu.icon" aria-hidden="true" />{{ menu.label }}
+    </a>
+  } @else {
+    <div class="nav-group" [class.is-mobile]="mobile()" (mouseenter)="hoverOpen(menu.id)" (mouseleave)="hoverClose()">
+      <button type="button" class="nav-tab" [class.is-open]="open() === menu.id" [attr.aria-expanded]="open() === menu.id" [attr.aria-controls]="prefix() + menu.id" (click)="toggle(menu.id)">
+        <fa-icon class="tab-icon" [icon]="menu.icon" aria-hidden="true" />{{ menu.label }}<span class="chevron" aria-hidden="true"></span>
+      </button>
+      @if (open() === menu.id) {
+        <div class="mega" [id]="prefix() + menu.id">
+          <div class="mega-inner">
+            <aside class="mega-intro">
+              <span class="mega-intro-icon" aria-hidden="true"><fa-icon [icon]="menu.icon" /></span>
+              <p class="mega-title">{{ menu.label }}</p>
+              <p class="mega-tagline">{{ menu.tagline }}</p>
+              @if (menu.intro) { <p class="mega-copy">{{ menu.intro }}</p> }
+              @if (menu.overview; as overview) {
+                <a class="mega-overview" [routerLink]="overview.href" (click)="follow()">{{ overview.label }} <fa-icon [icon]="arrow" aria-hidden="true" /></a>
+              }
+            </aside>
+            <div class="mega-groups">
+              @for (group of menu.groups; track $index) {
+                <section class="mega-group" [attr.aria-label]="group.title ?? menu.label">
+                  @if (group.title) { <p class="mega-group-title">{{ group.title }}</p> }
+                  <ul class="mega-items">
+                    @for (item of group.items; track item.href) {
+                      <li>
+                        <a class="mega-item" [routerLink]="item.href" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" (click)="follow()">
+                          <span class="item-icon" aria-hidden="true"><fa-icon [icon]="item.icon" /></span>
+                          <span class="item-text"><strong>{{ item.name }}</strong><small>{{ item.description }}</small></span>
+                          <fa-icon class="item-arrow" [icon]="arrow" aria-hidden="true" />
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </section>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+}

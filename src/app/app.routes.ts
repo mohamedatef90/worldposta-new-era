@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  { path: 'contact', loadComponent: () => import('./pages/contact/contact.component').then(m => m.Contact), title: 'Contact Us | WorldPosta' },
+  { path: 'case-studies', loadComponent: () => import('./pages/case-studies/case-studies.component').then(m => m.CaseStudies), title: 'Success Stories | WorldPosta' },
+  { path: 'case-studies/:slug', loadComponent: () => import('./pages/case-study/case-study.component').then(m => m.CaseStudy), title: 'Success Story | WorldPosta' },
   { path: 'posta-gate-security', loadComponent: () => import('./pages/posta-gate/posta-gate.component').then(m => m.PostaGate), title: 'Posta Gate — AI-Powered Email Security | WorldPosta' },
   { path: 'our-story', loadComponent: () => import('./pages/our-story/our-story.component').then(m => m.OurStory), title: 'Our Story | WorldPosta' },
   { path: 'posta-portal', loadComponent: () => import('./pages/posta-portal/posta-portal.component').then(m => m.PostaPortal), title: 'Posta Portal — White-Label Email Administration | WorldPosta' },

@@ -3,8 +3,8 @@
     <a class="brand" routerLink="/" aria-label="WorldPosta home">
       <img
         ngSrc="/worldposta-assets/WP-Logo.avif"
-        width="192"
-        height="56"
+        width="600"
+        height="154"
         priority
         alt="WorldPosta"
       />
@@ -34,7 +34,7 @@
       </div>
 
       <div class="header-actions">
-        <a class="sign-in" href="https://home.worldposta.com/">Sign in</a>
+        <a class="sign-in" href="https://home.worldposta.com/">Login</a>
         <a class="header-cta" href="https://www.worldposta.com/signup">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
       <button
@@ -65,7 +65,7 @@
           {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
         </button>
 
-        <a href="https://home.worldposta.com/" (click)="closeMenu()">Sign in</a>
+        <a href="https://home.worldposta.com/" (click)="closeMenu()">Login</a>
         <a class="mobile-nav__cta" href="https://www.worldposta.com/signup" (click)="closeMenu()">
           Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
         </a>

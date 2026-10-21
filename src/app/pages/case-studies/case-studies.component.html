@@ -1,0 +1,95 @@
+<app-site-header [solid]="true" />
+<main>
+  <section class="cs-hero" aria-labelledby="cs-hero-title">
+    <div class="cs-wrap cs-hero-grid">
+      <div class="cs-hero-copy">
+        <p class="cs-eyebrow"><span aria-hidden="true"></span>SUCCESS STORIES</p>
+        <h1 id="cs-hero-title">Real Organizations.<br><span>Real Results.</span></h1>
+        <p class="cs-lead">See how organizations across different industries and regions are achieving more with WorldPosta’s secure, scalable and integrated cloud solutions.</p>
+      </div>
+      <div class="cs-hero-art">
+        <p class="cs-hero-tagline">Cloud that<br>works smarter<br><span>for your business.</span></p>
+        <img ngSrc="/worldposta-assets/case-studies/listing-hero.webp" width="646" height="477" priority alt="Glass office tower framed by green and blue brand arcs" />
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-library" aria-label="Case studies">
+    <div class="cs-wrap">
+      <div class="cs-filters" role="search" aria-label="Filter case studies">
+        <label class="cs-filter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <span><strong>Country</strong>
+            <select [value]="country()" (change)="pick($event.target, 'country')">
+              <option value="">All Countries</option>
+              @for (option of countries; track option) { <option [value]="option">{{ option }}</option> }
+            </select>
+          </span>
+        </label>
+        <label class="cs-filter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5v10l-9 5-9-5V7Z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>
+          <span><strong>Service</strong>
+            <select [value]="service()" (change)="pick($event.target, 'service')">
+              <option value="">All Services</option>
+              @for (option of services; track option) { <option [value]="option">{{ option }}</option> }
+            </select>
+          </span>
+        </label>
+        <label class="cs-filter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V4h11v17M15 9h5v12M2 21h20M7 8h2m-2 4h2m-2 4h2m3-8h0m0 4h0m0 4h0"/></svg>
+          <span><strong>Industry</strong>
+            <select [value]="industry()" (change)="pick($event.target, 'industry')">
+              <option value="">All Industries</option>
+              @for (option of industries; track option) { <option [value]="option">{{ option }}</option> }
+            </select>
+          </span>
+        </label>
+        <div class="cs-filter-meta">
+          <button type="button" class="cs-reset" (click)="reset()" [disabled]="!filtered()">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg>Reset Filters
+          </button>
+          <p class="cs-count" role="status">{{ results().length }} {{ results().length === 1 ? 'Result' : 'Results' }}</p>
+          <div class="cs-view" role="group" aria-label="Layout">
+            <button type="button" [attr.aria-pressed]="view() === 'grid'" aria-label="Grid view" (click)="view.set('grid')"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg></button>
+            <button type="button" [attr.aria-pressed]="view() === 'list'" aria-label="List view" (click)="view.set('list')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      @if (results().length) {
+        <ul class="cs-grid" [class.is-list]="view() === 'list'">
+          @for (study of results(); track study.slug) {
+            <li class="cs-card">
+              <div class="cs-card-photo">
+                <img [ngSrc]="study.image" width="651" height="164" [alt]="study.industry + ' — ' + study.country" />
+                <span class="cs-industry">{{ study.industry }}</span>
+              </div>
+              <div class="cs-card-body">
+                <h2>{{ study.title }}</h2>
+                <p>{{ study.summary }}</p>
+                <div class="cs-card-foot">
+                  <ul class="cs-tags" aria-label="Country and services">
+                    <li class="cs-tag-country">{{ study.country }}</li>
+                    @for (tag of study.services; track tag) { <li>{{ tag }}</li> }
+                  </ul>
+                  @if (study.hasStory) {
+                    <a class="cs-read" [routerLink]="['/case-studies', study.slug]">Read the Story <span aria-hidden="true">→</span></a>
+                  } @else {
+                    <span class="cs-soon">Story coming soon</span>
+                  }
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="cs-empty">
+          <h2>No stories match these filters.</h2>
+          <p>Try another country, service or industry.</p>
+          <button type="button" class="ds-btn ds-btn--secondary" (click)="reset()">Reset Filters</button>
+        </div>
+      }
+    </div>
+  </section>
+</main>
+<app-site-footer />

@@ -1,0 +1,114 @@
+<app-site-header [solid]="true" />
+<main>
+  @if (story(); as s) {
+    <section class="st-hero" aria-labelledby="st-title">
+      <div class="st-wrap">
+        <nav class="st-crumbs" aria-label="Breadcrumb">
+          <ol><li><a routerLink="/">Home</a></li><li><a routerLink="/case-studies">Success Stories</a></li><li>{{ s.facts[2].value }}</li><li aria-current="page">{{ s.breadcrumb }}</li></ol>
+        </nav>
+        <div class="st-hero-grid">
+          <div>
+            <p class="st-eyebrow"><span aria-hidden="true"></span>SUCCESS STORY</p>
+            <h1 id="st-title">{{ s.titleLead }} <span>{{ s.titleAccent }}</span></h1>
+            <p class="st-lead">{{ s.intro }}</p>
+          </div>
+          <div class="st-hero-art"><img [ngSrc]="s.heroImage" width="1164" height="460" priority alt="Modern government headquarters with palm trees" /></div>
+        </div>
+        <dl class="st-facts">
+          @for (fact of s.facts; track fact.label) {
+            <div class="st-fact">
+              <span class="st-fact-icon" aria-hidden="true">
+                @switch (fact.icon) {
+                  @case ('entity') { <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg> }
+                  @case ('country') { <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.6"/></svg> }
+                  @case ('industry') { <svg viewBox="0 0 24 24"><path d="M4 21V4h11v17M15 9h5v12M2 21h20M7 8h2m-2 4h2m-2 4h2"/></svg> }
+                  @case ('people') { <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.5.5 4 2.5 4 6"/></svg> }
+                }
+              </span>
+              <div><dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd></div>
+            </div>
+          }
+          <div class="st-fact">
+            <span class="st-fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5"/></svg></span>
+            <div><dt>Key Services</dt><dd>{{ s.keyServices.join(' · ') }}</dd></div>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="st-block" aria-labelledby="st-overview">
+      <div class="st-wrap st-row">
+        <p class="st-index"><span>01</span>PROJECT OVERVIEW</p>
+        <div class="st-body"><h2 id="st-overview">{{ s.overview.title }}</h2>@for (p of s.overview.paragraphs; track $index) { <p>{{ p }}</p> }</div>
+        <div class="st-side"><img [ngSrc]="s.overview.image" width="744" height="346" [alt]="s.overview.imageAlt" /></div>
+      </div>
+    </section>
+
+    <section class="st-block st-tint-blue" aria-labelledby="st-challenge">
+      <div class="st-wrap st-row">
+        <p class="st-index"><span>02</span>THE CHALLENGE</p>
+        <div class="st-body"><h2 id="st-challenge">{{ s.challenge.title }}</h2>@for (p of s.challenge.paragraphs; track $index) { <p>{{ p }}</p> }</div>
+        <ul class="st-side st-points">@for (point of s.challenge.points; track point) { <li>{{ point }}</li> }</ul>
+      </div>
+    </section>
+
+    <section class="st-block" aria-labelledby="st-solution">
+      <div class="st-wrap st-row">
+        <p class="st-index"><span>03</span>THE SOLUTION</p>
+        <div class="st-body"><h2 id="st-solution">{{ s.solution.title }}</h2>@for (p of s.solution.paragraphs; track $index) { <p>{{ p }}</p> }</div>
+        <ul class="st-side st-solution">
+          @for (item of s.solution.items; track item.title) {
+            <li>
+              <span class="st-sol-icon" aria-hidden="true">
+                @switch (item.icon) {
+                  @case ('cloud') { <svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.6-10A7 7 0 0 1 20 10a4 4 0 0 1-1 8Z"/></svg> }
+                  @case ('team') { <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><circle cx="5" cy="10" r="2.2"/><circle cx="19" cy="10" r="2.2"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6M1.5 18c0-2.2 1.5-3.8 3.5-4M22.5 18c0-2.2-1.5-3.8-3.5-4"/></svg> }
+                  @case ('shield') { <svg viewBox="0 0 24 24"><path d="M12 2c3 2.2 6 3 9 3.5V12c0 5-4 8.4-9 10-5-1.6-9-5-9-10V5.5C6 5 9 4.2 12 2Z"/></svg> }
+                }
+              </span>
+              <div><h3>{{ item.title }}</h3><p>{{ item.copy }}</p></div>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="st-block st-tint-warm" aria-labelledby="st-results">
+      <div class="st-wrap st-row st-row-wide">
+        <p class="st-index"><span>04</span>RESULTS &amp; BUSINESS OUTCOMES</p>
+        <div class="st-body st-body-wide">
+          <h2 id="st-results">{{ s.results.title }}</h2><p>{{ s.results.copy }}</p>
+          <dl class="st-stats">@for (stat of s.results.stats; track stat.label) { <div><dt>{{ stat.label }}</dt><dd>{{ stat.value }}</dd></div> }</dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="st-block" aria-labelledby="st-voices">
+      <div class="st-wrap st-row st-row-wide">
+        <p class="st-index" id="st-voices"><span>05</span>VOICES FROM THE JOURNEY</p>
+        <div class="st-quotes">
+          @for (q of s.quotes; track q.name) {
+            <figure class="st-quote" [class.is-blue]="q.tone === 'blue'">
+              <span class="st-quote-mark" aria-hidden="true">“</span>
+              <blockquote>{{ q.quote }}</blockquote>
+              <figcaption><span class="st-avatar" aria-hidden="true">{{ q.initials }}</span><span><strong>{{ q.name }}</strong>{{ q.role }}<br>{{ q.org }}</span></figcaption>
+            </figure>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="st-cta" aria-labelledby="st-next">
+      <div class="st-wrap st-cta-grid">
+        <div>
+          <p class="st-eyebrow"><span aria-hidden="true"></span>NEXT STEPS</p>
+          <h2 id="st-next">Continue Your<br><span>Success Story</span></h2>
+          <p>Discover how WorldPosta can help your organization build a more secure, scalable and connected future.</p>
+          <a class="ds-btn ds-btn--primary" routerLink="/contact">Talk to Our Experts <span aria-hidden="true">→</span></a>
+        </div>
+        <img ngSrc="/worldposta-assets/case-studies/story-cta.webp" width="1194" height="388" alt="" />
+      </div>
+    </section>
+  }
+</main>
+<app-site-footer />

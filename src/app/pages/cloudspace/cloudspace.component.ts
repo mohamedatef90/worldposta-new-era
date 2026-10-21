@@ -39,7 +39,6 @@ export class CloudSpace {
  {name:'Save Time and Costs',copy:'Less tools, more productivity.',icon:faCoins},
  ];
  protected readonly contactStatus = signal('');
- protected readonly newsletterStatus = signal('');
  protected prepareRequest(event: Event): void {
   event.preventDefault();
   const form = event.target as HTMLFormElement;
@@ -48,14 +47,6 @@ export class CloudSpace {
   const body = Array.from(data.entries()).map(([key,value]) => key + ': ' + String(value)).join('\n');
   window.location.href = 'mailto:info@worldposta.com?subject=CloudSpace%20demo%20request&body=' + encodeURIComponent(body);
   this.contactStatus.set('Your email app will open with your request. Send it to contact our team.');
- }
- protected subscribe(event: Event): void {
-  event.preventDefault();
-  const form = event.target as HTMLFormElement;
-  if (!form.reportValidity()) return;
-  const email = String(new FormData(form).get('email'));
-  window.location.href = 'mailto:info@worldposta.com?subject=Newsletter%20subscription&body=' + encodeURIComponent('Please subscribe me to WorldPosta updates: ' + email);
-  this.newsletterStatus.set('Send the subscription request from your email app.');
  }
 }
 
