@@ -1,6 +1,6 @@
 <app-site-header [solid]="true" />
 
-<main class="page" id="main">
+<main class="page" id="main-content" tabindex="-1">
 
   <!-- ================= HERO ================= -->
   <section class="hero" aria-labelledby="hero-heading">
@@ -19,22 +19,24 @@
     <div class="hero__content ds-container" id="top">
       <div class="hero-copy">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Your Partner in Digital Transformation</p>
-        <h1 id="hero-heading">
-          <span>Smarter <span class="text-blue">Cloud</span></span>
+        <h1 id="hero-heading" class="hero-palette">
+          <span>Smarter <span class="text-blue hero-palette-blue">Cloud</span></span>
           <span>for a Stronger</span>
-          <span class="text-green">Business.</span>
+          <span class="text-green hero-palette-green">Business.</span>
         </h1>
         <p class="hero-copy__description">
           Secure, scalable and cost-efficient cloud solutions to power your growth — from communication to infrastructure.
         </p>
 
         <div class="hero-copy__actions">
-          <a class="btn btn--primary" href="#start-free">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-          <a class="btn btn--ghost" href="#talk-to-sales">Talk to an Expert</a>
+          <a class="btn btn--primary" href="https://www.worldposta.com/signup">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--ghost" href="https://www.worldposta.com/contact-us">Talk to an Expert</a>
         </div>
       </div>
     </div>
   </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/cloudedge#cloud-computing">Cloud computing</a><a href="/cloudedge#private-cloud">Private cloud</a><a href="/cloudedge#zero-trust">Security</a><a href="/cloudedge#migration">Migration</a><a href="/cloudedge#pricing">Plans & pricing</a></div></nav>
+
 
   <!-- ================= TRUST BAR ================= -->
   <section class="trust-bar-section">
@@ -94,8 +96,8 @@
           <p class="section-subtitle">Build, deploy and scale with a global cloud platform designed for performance, security and simplicity. Cloud Computing gives you the infrastructure you need — on your terms.</p>
 
           <div class="hero-copy__actions">
-            <a class="btn btn--primary" href="#start-free">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-            <a class="btn btn--ghost" href="#talk-to-sales">Talk to an Expert</a>
+            <a class="btn btn--primary" href="https://www.worldposta.com/signup">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            <a class="btn btn--ghost" href="https://www.worldposta.com/contact-us">Talk to an Expert</a>
           </div>
         </div>
 
@@ -140,7 +142,7 @@
           }
         </ul>
 
-        <a class="btn btn--primary" href="#start-free">Get Your Private Cloud <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+        <a class="btn btn--primary" href="https://www.worldposta.com/signup">Get Your Private Cloud <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
       <div class="split-section__visual pc-visual">
@@ -179,7 +181,7 @@
           }
         </ul>
 
-        <a class="btn btn--primary" href="#start-free">Strengthen Your Cloud Security <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+        <a class="btn btn--primary" href="https://www.worldposta.com/cloud-security-solutions">Strengthen Your Cloud Security <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
       <div class="split-section__visual">
@@ -298,7 +300,7 @@
           }
         </ul>
 
-        <a class="btn btn--primary" href="#start-free">Learn About Migration <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+        <a class="btn btn--primary" href="/seamless-migration">Learn About Migration <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
       <div class="split-section__visual">
@@ -344,7 +346,7 @@
           <p class="section-subtitle">See how organizations are leveraging WorldPosta Cloud to modernize their infrastructure, enhance security and achieve greater efficiency.</p>
         </div>
         <div class="stories-head__actions">
-          <a class="btn btn--outline" href="#case-studies">View All Case Studies <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--outline" href="https://www.worldposta.com/knowledge-base">View All Case Studies <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           <div class="stories-arrows">
             <button type="button" aria-label="Previous story"><fa-icon [icon]="icons.chevronLeft" aria-hidden="true" /></button>
             <button type="button" aria-label="Next story"><fa-icon [icon]="icons.chevronRight" aria-hidden="true" /></button>
@@ -393,7 +395,7 @@
         </div>
 
         <div class="whitepaper-cta">
-          <a class="btn btn--primary" href="#download">Download the White Paper <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--primary" href="https://www.worldposta.com/e-books">Download the White Paper <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           <p class="whitepaper-caption">No registration required</p>
         </div>
       </div>
@@ -427,7 +429,7 @@
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Expert Support</p>
         <h2 id="expert-support-heading" class="section-heading">More Than a Cloud. <span class="text-green block">A Partner at Every Step.</span></h2>
         <p class="section-subtitle">Our cloud experts are with you from design to deployment and beyond, helping you get the most from your infrastructure — securely and efficiently.</p>
-        <a class="btn btn--primary" href="#talk-to-sales">Talk to a Cloud Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+        <a class="btn btn--primary" href="https://www.worldposta.com/contact-us">Talk to a Cloud Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
       <div class="split-section__visual expert-support-visual">
@@ -475,7 +477,7 @@
             </div>
             <p class="pricing-plan__price">{{ plan.price }}<span>/month</span></p>
             <p class="pricing-plan__billing">Billed annually</p>
-            <a class="btn btn--primary btn--block" href="#start-free">Buy Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+            <a class="btn btn--primary btn--block" href="https://www.worldposta.com/signup">Buy Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
             <ul class="pricing-plan__features">
               @for (feature of plan.features; track feature) {
                 <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />{{ feature }}</li>
@@ -511,8 +513,8 @@
           <p class="section-subtitle">Talk to our experts and find the right cloud computing solution for your business.</p>
         </div>
         <div class="final-cta__actions">
-          <a class="btn btn--primary" href="#talk-to-sales">Talk to an Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-          <a class="btn btn--ghost" href="#request-consultation">Request a Consultation</a>
+          <a class="btn btn--primary" href="https://www.worldposta.com/contact-us">Talk to an Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--ghost" href="https://www.worldposta.com/contact-us">Request a Consultation</a>
         </div>
       </div>
     </div>

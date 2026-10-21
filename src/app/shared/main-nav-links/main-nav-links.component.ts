@@ -37,11 +37,11 @@ interface Menu { id:string; label:string; href?:string; allHref?:string; tabs?:C
  .nav-link{display:flex;align-items:center;gap:6px;min-height:44px;padding:10px 12px;color:var(--color-text-secondary);font:inherit;font-size:14px;font-weight:500;white-space:nowrap;background:none;border:0;text-decoration:none;cursor:pointer;border-radius:6px}
  .nav-link:hover,.nav-link[aria-expanded="true"]{background:color-mix(in srgb, var(--color-brand-green) 10%, transparent);color:var(--color-text-primary)}.chevron{width:6px;height:6px;border-right:1.5px solid;border-bottom:1.5px solid;transform:rotate(45deg);margin:-3px 2px 0;transition:transform .2s ease}.nav-link[aria-expanded="true"] .chevron{transform:rotate(225deg);margin-top:2px;color:var(--color-brand-green)}
  .mega-panel{position:absolute;left:0;right:0;top:calc(100% + 8px);display:flex;background:var(--wp-panel);border:1px solid var(--wp-panel-line);border-radius:18px;padding:20px;box-shadow:var(--shadow-lg);color:var(--color-text-primary);max-height:70vh;overflow:auto}
- .mega-categories{width:210px;flex-shrink:0;border-right:1px solid #e3e5dd;padding-right:18px;display:flex;flex-direction:column;gap:5px}
+ .mega-categories{width:210px;flex-shrink:0;border-right:1px solid var(--color-border);padding-right:18px;display:flex;flex-direction:column;gap:5px}
  .mega-categories button,.mega-categories a{border:0;background:none;color:inherit;font:inherit;text-align:left;display:flex;justify-content:space-between;padding:14px;border-radius:9px;cursor:pointer;text-decoration:none;font-size:14px}
- .mega-categories button.active{background:#eaf1df;color:#56872e;font-weight:700}.mega-categories a{margin-top:auto;color:#56872e}.mega-grid{padding-left:18px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px}
- .mega-grid a{display:flex;gap:14px;padding:16px;border-radius:12px;text-decoration:none;color:inherit;min-height:68px}.mega-grid a:hover{background:#edf2e7}.item-symbol{color:#699c3d;background:#eaf1e1;display:grid;place-items:center;width:36px;height:36px;flex-shrink:0;border-radius:9px;font-size:25px}.mega-grid strong{font-size:14px;display:block}.mega-grid small{display:block;font-size:12px;line-height:1.5;color:#6b766d;margin-top:5px}
- :is(button,a):focus-visible{outline:2px solid #699c3d;outline-offset:3px}
+ .mega-categories button.active{background:var(--color-bg-tertiary);color:var(--wp-green);font-weight:700}.mega-categories a{margin-top:auto;color:var(--wp-green)}.mega-grid{padding-left:18px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+ .mega-grid a{display:flex;gap:14px;padding:16px;border-radius:12px;text-decoration:none;color:inherit;min-height:68px}.mega-grid a:hover{background:var(--color-bg-tertiary)}.item-symbol{color:var(--wp-green);background:var(--color-bg-tertiary);display:grid;place-items:center;width:36px;height:36px;flex-shrink:0;border-radius:9px;font-size:25px}.mega-grid strong{font-size:14px;display:block}.mega-grid small{display:block;font-size:12px;line-height:1.5;color:var(--color-text-secondary);margin-top:5px}
+ :is(button,a):focus-visible{outline:2px solid var(--wp-blue);outline-offset:3px}
  .is-mobile .nav-link{width:100%;justify-content:space-between;font-size:16px;padding:12px}.is-mobile .mega-panel{position:static;display:block;padding:10px;box-shadow:none;max-height:none}.is-mobile .mega-categories{width:100%;border:0;padding:0;flex-direction:row;flex-wrap:wrap}.is-mobile .mega-categories button{gap:10px}.is-mobile .mega-grid{padding:0;grid-template-columns:1fr}.is-mobile .mega-grid a{padding:12px}.is-mobile{width:100%}
  `]
 })
@@ -256,7 +256,7 @@ export class MainNavLinksComponent {
   {
     "id": "pricing",
     "label": "Pricing",
-    "href": "#pricing"
+    "href": "/cloudedge#pricing"
   },
   {
     "id": "our-story",
@@ -266,7 +266,7 @@ export class MainNavLinksComponent {
   {
     "id": "docs",
     "label": "Resources",
-    "href": "/knowledge-base"
+    "href": "/posta#resources"
   }
 ];
  protected readonly menus:Menu[]=this.topLevelMenus();

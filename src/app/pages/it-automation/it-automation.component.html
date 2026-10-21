@@ -1,10 +1,10 @@
 <app-site-header #header [solid]="true"><app-main-nav-links nav-links /><app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" /></app-site-header>
-<main>
+<main id="main-content" tabindex="-1">
   <section class="automation-hero" aria-labelledby="automation-title">
     <div class="automation-art"><img ngSrc="/worldposta-assets/it-automation-hero-reference.jpeg" width="1600" height="669" priority alt="IT specialist using a laptop with connected Automate Workflows, Manage Infrastructure, Enforce Policies and Real-Time Monitoring cards. IT Automation dashboard: Automation Jobs 124, +18%; Systems Managed 56, +24%; Compliance Status 98%, +12%." /></div>
     <div class="automation-wrap"><div class="automation-copy">
       <p class="automation-eyebrow"><span aria-hidden="true"></span>IT SOFTWARE AUTOMATION TOOLS</p>
-      <h1 id="automation-title">Automate IT.<br>Simplify <span class="automation-title-blue">Operations</span>.<br><span>Focus on What Matters.</span></h1>
+      <h1 id="automation-title" class="hero-palette">Automate IT.<br>Simplify <span class="automation-title-blue hero-palette-blue">Operations.</span><br><span class="hero-palette-green">Focus on What Matters.</span></h1>
       <p class="automation-lead">Enterprise IT automation tools to streamline operations, reduce manual effort, improve efficiency and keep your IT environment secure, scalable and always on.</p>
       <div class="automation-actions"><a class="automation-primary ds-btn ds-btn--primary" href="https://www.worldposta.com/signup">Get Started <span aria-hidden="true">→</span></a><a class="automation-secondary ds-btn ds-btn--secondary" href="/it-software-automation-tools#automation-contact">Talk to an Expert <span aria-hidden="true">→</span></a></div>
       <ul class="automation-benefits">
@@ -14,6 +14,8 @@
       </ul>
     </div></div>
   </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/it-software-automation-tools#automation-coverage-title">Capabilities</a><a href="/it-software-automation-tools#automation-process-title">How it works</a><a href="/it-software-automation-tools#automation-platform-title">Platform</a><a href="/it-software-automation-tools#automation-industries-title">Industries</a><a href="/it-software-automation-tools#automation-contact">Talk to an expert</a></div></nav>
+
   <section class="automation-coverage" aria-labelledby="automation-coverage-title">
 
     <div class="automation-coverage-wrap">
@@ -57,7 +59,7 @@
     <div class="platform-wrap">
       <header class="platform-heading"><p class="automation-eyebrow"><span aria-hidden="true"></span>AUTOMATION CAPABILITIES</p><h2 id="automation-platform-title"><span>Automate the Work.</span> Not the Thinking.</h2><p>From infrastructure and deployments to monitoring, security and customer support,<br>WPSYS turns repetitive IT work into intelligent, scalable workflows.</p></header>
       <div class="platform-map">
-        <div class="platform-console"><img ngSrc="/worldposta-assets/it-automation-capabilities-reference.jpg" width="1600" height="669" alt="WPSYS automation dashboard. Overview, Automations, Workflows, Monitoring, Security and Reports. Trigger: Events & Conditions. Automate: Run Workflows. Monitor: Track Performance. Optimize: Continuous Improvement. Automation Health: Running." /></div>
+        <div class="platform-console native-product-art"><app-product-visual kind="automation" /></div>
         @for (item of platformCapabilities; track item.title) {
           <article [class]="'platform-card platform-card-' + item.position + ' tone-' + item.tone">
             <span class="platform-status" aria-hidden="true"></span>

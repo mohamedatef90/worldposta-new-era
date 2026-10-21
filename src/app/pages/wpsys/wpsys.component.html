@@ -2,7 +2,7 @@
   <app-main-nav-links nav-links />
   <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
 </app-site-header>
-<main>
+<main id="main-content" tabindex="-1">
   <section class="wpsys-hero" aria-labelledby="wpsys-title">
     <div class="wpsys-art"><img ngSrc="/worldposta-assets/wpsys-hero-reference.avif" width="1600" height="800" priority alt="WPSYS IT Solutions surrounded by cloud operations, IT automation, cybersecurity, expert support and SAP operations, beside an IT specialist working on a laptop" /></div>
     <div class="wpsys-wrap">
@@ -19,6 +19,8 @@
       </ul>
     </div>
   </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/wpsys#wpsys-services">Service overview</a><a href="/wpsys#wpsys-approach">Our approach</a><a href="/wpsys#wpsys-contact">Talk to an expert</a></div></nav>
+
   <section class="wpsys-process" id="wpsys-approach" aria-labelledby="wpsys-process-title">
     <div class="wpsys-wrap">
       <p class="process-eyebrow"><span aria-hidden="true"></span>HOW WPSYS HELPS YOU</p>

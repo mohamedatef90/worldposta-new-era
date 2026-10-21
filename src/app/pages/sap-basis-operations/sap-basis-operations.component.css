@@ -97,7 +97,7 @@
 .consultation-sr-only { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 .consultation-full { grid-column:1 / -1; }
 .consultation-fields label > svg { position:absolute; left:13px; top:12px; width:16px; height:16px; fill:none; stroke:var(--consult-muted); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; }
-.consultation-fields:is(input, select, textarea) { display:block; box-sizing:border-box; width:100%; min-height:41px; margin:0; padding:10px 10px 10px 42px; border:1px solid var(--consult-border); border-radius:var(--radius-md); background:transparent; color:var(--consult-muted); font:inherit; font-size:clamp(10px, .78vw, 12.5px); }
+.consultation-fields :is(input, select, textarea) { display:block; box-sizing:border-box; width:100%; min-height:41px; margin:0; padding:10px 10px 10px 42px; border:1px solid var(--consult-border); border-radius:var(--radius-md); background:transparent; color:var(--consult-muted); font:inherit; font-size:clamp(10px, .78vw, 12.5px); }
 .consultation-fields input::placeholder, .consultation-fields textarea::placeholder { color:var(--consult-muted); opacity:1; }
 .consultation-fields select { padding-right:20px; cursor:pointer; }
 .consultation-fields textarea { min-height:92px; line-height:1.6; resize:vertical; }
@@ -120,7 +120,7 @@
   .consultation-points h3 { font-size:13px; }
   .consultation-trust { gap:10px; flex-wrap:wrap; margin-top:26px; }
   .consultation-trust-item { padding-left:10px; }
-  .consultation-fields:is(input, select, textarea) { font-size:var(--fs-caption); }
+  .consultation-fields :is(input, select, textarea) { font-size:var(--fs-caption); }
 }
 @media (max-width:760px) {
   .consultation-layout { grid-template-columns:1fr; gap:var(--space-lg); }

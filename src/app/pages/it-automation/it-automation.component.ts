@@ -1,3 +1,4 @@
+import { ProductVisualComponent } from '@/shared/product-visual/product-visual.component';
 import { Component, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
@@ -5,7 +6,7 @@ import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.co
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 
 @Component({
-  imports: [NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
+  imports: [ProductVisualComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
   templateUrl: './it-automation.component.html',
   styleUrl: './it-automation.component.css',
 })

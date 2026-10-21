@@ -172,13 +172,13 @@ export class CloudEdgeComponent {
 
   /** The "also part of the WorldPosta ecosystem" strip, just under the hero — CloudEdge's own managed-services lineup. */
   protected readonly ecosystemTiles: readonly EcosystemTile[] = [
-    { label: 'Database as a Service', href: '#database', colorClass: 'tile--sky', icon: faDatabase },
-    { label: 'Kubernetes as a Service', href: '#kubernetes', colorClass: 'tile--green', icon: faDharmachakra },
-    { label: 'Object Storage as a Service', href: '#object-storage', colorClass: 'tile--purple', icon: faCloud },
-    { label: 'Posta Identity as a Service', href: '#identity', colorClass: 'tile--green', icon: faUser },
-    { label: 'Backup as a Service', href: '#backup', colorClass: 'tile--sky', icon: faClockRotateLeft },
-    { label: 'Veeam Cloud Connect', href: '#veeam', colorClass: 'tile--amber', icon: faCloudArrowUp },
-    { label: 'SAP Cloud Solutions', href: '#sap', colorClass: 'tile--sky', logo: '/worldposta-assets/brand-logos/partners/sap.svg' },
+    { label: 'Database as a Service', href: '#cloud-computing', colorClass: 'tile--sky', icon: faDatabase },
+    { label: 'Kubernetes as a Service', href: '#cloud-computing', colorClass: 'tile--green', icon: faDharmachakra },
+    { label: 'Object Storage as a Service', href: '#cloud-computing', colorClass: 'tile--purple', icon: faCloud },
+    { label: 'Posta Identity as a Service', href: '#zero-trust', colorClass: 'tile--green', icon: faUser },
+    { label: 'Backup as a Service', href: '#expert-support', colorClass: 'tile--sky', icon: faClockRotateLeft },
+    { label: 'Veeam Cloud Connect', href: 'https://www.worldposta.com/veeam-cloud-connect', colorClass: 'tile--amber', icon: faCloudArrowUp },
+    { label: 'SAP Cloud Solutions', href: '/sap', colorClass: 'tile--sky', logo: '/worldposta-assets/brand-logos/partners/sap.svg' },
   ];
 
   /** The five benefit chips shown both under the CTAs and floating over the hero photo. */
@@ -231,13 +231,13 @@ export class CloudEdgeComponent {
   // ============================================================
   protected readonly sidebarLinks: readonly SidebarLink[] = [
     { icon: faCloud, label: 'Cloud Computing', href: '#cloud-computing', active: true },
-    { icon: faServer, label: 'Virtual Machines', href: '#virtual-machines' },
-    { icon: faDharmachakra, label: 'Kubernetes', href: '#kubernetes-service' },
-    { icon: faDatabase, label: 'Storage', href: '#storage-service' },
-    { icon: faNetworkWired, label: 'Networking', href: '#networking-service' },
-    { icon: faShieldHalved, label: 'Backup & DR', href: '#backup-dr-service' },
-    { icon: faLock, label: 'Security', href: '#security-service' },
-    { icon: faChartColumn, label: 'Monitoring', href: '#monitoring-service' },
+    { icon: faServer, label: 'Virtual Machines', href: '#cloud-computing' },
+    { icon: faDharmachakra, label: 'Kubernetes', href: '#cloud-computing' },
+    { icon: faDatabase, label: 'Storage', href: '#cloud-computing' },
+    { icon: faNetworkWired, label: 'Networking', href: '#private-cloud' },
+    { icon: faShieldHalved, label: 'Backup & DR', href: '#expert-support' },
+    { icon: faLock, label: 'Security', href: '#zero-trust' },
+    { icon: faChartColumn, label: 'Monitoring', href: '#expert-support' },
   ];
 
   protected readonly cloudComputingTrust: readonly StatTile[] = [

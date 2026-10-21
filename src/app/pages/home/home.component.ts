@@ -109,13 +109,13 @@ export class Home {
   ];
 
   protected readonly ecosystemTiles: readonly EcosystemTile[] = [
-    { icon: faEnvelope, label: 'Business Email', href: '#email', colorClass: 'tile--green' },
-    { icon: faMessage, label: 'Team Chat', href: '#chat', colorClass: 'tile--purple' },
-    { icon: faVideo, label: 'Conferencing', href: '#conferencing', colorClass: 'tile--teal' },
-    { icon: faCalendarDays, label: 'Calendar', href: '#calendar', colorClass: 'tile--pink' },
-    { icon: faFolderOpen, label: 'Files & Storage', href: '#storage', colorClass: 'tile--amber' },
-    { icon: faNoteSticky, label: 'Notes', href: '#notes', colorClass: 'tile--sky' },
-    { icon: faGauge, label: 'Dashboard', href: '#dashboard', colorClass: 'tile--indigo' },
-    { icon: faUsers, label: 'Team Management', href: '#teams', colorClass: 'tile--rose' },
+    { icon: faEnvelope, label: 'Business Email', href: '/posta', colorClass: 'tile--green' },
+    { icon: faMessage, label: 'Team Chat', href: '/link', colorClass: 'tile--purple' },
+    { icon: faVideo, label: 'Conferencing', href: '/link', colorClass: 'tile--teal' },
+    { icon: faCalendarDays, label: 'Calendar', href: '/cloudspace', colorClass: 'tile--pink' },
+    { icon: faFolderOpen, label: 'Files & Storage', href: '/drive', colorClass: 'tile--amber' },
+    { icon: faNoteSticky, label: 'Notes', href: '/cloudspace', colorClass: 'tile--sky' },
+    { icon: faGauge, label: 'Dashboard', href: '/cloudspace', colorClass: 'tile--indigo' },
+    { icon: faUsers, label: 'Team Management', href: '/link', colorClass: 'tile--rose' },
   ];
 }

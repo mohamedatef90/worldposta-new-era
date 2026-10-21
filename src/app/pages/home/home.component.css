@@ -186,3 +186,8 @@ h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { colo
 /* Keep decorative artwork inside the mobile page; nested tables remain scrollable. */
 :host{display:block;overflow-x:clip}
 
+
+/* Keep the complete product screenshot sharp and in its original proportions. */
+.console-shell{aspect-ratio:auto;transform:none}
+.console-shell img{width:100%;height:auto;object-fit:contain}
+@media(max-width:639px){.console-shell img{height:auto;min-height:0;object-fit:contain;object-position:center}}

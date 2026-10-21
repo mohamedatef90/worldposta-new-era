@@ -305,10 +305,92 @@ html { scroll-padding-top: 96px; }
 /* Set while the mobile nav drawer is open, so the page behind it cannot scroll. */
 body.nav-open { overflow: hidden; }
 
-/* Shared hero palette matching CloudEdge. */
+/* ============================================================
+   SHARED HERO SYSTEM
+   Every product page opens with `main > section:first-of-type`.
+   These rules give all of them the same headline palette (ink → blue →
+   green, as on the home page), type scale, eyebrow and CTA treatment,
+   so the site reads as one product family.
+   ============================================================ */
+
+/* Headline palette — ink → blue → green, matching the home page. */
 .hero-palette{color:var(--wp-ink)!important}
 .hero-palette .hero-palette-blue{color:var(--wp-blue)!important}
 .hero-palette .hero-palette-green{color:var(--wp-green)!important}
+
+/* One headline scale for every hero. */
+main > section:first-of-type h1.hero-palette{
+  font-family:var(--font-heading)!important;
+  font-size:clamp(36px,3.75vw,56px)!important;
+  font-weight:700!important;
+  line-height:1.02!important;
+  letter-spacing:-0.035em!important;
+  text-wrap:balance;
+}
+main > section:first-of-type h1.hero-palette :is(strong,b){font-weight:inherit}
+@media (max-width:639px){
+  main > section:first-of-type h1.hero-palette{font-size:clamp(34px,9.6vw,44px)!important;letter-spacing:-0.03em!important;line-height:1.06!important}
+}
+
+/* Hero eyebrow label above the headline. */
+main > section:first-of-type :is(.eyebrow,.link-eyebrow,.process-eyebrow,.basis-eyebrow,.portal-eyebrow,.automation-eyebrow,.soc-eyebrow,.story-eyebrow):has(+ h1){
+  font-size:12px!important;
+  font-weight:600!important;
+  letter-spacing:0.2em!important;
+  text-transform:uppercase;
+}
+
+/* Hero calls-to-action — same size, shape and colours on every page. */
+main > section:first-of-type :is(.primary-cta,.btn--primary,.button,.primary,.link-primary,.wpsys-primary,.drive-start,.basis-cta,.ds-btn--primary,.story-cta),
+main > section:first-of-type :is(.secondary-cta,.btn--ghost,.outline,.secondary,.link-actions > button,.wpsys-secondary,.drive-more,.ds-btn--secondary){
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  min-height:48px!important;
+  height:auto!important;
+  padding:12px 28px!important;
+  border-radius:9999px!important;
+  font-family:var(--font-body)!important;
+  font-size:15px!important;
+  font-weight:600!important;
+  line-height:1.2!important;
+  text-decoration:none!important;
+  white-space:nowrap;
+  box-sizing:border-box;
+  transition:background-color .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease,transform .2s ease!important;
+}
+main > section:first-of-type :is(.primary-cta,.btn--primary,.button,.primary,.link-primary,.wpsys-primary,.drive-start,.basis-cta,.ds-btn--primary,.story-cta){
+  background:var(--wp-green)!important;
+  border:1px solid var(--wp-green)!important;
+  color:#fff!important;
+  box-shadow:0 8px 20px -10px color-mix(in srgb,var(--wp-green) 70%,transparent)!important;
+}
+main > section:first-of-type :is(.primary-cta,.btn--primary,.button,.primary,.link-primary,.wpsys-primary,.drive-start,.basis-cta,.ds-btn--primary,.story-cta):hover{
+  background:color-mix(in srgb,var(--wp-green) 86%,#000)!important;
+  border-color:color-mix(in srgb,var(--wp-green) 86%,#000)!important;
+  transform:translateY(-1px);
+}
+main > section:first-of-type :is(.secondary-cta,.btn--ghost,.outline,.secondary,.link-actions > button,.wpsys-secondary,.drive-more,.ds-btn--secondary){
+  background:var(--wp-panel)!important;
+  border:1px solid var(--wp-panel-line)!important;
+  color:var(--wp-ink)!important;
+  box-shadow:none!important;
+}
+main > section:first-of-type :is(.secondary-cta,.btn--ghost,.outline,.secondary,.link-actions > button,.wpsys-secondary,.drive-more,.ds-btn--secondary):hover{
+  border-color:var(--wp-green)!important;
+  color:var(--wp-green)!important;
+}
+main > section:first-of-type :is(.primary-cta,.btn--primary,.button,.primary,.link-primary,.wpsys-primary,.drive-start,.basis-cta,.ds-btn--primary,.story-cta,.secondary-cta,.btn--ghost,.outline,.secondary,.link-actions > button,.wpsys-secondary,.drive-more,.ds-btn--secondary):focus-visible{
+  outline:2px solid var(--wp-blue)!important;
+  outline-offset:3px!important;
+}
+@media (max-width:540px){
+  main > section:first-of-type :is(.primary-cta,.btn--primary,.button,.primary,.link-primary,.wpsys-primary,.drive-start,.basis-cta,.ds-btn--primary,.story-cta,.secondary-cta,.btn--ghost,.outline,.secondary,.link-actions > button,.wpsys-secondary,.drive-more,.ds-btn--secondary){width:100%;white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  main > section:first-of-type :is(a,button):hover{transform:none!important}
+}
 
 /* Readable marketing content. */
 :is(.operations-grid,.operation-outcome,.sap-services-grid,.partner-strengths,.partner-advantage,.success-card-copy,.contact-outcomes,.benefit-card,.workflow-features,.trial-perks,.final-highlights,.consultation-benefits,.process-steps,.process-metrics,.drive-benefits,.feature-text,.collaboration-steps,.collaboration-outcomes,.global-workflow,.trial-outcomes,.managed-card,.audience-content,.basis-risk-grid,.coverage-card,.proactive-steps,.proactive-benefits,.value-benefits,.consultation-points) p{font-size:max(1rem,16px)!important;line-height:1.5!important}
@@ -319,3 +401,90 @@ main > section:not(:first-of-type):not(.ecosystem-strip-section):not(.trust-bar-
 
 .polished-icon{width:28px!important;height:28px!important;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 :is(.form-note,.form-status,.trial-note,.trial-terms,.final-note,.contact-note,.consultation-note,.trial-form-note,.team-use-note,.link-features p,.consultation-trust span,.global-activity li>span:nth-child(2),.global-activity small){font-size:14px!important;line-height:1.5!important}
+
+/* Marketing polish: one brand gradient and one navigation rhythm. */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  main > section:first-of-type h1.hero-palette {
+    background-image: linear-gradient(155deg, var(--wp-ink) 5%, var(--wp-blue) 48%, var(--wp-green) 92%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: .08em;
+  }
+  main > section:first-of-type h1.hero-palette :is(span, strong, b) {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit;
+  }
+}
+.page-jump-nav {
+  position: relative;
+  z-index: 3;
+  background: var(--wp-panel);
+  border-block: 1px solid var(--color-border);
+  font-family: var(--font-body);
+}
+.page-jump-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.8vw, 28px);
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 8px clamp(20px, 5.2vw, 80px);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.page-jump-nav__label { color: var(--color-text-muted); font-size: 12px; white-space: nowrap; }
+.page-jump-nav a {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding-inline: 8px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.page-jump-nav a:hover { color: var(--wp-blue); border-bottom-color: currentColor; }
+.page-jump-nav a:focus-visible { outline: 2px solid var(--wp-blue); outline-offset: 2px; border-radius: 4px; }
+main :is(section, h2, ul)[id] { scroll-margin-top: 100px; }
+main h2 { text-wrap: balance; }
+main :is(input, select, textarea) { max-width: 100%; box-sizing: border-box; }
+main :is(input, select, textarea):focus-visible { outline: 2px solid var(--wp-blue); outline-offset: 3px; }
+main :is(p, li) { overflow-wrap: break-word; }
+.skip-to-content {
+  position: fixed; top: 8px; left: 16px; z-index: 1000;
+  padding: 12px 20px; border-radius: var(--radius-md);
+  background: var(--wp-panel); color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg); transform: translateY(-160%);
+}
+.skip-to-content:focus { transform: translateY(0); outline: 2px solid var(--wp-blue); }
+@media (max-width: 639px) {
+  .page-jump-nav__label { display: none; }
+  .page-jump-nav__inner { gap: 12px; padding-inline: 16px; }
+  main > section:first-of-type h1.hero-palette { overflow-wrap: normal; }
+  main :is(input, select, textarea) { font-size: 16px; }
+}
+@media (forced-colors: active) {
+  main > section:first-of-type h1.hero-palette { background: none; color: CanvasText !important; -webkit-text-fill-color: CanvasText; }
+}
+
+/* This photographic hero keeps a light canvas in both themes. */
+:root { --wp-photo-title-ink: #071c4c; --wp-photo-title-blue: #1374ea; --wp-photo-title-green: #56822f; }
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  main > section.story-hero:first-of-type h1.hero-palette {
+    background-image: linear-gradient(155deg, var(--wp-photo-title-ink) 5%, var(--wp-photo-title-blue) 48%, var(--wp-photo-title-green) 92%);
+  }
+}
+html { scroll-padding-top: 96px; }
+
+/* Presentation QA: content stays visible during fast scrolling and anchor jumps. */
+main .reveal{opacity:1!important;transform:none!important}
+main img{image-rendering:auto}
+main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea){min-height:44px;font-size:14px;line-height:1.5}
+main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea):not(:disabled){color:var(--color-text-primary)}
+@media(max-width:639px){main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea){font-size:16px}}
+@media(prefers-reduced-motion:reduce){main .reveal{transition:none!important}}
+@media(max-width:639px){main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea){font-size:16px!important;min-height:44px!important}}

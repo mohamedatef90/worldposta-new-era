@@ -81,3 +81,6 @@
 @media(max-width:639px){.site-header-bar{padding:0}.site-header{max-width:none;padding:8px 16px}.brand img{width:120px}}
 
 .header-cta{white-space:nowrap;flex-shrink:0}.header-actions{flex-shrink:0;gap:12px}@media(min-width:1200px) and (max-width:1399px){.site-header{gap:8px}.site-nav{gap:0}.header-cta{padding:12px 16px}.header-actions{gap:10px}}
+
+/* Preserve the supplied logo’s intrinsic proportions at every breakpoint. */
+.brand img{height:auto;object-fit:contain}

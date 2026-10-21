@@ -1913,3 +1913,5 @@ button, input, select { font-family:inherit; }
   .hero-bridge::after { right:37px; }
 }
 #resources.section{padding-block:var(--wp-section-pad)!important}
+
+.hero-man img{object-fit:contain}

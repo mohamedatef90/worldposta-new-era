@@ -10,7 +10,7 @@
         Compare WorldPosta with leading cloud providers side by side, and see what fits your
         specific needs.
       </p>
-      <a class="btn-primary" href="#compare">
+      <a class="btn-primary" href="/cloudedge#compare-providers">
         Compare Providers
         <fa-icon [icon]="arrowRight" aria-hidden="true" />
       </a>
@@ -64,7 +64,7 @@
             <td></td>
             @for (provider of providers; track provider.name) {
               <td [class.compare-col--us]="provider.us">
-                <a class="compare-link" href="#learn-more">
+                <a class="compare-link" href="/cloudedge">
                   Learn more
                   <fa-icon [icon]="arrowRight" aria-hidden="true" />
                   <span class="sr-only">about {{ provider.name }}</span>
