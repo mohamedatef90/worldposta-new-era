@@ -191,3 +191,92 @@ h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { colo
 .console-shell{aspect-ratio:auto;transform:none}
 .console-shell img{width:100%;height:auto;object-fit:contain}
 @media(max-width:639px){.console-shell img{height:auto;min-height:0;object-fit:contain;object-position:center}}
+
+/* ============================================================
+   Hero — Posta phone
+
+   Overlaps the console's bottom-right corner so the collaboration
+   product reads as part of the same platform as the infrastructure.
+   Decorative: the whole phone is one role="img" with a label. Kept
+   flat to match the untilted console above.
+   ============================================================ */
+.hero-visual { padding-right:42px; padding-bottom:52px; }
+.floating-card--cloud { right:auto; bottom:-12px; left:84px; }
+.floating-card--security { top:34%; }
+
+.posta-phone {
+  position:absolute;
+  z-index:3;
+  right:-18px;
+  bottom:10px;
+  width:clamp(148px, 13vw, 166px);
+  aspect-ratio:.51;
+  overflow:hidden;
+  border:6px solid var(--wp-console-frame);
+  border-radius:24px;
+  background:var(--wp-console-chrome);
+  box-shadow:var(--wp-console-shadow);
+}
+.posta-phone__screen { position:relative; overflow:hidden; height:100%; border-radius:17px; background:#fbfcfe; color:#111827; font-family:var(--font-body); }
+.posta-phone__status { display:flex; height:29px; align-items:center; justify-content:space-between; padding:4px 15px 0; font-size:7px; font-weight:800; }
+.posta-phone__signals { display:flex; align-items:end; gap:2px; }
+.posta-phone__signals i { display:block; width:2px; border-radius:1px; background:currentColor; }
+.posta-phone__signals i:nth-child(1) { height:3px; }.posta-phone__signals i:nth-child(2) { height:5px; }.posta-phone__signals i:nth-child(3) { height:7px; }
+.posta-phone__topbar { display:grid; height:34px; grid-template-columns:24px 1fr 24px; align-items:center; padding:0 10px; border-bottom:1px solid #e7eaf0; }
+.posta-phone__menu { color:#687181; font-size:13px; line-height:1; }
+.posta-phone__brand { display:inline-flex; align-items:center; justify-content:center; gap:5px; font-size:9px; font-weight:800; }
+.posta-phone__brand img { display:block; width:15px; height:16px; filter:drop-shadow(0 2px 3px rgba(33, 67, 215, .22)); }
+.posta-phone__avatar { display:grid; width:18px; height:18px; place-items:center; justify-self:end; border-radius:50%; color:#fff; background:#8d62df; font-size:7px; font-weight:800; }
+/* The count pill sits on the eyebrow row, so the title keeps the full width
+   whatever the body font's metrics. */
+.posta-phone__heading { display:grid; grid-template-columns:1fr auto; align-items:center; gap:2px 6px; padding:10px 13px 9px; }
+.posta-phone__heading > span { color:#2143d7; font-size:6px; font-weight:900; letter-spacing:.7px; }
+.posta-phone__heading strong { grid-column:1 / -1; font-size:13px; line-height:1.05; }
+.posta-phone__heading small { padding:3px 5px; border:1px solid #e1e6ee; border-radius:7px; color:#687181; font-size:6px; }
+.posta-phone__filters { display:flex; gap:10px; padding:0 13px 8px; border-bottom:1px solid #e5e9f0; color:#7a8290; font-size:6px; }
+.posta-phone__filters strong { position:relative; color:#2143d7; }
+.posta-phone__filters strong::after { position:absolute; right:0; bottom:-9px; left:0; height:2px; border-radius:2px; background:currentColor; content:''; }
+.posta-phone__messages article { display:grid; grid-template-columns:24px 1fr; gap:7px; min-height:54px; padding:8px 9px; border-bottom:1px solid #edf0f4; }
+.posta-phone__messages article:first-child { background:#eef5ff; box-shadow:inset 2px 0 #2143d7; }
+/* 144px sprite (2x2 faces) shown at 48px, so it stays sharp on 3x screens. */
+.posta-phone__messages .avatar { display:block; width:24px; height:24px; border:1px solid rgba(17, 24, 39, .08); border-radius:50%; background:url('/worldposta-assets/hero/posta/posta-avatar-sprite.avif') no-repeat; background-size:48px 48px; box-shadow:0 2px 5px rgba(17, 24, 39, .12); }
+.avatar--ahmed { background-position:0 0; }
+.avatar--sarah { background-position:-24px 0; }
+.avatar--platform { background-position:0 -24px; }
+.avatar--layla { background-position:-24px -24px; }
+.posta-phone__messages article > span { min-width:0; }
+.posta-phone__messages strong, .posta-phone__messages b, .posta-phone__messages small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.posta-phone__messages strong { margin-bottom:3px; font-size:7px; }
+.posta-phone__messages time { float:right; color:#2143d7; font-size:5px; font-weight:700; }
+.posta-phone__messages span > b { margin-bottom:3px; font-size:6.5px; }
+.posta-phone__messages small { color:#838b99; font-size:5.5px; line-height:1.35; }
+.posta-phone__dock { position:absolute; right:11px; bottom:8px; left:11px; display:flex; height:30px; align-items:center; justify-content:space-around; border:1px solid #e2e7ee; border-radius:14px; background:rgba(255, 255, 255, .92); box-shadow:0 6px 15px rgba(23, 34, 58, .12); color:#8b93a1; font-size:8px; backdrop-filter:blur(8px); }
+.posta-phone__dock .active { display:grid; width:24px; height:20px; place-items:center; border-radius:10px; color:#fff; background:#2143d7; }
+
+/* The phone follows the site theme, using Posta's own dark palette. */
+:host-context([data-theme='dark']) .posta-phone__screen { background:#09111f; color:#f4f7fb; }
+:host-context([data-theme='dark']) .posta-phone__topbar,
+:host-context([data-theme='dark']) .posta-phone__filters { border-bottom-color:#243044; }
+:host-context([data-theme='dark']) .posta-phone__menu,
+:host-context([data-theme='dark']) .posta-phone__filters { color:#97a3b7; }
+:host-context([data-theme='dark']) .posta-phone__heading small { border-color:#2c3b51; color:#aab4c6; background:#101b2c; }
+:host-context([data-theme='dark']) .posta-phone__messages article { border-bottom-color:#202c3f; }
+:host-context([data-theme='dark']) .posta-phone__messages article:first-child { background:#11233d; box-shadow:inset 2px 0 #5f83ff; }
+:host-context([data-theme='dark']) .posta-phone__messages small { color:#94a0b4; }
+:host-context([data-theme='dark']) .posta-phone__messages time,
+:host-context([data-theme='dark']) .posta-phone__filters strong,
+:host-context([data-theme='dark']) .posta-phone__heading > span { color:#7fa2ff; }
+:host-context([data-theme='dark']) .posta-phone__dock { border-color:#2a374b; background:rgba(13, 23, 39, .94); color:#98a5b8; }
+
+/* Tablet: the visual spans the container, so an overhang would be clipped by the viewport. */
+@media (max-width:1023px) { .posta-phone { right:0; } }
+
+/* Phones: the phone shrinks and the availability card moves to the
+   bottom-left so the two never stack on the same corner. */
+@media (max-width:639px) {
+  .hero-visual { padding:0 28px 64px 0; }
+  /* Scaled rather than narrowed: the inbox is laid out in fixed px, so a
+     narrower box would crop it instead of shrinking it. */
+  .posta-phone { right:0; bottom:0; width:148px; scale:.7; transform-origin:bottom right; }
+  .floating-card--security { top:auto; right:auto; bottom:12px; left:0; }
+}
