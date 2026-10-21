@@ -57,3 +57,42 @@
 @media(max-width:850px){.portal-contact-wrap{grid-template-columns:minmax(0,1fr);gap:var(--space-xl)}.portal-contact-art{width:100%;max-width:650px}.portal-contact-submit{flex-direction:row;align-items:center}}
 @media(max-width:540px){.portal-contact-fields{grid-template-columns:minmax(0,1fr)}.portal-contact-form{padding:var(--space-lg) var(--space-md)}.portal-contact h2{font-size:var(--fs-h2)}.portal-contact-benefits{grid-template-columns:minmax(0,1fr);gap:var(--space-lg)}.portal-contact-benefits li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:var(--space-md)}.portal-contact-benefits .portal-icon{margin:0}.portal-contact-submit{flex-direction:column;align-items:stretch}}
 
+
+/* Native interfaces replace heavily enlarged reference-image crops. */
+.portal-platform-art.native-product-art,.portal-modules-art.native-product-art{aspect-ratio:auto;overflow:visible;background:none;border:0;box-shadow:none;min-width:0}
+.portal-platform-art.native-product-art{grid-column:2;grid-row:1;max-width:100%;width:100%}
+.portal-platform-heading{grid-column:1;grid-row:1}
+.portal-modules-art.native-product-art{margin-top:28px}
+.portal-modules-art .native-product-art{width:100%}
+.module-interface{margin-top:auto;padding:14px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg-primary);min-height:160px;color:var(--color-text-primary);font-size:12px}
+.module-interface>small{display:block;color:var(--color-text-secondary);font-size:10px;margin-bottom:12px}
+.mini-field{font-size:10px;color:var(--color-text-secondary);margin-bottom:8px}.mini-field span{display:block;padding:8px;margin-top:4px;border:1px solid var(--color-border);border-radius:5px;color:var(--color-text-primary);font-size:11px}
+.mini-action{display:block;padding:7px;text-align:center;border-radius:5px;background:var(--wp-blue);color:var(--wp-on-brand);font-size:11px}
+.mini-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;font-size:11px}.mini-row+.mini-row{border-top:1px solid var(--color-border)}.mini-row b{font-size:10px;font-weight:600;color:var(--wp-green)}
+.mini-security{display:flex;align-items:center;gap:12px;min-height:115px}.mini-security svg{width:68px;flex-shrink:0;fill:none;stroke:var(--wp-green);stroke-width:3;stroke-linecap:round}.mini-ring-track{stroke:var(--color-border)}.mini-ring{stroke-dasharray:142 157;transform:rotate(-90deg);transform-origin:center}.mini-security b{font-size:12px}.mini-security small{display:block;font-size:11px;line-height:1.8;margin-top:8px;color:var(--color-text-secondary)}
+.mini-steps{display:flex;justify-content:space-between;gap:8px;padding-block:14px;font-size:10px;color:var(--wp-blue)}.mini-progress{height:8px;border-radius:8px;background:var(--color-bg-tertiary);overflow:hidden}.mini-progress span{display:block;width:75%;height:100%;background:var(--wp-green)}.module-interface p{font-size:11px;line-height:1.5;color:var(--color-text-secondary);margin:14px 0 0}.mini-integrations{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mini-integrations span{padding:11px 6px;text-align:center;border:1px solid var(--color-border);border-radius:6px;background:var(--color-bg-tertiary);color:var(--wp-blue);font-weight:600;font-size:11px}
+@media(max-width:850px){.portal-platform-heading,.portal-platform-art.native-product-art{grid-column:1;grid-row:auto}.portal-platform-grid,.portal-platform-outcomes{grid-row:auto}.portal-modules-art.native-product-art{display:none}}
+.mini-row b{color:var(--color-text-primary)}
+
+
+/* Full, uncropped visuals: each box uses a dedicated image cropped to the
+   visual itself and shown at its natural aspect ratio (nothing cut off). */
+main .portal-art { aspect-ratio: 817 / 669; }
+main .portal-overview-art { aspect-ratio: 772 / 625; }
+main .portal-business-art { aspect-ratio: 988 / 669; }
+main .portal-contact-art { aspect-ratio: 628 / 307; }
+main .portal-art img,
+main .portal-overview-art img,
+main .portal-business-art img,
+main .portal-contact-art img {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  right: auto;
+  transform: none;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}

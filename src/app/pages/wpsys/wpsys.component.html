@@ -2,7 +2,7 @@
   <app-main-nav-links nav-links />
   <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
 </app-site-header>
-<main>
+<main id="main-content" tabindex="-1">
   <section class="wpsys-hero" aria-labelledby="wpsys-title">
     <div class="wpsys-art"><img ngSrc="/worldposta-assets/wpsys-hero-reference.avif" width="1600" height="800" priority alt="WPSYS IT Solutions surrounded by cloud operations, IT automation, cybersecurity, expert support and SAP operations, beside an IT specialist working on a laptop" /></div>
     <div class="wpsys-wrap">
@@ -19,6 +19,7 @@
       </ul>
     </div>
   </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/wpsys#wpsys-services">Service overview</a><a href="/wpsys#wpsys-approach">Our approach</a><a href="/wpsys#wpsys-contact">Talk to an expert</a></div></nav>
   <section class="wpsys-services" id="wpsys-services" aria-labelledby="wpsys-services-title"><div class="managed-wrap"><div class="managed-heading"><div class="managed-copy"><p class="process-eyebrow"><span aria-hidden="true"></span>OUR SERVICES</p><h2 id="wpsys-services-title">Complete IT Capabilities<br><span>Under One Managed Service.</span></h2><p>From infrastructure to security, automation and SAP, WPSYS provides the expertise and support you need — all from one trusted team.</p></div><div class="managed-art"><img ngSrc="/worldposta-assets/drive-managed-reference.avif" width="1600" height="800" alt="IT specialist working on a laptop with cloud and security graphics, and a checklist: One team, One SLA, End-to-end support, Scalable for growth" /></div></div><div class="managed-grid"><article class="managed-card process-blue"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16Z"/></svg></span><div><h3>Managed IT & Infrastructure</h3><p>Keep your IT environment running smoothly with proactive monitoring, management and expert support.</p><a href="/wpsys#wpsys-contact" aria-label="Learn more about Managed IT & Infrastructure">Learn more <span aria-hidden="true">→</span></a></div></article>
 <article class="managed-card process-green"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13"/></svg></span><div><h3>Cybersecurity & SOC</h3><p>24/7 security monitoring, threat detection and response to protect your business and data.</p><a href="/cloud-based-soc-solutions" aria-label="Learn more about Cybersecurity & SOC">Learn more <span aria-hidden="true">→</span></a></div></article>
 <article class="managed-card process-purple"><span class="process-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16Z"/></svg></span><div><h3>Cloud Management</h3><p>Manage, optimize and secure your cloud, on-premise and hybrid environments.</p><a href="/cloudedge" aria-label="Learn more about Cloud Management">Learn more <span aria-hidden="true">→</span></a></div></article>

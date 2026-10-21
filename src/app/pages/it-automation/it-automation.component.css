@@ -359,3 +359,6 @@
  .platform-outcomes ul{grid-template-columns:minmax(0,1fr);gap:var(--space-md)}.platform-outcomes li+li{padding:0;border:0}
  .platform-outcomes a{width:100%;min-width:0;white-space:normal}.platform-heading h2{font-size:var(--fs-h2)}
 }
+
+.platform-console.native-product-art{aspect-ratio:auto;border:0;background:none;box-shadow:none;overflow:visible;align-self:center}
+@media(max-width:1100px){.platform-console.native-product-art{grid-column:1/-1;grid-row:auto;max-width:820px;width:100%;justify-self:center}}

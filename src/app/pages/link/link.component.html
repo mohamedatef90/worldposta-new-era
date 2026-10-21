@@ -2,7 +2,7 @@
   <app-main-nav-links nav-links />
   <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
 </app-site-header>
-<main>
+<main id="main-content" tabindex="-1">
   <section class="link-hero" aria-labelledby="link-title">
     <div class="link-art"><img ngSrc="/worldposta-assets/posta-link-hero-reference.avif" width="1600" height="533" priority alt="Posta Link collaboration workspace with team chat, a four-person video meeting, workspaces, Posta Drive, calendar and WorldPosta integrations" /></div>
     <div class="link-wrap">
@@ -22,6 +22,8 @@
       </div>
     </div>
   </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/link#link-benefits-title">Benefits</a><a href="/link#link-workflow-title">How it works</a><a href="/link#link-demo-title">Product demo</a><a href="/link#link-team-use-title">Teams & use cases</a><a href="/link#link-trial">Start free trial</a></div></nav>
+
   <section class="link-benefits-section" aria-labelledby="link-benefits-title">
     <div class="link-benefits-wrap">
       <div class="link-benefits-copy">

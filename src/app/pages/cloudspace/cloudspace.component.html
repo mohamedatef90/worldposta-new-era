@@ -1,5 +1,5 @@
 <app-site-header />
-<main>
+<main id="main-content" tabindex="-1">
 <section class="hero wrap split">
  <div><p class="eyebrow">CloudSpace</p><h1 class="hero-palette">More Than <span class="hero-palette-blue">Tools.</span><br><span class="hero-palette-green">A Better Way to Work.</span></h1><p class="lead">Everything your team needs to communicate, create, share and stay organized — all in one secure platform.</p>
  <div class="tool-list">@for (tool of tools; track tool.name) {<div><span [class]="'icon '+tool.color"><fa-icon [icon]="tool.icon"/></span><div><h3>{{tool.name}}</h3><p>{{tool.copy}}</p></div></div>}</div>
@@ -10,6 +10,8 @@
   </div>
  </div>
 </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/cloudspace#cs-connect">Team collaboration</a><a href="/cloudspace#cs-ecosystem">Workspace tools</a><a href="/cloudspace#cs-demo">Book a demo</a><a href="/cloudspace#cs-get-in-touch">Contact us</a></div></nav>
+
 <section class="band challenges-section" aria-labelledby="challenges-heading">
  <div class="wrap challenges-layout">
   <div class="challenges-copy">

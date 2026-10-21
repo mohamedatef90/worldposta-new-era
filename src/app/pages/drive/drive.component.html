@@ -2,7 +2,7 @@
   <app-main-nav-links nav-links />
   <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
 </app-site-header>
-<main>
+<main id="main-content" tabindex="-1">
   <section class="wpsys-drive" aria-labelledby="wpsys-drive-title">
     <div class="drive-wrap">
       <div class="drive-copy">
@@ -30,6 +30,8 @@
 </aside></div>
     </div>
   </section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/drive#drive-features">Features</a><a href="/drive#drive-collaboration-title">Collaboration</a><a href="/drive#drive-global-title">Work anywhere</a><a href="/drive#drive-trial">Start free trial</a></div></nav>
+
 
     <section class="drive-connected" aria-labelledby="drive-challenge-title">
     <div class="connected-layout">

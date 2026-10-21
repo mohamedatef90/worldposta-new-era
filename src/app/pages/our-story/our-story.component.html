@@ -1,23 +1,22 @@
 <app-site-header [solid]="true" />
-<main>
+<main id="main-content" tabindex="-1">
   <section class="story-hero" aria-labelledby="story-heading">
     <div class="story-scene" aria-hidden="true">
       <img ngSrc="/worldposta-assets/our-story-hero.png" fill priority alt="" />
     </div>
     <div class="story-copy">
       <p class="story-eyebrow"><span aria-hidden="true"></span>Our Story</p>
-      <h1 id="story-heading">Built on a<br /><strong>Different <span>Idea.</span></strong></h1>
+      <h1 id="story-heading" class="hero-palette">Built on a<br /><strong><span class="hero-palette-blue">Different&nbsp;</span><span class="hero-palette-green">Idea.</span></strong></h1>
       <p class="story-lead">Technology should make business simpler —<br class="desktop-break" /> not more complicated.</p>
       <p class="story-description">WorldPosta was built around a simple belief: businesses shouldn’t have to choose between performance, security, flexibility and simplicity.<br />We bring cloud, collaboration, security and managed services together into an ecosystem designed around the way businesses actually operate.</p>
       <a class="story-cta" href="/our-story#our-belief">Explore Our Story <span aria-hidden="true">⟶</span></a>
-      <a class="story-scroll" href="/our-story#our-belief"><span aria-hidden="true"></span>Scroll</a>
     </div>
   </section>
+
   <section class="mission" id="our-belief" aria-labelledby="mission-heading">
     <div class="mission-inner">
       <div class="mission-top">
         <div class="mission-intro">
-          <p class="story-eyebrow"><span aria-hidden="true"></span>Our Mission</p>
           <h2 id="mission-heading">Make Enterprise Technology<br /><strong><span>Simpler.</span> Safer. <span>Smarter.</span></strong></h2>
           <p>We believe businesses shouldn’t need to navigate layers of complexity just to get the technology they need. We simplify the technology behind the business so organizations can focus on what really matters — innovating, growing and creating impact.</p>
         </div>
@@ -190,12 +189,12 @@
       <div class="trusted-inner">
         <div class="trusted-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Trusted By</p><h2 id="trusted-heading">Trusted by <span>Ambitious</span><br />Organizations.</h2><p>From leading enterprises to government entities, our customers trust WorldPosta to power their most critical operations — with secure, scalable and reliable technology.</p>
           <ul class="trusted-industries" aria-label="Industries we serve">
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m5 12 15-8 15 8ZM8 15h24M9 32h22M5 36h30M11 16v12M20 16v12M29 16v12"/></svg></span>Financial<br />Services</li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span>Government<br />&amp; Public Sector</li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 35V7h6v18l10-7v7l12-7v17ZM11 35h26M15 29h2M23 29h2M31 29h1M30 17V7h5v16"/></svg></span>Manufacturing<br />&amp; Industrial</li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34 6 20C-4 8 11-1 20 10 29-1 44 8 34 20Z"/></svg></span>Healthcare</li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 5h5l5 23h19l5-18H10M14 22h19"/><circle cx="16" cy="34" r="2"/><circle cx="30" cy="34" r="2"/></svg></span>Retail &amp;<br />Commercial</li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m3 14 17-9 17 9-17 9ZM9 18v12c8 5 14 5 22 0V18M37 14v15"/></svg></span>Education</li>
+            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m5 12 15-8 15 8ZM8 15h24M9 32h22M5 36h30M11 16v12M20 16v12M29 16v12"/></svg></span><span class="trusted-industry-label">Financial<br />Services</span></li>
+            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><span class="trusted-industry-label">Government<br />&amp; Public Sector</span></li>
+            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 35V7h6v18l10-7v7l12-7v17ZM11 35h26M15 29h2M23 29h2M31 29h1M30 17V7h5v16"/></svg></span><span class="trusted-industry-label">Manufacturing<br />&amp; Industrial</span></li>
+            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34 6 20C-4 8 11-1 20 10 29-1 44 8 34 20Z"/></svg></span><span class="trusted-industry-label">Healthcare</span></li>
+            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 5h5l5 23h19l5-18H10M14 22h19"/><circle cx="16" cy="34" r="2"/><circle cx="30" cy="34" r="2"/></svg></span><span class="trusted-industry-label">Retail &amp;<br />Commercial</span></li>
+            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m3 14 17-9 17 9-17 9ZM9 18v12c8 5 14 5 22 0V18M37 14v15"/></svg></span><span class="trusted-industry-label">Education</span></li>
           </ul>
         </div>
         <dl class="trusted-stats"><div><dt>500+</dt><dd>Enterprise customers</dd></div><div><dt>3</dt><dd>Countries<br /><span>Egypt, KSA, UAE</span></dd></div><div><dt>99.9%</dt><dd>Service availability</dd></div></dl>

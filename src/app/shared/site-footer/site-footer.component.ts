@@ -37,39 +37,29 @@ export class SiteFooterComponent {
   protected readonly arrowRight = faArrowRight;
 
   protected readonly columns: readonly FooterColumn[] = [
-    {
-      title: 'Cloud & Infrastructure',
-      links: [
-        { label: 'Cloud Infrastructure', href: '#cloud-infrastructure' },
-        { label: 'Virtual Machines', href: '#virtual-machines' },
-        { label: 'Kubernetes', href: '#kubernetes' },
-        { label: 'Storage', href: '#storage' },
-        { label: 'Networking', href: '#networking' },
-        { label: 'Backup & DR', href: '#backup-dr' },
-      ],
-    },
-    {
-      title: 'Collaboration',
-      links: [
-        { label: 'Business Email', href: '#business-email' },
-        { label: 'Team Chat', href: '#team-chat' },
-        { label: 'Conferencing', href: '#conferencing' },
-        { label: 'Calendar', href: '#calendar' },
-        { label: 'Drive & Files', href: '#drive-files' },
-        { label: 'Notes', href: '#notes' },
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        { label: 'Why WorldPosta', href: '#why-worldposta' },
-        { label: 'Security', href: '#security' },
-        { label: 'Compare Providers', href: '#compare' },
-        { label: 'Pricing', href: '#pricing' },
-        { label: 'Service Provider', href: '#service-provider' },
-        { label: 'Resources', href: '#resources' },
-      ],
-    },
+    { title: 'Cloud & Operations', links: [
+      { label: 'CloudEdge', href: '/cloudedge' },
+      { label: 'SAP Cloud Operations', href: '/sap' },
+      { label: 'SAP Basis Operations', href: '/sap-basis-operations' },
+      { label: 'Seamless Migration', href: '/seamless-migration' },
+      { label: 'WPSYS Managed IT', href: '/wpsys' },
+      { label: 'IT Automation', href: '/it-software-automation-tools' },
+    ] },
+    { title: 'Email & Collaboration', links: [
+      { label: 'Posta Business Email', href: '/posta' },
+      { label: 'CloudSpace', href: '/cloudspace' },
+      { label: 'Posta Link', href: '/link' },
+      { label: 'Posta Drive', href: '/drive' },
+      { label: 'Posta Portal', href: '/posta-portal' },
+    ] },
+    { title: 'Explore WorldPosta', links: [
+      { label: 'Our Story', href: '/our-story' },
+      { label: 'Cloud SOC', href: '/cloud-based-soc-solutions' },
+      { label: 'Posta Gate Security', href: '/posta-gate-security' },
+      { label: 'Cloud Pricing', href: '/cloudedge#pricing' },
+      { label: 'Email Pricing', href: '/posta#pricing' },
+      { label: 'Guides & Resources', href: '/posta#resources' },
+    ] },
   ];
 
   protected readonly contact: readonly ContactLine[] = [

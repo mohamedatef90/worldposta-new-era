@@ -74,6 +74,15 @@ export class SiteHeaderComponent {
     });
   }
 
+  protected skipToContent(event: Event): void {
+    event.preventDefault();
+    const main = this.document.querySelector('main');
+    if (!main) return;
+    main.setAttribute('tabindex', '-1');
+    main.focus({ preventScroll: true });
+    main.scrollIntoView({ block: 'start' });
+  }
+
   protected onScroll(): void {
     this.scrolled.set(this.document.defaultView!.scrollY > 8);
   }
