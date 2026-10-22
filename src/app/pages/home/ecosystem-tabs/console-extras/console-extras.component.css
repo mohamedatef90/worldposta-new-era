@@ -1,0 +1,89 @@
+/* Sits under the title row: the head's bottom padding is pulled back so it
+   reads as the title's description, as on the real console pages. */
+.cx-subtitle {
+  margin:calc(-1 * var(--space-sm)) var(--space-lg) var(--space-md);
+  color:var(--color-text-secondary);
+  font-size:var(--fs-caption);
+}
+
+/* Secondary actions under the page title, as on the real VM page. */
+.cx-toolbar {
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--space-sm);
+  padding:0 var(--space-lg) var(--space-md);
+}
+.cx-chip {
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:0 12px;
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  color:var(--wp-ink);
+  background:var(--color-bg-tertiary);
+  font-size:var(--fs-caption);
+  font-weight:var(--fw-semibold);
+}
+
+/* Storage's "Capacity Overview" card. */
+.cx-capacity {
+  margin:0 var(--space-lg) var(--space-md);
+  padding:var(--space-md);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  background:var(--color-bg-tertiary);
+}
+.cx-capacity__title {
+  margin:0;
+  color:var(--wp-ink);
+  font-size:var(--fs-body-sm);
+  font-weight:var(--fw-bold);
+}
+.cx-capacity__note {
+  margin:2px 0 var(--space-sm);
+  color:var(--color-text-secondary);
+  font-size:var(--fs-caption);
+}
+.cx-meter {
+  height:8px;
+  overflow:hidden;
+  border-radius:var(--radius-full);
+  background:color-mix(in srgb, var(--wp-ink) 10%, transparent);
+}
+.cx-meter__fill {
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:var(--color-action);
+}
+.cx-capacity__legend {
+  display:flex;
+  justify-content:space-between;
+  margin:var(--space-xs) 0 0;
+  color:var(--color-text-secondary);
+  font-size:var(--fs-caption);
+}
+
+/* Sub-tabs (Disks / Object Storage / Snapshots, Card View / Table View). */
+.cx-views {
+  display:flex;
+  gap:var(--space-lg);
+  padding:0 var(--space-lg);
+  border-bottom:1px solid var(--color-border);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.cx-view {
+  flex:0 0 auto;
+  padding:var(--space-sm) 0;
+  border-bottom:2px solid transparent;
+  color:var(--color-text-secondary);
+  font-size:var(--fs-caption);
+  font-weight:var(--fw-semibold);
+  white-space:nowrap;
+}
+.cx-view--current {
+  border-bottom-color:var(--color-brand-green);
+  color:var(--wp-ink);
+}

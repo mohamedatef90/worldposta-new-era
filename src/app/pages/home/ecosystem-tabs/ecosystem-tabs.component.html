@@ -22,12 +22,15 @@
       />
 
       <div class="tabs-collapse" [class.is-open]="pickerOpen()">
-      <aside id="service-tablist" class="tabs-sidebar" role="tablist" aria-label="WorldPosta services">
+      <!-- One tablist per group, labelled by its heading: a single tablist
+           can't own the headings. Each group keeps its own Tab stop. A plain
+           div, not an aside, so it doesn't nest a landmark inside main. -->
+      <div id="service-tablist" class="tabs-sidebar">
         <div class="tabs-sidebar__inner">
         @for (group of tabGroups; track group.id) {
           <div class="tab-group">
-            <h3 class="tab-group-label">{{ group.label }}</h3>
-            <div class="tab-group-items">
+            <h3 class="tab-group-label" [id]="'tab-group-' + group.id">{{ group.label }}</h3>
+            <div class="tab-group-items" role="tablist" aria-orientation="vertical" [attr.aria-labelledby]="'tab-group-' + group.id">
               @for (item of group.items; track item.id; let i = $index) {
                 <button
                   [id]="'tab-' + item.id"
@@ -36,7 +39,7 @@
                   role="tab"
                   [attr.aria-selected]="activeTabId() === item.id"
                   [attr.aria-controls]="'tabpanel-' + item.id"
-                  [attr.tabindex]="activeTabId() === item.id ? 0 : -1"
+                  [attr.tabindex]="isTabStop(group, i) ? 0 : -1"
                   (click)="setActiveTab(item.id)"
                   (keydown)="handleKeydown($event, group.id, i)"
                 >
@@ -49,7 +52,7 @@
           </div>
         }
         </div>
-      </aside>
+      </div>
       </div>
 
       <div
@@ -232,7 +235,7 @@
                 </table>
               }
 
-              <aside class="cal-agenda" aria-label="Upcoming events">
+              <section class="cal-agenda" aria-label="Upcoming events">
                 @for (day of cal.agenda; track day.title) {
                   <div class="cal-agenda__group">
                     <p class="cal-agenda__head">
@@ -261,14 +264,17 @@
                   {{ cal.viewAllLabel }}
                   <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
                 </a>
-              </aside>
+              </section>
             </div>
           </div>
         } @else if (tabContent().console; as view) {
           <div class="vm-table-card">
             <div class="vm-table-card__head">
               <h4 class="vm-table-card__title">
-                {{ view.title }} <span>({{ view.total }})</span>
+                {{ view.title }}
+                @if (!view.subtitle) {
+                  <span>({{ view.total }})</span>
+                }
               </h4>
               <!-- Presentational: this preview has nothing to search or select, so the
                    field is not a real control and is hidden from assistive tech. -->
@@ -284,8 +290,13 @@
               }
             </div>
 
-            @if (consoleTable(); as table) {
-              <div class="vm-table-scroll">
+            <app-console-extras [subtitle]="view.subtitle" [toolbar]="view.toolbar ?? []" [capacity]="view.capacity" [views]="view.views ?? []" />
+
+            @if (view.cards; as cards) {
+              <app-console-cards [cards]="cards" [label]="view.title" />
+            } @else if (consoleTable(); as table) {
+              <!-- Focusable so keyboard users can scroll the table sideways on narrow screens. -->
+              <div class="vm-table-scroll" role="region" tabindex="0" [attr.aria-label]="view.title + ' table'">
                 <table class="vm-table">
                   <caption class="sr-only">
                     Example {{ view.title.toLowerCase() }}, showing {{ view.rows.length }} of {{ view.total | number }} — illustrative sample data.
@@ -342,6 +353,7 @@
               </div>
             }
 
+            @if (!view.cards) {
             <div class="vm-table-card__foot">
               <p class="vm-count">
                 Showing 1 - {{ view.rows.length }} of {{ view.total | number }} {{ view.unitLabel ?? 'results' }}
@@ -354,6 +366,7 @@
                 <span class="vm-pager__step">›</span>
               </span>
             </div>
+            }
           </div>
         }
 

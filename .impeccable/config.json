@@ -1,0 +1,18 @@
+{
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/app/pages/home/ecosystem-tabs/ecosystem-tabs.component.html"
+        ],
+        "createdAt": "2026-10-22T07:22:46.614Z",
+        "reason": "Claude verified: [ngSrc] Angular binding the detector cannot parse; image renders on the live page"
+      }
+    ]
+  }
+}

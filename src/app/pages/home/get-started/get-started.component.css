@@ -29,7 +29,7 @@
 .eyebrow span {
   width:40px;
   height:2px;
-  background:var(--color-brand-green);
+  background:var(--color-action);
 }
 
 h2 {
@@ -76,12 +76,12 @@ h2 {
 
 .btn-primary {
   color:var(--primary-foreground);
-  background:var(--color-brand-green);
+  background:var(--color-action);
 }
 
 .btn-primary:hover {
   color:var(--primary-foreground);
-  background:var(--color-brand-green-light);
+  background:var(--color-action-hover);
 }
 
 .btn-secondary {

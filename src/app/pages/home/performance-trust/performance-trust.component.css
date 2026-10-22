@@ -8,7 +8,7 @@
 .performance-section { padding:var(--wp-section-pad) 0; background:linear-gradient(115deg, var(--wp-mist-from) 0%, var(--wp-mist-via) 52%, var(--wp-mist-to) 100%); overflow:hidden; }
 .performance-inner { display:grid; grid-template-columns:300px minmax(420px, 1fr) 300px; align-items:center; gap:28px; max-width:1400px; }
 .eyebrow { display:flex; align-items:center; gap:var(--space-sm); margin:0 0 var(--space-md); color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:2px; text-transform:uppercase; }
-.eyebrow span { width:40px; height:2px; background:var(--color-brand-green); }
+.eyebrow span { width:40px; height:2px; background:var(--color-action); }
 h2 { margin:0; font-family:var(--font-heading); font-weight:var(--fw-bold); line-height:1.04; letter-spacing:-1.4px; }
 .performance-intro h2 { font-size:clamp(36px, 3.2vw, 50px); }/* The intro track is a fixed 300px because this strong must not wrap:"in
    Numbers." measures 296px at the clamp ceiling of 50px, so the track is sized
@@ -16,7 +16,7 @@ h2 { margin:0; font-family:var(--font-heading); font-weight:var(--fw-bold); line
 .performance-intro h2 strong, .company-intro h2 strong { color:var(--wp-green); }
 .performance-intro h2 strong { white-space:nowrap; }
 .performance-intro > p:not(.eyebrow), .company-intro > p:not(.eyebrow) { margin:var(--space-md) 0 var(--space-lg); color:var(--wp-body); font-size:var(--fs-body); line-height:1.45; }
-.outline-cta { display:inline-flex; align-items:center; gap:12px; padding:12px 20px; border:1.5px solid var(--wp-green-line); border-radius:var(--radius-md); color:var(--wp-green-ink); font-size:13px; font-weight:var(--fw-semibold); text-decoration:none; transition:background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out); }.outline-cta:hover { background:var(--color-brand-green); color:var(--primary-foreground); }
+.outline-cta { display:inline-flex; align-items:center; gap:12px; padding:12px 20px; border:1.5px solid var(--wp-green-line); border-radius:var(--radius-md); color:var(--wp-green-ink); font-size:13px; font-weight:var(--fw-semibold); text-decoration:none; transition:background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out); }.outline-cta:hover { background:var(--color-action); color:var(--primary-foreground); }
 
 .metrics-grid { display:grid; grid-template-columns:repeat(3, minmax(116px, 1fr)); gap:12px; }.metric-card { min-height:144px; padding:var(--space-md); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:var(--wp-panel-wash); }.metric-icon { display:grid; width:36px; height:36px; place-items:center; margin-bottom:var(--space-sm); border-radius:50%; font-size:17px; color:var(--tone); background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }.metric-card strong { display:block; color:var(--wp-ink); font-size:29px; line-height:1; letter-spacing:-1px; }.metric-card h3 { margin:var(--space-xs) 0; color:var(--wp-ink); font-size:13px; line-height:1.1; }.metric-card p { margin:0; color:var(--color-text-muted); font-size:var(--fs-caption); line-height:1.35; }
 

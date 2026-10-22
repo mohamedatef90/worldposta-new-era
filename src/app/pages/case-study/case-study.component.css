@@ -1,7 +1,7 @@
 :host{display:block;background:var(--color-bg-primary);color:var(--color-text-primary)}
 .st-wrap{width:min(1400px,92%);margin:auto}
 .st-eyebrow{display:flex;gap:20px;align-items:center;margin:0 0 18px;font-size:var(--fs-caption);font-weight:var(--fw-bold);letter-spacing:3px;color:var(--color-text-secondary)}
-.st-eyebrow span{width:52px;height:2px;background:var(--color-brand-green)}
+.st-eyebrow span{width:52px;height:2px;background:var(--color-action)}
 
 .st-hero{margin-top:80px;padding-block:var(--space-lg) var(--space-xl)}
 .st-crumbs ol{list-style:none;margin:0 0 var(--space-lg);padding:0;display:flex;flex-wrap:wrap;gap:8px;font-size:var(--fs-caption);color:var(--color-text-muted)}
@@ -33,7 +33,7 @@
 .st-side img{width:100%;height:auto;border-radius:var(--radius-xl);display:block}
 .st-points{list-style:none;margin:0;padding:0 0 0 var(--space-lg);border-left:1px solid var(--color-border);display:grid;gap:14px}
 .st-points li{position:relative;padding-left:22px;color:var(--color-text-secondary)}
-.st-points li:before{content:'';position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--color-brand-green)}
+.st-points li:before{content:'';position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--color-action)}
 .st-solution{list-style:none;margin:0;padding:var(--space-sm) var(--space-lg);background:color-mix(in srgb,var(--color-brand-green) 7%,var(--color-bg-primary));border-radius:var(--radius-xl)}
 .st-solution li{display:flex;gap:var(--space-md);align-items:flex-start;padding:var(--space-md) 0}
 .st-solution li+li{border-top:1px solid var(--color-border)}

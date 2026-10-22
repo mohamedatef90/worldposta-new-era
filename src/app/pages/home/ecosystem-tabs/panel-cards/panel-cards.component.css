@@ -39,7 +39,11 @@
 }
 
 .panel-card__link {
-  color:var(--wp-tone-blue);
+  /* 24px minimum target (WCAG 2.5.8) without changing the row's look. */
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  color:color-mix(in srgb, var(--wp-tone-blue) 80%, var(--wp-ink)); /* plain tone was 4.48:1 */
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
   text-decoration:none;
@@ -101,14 +105,15 @@
   height:32px;
   place-items:center;
   border-radius:var(--radius-md);
-  color:var(--tone);
+  /* Tone pulled toward the ink so the label clears 4.5:1 on its own tint in both themes. */
+  color:color-mix(in srgb, var(--tone) 50%, var(--wp-ink));
   background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
   font-size:13px;
 }
 
 .panel-list__mark--initials {
   border-radius:50%;
-  font-size:11px;
+  font-size:var(--fs-caption);
   font-weight:var(--fw-bold);
   letter-spacing:.3px;
 }
@@ -153,22 +158,23 @@
   flex:0 0 auto;
   padding:3px 10px;
   border-radius:var(--radius-full);
-  font-size:11px;
+  font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
 }
 
+/* Badge tones pulled toward the ink so the labels clear 4.5:1 on their tints. */
 .panel-badge[data-tone='good'] {
-  color:var(--wp-tone-green);
+  color:var(--wp-tone-green-ink);
   background:color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
 }
 
 .panel-badge[data-tone='warning'] {
-  color:var(--wp-tone-amber);
+  color:var(--wp-tone-amber-ink);
   background:color-mix(in srgb, var(--wp-tone-amber) var(--wp-tone-fill), transparent);
 }
 
 .panel-badge[data-tone='critical'] {
-  color:var(--color-error);
+  color:color-mix(in srgb, var(--color-error) 60%, var(--wp-ink)); /* raw error red was 3.55:1 in dark */
   background:color-mix(in srgb, var(--color-error) var(--wp-tone-fill), transparent);
 }
 
@@ -307,9 +313,9 @@
 .panel-people__delta {
   padding:3px 10px;
   border-radius:var(--radius-full);
-  color:var(--wp-tone-green);
+  color:var(--wp-tone-green-ink); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
-  font-size:11px;
+  font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
 }
 
@@ -334,9 +340,9 @@
   border:2px solid var(--wp-panel);
   border-radius:50%;
   margin-left:-var(--space-sm);
-  color:var(--wp-tone-blue);
+  color:var(--wp-tone-blue-ink); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
-  font-size:11px;
+  font-size:var(--fs-caption);
   font-weight:var(--fw-bold);
 }
 
@@ -386,7 +392,7 @@
   height:28px;
   place-items:center;
   border-radius:var(--radius-md);
-  color:var(--tone);
+  color:color-mix(in srgb, var(--tone) 50%, var(--wp-ink)); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
   font-size:var(--fs-caption);
 }

@@ -1,7 +1,7 @@
 :host{display:block;background:var(--color-bg-primary);color:var(--color-text-primary)}
 .cs-wrap{width:min(1400px,92%);margin:auto}
 .cs-eyebrow{display:flex;gap:20px;align-items:center;margin:0 0 20px;font-size:var(--fs-caption);font-weight:var(--fw-bold);letter-spacing:3px;color:var(--color-text-secondary)}
-.cs-eyebrow span{width:52px;height:2px;background:var(--color-brand-green)}
+.cs-eyebrow span{width:52px;height:2px;background:var(--color-action)}
 
 .cs-hero{margin-top:80px;padding-block:var(--space-2xl) var(--space-xl);overflow:hidden}
 .cs-hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:var(--space-xl);align-items:center}

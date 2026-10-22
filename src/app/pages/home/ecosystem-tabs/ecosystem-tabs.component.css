@@ -156,7 +156,7 @@
 }
 
 .tab-button.active {
-  background:var(--color-brand-green);
+  background:var(--color-action);
   color:var(--primary-foreground);
   font-weight:var(--fw-semibold);
 }
@@ -208,7 +208,7 @@
   align-self:flex-start;
   padding:0;
   border-radius:var(--radius-full);
-  color:var(--color-brand-green);
+  color:var(--wp-green-ink); /* brand green is 3.2:1 at this size */
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
   letter-spacing:1.4px;
@@ -222,7 +222,7 @@
   height:36px;
   border-radius:var(--radius-lg);
   font-size:var(--fs-body);
-  color:var(--wp-tone-sky);
+  color:var(--wp-tone-sky-ink); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--wp-tone-sky) var(--wp-tone-fill), transparent);
 }
 
@@ -297,14 +297,14 @@
 }
 
 .btn-primary {
-  background:var(--color-brand-green);
+  background:var(--color-action);
   color:var(--primary-foreground);
   border:none;
   box-shadow:var(--shadow-md);
 }
 
 .btn-primary:hover {
-  background:var(--color-brand-green-light);
+  background:var(--color-action-hover);
   color:var(--primary-foreground);
   transform:translateY(-2px);
   box-shadow:var(--shadow-lg);
@@ -312,12 +312,12 @@
 
 .btn-secondary {
   background:transparent;
-  color:var(--color-brand-green);
+  color:var(--wp-green-ink); /* brand green is 3.2:1 as text; it stays on the border */
   border:1.5px solid var(--color-brand-green);
 }
 
 .btn-secondary:hover {
-  background:var(--color-brand-green);
+  background:var(--color-action);
   color:var(--primary-foreground);
 }
 
@@ -392,7 +392,7 @@
   height:44px;
   border-radius:var(--radius-lg);
   font-size:var(--fs-body-lg);
-  color:var(--tone);
+  color:color-mix(in srgb, var(--tone) 50%, var(--wp-ink)); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
 }
 
@@ -424,7 +424,8 @@
   gap:var(--space-xs);
   padding:var(--space-xs) var(--space-sm);
   border-radius:var(--radius-full);
-  color:var(--wp-tone-green);
+  /* Tone pulled toward the ink so the label clears 4.5:1 on its own tint in both themes. */
+  color:var(--wp-tone-green-ink);
   background:color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
   font-family:var(--font-body);
   font-size:var(--fs-caption);
@@ -500,7 +501,7 @@
   padding:var(--space-sm) 12px;
   border:1px solid var(--color-border);
   border-radius:var(--radius-full);
-  color:var(--color-text-muted);
+  color:var(--color-text-secondary); /* muted is 4.2:1 on this tertiary fill */
   background:var(--color-bg-tertiary);
   font-size:var(--fs-caption);
 }
@@ -515,7 +516,7 @@
   padding:var(--space-sm) var(--space-md);
   border-radius:var(--radius-md);
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
+  background:var(--wp-blue-action);
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
   text-decoration:none;
@@ -545,7 +546,7 @@
 
 .vm-table thead th {
   border-block:1px solid var(--color-border);
-  color:var(--color-text-muted);
+  color:var(--color-text-secondary); /* muted is 4.2:1 on the tertiary header fill */
   font-weight:var(--fw-semibold);
   background:var(--color-bg-tertiary);
 }
@@ -566,7 +567,7 @@
   width:28px;
   height:28px;
   border-radius:var(--radius-md);
-  color:var(--wp-tone-blue);
+  color:var(--wp-tone-blue-ink); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
   font-size:var(--fs-caption);
 }
@@ -581,9 +582,10 @@
   gap:var(--space-sm);
   font-weight:var(--fw-semibold);
 }
-.vm-status[data-tone='good'] { color:var(--wp-tone-green); }
-.vm-status[data-tone='warning'] { color:var(--wp-tone-amber); }
-.vm-status[data-tone='critical'] { color:var(--color-error); }
+/* Status tones pulled toward the ink so the small labels clear 4.5:1 in both themes. */
+.vm-status[data-tone='good'] { color:var(--wp-tone-green-ink); }
+.vm-status[data-tone='warning'] { color:var(--wp-tone-amber-ink); }
+.vm-status[data-tone='critical'] { color:color-mix(in srgb, var(--color-error) 60%, var(--wp-ink)); }
 .vm-status__dot {
   width:8px;
   height:8px;
@@ -742,7 +744,7 @@
 }
 .cal-views__item--current {
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
+  background:var(--wp-blue-action);
 }
 
 .cal-card__head .vm-search { margin-left:auto; }
@@ -782,14 +784,15 @@
   font-weight:var(--fw-semibold);
 }
 /* Days borrowed from the neighbouring months stay legible but recede. */
-.cal-day--outside .cal-day__number { color:var(--color-text-muted); opacity:.55; }
+/* Dimmed by the muted colour alone: opacity on top took it below 4.5:1. */
+.cal-day--outside .cal-day__number { color:var(--color-text-muted); }
 .cal-day--today .cal-day__number {
   display:inline-block;
   min-width:22px;
   padding:2px 0;
   border-radius:var(--radius-full);
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
+  background:var(--wp-blue-action);
   text-align:center;
 }
 
@@ -814,7 +817,7 @@
   color:var(--wp-ink);
   font-weight:var(--fw-semibold);
 }
-.cal-event__time { display:block; margin-top:2px; color:var(--wp-body); }
+.cal-event__time { display:block; margin-top:2px; color:color-mix(in srgb, var(--wp-body) 45%, var(--wp-ink)); /* body grey was 3.4:1 on the event tint */ }
 
 .cal-event[data-tone='blue'],
 .cal-agenda__item[data-tone='blue'] { --tone:var(--wp-tone-blue); }
@@ -862,8 +865,8 @@
   padding:5px 12px;
   border-radius:var(--radius-full);
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
-  font-size:11px;
+  background:var(--wp-blue-action);
+  font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
   text-decoration:none;
 }
@@ -940,7 +943,7 @@
   padding:0 var(--space-lg);
   border-radius:var(--radius-md);
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
+  background:var(--wp-blue-action);
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
   text-decoration:none;
@@ -968,9 +971,9 @@
 /* Initials bubble, for tables whose rows are people rather than resources. */
 .vm-name__icon--initials {
   border-radius:50%;
-  color:var(--wp-tone-blue);
+  color:var(--wp-tone-blue-ink); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
-  font-size:10px;
+  font-size:var(--fs-caption);
   font-weight:var(--fw-bold);
   letter-spacing:.3px;
 }
@@ -1161,10 +1164,4 @@
   }
 }
 
-@media (prefers-reduced-motion:reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration:0.01ms !important;
-  }
-}
+/* Reduced motion is handled site-wide in styles.css. */

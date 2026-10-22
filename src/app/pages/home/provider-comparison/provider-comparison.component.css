@@ -29,7 +29,7 @@
 .eyebrow span {
   width:40px;
   height:2px;
-  background:var(--color-brand-green);
+  background:var(--color-action);
 }
 
 h2 {
@@ -59,7 +59,7 @@ h2 {
   padding:0 var(--space-lg);
   border-radius:var(--radius-full);
   color:var(--primary-foreground);
-  background:var(--color-brand-green);
+  background:var(--color-action);
   font-size:var(--fs-body);
   font-weight:var(--fw-semibold);
   text-decoration:none;
@@ -68,7 +68,7 @@ h2 {
 
 .btn-primary:hover {
   color:var(--primary-foreground);
-  background:var(--color-brand-green-light);
+  background:var(--color-action-hover);
 }
 
 /* Four provider columns need more width than a phone has; the table scrolls
@@ -159,7 +159,9 @@ h2 {
   min-height:40px;
   padding:0 var(--space-md);
   border-radius:var(--radius-md);
-  color:var(--wp-blue);
+  /* Pulled toward the ink so the small label clears 4.5:1 on its own blue
+     tint in both themes (plain --wp-blue was 3.9:1 in light). */
+  color:color-mix(in srgb, var(--wp-blue) 78%, var(--wp-ink));
   background:color-mix(in srgb, var(--wp-blue) 8%, transparent);
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
@@ -168,7 +170,7 @@ h2 {
 }
 
 .compare-actions .compare-col--us .compare-link {
-  color:var(--wp-green);
+  color:var(--wp-green-ink);
   background:color-mix(in srgb, var(--color-brand-green) 14%, transparent);
 }
 

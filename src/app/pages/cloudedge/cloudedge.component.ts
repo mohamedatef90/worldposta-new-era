@@ -1,5 +1,5 @@
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
@@ -19,7 +19,6 @@ import {
   faDatabase,
   faDharmachakra,
   faDollarSign,
-  faFileLines,
   faGears,
   faGlobe,
   faHeadset,
@@ -36,9 +35,12 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { ExpertJourneyComponent } from './expert-journey/expert-journey.component';
+import { LoopVideoComponent } from './loop-video/loop-video.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { scrollToFragmentOnClick } from '@/shared/utils';
+import { ThemeService } from '@/shared/services/theme.service';
 
 interface HeroChip {
   readonly id: string;
@@ -139,7 +141,7 @@ interface AddOn {
  * reference section mockups, section for section.
  */
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
+  imports: [ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {
@@ -193,14 +195,40 @@ export class CloudEdgeComponent {
   /** AI-generated stand-in for the customer's own photo; swap for the real asset when supplied. */
   protected readonly heroPhoto = '/worldposta-assets/hero/cloudedge/partner-photo.avif';
 
-  /** Hero visual: over-the-shoulder desk shot with the CloudEdge console, cloud icon and connecting wire already composited in. */
-  protected readonly heroDeskPhoto = '/worldposta-assets/hero/cloudedge/partner-photo-desk.avif';
+  /**
+   * Hero visual: a real stock photo (Magnific/Freepik, licensed) of a professional
+   * at a green-screen laptop, with the real CloudEdge console screenshot warped
+   * onto the screen. The console matches the site theme.
+   */
+  protected readonly heroDeskPhoto = computed(() =>
+    this.theme.isDark()
+      ? '/worldposta-assets/hero/cloudedge/hero-console-dark.avif'
+      : '/worldposta-assets/hero/cloudedge/hero-console-light.avif',
+  );
 
-  /** The Challenge section's supporting photography — a frustrated person at their desk, laptop flagging a system error. */
-  protected readonly challengePhoto = '/worldposta-assets/hero/cloudedge/challenge-desk.avif';
+  /*
+   * Section photography below is generated with Magnific as concept scenes (no
+   * people or brands). Where a laptop shows a screen, it is the real CloudEdge
+   * console composited onto a green screen, in the theme that matches the site's.
+   */
 
-  /** Private Cloud visual: the real CloudEdge Console composited onto the laptop screen, no illustrated cloud graphic. */
-  protected readonly privateCloudPhoto = '/worldposta-assets/hero/cloudedge/private-cloud-isolated.avif';
+
+  /** Private Cloud: dedicated racks in a glass-walled, access-controlled room. */
+  protected readonly privateCloudPhoto = '/worldposta-assets/hero/cloudedge/private-cloud-room.avif';
+
+  /** Migration: a laptop on a cart, cabled into a rack, running the move from the CloudEdge console. */
+  protected readonly migrationPhoto = computed(() =>
+    this.theme.isDark()
+      ? '/worldposta-assets/hero/cloudedge/migration-console-dark.avif'
+      : '/worldposta-assets/hero/cloudedge/migration-console-light.avif',
+  );
+
+  /** Whitepaper: a printed provider comparison beside a laptop showing the CloudEdge console. */
+  protected readonly whitepaperPhoto = computed(() =>
+    this.theme.isDark()
+      ? '/worldposta-assets/hero/cloudedge/whitepaper-console-dark.avif'
+      : '/worldposta-assets/hero/cloudedge/whitepaper-console-light.avif',
+  );
 
   // ============================================================
   // CHALLENGES
@@ -212,19 +240,20 @@ export class CloudEdgeComponent {
     { icon: faArrowTrendUp, tone: 'amber', title: 'Limited scalability', description: 'to support growth' },
   ];
 
-  protected readonly fromChallenges: readonly ChecklistItem[] = [
-    { icon: faCircleXmark, tone: 'rose', label: 'Higher operational costs' },
-    { icon: faCircleXmark, tone: 'rose', label: 'Complex infrastructure' },
-    { icon: faCircleXmark, tone: 'rose', label: 'Security and compliance risks' },
-    { icon: faCircleXmark, tone: 'rose', label: 'Slow time to scale' },
-  ];
-
-  protected readonly toOpportunities: readonly ChecklistItem[] = [
+  /** The opportunity each challenge turns into, in the same order. */
+  private readonly toOpportunities: readonly ChecklistItem[] = [
     { icon: faCircleCheck, tone: 'green', label: 'Optimized and transparent costs' },
     { icon: faCircleCheck, tone: 'green', label: 'Simplified cloud management' },
     { icon: faCircleCheck, tone: 'green', label: 'Enterprise-grade security' },
     { icon: faCircleCheck, tone: 'green', label: 'Scale easily, anytime' },
   ];
+
+  /** Challenge/opportunity pairs for the before/after ledger. */
+  protected readonly challengeRows = this.challengeItems.map((item, i) => ({
+    ...item,
+    to: this.toOpportunities[i].label,
+    toIcon: this.toOpportunities[i].icon,
+  }));
 
   // ============================================================
   // CLOUD COMPUTING OVERVIEW
@@ -246,8 +275,17 @@ export class CloudEdgeComponent {
     { icon: faShieldHalved, tone: 'blue', value: '', label: 'Secure and compliant by design' },
   ];
 
-  /** The CloudEdge Console screenshot, presented as a floating dashboard mockup instead of the feature hub. */
-  protected readonly cloudComputingDashboard = '/worldposta-assets/hero/cloudedge/console-dashboard.avif';
+  private readonly theme = inject(ThemeService);
+
+  /**
+   * The CloudEdge Console screenshot, presented as a floating dashboard mockup
+   * instead of the feature hub. Follows the site theme, like the home hero.
+   */
+  protected readonly cloudComputingDashboard = computed(() =>
+    this.theme.isDark()
+      ? '/worldposta-assets/hero/cloudedge/console-dashboard-dark.avif'
+      : '/worldposta-assets/hero/cloudedge/console-dashboard.avif',
+  );
 
   // ============================================================
   // PRIVATE CLOUD
@@ -276,17 +314,6 @@ export class CloudEdgeComponent {
     { icon: faTriangleExclamation, tone: 'amber', title: 'Contain Threats', description: 'Limit lateral movement if a workload is compromised.' },
   ];
 
-  protected readonly zeroTrustAllowed: readonly { icon: IconDefinition; label: string }[] = [
-    { icon: faServer, label: 'Application Server' },
-    { icon: faGlobe, label: 'Web Server' },
-    { icon: faDatabase, label: 'Database Server' },
-  ];
-
-  protected readonly zeroTrustBlocked: readonly { icon: IconDefinition; label: string }[] = [
-    { icon: faFileLines, label: 'Dev Server' },
-    { icon: faDatabase, label: 'Finance Server' },
-    { icon: faServer, label: 'Internal Server' },
-  ];
 
   // ============================================================
   // GLOBAL BUSINESS
@@ -378,13 +405,13 @@ export class CloudEdgeComponent {
   // ============================================================
   // EXPERT SUPPORT
   // ============================================================
-  protected readonly expertSupportHub: readonly HubCard[] = [
-    { icon: faHeadset, tone: 'blue', title: 'Consultation & Design', description: 'Get the right architecture for your needs.', position: 'es-1' },
-    { icon: faGears, tone: 'blue', title: 'Migration Assistance', description: 'Seamless and secure transition.', position: 'es-2' },
-    { icon: faCloud, tone: 'green', title: 'Zero Downtime Migrations', description: 'Keep your business running, always.', position: 'es-3' },
-    { icon: faShieldHalved, tone: 'purple', title: 'Advanced Security', description: 'Enterprise-grade protection and compliance.', position: 'es-4' },
-    { icon: faCommentDots, tone: 'blue', title: '24/7 Expert Support', description: 'Real people. Real answers.', position: 'es-5' },
-    { icon: faBookOpen, tone: 'amber', title: 'Ongoing Guidance', description: 'From deployment to optimization.', position: 'es-6' },
+  protected readonly expertSupportHub: readonly FeatureItem[] = [
+    { icon: faHeadset, tone: 'blue', title: 'Consultation & Design', description: 'Get the right architecture for your needs.' },
+    { icon: faGears, tone: 'blue', title: 'Migration Assistance', description: 'Seamless and secure transition.' },
+    { icon: faCloud, tone: 'green', title: 'Zero Downtime Migrations', description: 'Keep your business running, always.' },
+    { icon: faShieldHalved, tone: 'purple', title: 'Advanced Security', description: 'Enterprise-grade protection and compliance.' },
+    { icon: faCommentDots, tone: 'blue', title: '24/7 Expert Support', description: 'Real people. Real answers.' },
+    { icon: faBookOpen, tone: 'amber', title: 'Ongoing Guidance', description: 'From deployment to optimization.' },
   ];
 
   // ============================================================

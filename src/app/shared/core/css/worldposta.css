@@ -89,11 +89,11 @@
 [data-theme='light'] {
   /* Text */
   --wp-ink: #071c4c;
-  --wp-body: #667085;
+  --wp-body: #5b6577; /* was #667085: 4.4:1 on tinted sections; now 5.1:1+ */
   --wp-body-strong: #52627a;
 
   /* Accents */
-  --wp-blue: #1374ea;
+  --wp-blue: #126ddb; /* was #1374ea: 4.45:1 as text on white; now 4.96:1 */
   /* The logo is drawn in --color-brand-green (#679a41 - sampled straight off
      WP-Logo.avif), so display headings follow it rather than a separate green.
      The dark theme below already points at the -light variant for the same reason. */
@@ -221,3 +221,39 @@
 
 /* Fixed colours for brand marks and on-brand labels. */
 :root{--wp-on-brand:#ffffff;--wp-black:#000000;--wp-brand-google:#4285f4}
+
+/* ============================================================
+   Accessible overrides of design-system tokens
+
+   The bundle in design-system/ stays untouched (edit upstream, not here),
+   so these overrides restore WCAG AA on the site until upstream adopts them.
+
+   - Action fill: the brand green (#679a41, sampled from the logo) gives
+     white text only 3.35:1. Buttons fill with --color-action instead, and
+     hover goes darker, not lighter. --color-brand-green stays the brand and
+     text colour, where it passes.
+   - Muted text: the bundle's muted grey fails at caption size in both themes
+     (light 3.8-4.0:1, dark 2.3:1).
+   ============================================================ */
+:root,
+[data-theme='dark'] {
+  --color-action: #4f7d2f;       /* white text 4.88:1 */
+  --color-action-hover: #446c29; /* white text 6.14:1 */
+  --wp-blue-action: #1668cf;     /* blue button fill for the product mockups: white text 5.3:1 */
+  --color-text-muted: #7d8fa5;   /* 5.3:1 on dark surfaces */
+}
+[data-theme='light'] {
+  --color-text-muted: #64748b;   /* 4.5-4.8:1 on white and near-white */
+}
+.ds-btn--primary { background-color: var(--color-action); }
+.ds-btn--primary:hover:not(:disabled) { background-color: var(--color-action-hover); }
+
+/* Tone colours as text on their own tint: pulled halfway to the ink so small
+   labels clear 4.5:1 in both themes (the raw tones fail as text). Declared on
+   :root, where the theme's tones resolve, so they follow data-theme. */
+:root {
+  --wp-tone-green-ink: color-mix(in srgb, var(--wp-tone-green) 50%, var(--wp-ink));
+  --wp-tone-amber-ink: color-mix(in srgb, var(--wp-tone-amber) 50%, var(--wp-ink));
+  --wp-tone-blue-ink: color-mix(in srgb, var(--wp-tone-blue) 50%, var(--wp-ink));
+  --wp-tone-sky-ink: color-mix(in srgb, var(--wp-tone-sky) 50%, var(--wp-ink));
+}

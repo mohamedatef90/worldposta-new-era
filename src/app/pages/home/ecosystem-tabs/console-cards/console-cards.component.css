@@ -1,0 +1,108 @@
+.cc-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:var(--space-md);
+  margin:0;
+  padding:var(--space-md) var(--space-lg) var(--space-lg);
+  list-style:none;
+}
+
+.cc-card {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  min-width:0;
+  padding:var(--space-md);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  background:var(--color-bg-tertiary);
+}
+
+.cc-card__head { display:flex; align-items:center; gap:var(--space-sm); min-width:0; }
+.cc-os {
+  display:grid;
+  flex:0 0 auto;
+  width:28px;
+  height:28px;
+  place-items:center;
+  border-radius:var(--radius-sm);
+  color:var(--wp-ink);
+  background:var(--wp-panel);
+  font-size:15px;
+}
+.cc-name {
+  overflow:hidden;
+  margin:0;
+  color:var(--wp-ink);
+  font-size:var(--fs-body-sm);
+  font-weight:var(--fw-bold);
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.cc-status {
+  display:inline-flex;
+  align-items:center;
+  align-self:flex-start;
+  gap:6px;
+  padding:2px 10px;
+  border-radius:var(--radius-full);
+  font-size:var(--fs-caption);
+  font-weight:var(--fw-semibold);
+}
+.cc-status__dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+.cc-status[data-tone='good'] {
+  color:var(--wp-tone-green-ink);
+  background:color-mix(in srgb, var(--wp-tone-green) var(--wp-tone-fill), transparent);
+}
+.cc-status[data-tone='critical'] {
+  color:color-mix(in srgb, var(--color-error) 60%, var(--wp-ink));
+  background:color-mix(in srgb, var(--color-error) var(--wp-tone-fill), transparent);
+}
+
+/* Cores / Memory / Storage / NICs tiles. */
+.cc-specs {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin:0;
+}
+.cc-spec {
+  padding:6px 8px;
+  border-radius:var(--radius-sm);
+  background:var(--wp-panel);
+  text-align:center;
+}
+.cc-spec dt { color:var(--color-text-secondary); font-size:var(--fs-caption); }
+.cc-spec dd { margin:0; color:var(--wp-ink); font-size:var(--fs-caption); font-weight:var(--fw-bold); }
+
+/* IP address / Reservation / Created. */
+.cc-meta { display:grid; gap:4px; margin:0; font-size:var(--fs-caption); }
+.cc-meta__row { display:flex; justify-content:space-between; gap:var(--space-sm); min-width:0; }
+.cc-meta__row dt { flex:0 0 auto; color:var(--color-text-secondary); }
+.cc-meta__row dd {
+  overflow:hidden;
+  margin:0;
+  color:var(--wp-ink);
+  font-weight:var(--fw-semibold);
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.cc-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:auto; }
+.cc-btn {
+  display:grid;
+  min-height:32px;
+  place-items:center;
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  color:var(--wp-ink);
+  background:var(--wp-panel);
+  font-size:var(--fs-caption);
+  font-weight:var(--fw-semibold);
+}
+.cc-btn--primary {
+  border-color:transparent;
+  color:var(--primary-foreground);
+  background:var(--color-action);
+}

@@ -100,7 +100,8 @@
       <div class="consultation-art"><img ngSrc="/worldposta-assets/migration-consultation-reference.avif" width="1600" height="800" alt="Cloud and server infrastructure connected by secure migration data flows." /></div>
     </div>
   </div>
-  <form class="consultation-form" (submit)="submitEnquiry($event)" aria-labelledby="enquiry-title">
+  <!-- Both enquiry forms share the visible title, so each gets its own accessible name. -->
+  <form class="consultation-form" (submit)="submitEnquiry($event)" aria-label="Migration consultation request">
     <h3 id="enquiry-title">Talk to a Migration Expert</h3>
     <p class="form-intro">Fill in the details and our team will get in touch with you to discuss your migration requirements.</p>
     <div class="form-fields">
@@ -149,12 +150,12 @@
         }
       </div>
     </div>
-    <aside class="business-panel" aria-labelledby="business-needs-title">
+    <section class="business-panel" aria-labelledby="business-needs-title">
       <div class="partner-photo"><img ngSrc="/worldposta-assets/migration-partner-reference.avif" width="1600" height="800" alt="Secure server infrastructure connected to a cloud migration environment." /></div>
       <div class="business-copy"><h3 id="business-needs-title">Built for Your<br>Business Needs</h3><p>Whether you’re migrating a single application or your entire IT environment, WPSYS adapts to your requirements with a secure and scalable approach.</p>
         <ul>@for (need of businessNeeds; track need) {<li><span aria-hidden="true">✓</span>{{need}}</li>}</ul>
       </div>
-    </aside>
+    </section>
   </div>
   <div class="critical-support partner-support">
     <span class="challenge-icon blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m20 3 5 3 6 1 2 6 3 5-3 5-2 6-6 1-5 3-5-3-6-1-2-6-3-5 3-5 2-6 6-1ZM15 31l-5 8-2-6-6 1 5-9M25 31l5 8 2-6 6 1-5-9"/><circle cx="20" cy="18" r="7"/></svg></span>
@@ -242,7 +243,8 @@
     <a href="/seamless-migration#migration-contact">Talk to a Migration Expert <span aria-hidden="true">→</span></a>
   </div>
 </section>
-<section class="final-migration" id="start-your-migration" aria-labelledby="final-migration-title">
+<!-- Same visible heading as the consultation section; a distinct name keeps the landmarks unique. -->
+<section class="final-migration" id="start-your-migration" aria-label="Start your migration">
   <div class="final-copy">
     <p class="eyebrow"><span></span>Let’s Plan Your Migration</p><h2 id="final-migration-title">Ready to Migrate<br><span>with Confidence?</span></h2>
     <p class="final-lead">Talk to our experts and get a tailored migration plan for your business needs. We’ll help you assess, plan and migrate — with minimal disruption and maximum business value.</p>
@@ -253,7 +255,7 @@
     </div>
   </div>
   <div class="final-art" aria-hidden="true"><img ngSrc="/worldposta-assets/migration-final-reference.avif" width="1600" height="800" alt="" /></div>
-  <form class="final-form consultation-form" (submit)="submitFinalEnquiry($event)" aria-labelledby="final-form-title">
+  <form class="final-form consultation-form" (submit)="submitFinalEnquiry($event)" aria-label="Migration start request">
     <h3 id="final-form-title">Talk to a Migration Expert</h3><p class="form-intro">Fill in your details and our team will get in touch with you shortly.</p>
     <div class="form-fields">
       <div><label class="field-label" for="final-first-name">First Name *</label><input id="final-first-name" name="firstName" autocomplete="given-name" placeholder="First Name *" required maxlength="80"></div>

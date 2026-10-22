@@ -7,13 +7,12 @@
     <div class="hero__cloud hero__cloud--one" aria-hidden="true"></div>
     <div class="hero__cloud hero__cloud--two" aria-hidden="true"></div>
 
-    <!-- Fades into the hero's own gradient on its left edge, so it reads as
-         part of the section's background rather than a framed screenshot
-         sitting on top of it. The CloudEdge console on the laptop screen and
-         the single cloud-and-wire accent are already composited into this
-         photo, so it's rendered as one flat image rather than layered pieces. -->
+    <!-- Fades into the hero's own gradient on its left edge, so it reads as part
+         of the section's background rather than a framed screenshot. A real
+         photo with the real CloudEdge console composited onto the laptop, in
+         the console theme that matches the site's. -->
     <div class="hero-photo" aria-hidden="true">
-      <img [ngSrc]="heroDeskPhoto" width="1536" height="1024" priority alt="" />
+      <img [ngSrc]="heroDeskPhoto()" width="1872" height="1248" priority alt="" />
     </div>
 
     <div class="hero__content ds-container" id="top">
@@ -104,7 +103,7 @@
         <div class="split-section__visual cc-visual">
           <div class="dashboard-glow" aria-hidden="true"></div>
           <div class="dashboard-mockup">
-            <img [ngSrc]="cloudComputingDashboard" width="1600" height="900" alt="CloudEdge Console dashboard showing CPU, memory, storage and active VM usage, top VMs by resource usage, and a 87% security score" />
+            <img [ngSrc]="cloudComputingDashboard()" width="1600" height="900" alt="CloudEdge Console dashboard showing CPU, memory, storage and active VM usage, top VMs by resource usage, and a 87% security score" />
           </div>
         </div>
       </div>
@@ -146,14 +145,10 @@
       </div>
 
       <div class="split-section__visual pc-visual">
-        <!-- The real CloudEdge Console, perspective-matched onto the laptop
-           screen in the photo itself (same compositing approach as the hero
-           and Cloud Computing dashboard) — no illustrated cloud or server
-           graphic standing in for the product. Faded on its left edge like
-           the other photo sections. -->
+        <!-- Dedicated racks behind glass: the isolation the section describes.
+           Faded on its left edge like the other photo sections. -->
         <div class="pc-photo" aria-hidden="true">
-          <img [ngSrc]="privateCloudPhoto" width="1448" height="1086" alt="" />
-          <div class="pc-dashboard-stage"><div class="pc-dashboard-screen"><img ngSrc="/worldposta-assets/hero/cloudedge/dashboard.avif" width="1520" height="684" alt="" /></div></div>
+          <img [ngSrc]="privateCloudPhoto" width="1600" height="1207" alt="" />
         </div>
       </div>
     </div>
@@ -185,70 +180,45 @@
       </div>
 
       <div class="split-section__visual">
-        <div class="security-reference">
-          <div class="security-reference__art" aria-hidden="true"><img ngSrc="/worldposta-assets/hero/cloudedge/security-reference.avif" width="1600" height="660" alt="" /></div>
-          <div class="security-reference__labels security-reference__labels--allow">
-            @for (node of zeroTrustAllowed; track node.label) {
-              <div class="security-reference__label"><fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span></div>
-            }
-          </div>
-          <div class="security-reference__labels security-reference__labels--deny">
-            @for (node of zeroTrustBlocked; track node.label) {
-              <div class="security-reference__label"><fa-icon [icon]="node.icon" aria-hidden="true" /><span>{{ node.label }}</span></div>
-            }
-          </div>
-        </div>
+        <!-- Remotion loop: workloads ask the policy gateway for a connection;
+             two are allowed, two are blocked (see LoopVideoComponent). -->
+        <app-loop-video class="security-loop" name="zero-trust-loop" />
       </div>
     </div>
   </section>
 
   <!-- ================= THE CHALLENGE ================= -->
+  <!-- One before/after ledger: each pain point sits beside the outcome
+       CloudEdge turns it into, so the four points are said once, as pairs. -->
   <section class="alt-section" id="challenges" aria-labelledby="challenges-heading">
-    <div class="ds-container split-section">
-      <div class="split-section__copy">
+    <div class="ds-container challenge-layout">
+      <div class="challenge-intro">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>The Challenge</p>
         <h2 id="challenges-heading" class="section-heading">Modern Businesses <span class="block">Face <span class="text-rose">Real Cloud Challenges.</span></span></h2>
         <p class="section-subtitle">Rising costs, complex infrastructure and growing security requirements can slow your business down.</p>
+        <app-loop-video class="challenge-photo" name="challenge-loop" />
+      </div>
 
-        <ul class="feature-grid">
-          @for (item of challengeItems; track item.title) {
-            <li>
-              <span class="tone-icon" [attr.data-tone]="item.tone"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
-              <div><strong>{{ item.title }}</strong><span>{{ item.description }}</span></div>
+      <div class="challenge-ledger">
+        <div class="challenge-ledger__head" aria-hidden="true">
+          <span class="challenge-ledger__label challenge-ledger__label--from">From Challenges</span>
+          <span class="challenge-ledger__label challenge-ledger__label--to">To Opportunities</span>
+        </div>
+        <ul class="challenge-ledger__rows">
+          @for (row of challengeRows; track row.title) {
+            <li class="challenge-row">
+              <div class="challenge-row__from">
+                <span class="tone-icon" [attr.data-tone]="row.tone"><fa-icon [icon]="row.icon" aria-hidden="true" /></span>
+                <p><strong>{{ row.title }}</strong> <span>{{ row.description }}</span></p>
+              </div>
+              <span class="challenge-row__seam" aria-hidden="true"><fa-icon [icon]="icons.arrowRight" /></span>
+              <p class="challenge-row__to">
+                <span class="sr-only">becomes </span>
+                <fa-icon [icon]="row.toIcon" aria-hidden="true" />{{ row.to }}
+              </p>
             </li>
           }
         </ul>
-      </div>
-
-      <div class="split-section__visual challenge-visual">
-        <!-- A frustrated person facing the "from challenges" side of the
-           story, faded into the section's own background on its left edge
-           exactly like the hero photo. -->
-        <div class="challenge-photo" aria-hidden="true">
-          <img ngSrc="/worldposta-assets/hero/cloudedge/challenge-reference.avif" width="1600" height="666" alt="" />
-        </div>
-
-        <div class="checklist-stack">
-          <div class="checklist-card checklist-card--rose">
-            <h3>From Challenges</h3>
-            <ul>
-              @for (item of fromChallenges; track item.label) {
-                <li><fa-icon [icon]="item.icon" aria-hidden="true" />{{ item.label }}</li>
-              }
-            </ul>
-          </div>
-          <!-- The transition is told through position and a soft red-to-green
-               thread between the cards, not a literal arrow. -->
-          <div class="checklist-connector" aria-hidden="true"></div>
-          <div class="checklist-card checklist-card--green">
-            <h3>To Opportunities</h3>
-            <ul>
-              @for (item of toOpportunities; track item.label) {
-                <li><fa-icon [icon]="item.icon" aria-hidden="true" />{{ item.label }}</li>
-              }
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -273,7 +243,7 @@
 
       <div class="split-section__visual">
         <div class="world-map">
-          <div class="world-map__art"><img ngSrc="/worldposta-assets/hero/cloudedge/global-infrastructure-reference.avif" width="1600" height="660" alt="Dotted world map showing WorldPosta's global network of regions" /></div>
+          <div class="world-map__art"><img ngSrc="/worldposta-assets/hero/cloudedge/global-earth-night.avif" width="1600" height="1207" alt="Earth from orbit at night, with city lights across Europe and North Africa" /></div>
           <div class="floating-card world-map__card">
             <span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.globe" aria-hidden="true" /></span>
             <div><strong>Global Reach</strong><span>35+ regions worldwide</span></div>
@@ -305,7 +275,7 @@
 
       <div class="split-section__visual">
         <div class="migration-flow">
-          <div class="migration-art" aria-hidden="true"><img ngSrc="/worldposta-assets/hero/cloudedge/migration-reference.avif" width="1600" height="660" alt="" /></div>
+          <div class="migration-art" aria-hidden="true"><img [ngSrc]="migrationPhoto()" width="1600" height="1207" alt="" /></div>
           <div class="migration-flow__row">
             <div class="migration-flow__card">
               <span>From</span>
@@ -402,7 +372,7 @@
 
       <div class="split-section__visual whitepaper-visual">
         <div class="compare-photo">
-          <img ngSrc="/worldposta-assets/hero/cloudedge/whitepaper-reference.avif" width="1600" height="533" alt="Cloud specialist reviewing cloud providers on a laptop" />
+          <img [ngSrc]="whitepaperPhoto()" width="1600" height="1067" alt="Laptop showing the CloudEdge console beside a printed cloud provider comparison report" />
         </div>
 
         <div class="floating-card compare-card">
@@ -432,13 +402,8 @@
         <a class="btn btn--primary" href="https://www.worldposta.com/contact-us">Talk to a Cloud Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
-      <div class="split-section__visual expert-support-visual">
-        <div class="support-cloud" aria-hidden="true"><img ngSrc="/worldposta-assets/hero/cloudedge/expert-support-reference.avif" width="1600" height="660" alt="" /></div>
-        <ul class="expert-support-details" aria-label="Expert support services">
-          @for (card of expertSupportHub; track card.title) {
-            <li><span class="tone-icon" [attr.data-tone]="card.tone"><fa-icon [icon]="card.icon" aria-hidden="true" /></span><div><strong>{{ card.title }}</strong><span>{{ card.description }}</span></div></li>
-          }
-        </ul>
+      <div class="split-section__visual">
+        <app-expert-journey [steps]="expertSupportHub" />
       </div>
     </div>
   </section>

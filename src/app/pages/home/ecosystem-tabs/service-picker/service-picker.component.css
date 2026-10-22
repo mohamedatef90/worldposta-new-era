@@ -41,7 +41,7 @@
 
 .picker.is-open .picker__mark {
   color:var(--primary-foreground);
-  background:var(--color-brand-green);
+  background:var(--color-action);
 }
 
 .picker__text {
@@ -51,19 +51,17 @@
 
 /* The family name is the taxonomy the sidebar used to carry in its group
    headings — without it the phone view loses the shape of the catalogue. */
-/* Sized to fit the longest family name, "Collaboration & Productivity", which
-   needed 205px against the 183px this column gets on a 375px phone. Tracking
-   is kept — it is what makes this read as a label rather than a subtitle. */
+/* 12px is the readable floor, so the longest family name, "Collaboration &
+   Productivity", wraps to a second line on a 375px phone instead of
+   shrinking the type or truncating. */
 .picker__group {
   display:block;
-  overflow:hidden;
   color:var(--color-text-muted);
-  font-size:9px;
+  font-size:var(--fs-caption);
   font-weight:var(--fw-bold);
-  letter-spacing:0.6px;
-  text-overflow:ellipsis;
+  letter-spacing:0.4px;
+  line-height:1.25;
   text-transform:uppercase;
-  white-space:nowrap;
 }
 
 .picker__name {

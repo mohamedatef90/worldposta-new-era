@@ -60,6 +60,8 @@
 .notes-rail__list li.is-active {
   background:color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
 }
+/* The selected row's tint lowers contrast, so its secondary text steps up. */
+.notes-rail__list li.is-active .notes-rail__count { color:var(--color-text-primary); }
 
 .notes-rail__mark {
   flex:0 0 auto;
@@ -88,8 +90,8 @@
 
 .notes-rail__count {
   flex:0 0 auto;
-  color:var(--color-text-muted);
-  font-size:11px;
+  color:var(--color-text-secondary); /* muted failed on the active row's tint */
+  font-size:var(--fs-caption);
 }
 
 /* ------------------------------------------------------------------ list */
@@ -139,7 +141,7 @@
   padding:7px var(--space-md);
   border-radius:var(--radius-md);
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
+  background:var(--wp-blue-action);
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
 }
@@ -185,6 +187,7 @@
 .notes-table tbody tr.is-active {
   background:color-mix(in srgb, var(--wp-tone-blue) 8%, transparent);
 }
+.notes-table tbody tr.is-active :is(td, .notes-row__more) { color:var(--color-text-secondary); }
 
 .notes-row__name {
   display:flex;
@@ -201,7 +204,7 @@
   height:24px;
   place-items:center;
   border-radius:var(--radius-md);
-  color:var(--tone);
+  color:color-mix(in srgb, var(--tone) 50%, var(--wp-ink)); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
   font-size:11px;
 }
@@ -247,7 +250,7 @@
 
 .notes-pages__page.is-active {
   color:var(--primary-foreground);
-  background:var(--wp-tone-blue);
+  background:var(--wp-blue-action);
   font-weight:var(--fw-semibold);
 }
 
@@ -334,7 +337,7 @@
   height:30px;
   place-items:center;
   border-radius:var(--radius-md);
-  color:var(--tone);
+  color:color-mix(in srgb, var(--tone) 50%, var(--wp-ink)); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
   font-size:9px;
   font-weight:var(--fw-bold);

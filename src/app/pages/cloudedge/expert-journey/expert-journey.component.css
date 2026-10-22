@@ -1,0 +1,176 @@
+/* Six equal rows on a vertical track. The expert badge hops node to node over
+   one 12s cycle (2s per step); each card's highlight is the same keyframe,
+   offset by its index, so badge and card always arrive together. */
+:host {
+  --gap: 12px;
+  --rail: 44px;
+  --cycle: 12s;
+  position: relative;
+  display: block;
+}
+
+.journey { position: relative; }
+.journey__list {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The track runs from the first node's centre to the last one's. */
+.journey__track {
+  position: absolute;
+  top: calc((100% - 5 * var(--gap)) / 12);
+  bottom: calc((100% - 5 * var(--gap)) / 12);
+  left: calc(var(--rail) / 2 - 1px);
+  width: 2px;
+  border-radius: 2px;
+  background: var(--wp-panel-line);
+}
+.journey__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, var(--wp-blue), var(--color-brand-green));
+  transform-origin: top;
+  transform: scaleY(1);
+}
+.journey__expert {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border-radius: 50%;
+  background: var(--wp-blue);
+  color: var(--wp-on-brand);
+  font-size: 15px;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--wp-blue) 20%, transparent), var(--shadow-md);
+}
+
+.journey__step {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  align-items: center;
+}
+.journey__node {
+  justify-self: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--color-brand-green);
+  background: var(--wp-panel);
+  z-index: 1;
+}
+
+.journey__card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  border: 1px solid var(--wp-panel-line);
+  border-radius: var(--radius-xl);
+  background: var(--wp-panel);
+  box-shadow: var(--shadow-sm);
+}
+/* Same tone chips as the page (its .tone-icon rules are scoped to it). */
+.tone-icon { display: inline-grid; flex: 0 0 auto; place-items: center; width: 40px; height: 40px; border-radius: 12px; font-size: 18px; --tone: var(--wp-tone-sky); color: var(--tone); background: color-mix(in srgb, var(--tone) 18%, transparent); }
+.tone-icon[data-tone='green'] { --tone: var(--wp-tone-green); }
+.tone-icon[data-tone='blue'] { --tone: var(--wp-tone-blue); }
+.tone-icon[data-tone='purple'] { --tone: var(--wp-tone-purple); }
+.tone-icon[data-tone='amber'] { --tone: var(--wp-tone-amber); }
+.journey__text { flex: 1; min-width: 0; }
+.journey__text strong { display: block; color: var(--wp-ink); font-size: var(--fs-body-sm); line-height: 1.35; }
+.journey__text span { display: block; color: var(--color-text-secondary); font-size: var(--fs-caption); line-height: 1.45; }
+.journey__index {
+  color: var(--color-text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+}
+
+.journey__toggle {
+  display: grid;
+  margin: var(--space-md) 0 0 auto;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--wp-panel-line);
+  border-radius: 50%;
+  background: var(--wp-panel);
+  color: var(--wp-ink);
+  font-size: 14px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+.journey__toggle:hover { background: var(--color-bg-tertiary); }
+.journey__toggle:focus-visible { outline: 2px solid var(--color-action); outline-offset: 2px; }
+
+/* ---------- Motion (skipped entirely with reduced motion) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .journey__fill { animation: journey-fill var(--cycle) infinite; }
+  .journey__expert { animation: journey-expert var(--cycle) infinite; }
+  .journey__node { animation: journey-node var(--cycle) infinite; animation-delay: calc(var(--i) * var(--cycle) / 6); }
+  .journey__card { animation: journey-card var(--cycle) infinite; animation-delay: calc(var(--i) * var(--cycle) / 6); }
+  .journey__card .tone-icon { animation: journey-icon var(--cycle) infinite; animation-delay: calc(var(--i) * var(--cycle) / 6); }
+  .is-paused * { animation-play-state: paused !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey__toggle { display: none; }
+}
+
+/* Badge: hold at each node ~1.4s, glide ~0.6s to the next; fade back to the top. */
+@keyframes journey-expert {
+  0% { top: 0%; opacity: 0; }
+  2%, 12% { top: 0%; opacity: 1; }
+  16.67%, 28.67% { top: 20%; }
+  33.33%, 45.33% { top: 40%; }
+  50%, 62% { top: 60%; }
+  66.67%, 78.67% { top: 80%; }
+  83.33%, 94% { top: 100%; opacity: 1; }
+  98%, 100% { top: 100%; opacity: 0; }
+}
+@keyframes journey-fill {
+  0%, 12% { transform: scaleY(0); opacity: 1; }
+  16.67%, 28.67% { transform: scaleY(.2); }
+  33.33%, 45.33% { transform: scaleY(.4); }
+  50%, 62% { transform: scaleY(.6); }
+  66.67%, 78.67% { transform: scaleY(.8); }
+  83.33%, 94% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+/* One step's highlight: on as the badge lands, off as it leaves. */
+@keyframes journey-card {
+  0% { border-color: var(--wp-panel-line); transform: none; }
+  2%, 13% {
+    border-color: color-mix(in srgb, var(--wp-blue) 55%, var(--wp-panel-line));
+    transform: translateX(6px);
+    box-shadow: var(--shadow-md);
+  }
+  17%, 100% { border-color: var(--wp-panel-line); transform: none; }
+}
+@keyframes journey-icon {
+  0%, 17%, 100% { scale: 1; }
+  4%, 13% { scale: 1.08; }
+}
+@keyframes journey-node {
+  0% { background: var(--wp-panel); box-shadow: none; }
+  2%, 13% { background: var(--color-brand-green); box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-brand-green) 22%, transparent); }
+  17%, 100% { background: var(--color-brand-green); box-shadow: none; }
+}
+
+@media (max-width: 639px) {
+  :host { --rail: 32px; --gap: 10px; }
+  .journey__card { gap: 12px; padding: 12px; }
+  .journey__index { display: none; }
+  .journey__expert { width: 30px; height: 30px; margin: -15px 0 0 -15px; font-size: 12px; }
+}
