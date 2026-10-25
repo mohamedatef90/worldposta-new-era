@@ -160,8 +160,8 @@ h1 > span .text-blue { display:inline; }
   }
 }
 @media (max-width:639px) {
-  /* Phones crop to 5:4 from the right: the laptop starts ~28% in and the
-     person runs to the right edge, so both stay in frame. */
+  /* Phones crop to 5:4 from the right: the person sits at the right edge and
+     the glass cloud starts ~25% in, so both stay in frame. */
   .hero-photo { aspect-ratio:1.25; margin-inline:20px; border-radius:16px; }
   .hero-photo > img { object-position:100% 55%; }
   .hero__content { padding-left:20px; padding-right:20px; padding-top:var(--space-lg); }

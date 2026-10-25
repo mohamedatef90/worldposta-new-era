@@ -193,18 +193,12 @@ export class CloudEdgeComponent {
   ];
 
   /** AI-generated stand-in for the customer's own photo; swap for the real asset when supplied. */
-  protected readonly heroPhoto = '/worldposta-assets/hero/cloudedge/partner-photo.avif';
-
   /**
-   * Hero visual: a real stock photo (Magnific/Freepik, licensed) of a professional
-   * at a green-screen laptop, with the real CloudEdge console screenshot warped
-   * onto the screen. The console matches the site theme.
+   * Hero visual: a Magnific-generated photo following the brand reference — a
+   * professional at a laptop with a frosted-glass cloud and network lines. No
+   * text in the image; the benefits stay live in the trust bar below.
    */
-  protected readonly heroDeskPhoto = computed(() =>
-    this.theme.isDark()
-      ? '/worldposta-assets/hero/cloudedge/hero-console-dark.avif'
-      : '/worldposta-assets/hero/cloudedge/hero-console-light.avif',
-  );
+  protected readonly heroPhoto = '/worldposta-assets/hero/cloudedge/hero-cloud-partner.avif';
 
   /*
    * Section photography below is generated with Magnific as concept scenes (no
