@@ -960,12 +960,18 @@ button, input, select { font-family:inherit; }
 @media (max-width:1023px) {
 .sec-radar, .sec-glow { display:none; }
 }
-.secure-visual .console-shell { margin:0 auto; max-width:540px; }
+.secure-visual .console-shell { margin:0 auto; max-width:520px; }
 .secure-shield, .sec-radar { left:50%; }
-.side-card { width:184px; }
+.side-card { width:170px; }
 .side-card--l { top:200px; }
 .side-card--r1 { top:70px; }
 .side-card--r2 { top:300px; }
+/* keep both attachments fully visible inside the security inbox */
+.secure-visual .mail-ui__att { display:grid; grid-template-columns:minmax(0,1fr); gap:6px; }
+.secure-visual .mail-ui__att > span { min-width:0; }
+@media (min-width:1280px) {
+.secure-visual .mail-ui { grid-template-columns:104px minmax(0,1fr) minmax(0,1fr) !important; }
+}
 @media (max-width:1279px) {
 .secure-visual .console-shell { margin:0 auto; max-width:470px; }
 .secure-shield, .sec-radar { left:50%; }
@@ -1915,3 +1921,24 @@ button, input, select { font-family:inherit; }
 #resources.section{padding-block:var(--wp-section-pad)!important}
 
 .hero-man img{object-fit:contain}
+
+/* ===== Get started: founder photo + glass sign-up form (one piece) ===== */
+#get-started .signup2 { grid-template-columns:minmax(0, .86fr) minmax(0, 1.5fr); gap:clamp(32px, 4vw, 64px); }
+.signup-scene { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) minmax(300px, 360px); align-items:center; min-height:600px; border-radius:28px; overflow:hidden; background:var(--color-bg-tertiary); box-shadow:0 30px 70px color-mix(in srgb, var(--wp-ink) 14%, transparent); isolation:isolate; }
+.signup-scene__photo { position:absolute; inset:0; z-index:-1; width:100%; height:100%; object-fit:cover; object-position:left bottom; }
+.signup-scene::after { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg, transparent 45%, color-mix(in srgb, var(--wp-panel) 22%, transparent) 100%); pointer-events:none; }
+.signup-scene .form-card--glass { grid-column:2; margin:28px 28px 28px 0; border:1px solid color-mix(in srgb, var(--wp-panel) 70%, transparent); background:color-mix(in srgb, var(--wp-panel) 86%, transparent); -webkit-backdrop-filter:blur(16px) saturate(1.2); backdrop-filter:blur(16px) saturate(1.2); box-shadow:0 24px 54px color-mix(in srgb, var(--wp-ink) 16%, transparent); }
+.signup-scene .ready-float { top:24px; left:24px; bottom:auto; }
+@media (max-width:1479px) {
+  #get-started .signup2 { grid-template-columns:minmax(0, 1fr); }
+  #get-started .signup2 > :first-child { max-width:640px; }
+}
+@media (max-width:1023px) {
+  .signup-scene { grid-template-columns:minmax(0, 1fr); min-height:0; padding-top:clamp(260px, 42vw, 380px); border-radius:22px; }
+  .signup-scene__photo { height:calc(clamp(260px, 42vw, 380px) + 40px); bottom:auto; }
+  .signup-scene .form-card--glass { max-width:none; }
+  .signup-scene::after { display:none; }
+  .signup-scene .form-card--glass { grid-column:1; margin:0 12px 12px; }
+  .signup-scene .ready-float { bottom:auto; top:12px; left:12px; }
+  .signup-scene .ready-float strong { font-size:13px; }
+}

@@ -40,7 +40,7 @@
         <div class="floating-card floating-card--dc"><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.database" aria-hidden="true" /></span><span><strong>Hosted in Our <br>Secure Data Centers</strong><small>Your data, our control.</small></span></div>
 
         <div class="hero-mail" aria-hidden="true">
-          <img class="hero-man" ngSrc="/worldposta-assets/posta/hero-man.avif" width="486" height="792" priority alt="" />
+          <img class="hero-man" ngSrc="/worldposta-assets/posta/hero-woman.avif" width="486" height="792" priority alt="" />
           <div class="pm-top">
             <div class="pm-brand"><img class="posta-mark" ngSrc="/worldposta-assets/posta/posta-mark.avif" width="160" height="160" alt="" />Posta</div>
             <div class="pm-search"><fa-icon [icon]="icons.magnifyingGlass" aria-hidden="true" />Search in mail</div>
@@ -426,7 +426,7 @@
           <li><fa-icon [icon]="icons.gear" aria-hidden="true" />Flexibility</li>
           <li><fa-icon [icon]="icons.clock" aria-hidden="true" />Uptime</li>
         </ul>
-        <figure class="hb-scene"><img ngSrc="/worldposta-assets/posta/hybrid-scene.avif" alt="WorldPosta Suite admin console and Gmail connected through WorldPosta in one business" width="1090" height="390" /></figure>
+        <figure class="hb-scene"><img ngSrc="/worldposta-assets/posta/hybrid-scene.avif" alt="WorldPosta admin console and Posta webmail connected through WorldPosta in one business" width="1090" height="390" /></figure>
         <div class="hb-root"><span class="tone-icon" data-tone="indigo"><fa-icon [icon]="icons.building" aria-hidden="true" /></span><strong>Your Company</strong><small>&#64;company.com</small></div>
         <svg class="hb-lines" viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden="true">
           <path class="g" d="M176 0 V20 Q176 28 168 28 H58 Q50 28 50 36 V56"/>
@@ -459,13 +459,11 @@
           </ul>
         </div>
 
-        <div class="device-visual" appReveal aria-hidden="true">
-          <div class="ready-float panel"><fa-icon [icon]="icons.check" class="ok" aria-hidden="true" /><span><strong>you&#64;yourcompany.com</strong><small>Ready to use</small></span></div>
-          <div class="phone"><img ngSrc="/worldposta-assets/posta/mobile-app.avif" alt="" width="620" height="1344" /></div>
-          <span class="mail-tile"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>
-        </div>
+        <div class="signup-scene" appReveal>
+          <img class="signup-scene__photo" ngSrc="/worldposta-assets/posta/signup-founder.avif" width="1800" height="1416" alt="Business owner working in Posta webmail on her laptop" />
+          <div class="ready-float panel" aria-hidden="true"><fa-icon [icon]="icons.check" class="ok" aria-hidden="true" /><span><strong>you&#64;yourcompany.com</strong><small>Ready to use</small></span></div>
 
-        <form class="form-card panel" appReveal (submit)="onMockSubmit($event)" aria-labelledby="form2-title">
+        <form class="form-card form-card--glass panel" (submit)="onMockSubmit($event)" aria-labelledby="form2-title">
           <h3 id="form2-title" style="margin-bottom:var(--space-lg)">Create your business email</h3>
           <div class="field"><label for="f2-name">Your name</label><input class="input" id="f2-name" type="text" placeholder="John Doe" autocomplete="name"></div>
           <div class="field"><label for="f2-biz">Business name</label><input class="input" id="f2-biz" type="text" placeholder="Your Company" autocomplete="organization"></div>
@@ -477,6 +475,7 @@
           <button class="btn btn--google" type="button"><fa-icon [icon]="icons.google" style="color:#4285f4" aria-hidden="true" /> Continue with Google</button>
           <p class="form-note">Already have an account? <a href="https://home.worldposta.com/" style="color:var(--wp-blue);font-weight:600">Sign in</a></p>
         </form>
+        </div>
       </div>
 
       <ul class="note-strip" appReveal aria-label="Platform assurances">

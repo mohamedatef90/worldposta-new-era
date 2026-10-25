@@ -371,9 +371,9 @@ export class PostaComponent {
   protected readonly stories: readonly Story[] = [
     {
       photo: '/worldposta-assets/posta/story-bbva.avif',
-      photoAlt: 'BBVA headquarters building',
+      photoAlt: 'Bank operations team at work in an open-plan office',
       photoWidth: 1100,
-      photoHeight: 376,
+      photoHeight: 502,
       chipIcon: faBuildingColumns,
       chipLabel: 'Banking',
       logo: '/worldposta-assets/brand-logos/customers/bbva.avif',
@@ -385,9 +385,9 @@ export class PostaComponent {
     },
     {
       photo: '/worldposta-assets/posta/story-iberia.avif',
-      photoAlt: 'Iberia aircraft in flight',
+      photoAlt: 'Airline operations centre with a passenger jet at the gate',
       photoWidth: 1100,
-      photoHeight: 418,
+      photoHeight: 502,
       chipIcon: faPlane,
       chipLabel: 'Aviation',
       logo: '/worldposta-assets/brand-logos/customers/iberia.avif',
@@ -399,9 +399,9 @@ export class PostaComponent {
     },
     {
       photo: '/worldposta-assets/posta/story-government.avif',
-      photoAlt: 'Government building',
+      photoAlt: 'Capital markets team reviewing market data on screens',
       photoWidth: 1100,
-      photoHeight: 380,
+      photoHeight: 502,
       chipIcon: faLandmark,
       chipLabel: 'Government',
       logo: '/worldposta-assets/brand-logos/customers/lseg.avif',
