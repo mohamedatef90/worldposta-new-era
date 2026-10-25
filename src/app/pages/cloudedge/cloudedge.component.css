@@ -140,7 +140,8 @@ h1 > span .text-blue { display:inline; }
    stretched inset box). On wide screens three benefit cards float around the
    glass cloud (see .hero-float below). */
 .hero-photo { position:absolute; z-index:0; overflow:hidden; border-radius:28px; left:44%; right:28px; top:50%; aspect-ratio:1.5; transform:translateY(-50%); mask-image:linear-gradient(to right, transparent, black 1.5%); -webkit-mask-image:linear-gradient(to right, transparent, black 1.5%); }
-.hero-photo > img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.hero-photo__img { position:absolute; inset:0; }
+.hero-photo__img img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 
 .floating-card { position:absolute; z-index:1; display:flex; flex-direction:row; align-items:center; gap:12px; max-width:220px; padding:12px var(--space-md); border:1px solid color-mix(in srgb, var(--wp-panel-line) 70%, transparent); border-radius:15px; background:var(--wp-panel); box-shadow:0 10px 24px -8px color-mix(in srgb, var(--wp-ink) 16%, transparent), 0 2px 6px -2px color-mix(in srgb, var(--wp-ink) 10%, transparent); }
 .floating-card strong { font-size:13px; line-height:1.3; color:var(--color-text-primary); font-weight:var(--fw-semibold); }
@@ -153,9 +154,10 @@ h1 > span .text-blue { display:inline; }
   .hero-links path { fill:none; stroke:color-mix(in srgb, var(--wp-tone-sky) 75%, white); stroke-width:1.6; stroke-linecap:round; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 3px color-mix(in srgb, var(--wp-tone-sky) 70%, transparent)); opacity:.85; }
   .hero-float { display:flex; max-width:none; padding:10px 16px 10px 10px; z-index:2; }
   .hero-float strong { font-size:var(--fs-body-sm); white-space:nowrap; }
-  .hero-float--no-fees { left:5%; top:6%; }
-  .hero-float--support { right:4%; top:6%; }
-  .hero-float--security { left:6%; bottom:9%; }
+  /* Top cards clear the sticky header, which overlaps the hero's top 62px. */
+  .hero-float--no-fees { left:4%; top:13%; }
+  .hero-float--support { right:4%; top:13%; }
+  .hero-float--security { left:11%; bottom:9%; } /* clear of the CTA row at 1200–1300px */
 }
 @media (min-width:1200px) and (prefers-reduced-motion:no-preference) {
   /* Fade, not a dash draw: non-scaling strokes ignore pathLength, so a dash animation breaks. */
@@ -186,7 +188,7 @@ h1 > span .text-blue { display:inline; }
   /* Phones crop to 5:4 from the right: the person sits at the right edge and
      the glass cloud starts ~25% in, so both stay in frame. */
   .hero-photo { aspect-ratio:1.25; margin-inline:20px; border-radius:16px; }
-  .hero-photo > img { object-position:100% 55%; }
+  .hero-photo__img img { object-position:100% 55%; }
   .hero__content { padding-left:20px; padding-right:20px; padding-top:var(--space-lg); }
   .hero-copy { padding-top:0; }
   .hero-copy__description { font-size:var(--fs-body); }
@@ -969,11 +971,22 @@ h1 > span .text-blue { display:inline; }
   .trust-bar li { white-space:normal; }
 }
 
-/* Desktop: keep the complete hero photograph below the header without cropping.
-   Below 1024px the photo sits in the flow under the copy instead (see the hero rules). */
+/* Desktop: the photo is the section background, pinned to the right edge at
+   its own 3:2 (so the floating cards stay on the cloud), dissolving into the
+   hero gradient behind the copy and fading at top and foot. From 1440px it is
+   the hero's full 640px height (960 wide); narrower, it scales down so its
+   cloud always starts past the copy column (~412px in) instead of sliding
+   under the text. Only the image is masked, not the cards. */
 @media (min-width:1024px) {
-  .hero-photo { top:104px; bottom:24px; transform:none; aspect-ratio:auto; }
-  .hero-photo > img { object-fit:contain; object-position:center; }
+  .hero-photo { top:50%; bottom:auto; left:auto; right:0; width:min(960px, calc(100vw - 412px)); aspect-ratio:1.5; transform:translateY(-50%); border-radius:0; overflow:visible; -webkit-mask-image:none; mask-image:none; }
+  .hero-photo__img {
+    -webkit-mask-image:linear-gradient(to right, transparent, #000 32%), linear-gradient(to bottom, transparent, #000 10%, #000 82%, transparent);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to right, transparent, #000 32%), linear-gradient(to bottom, transparent, #000 10%, #000 82%, transparent);
+    mask-composite:intersect;
+  }
+  /* The photo is a bright daylight scene: tone it down on the dark theme. */
+  :host-context([data-theme='dark']) .hero-photo__img img { filter:brightness(.78) saturate(.92); }
 }
 
 /* Balance the hero copy vertically against the full photograph. */
