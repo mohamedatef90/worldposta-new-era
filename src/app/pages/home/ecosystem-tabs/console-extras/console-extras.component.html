@@ -1,0 +1,37 @@
+@if (subtitle(); as text) {
+  <p class="cx-subtitle">{{ text }}</p>
+}
+
+@if (toolbar().length) {
+  <div class="cx-toolbar" aria-hidden="true">
+    @for (label of toolbar(); track label) {
+      <span class="cx-chip">{{ label }}</span>
+    }
+  </div>
+}
+
+@if (capacity(); as cap) {
+  <div class="cx-capacity">
+    <p class="cx-capacity__title">Capacity Overview</p>
+    <p class="cx-capacity__note">Total provisioned storage across all services.</p>
+    <div
+      class="cx-meter"
+      role="img"
+      [attr.aria-label]="cap.used + ' of ' + cap.total + ' provisioned (' + cap.percent + '%)'"
+    >
+      <span class="cx-meter__fill" [style.width.%]="cap.percent"></span>
+    </div>
+    <p class="cx-capacity__legend" aria-hidden="true">
+      <span>{{ cap.used }} Used</span>
+      <span>{{ cap.total }} Total</span>
+    </p>
+  </div>
+}
+
+@if (views().length) {
+  <div class="cx-views" aria-hidden="true">
+    @for (view of views(); track view; let first = $first) {
+      <span class="cx-view" [class.cx-view--current]="first">{{ view }}</span>
+    }
+  </div>
+}

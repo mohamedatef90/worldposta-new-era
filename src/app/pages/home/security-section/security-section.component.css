@@ -22,7 +22,7 @@
 .eyebrow span {
   width:40px;
   height:2px;
-  background:var(--color-brand-green);
+  background:var(--color-action);
 }
 
 .eyebrow--plain {
@@ -60,7 +60,7 @@ h2 {
   padding:0 var(--space-lg);
   border-radius:var(--radius-full);
   color:var(--primary-foreground);
-  background:var(--color-brand-green);
+  background:var(--color-action);
   font-size:var(--fs-body);
   font-weight:var(--fw-semibold);
   text-decoration:none;
@@ -69,7 +69,7 @@ h2 {
 
 .btn-primary:hover {
   color:var(--primary-foreground);
-  background:var(--color-brand-green-light);
+  background:var(--color-action-hover);
 }
 
 /* Six across on desktop; the dividers read as one continuous rule. */

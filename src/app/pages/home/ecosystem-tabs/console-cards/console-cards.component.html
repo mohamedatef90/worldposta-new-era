@@ -1,0 +1,39 @@
+<ul class="cc-grid" [attr.aria-label]="label()">
+  @for (card of cards(); track card.name) {
+    <li class="cc-card">
+      <div class="cc-card__head">
+        <span class="cc-os"><fa-icon [icon]="card.icon" aria-hidden="true" /></span>
+        <h5 class="cc-name">{{ card.name }}</h5>
+      </div>
+      <!-- Dot plus word: state is never carried by colour alone. -->
+      <span class="cc-status" [attr.data-tone]="card.status.tone">
+        <span class="cc-status__dot" aria-hidden="true"></span>
+        {{ card.status.label }}
+      </span>
+
+      <dl class="cc-specs">
+        @for (fact of card.specs; track fact.label) {
+          <div class="cc-spec">
+            <dt>{{ fact.label }}</dt>
+            <dd>{{ fact.value }}</dd>
+          </div>
+        }
+      </dl>
+
+      <dl class="cc-meta">
+        @for (fact of card.meta; track fact.label) {
+          <div class="cc-meta__row">
+            <dt>{{ fact.label }}</dt>
+            <dd>{{ fact.value }}</dd>
+          </div>
+        }
+      </dl>
+
+      <!-- Presentational, like the search field: nothing to open in a preview. -->
+      <div class="cc-actions" aria-hidden="true">
+        <span class="cc-btn">Profile</span>
+        <span class="cc-btn cc-btn--primary">Web Console</span>
+      </div>
+    </li>
+  }
+</ul>

@@ -14,12 +14,15 @@ img { max-width:100%; }
 .page { overflow-x:clip; background:var(--color-bg-primary); }
 
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-sm); min-height:48px; padding:0 28px; border:1.5px solid transparent; border-radius:var(--radius-full); font-family:var(--font-body); font-size:var(--fs-body-sm); font-weight:var(--fw-semibold); text-decoration:none; white-space:nowrap; cursor:pointer; transition:transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out), box-shadow var(--duration-base) var(--ease-out); }
-.btn--primary { color:var(--primary-foreground); background:var(--color-brand-green); box-shadow:0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); }
-.btn--primary:hover { color:var(--primary-foreground); background:var(--color-brand-green-light); transform:translateY(-2px); }
+.btn--primary { color:var(--primary-foreground); background:var(--color-action); box-shadow:0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); }
+.btn--primary:hover { color:var(--primary-foreground); background:var(--color-action-hover); transform:translateY(-2px); }
 .btn--ghost { color:var(--wp-ink); background:var(--wp-panel); border-color:var(--wp-panel-line); box-shadow:var(--shadow-sm); }
 .btn--ghost:hover { color:var(--wp-ink); border-color:var(--color-brand-green); transform:translateY(-2px); }
-.btn--outline { color:var(--color-brand-green); border-color:var(--color-brand-green); background:transparent; }
-.btn--outline:hover { color:var(--primary-foreground); background:var(--color-brand-green); }
+/* Brand green as small text: mixed toward the theme ink so it keeps the brand
+   hue but clears 4.5:1 on white, dark panels and pale green chips. */
+:host { --ce-green-text:color-mix(in srgb, var(--color-brand-green) 60%, var(--wp-ink)); }
+.btn--outline { color:var(--ce-green-text); border-color:var(--color-brand-green); background:transparent; }
+.btn--outline:hover { color:var(--primary-foreground); background:var(--color-action); }
 .btn--block { width:100%; }
 .btn--xs { min-height:32px; padding:0 14px; font-size:var(--fs-caption); }
 
@@ -134,25 +137,58 @@ h1 > span .text-blue { display:inline; }
 /* hero-photo — fades into the hero's own gradient on its left edge, so it
    reads as part of the section's background rather than a framed screenshot
    on top of it. Sized to the photo's own aspect ratio (aspect-ratio, not a
-   stretched inset box) rather than cropped with object-fit. The CloudEdge
-   console, the cloud icon and its connecting wire are already composited
-   into the photo itself, so there's nothing layered on top of it here. The
-   fade is kept short (not the wider fade a plain background photo would
-   use) because the cloud icon sits right at the photo's left edge — a
-   wider fade would wash it out along with the background behind it. */
+   stretched inset box). On wide screens three benefit cards float around the
+   glass cloud (see .hero-float below). */
 .hero-photo { position:absolute; z-index:0; overflow:hidden; border-radius:28px; left:44%; right:28px; top:50%; aspect-ratio:1.5; transform:translateY(-50%); mask-image:linear-gradient(to right, transparent, black 1.5%); -webkit-mask-image:linear-gradient(to right, transparent, black 1.5%); }
-.hero-photo > img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.hero-photo__img { position:absolute; inset:0; }
+.hero-photo__img img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 
 .floating-card { position:absolute; z-index:1; display:flex; flex-direction:row; align-items:center; gap:12px; max-width:220px; padding:12px var(--space-md); border:1px solid color-mix(in srgb, var(--wp-panel-line) 70%, transparent); border-radius:15px; background:var(--wp-panel); box-shadow:0 10px 24px -8px color-mix(in srgb, var(--wp-ink) 16%, transparent), 0 2px 6px -2px color-mix(in srgb, var(--wp-ink) 10%, transparent); }
 .floating-card strong { font-size:13px; line-height:1.3; color:var(--color-text-primary); font-weight:var(--fw-semibold); }
 
+/* Hero benefit cards and their links, placed in % of the photo around the
+   cloud (centre ≈ 33% 37%) and clear of the person on the right. */
+.hero-links, .hero-float { display:none; }
+@media (min-width:1200px) {
+  .hero-links { display:block; position:absolute; inset:0; z-index:1; width:100%; height:100%; overflow:visible; }
+  .hero-links path { fill:none; stroke:color-mix(in srgb, var(--wp-tone-sky) 75%, white); stroke-width:1.6; stroke-linecap:round; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 3px color-mix(in srgb, var(--wp-tone-sky) 70%, transparent)); opacity:.85; }
+  .hero-float { display:flex; max-width:none; padding:10px 16px 10px 10px; z-index:2; }
+  .hero-float strong { font-size:var(--fs-body-sm); white-space:nowrap; }
+  /* Top cards clear the sticky header, which overlaps the hero's top 62px. */
+  .hero-float--no-fees { left:4%; top:13%; }
+  .hero-float--support { right:4%; top:13%; }
+  .hero-float--security { left:11%; bottom:9%; } /* clear of the CTA row at 1200–1300px */
+}
+@media (min-width:1200px) and (prefers-reduced-motion:no-preference) {
+  /* Fade, not a dash draw: non-scaling strokes ignore pathLength, so a dash animation breaks. */
+  .hero-links { opacity:0; animation:hero-links-in .8s ease-out .5s forwards; }
+  .hero-float { opacity:0; animation:hero-float-in .6s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-float--no-fees { animation-delay:.9s; }
+  .hero-float--support { animation-delay:1.05s; }
+  .hero-float--security { animation-delay:1.2s; }
+}
+@keyframes hero-links-in { to { opacity:1; } }
+@keyframes hero-float-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
 @media (max-width:1199px) { .hero-photo { left:50%; } }
 @media (max-width:1023px) {
-  .hero { padding-top:72px; min-height:unset; }
+  /* Below desktop the photo drops into the flow under the copy (order puts it
+     after the headline it precedes in the DOM), full width, unfaded and uncropped. */
+  .hero { display:flex; flex-direction:column; padding-top:72px; min-height:unset; }
   .hero-copy { max-width:620px; }
-  .hero-photo { display:none; }
+  .hero__content { order:1; padding-bottom:var(--space-xl); }
+  .hero-photo {
+    position:relative; order:2; inset:auto; transform:none;
+    margin:0 var(--space-xl) var(--space-md); /* the jump-nav band below already adds the gap */
+    border-radius:20px;
+    -webkit-mask-image:none; mask-image:none;
+  }
 }
 @media (max-width:639px) {
+  /* Phones crop to 5:4 from the right: the person sits at the right edge and
+     the glass cloud starts ~25% in, so both stay in frame. */
+  .hero-photo { aspect-ratio:1.25; margin-inline:20px; border-radius:16px; }
+  .hero-photo__img img { object-position:100% 55%; }
   .hero__content { padding-left:20px; padding-right:20px; padding-top:var(--space-lg); }
   .hero-copy { padding-top:0; }
   .hero-copy__description { font-size:var(--fs-body); }
@@ -168,6 +204,9 @@ h1 > span .text-blue { display:inline; }
    ============================================================ */
 .alt-section { padding-block:var(--wp-section-pad); background:var(--color-bg-primary); }
 .alt-section--tint { background:var(--wp-band-from); }
+/* Light theme: the blue band (#e8f4fc) drops the muted grey to 4.25:1 and the
+   brand green to 2.99:1, so deepen both inside tinted sections (5.26:1 and 4.36:1). */
+:host-context([data-theme='light']) .alt-section--tint { --color-text-muted:#5b6577; --wp-green:var(--color-action); }
 
 .section-heading { font-size:clamp(26px, 2.8vw, 38px); line-height:1.18; letter-spacing:-.5px; font-weight:var(--fw-bold); margin-bottom:var(--space-md); }
 .section-subtitle { max-width:54ch; color:var(--color-text-secondary); font-size:15.5px; line-height:1.5; margin-bottom:var(--space-lg); }
@@ -224,35 +263,57 @@ h1 > span .text-blue { display:inline; }
 }
 
 /* ============================================================
-   CHALLENGES — "From Challenges" / "To Opportunities" checklists.
+   CHALLENGE — intro and photo beside a before/after ledger. Each row
+   pairs a pain point (rose side) with the outcome CloudEdge turns it
+   into (green side); the arrow sits on the seam between the halves.
    ============================================================ */
-.challenge-visual { min-height:460px; }
-.challenge-photo { position:absolute; inset:0; border-radius:28px; overflow:hidden; box-shadow:var(--shadow-xl); mask-image:linear-gradient(to right, transparent, black 18%); -webkit-mask-image:linear-gradient(to right, transparent, black 18%); }
-.challenge-photo img { display:block; width:100%; height:100%; object-fit:cover; }
+.challenge-layout { display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 7fr); gap:var(--space-2xl); align-items:stretch; }
+.challenge-intro { display:flex; flex-direction:column; }
+#challenges .section-heading { font-size:clamp(30px, 3.1vw, 46px); line-height:1.12; }
+#challenges .eyebrow__rule { background:var(--wp-tone-rose); }
+/* The Remotion loop (see ChallengeLoopComponent); its frame is 16:9. */
+.challenge-photo { aspect-ratio:16 / 9; margin-top:auto; }
+.challenge-intro .section-subtitle { margin-bottom:var(--space-lg); }
 
-/* The two cards float at the photo's right, each nudged a little further
-   right than the last with a short red-to-green thread between them —
-   hierarchy and a soft line carry the "problem → opportunity" read instead
-   of a literal arrow. */
-.checklist-stack { position:relative; z-index:1; display:flex; flex-direction:column; gap:0; width:min(300px, 92%); margin-left:auto; margin-right:6%; }
-.checklist-card { padding:var(--space-lg); border-radius:var(--radius-xl); background:var(--wp-panel); box-shadow:var(--shadow-lg); }
-.checklist-card h3 { font-size:15px; margin-bottom:var(--space-sm); }
-.checklist-card ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
-.checklist-card li { display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--wp-ink); font-weight:var(--fw-semibold); }
-.checklist-card--rose { border-top:3px solid var(--wp-tone-rose); }
-.checklist-card--rose h3 { color:var(--wp-tone-rose); }
-.checklist-card--rose fa-icon { color:var(--wp-tone-rose); }
-.checklist-card--green { margin-left:var(--space-xl); border-top:3px solid var(--color-brand-green); }
-.checklist-card--green h3 { color:var(--color-brand-green); }
-.checklist-card--green fa-icon { color:var(--color-brand-green); }
-.checklist-connector { width:2px; height:30px; margin:10px 0 10px var(--space-lg); border-radius:2px; background:linear-gradient(to bottom, var(--wp-tone-rose), var(--color-brand-green)); }
-
-@media (max-width:1023px) {
-  .challenge-visual { min-height:420px; }
-  .checklist-stack { margin:0 auto; width:min(340px, 100%); }
-  .checklist-card--green { margin-left:0; }
+.challenge-ledger {
+  --ledger-from:color-mix(in srgb, var(--wp-tone-rose) 6%, var(--wp-panel));
+  --ledger-to:color-mix(in srgb, var(--color-brand-green) 9%, var(--wp-panel));
+  display:flex; flex-direction:column; overflow:hidden;
+  border:1px solid var(--wp-panel-line); border-radius:28px;
+  background:linear-gradient(to right, var(--ledger-from) 50%, var(--ledger-to) 50%);
+  box-shadow:var(--wp-panel-shadow);
 }
-@media (max-width:639px) { .challenge-photo { display:none; } }
+.challenge-ledger__head, .challenge-row { display:grid; grid-template-columns:minmax(0, 1fr) 44px minmax(0, 1fr); }
+.challenge-ledger__head { padding-block:var(--space-lg) var(--space-md); }
+.challenge-ledger__label { display:flex; align-items:center; gap:10px; padding-inline:28px; color:var(--wp-ink); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:1.5px; text-transform:uppercase; }
+.challenge-ledger__label::before { content:''; width:8px; height:8px; border-radius:50%; background:var(--wp-tone-rose); }
+.challenge-ledger__label--to { grid-column:3; }
+.challenge-ledger__label--to::before { background:var(--color-brand-green); }
+.challenge-ledger__rows { flex:1 1 auto; display:grid; grid-auto-rows:1fr; margin:0; padding:0; list-style:none; }
+.challenge-row { border-top:1px solid var(--wp-panel-line); }
+.challenge-row__from { display:flex; align-items:center; gap:14px; padding:22px 20px 22px 28px; }
+.challenge-row__from p { margin:0; color:var(--color-text-secondary); font-size:var(--fs-body-sm); line-height:1.45; }
+.challenge-row__from strong { display:block; color:var(--wp-ink); font-size:var(--fs-body); }
+.challenge-row__seam { display:grid; place-items:center; }
+.challenge-row__seam fa-icon { display:grid; place-items:center; width:34px; height:34px; border:1px solid var(--wp-panel-line); border-radius:50%; background:var(--wp-panel); color:var(--color-text-secondary); font-size:13px; box-shadow:var(--shadow-sm); }
+.challenge-row__to { display:flex; align-items:center; gap:12px; margin:0; padding:22px 28px 22px 20px; color:var(--wp-ink); font-size:var(--fs-body); font-weight:var(--fw-semibold); line-height:1.4; }
+.challenge-row__to fa-icon { flex:0 0 auto; color:var(--color-brand-green); font-size:20px; }
+
+@media (max-width:1100px) {
+  .challenge-layout { grid-template-columns:1fr; gap:var(--space-xl); }
+}
+/* Phones: the halves stack inside each row, the arrow turns downward and
+   each half carries its own tint. */
+@media (max-width:639px) {
+  .challenge-ledger { background:var(--wp-panel); border-radius:var(--radius-xl); }
+  .challenge-ledger__head { display:none; }
+  .challenge-row { grid-template-columns:1fr; }
+  .challenge-row:first-child { border-top:0; }
+  .challenge-row__from { padding:var(--space-md) var(--space-md) var(--space-sm); background:var(--ledger-from); }
+  .challenge-row__seam { height:0; position:relative; z-index:1; }
+  .challenge-row__seam fa-icon { transform:rotate(90deg); width:28px; height:28px; font-size:11px; }
+  .challenge-row__to { padding:var(--space-md); background:var(--ledger-to); font-size:var(--fs-body-sm); }
+}
 
 /* ============================================================
    CLOUD COMPUTING OVERVIEW — sidebar + dashboard mockup.
@@ -264,7 +325,7 @@ h1 > span .text-blue { display:inline; }
 .cc-sidebar__link span { flex:1; }
 .cc-sidebar__chevron { font-size:10px; color:var(--color-text-muted); }
 .cc-sidebar__link:hover { background:color-mix(in srgb, var(--color-brand-green) 8%, transparent); }
-.cc-sidebar__link.is-active { background:color-mix(in srgb, var(--color-brand-green) 12%, transparent); color:var(--color-brand-green); }
+.cc-sidebar__link.is-active { background:color-mix(in srgb, var(--color-brand-green) 12%, transparent); color:var(--ce-green-text); }
 .cc-main .split-section__visual { min-height:440px; }
 
 @media (max-width:1023px) {
@@ -466,7 +527,7 @@ h1 > span .text-blue { display:inline; }
 .compare-card li span:first-of-type { flex:0 0 auto; width:92px; color:var(--wp-ink); font-weight:var(--fw-semibold); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .compare-card__bar { flex:1; height:6px; border-radius:999px; background:var(--wp-band-from); overflow:hidden; }
 .compare-card__bar span { display:block; height:100%; border-radius:999px; }
-.compare-card__bar span[data-tone='green'] { background:var(--color-brand-green); }
+.compare-card__bar span[data-tone='green'] { background:var(--color-action); }
 .compare-card__bar span[data-tone='blue'] { background:var(--wp-tone-blue); }
 .compare-card__bar span[data-tone='amber'] { background:var(--wp-tone-amber); }
 .compare-card__bar span[data-tone='rose'] { background:var(--wp-tone-rose); }
@@ -487,11 +548,11 @@ h1 > span .text-blue { display:inline; }
 .pricing-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-lg); align-items:start; }
 .pricing-plan { position:relative; padding:var(--space-lg); border-radius:var(--radius-xl); background:var(--wp-panel); border:1px solid var(--wp-panel-line); box-shadow:var(--shadow-sm); }
 .pricing-plan--featured { border-color:var(--color-brand-green); box-shadow:0 0 0 3px color-mix(in srgb, var(--color-brand-green) 12%, transparent), var(--shadow-md); }
-.pricing-plan__badge { position:absolute; top:-14px; left:var(--space-lg); display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:999px; background:var(--color-brand-green); color:var(--wp-on-brand); font-size:11px; font-weight:var(--fw-bold); }
+.pricing-plan__badge { position:absolute; top:-14px; left:var(--space-lg); display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:999px; background:var(--color-action); color:var(--wp-on-brand); font-size:11px; font-weight:var(--fw-bold); }
 .pricing-plan__head { display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-sm); margin-top:var(--space-sm); }
 .pricing-plan__head h3 { font-size:var(--fs-body-lg); color:var(--wp-ink); }
 .pricing-plan__head p { font-size:var(--fs-caption); color:var(--color-text-muted); margin-top:2px; }
-.pricing-plan__discount { padding:var(--space-xs) 10px; border-radius:999px; background:color-mix(in srgb, var(--color-brand-green) 14%, transparent); color:var(--color-brand-green); font-size:11px; font-weight:var(--fw-bold); white-space:nowrap; }
+.pricing-plan__discount { padding:var(--space-xs) 10px; border-radius:999px; background:color-mix(in srgb, var(--color-brand-green) 14%, transparent); color:var(--ce-green-text); font-size:11px; font-weight:var(--fw-bold); white-space:nowrap; }
 .pricing-plan__price { margin-top:var(--space-md); font-size:var(--fs-h2); font-weight:var(--fw-bold); color:var(--wp-ink); }
 .pricing-plan__price span { font-size:var(--fs-body-sm); font-weight:var(--fw-semibold); color:var(--color-text-muted); }
 .pricing-plan__billing { font-size:var(--fs-caption); color:var(--color-text-muted); margin-bottom:var(--space-md); }
@@ -534,13 +595,6 @@ h1 > span .text-blue { display:inline; }
 .pc-card span { font-size:11px; line-height:1.4; }
 .pc-card .tone-icon { width:36px; height:36px; font-size:var(--fs-body); }
 .pc-line { opacity:.7; }
-.challenge-visual { display:flex; align-items:center; min-height:500px; }
-.challenge-photo { inset:24px 22% 24px 0; mask-image:none; -webkit-mask-image:none; }
-.checklist-stack { width:min(310px, 75%); margin-right:0; }
-.checklist-card { padding:22px; border:1px solid var(--wp-panel-line); }
-.checklist-card--rose { border-top:3px solid var(--wp-tone-rose); }
-.checklist-card--green { border-top:3px solid var(--color-brand-green); margin-left:18px; }
-.checklist-card li { font-size:var(--fs-caption); line-height:1.5; align-items:baseline; }
 .zt-boundary { min-height:410px; border-radius:28px; background:var(--wp-panel); }
 .zt-zone { padding:30px 18px; gap:22px; }
 .zt-zone--allow { padding-right:58px; }
@@ -614,7 +668,6 @@ h1 > span .text-blue { display:inline; }
   .zt-server { max-width:none; font-size:13px; }
   .zt-zone__label { font-size:11px; }
   .world-map { min-height:auto; }
-  .challenge-visual { min-height:460px; }
   .whitepaper-cover, .compare-card { position:relative; inset:auto; width:auto; margin-top:var(--space-md); }
   .whitepaper-visual { padding:0; }
   .hub--es .hub__center { display:grid; }
@@ -625,9 +678,6 @@ h1 > span .text-blue { display:inline; }
   .pc-card { padding:var(--space-md); }
   .pc-card strong { font-size:13px; }
   .pc-card span { font-size:var(--fs-caption); }
-  .challenge-visual { min-height:auto; }
-  .checklist-stack { width:100%; margin:0; }
-  .checklist-card--green { margin-left:0; }
   .migration-flow { padding:18px; }
   .migration-flow__row { flex-direction:column; }
   .migration-flow__row::before { left:50%; top:0; bottom:0; height:auto; width:2px; right:auto; }
@@ -670,20 +720,9 @@ h1 > span .text-blue { display:inline; }
   .pricing-trust li { padding:var(--space-md) 0; }
   .pricing-trust li + li { border-left:0; border-top:1px solid var(--wp-panel-line); }
 }
-/* Display the supplied support artwork; its left text column stays outside the frame. */
-.expert-support-visual { min-height:auto; }
-.expert-support-art { position:relative; overflow:hidden; aspect-ratio:900 / 660; border-radius:var(--radius-2xl); }
-.expert-support-art img { position:absolute; width:177.778%; max-width:none; height:100%; left:-77.778%; top:0; }
-.expert-support-details { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 .pc-visual { display:block; min-height:auto; padding:0; }
 .pc-photo { display:block; position:relative; inset:auto; aspect-ratio:1417 / 1110; mask-image:none; -webkit-mask-image:none; }
 .pc-photo img { object-fit:contain; }
-@media (max-width:639px) {
-  .expert-support-details { position:static; width:auto; height:auto; clip:auto; overflow:visible; white-space:normal; margin:20px 0 0; padding:0; list-style:none; display:grid; gap:12px; }
-  .expert-support-details li { display:flex; align-items:center; gap:12px; padding:14px; border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:var(--wp-panel); }
-  .expert-support-details strong { display:block; font-size:13px; color:var(--wp-ink); }
-  .expert-support-details div > span { display:block; font-size:var(--fs-caption); color:var(--wp-body-strong); line-height:1.5; }
-}
 /* Ecosystem strip follows the supplied horizontal service directory. */
 .ecosystem-strip-section { padding-block:var(--space-lg); }
 .ecosystem-strip { display:grid; grid-template-columns:300px minmax(0, 1fr); align-items:center; gap:var(--space-lg); padding:var(--space-lg) 28px; border:1px solid var(--wp-panel-line); border-radius:var(--radius-2xl); }
@@ -717,63 +756,6 @@ h1 > span .text-blue { display:inline; }
   .ecosystem-tile__label { text-align:left; font-size:13px; padding-right:12px; }
   .ecosystem-tile__chevron { right:10px; bottom:20px; }
 }
-/* Live support diagram:all labels are selectable HTML text. */
-.expert-support-visual { display:grid; align-items:center; isolation:isolate; min-height:500px; }
-.support-cloud { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); width:175px; height:160px; display:grid; place-items:center; pointer-events:none; }
-.support-cloud::before { content:''; position:absolute; width:210px; height:210px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--wp-blue) 16%, transparent), transparent 70%); z-index:-1; }
-.support-cloud__shape { color:color-mix(in srgb, var(--wp-blue) 16%, var(--wp-panel)); font-size:150px; filter:drop-shadow(0 12px 12px color-mix(in srgb, var(--wp-blue) 18%, transparent)); }
-.support-cloud__shield { position:absolute; left:50%; bottom:10px; transform:translateX(-50%); display:grid; place-items:center; color:var(--wp-blue); font-size:66px; }
-.support-cloud__lock { position:absolute; color:var(--primary-foreground); font-size:22px; }
-.expert-support-details { position:relative; width:auto; height:auto; margin:0; padding:0; overflow:visible; clip:auto; white-space:normal; list-style:none; display:grid; grid-template-columns:minmax(0, 1fr) 150px minmax(0, 1fr); gap:50px 10px; }
-.expert-support-details li { position:relative; display:flex; align-items:flex-start; gap:12px; padding:var(--space-md); min-height:112px; border-radius:var(--radius-xl); background:var(--wp-panel); border:1px solid var(--wp-panel-line); box-shadow:var(--shadow-sm); }
-.expert-support-details li:nth-child(odd) { grid-column:1; }
-.expert-support-details li:nth-child(even) { grid-column:3; }
-.expert-support-details li::after { content:''; position:absolute; width:50px; height:1px; top:50%; background:var(--wp-blue); opacity:.6; }
-.expert-support-details li:nth-child(odd)::after { left:100%; }
-.expert-support-details li:nth-child(even)::after { right:100%; }
-.expert-support-details strong { display:block; font-size:13px; color:var(--wp-ink); line-height:1.35; margin-bottom:6px; }
-.expert-support-details div > span { display:block; font-size:var(--fs-caption); line-height:1.5; color:var(--wp-body-strong); }
-.expert-support-details .tone-icon { width:36px; height:36px; font-size:17px; }
-@media (min-width:1024px) and (max-width: 1199px) {
-  .expert-support-details { grid-template-columns:minmax(0, 1fr) 100px minmax(0, 1fr); gap:var(--space-lg) var(--space-sm); }
-  .expert-support-details li { padding:12px; gap:var(--space-sm); flex-direction:column; }
-  .support-cloud { width:110px; }
-  .support-cloud__shape { font-size:110px; }
-}
-@media (max-width:639px) {
-  .expert-support-visual { min-height:auto; padding-top:165px; }
-  .support-cloud { top:0; transform:translateX(-50%); }
-  .expert-support-details { grid-template-columns:1fr; gap:14px; }
-  .expert-support-details li:nth-child(n) { grid-column:1; min-height:auto; }
-  .expert-support-details li::after { display:none; }
-  .expert-support-details .tone-icon { width:44px; height:44px; font-size:20px; }
-}
-/* Reference composition:original 3D cloud, with live text around it. */
-.expert-support-visual { min-height:470px; background:radial-gradient(ellipse at center, var(--wp-band-from), transparent 72%); }
-.support-cloud { width:190px; height:170px; overflow:hidden; z-index:2; mask-image:radial-gradient(ellipse, black 58%, transparent 76%); }
-.support-cloud::before { display:none; }
-.support-cloud img { position:absolute; max-width:none; width:571.429%; height:275%; left:-357.143%; top:-97.917%; }
-.expert-support-details { grid-template-columns:minmax(0, 1fr) 125px minmax(0, 1fr); gap:var(--space-2xl) 12px; }
-.expert-support-details li { border-radius:22px; padding:18px 14px; min-height:110px; }
-.expert-support-details .tone-icon { width:48px; height:48px; border-radius:var(--radius-xl); font-size:var(--fs-h3); }
-.expert-support-details strong { font-size:var(--fs-body-sm); }
-.expert-support-details div > span { font-size:13px; }
-.expert-support-details li::after { width:75px; height:35px; background:transparent; border:1px solid var(--wp-tone-blue); opacity:.55; }
-.expert-support-details li:nth-child(odd)::after { border-top:0; border-right:0; border-radius:0 0 0 var(--radius-lg); top:100%; left:30%; }
-.expert-support-details li:nth-child(even)::after { border-top:0; border-left:0; border-radius:0 0 var(--radius-lg) 0; top:100%; right:30%; }
-.expert-support-details li:nth-child(3)::after { border:0; background:var(--wp-tone-green); width:45px; height:2px; top:50%; left:100%; }
-.expert-support-details li:nth-child(4)::after { border:0; background:var(--wp-tone-purple); width:45px; height:2px; top:50%; right:100%; }
-.expert-support-details li:nth-child(5)::after, .expert-support-details li:nth-child(6)::after { top:-35px; transform:scaleY(-1); }
-@media (max-width:1199px) and (min-width: 1024px) {
-  .expert-support-details { grid-template-columns:minmax(0, 1fr) 95px minmax(0, 1fr); gap:30px var(--space-sm); }
-  .expert-support-details li { flex-direction:column; }
-  .support-cloud { width:140px; height:125px; }
-}
-@media (max-width:639px) {
-  .expert-support-visual { min-height:auto; padding-top:185px; }
-  .expert-support-details { grid-template-columns:1fr; gap:14px; }
-  .expert-support-details li:nth-child(n)::after { display:none; }
-}
 /* White paper reference layout, with live guide and comparison text. */
 #compare-providers .split-section { grid-template-columns:minmax(0, 1.1fr) minmax(0, 1fr); gap:28px; }
 #compare-providers .split-section__copy { max-width:none; display:grid; grid-template-columns:minmax(0, 1fr) 205px; column-gap:20px; align-items:start; }
@@ -790,7 +772,7 @@ h1 > span .text-blue { display:inline; }
 #compare-providers .whitepaper-cta .btn { width:100%; padding-inline:10px; font-size:var(--fs-caption); }
 #compare-providers .whitepaper-visual { min-height:500px; padding:0; }
 #compare-providers .compare-photo { position:relative; width:70%; aspect-ratio:420 / 533; border-radius:var(--radius-2xl); overflow:hidden; }
-#compare-providers .compare-photo img { position:absolute; max-width:none; width:380.952%; height:100%; left:-190.476%; top:0; object-fit:fill; }
+#compare-providers .compare-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:30% 50%; }
 #compare-providers .compare-card { top:50px; right:0; width:280px; padding:22px; border-radius:var(--radius-xl); }
 #compare-providers .compare-card > strong { font-size:var(--fs-body-lg); margin-bottom:18px; }
 #compare-providers .compare-card li { min-height:40px; gap:10px; font-size:var(--fs-caption); }
@@ -811,7 +793,6 @@ h1 > span .text-blue { display:inline; }
   #compare-providers .compare-card { position:relative; inset:auto; width:100%; margin-top:18px; }
 }
 #compare-providers .compare-photo { aspect-ratio:400 / 533; }
-#compare-providers .compare-photo img { width:400%; left:-205%; }
 #compare-providers .compare-card { width:310px; }
 #compare-providers .compare-card__bar { min-width:46px; height:8px; }
 #compare-providers .compare-card__bar > span { height:100%; min-width:0; }
@@ -819,7 +800,6 @@ h1 > span .text-blue { display:inline; }
 /* Keep the full reference photo framing and comparison rows within their card. */
 #compare-providers .whitepaper-visual { min-height:auto; }
 #compare-providers .compare-photo { width:100%; aspect-ratio:800 / 533; max-height:none; }
-#compare-providers .compare-photo img { width:200%; height:100%; left:-100%; }
 #compare-providers .compare-card { top:16%; right:5%; width:41%; max-width:none; min-height:49%; padding:18px; }
 #compare-providers .compare-card > strong { font-size:var(--fs-body); margin-bottom:12px; }
 #compare-providers .compare-card ul { gap:var(--space-sm); }
@@ -836,7 +816,6 @@ h1 > span .text-blue { display:inline; }
 }
 @media (max-width:639px) {
   #compare-providers .compare-photo { aspect-ratio:420 / 533; }
-  #compare-providers .compare-photo img { width:380.952%; left:-190.476%; }
   #compare-providers .compare-card { position:relative; inset:auto; width:100%; min-height:auto; padding:22px; }
   #compare-providers .compare-card li { grid-template-columns:24px minmax(0, 1fr) 60px 24px; min-height:42px; }
   #compare-providers .compare-card li > span:first-of-type { font-size:var(--fs-caption); }
@@ -884,8 +863,8 @@ h1 > span .text-blue { display:inline; }
 #migration .section-heading { font-size:clamp(32px, 3.5vw, 52px); line-height:1.08; }
 #migration .split-section__visual { min-width:0; }
 .migration-flow { position:relative; display:block; aspect-ratio:900 / 660; padding:0; border:0; background:none; border-radius:0; }
-.migration-art { position:absolute; inset:0; overflow:hidden; mask-image:linear-gradient(to right, transparent, black 8%); }
-.migration-art img { position:absolute; width:177.778%; max-width:none; height:100%; left:-77.778%; }
+.migration-art { position:absolute; inset:0; overflow:hidden; border-radius:28px; mask-image:linear-gradient(to right, transparent, black 8%); }
+.migration-art img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .migration-flow__row { position:absolute; inset:0; display:block; }
 .migration-flow__row::before, .migration-flow__center { display:none; }
 .migration-flow__card { position:absolute; left:7.2%; top:19%; width:19%; height:28%; min-height:0; padding:14px; border:0; border-radius:17px; background:var(--wp-panel); }
@@ -927,13 +906,14 @@ h1 > span .text-blue { display:inline; }
 #global-business .stat-grid div > span { display:block; margin-top:7px; font-size:var(--fs-body); }
 #global-business .stat-grid .tone-icon { width:64px; height:64px; flex:0 0 64px; border-radius:var(--radius-xl); font-size:28px; }
 .world-map { display:block; padding:0; min-height:0; aspect-ratio:830 / 660; }
-.world-map__art { position:absolute; inset:0; overflow:hidden; mask-image:linear-gradient(to right, transparent, black 3%); }
-.world-map__art img { position:absolute; width:192.771%; max-width:none; height:100%; left:-92.771%; }
+.world-map__art { position:absolute; inset:0; overflow:hidden; border-radius:28px; mask-image:linear-gradient(to right, transparent, black 3%); }
+/* Lit continents on the left; the Global Reach card sits over open space on the right. */
+.world-map__art img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:30% 50%; }
 .world-map__card { right:7.3%; top:27.1%; width:38.5%; min-height:15.5%; padding:17px; border-radius:var(--radius-xl); gap:12px; background:var(--wp-panel); }
 .world-map__card strong { font-size:19px; line-height:1.25; }
 .world-map__card div > span { margin-top:5px; font-size:15px; line-height:1.3; }
 .world-map__card .tone-icon { width:32px; height:32px; flex:0 0 32px; border-radius:50%; font-size:0; }
-.world-map__card .tone-icon::after { content:''; width:15px; height:15px; border-radius:50%; background:var(--color-brand-green); }
+.world-map__card .tone-icon::after { content:''; width:15px; height:15px; border-radius:50%; background:var(--color-action); }
 @media (max-width:1100px) {
   #global-business .split-section { grid-template-columns:1fr; }
   .world-map { width:min(100%, 760px); margin-inline:auto; }
@@ -951,7 +931,6 @@ h1 > span .text-blue { display:inline; }
   .world-map__card .tone-icon::after { width:10px; height:10px; }
 }
 .world-map { aspect-ratio:800 / 660; }
-.world-map__art img { width:200%; left:-100%; }
 .world-map__card { right:7.5%; width:40%; }
 @media (min-width:640px) {
   #global-business .stat-grid strong { font-size:clamp(24px, 2.15vw, 32px); white-space:nowrap; }
@@ -965,27 +944,14 @@ h1 > span .text-blue { display:inline; }
 #zero-trust .feature-row { grid-template-columns:repeat(4, minmax(0, 1fr)); gap:18px; }
 #zero-trust .feature-row li + li { border-left:1px solid var(--wp-panel-line); padding-left:18px; }
 #zero-trust .feature-row .tone-icon { width:48px; height:48px; font-size:23px; border-radius:13px; }
-.security-reference { position:relative; aspect-ratio:860 / 660; }
-.security-reference__art { position:absolute; inset:0; overflow:hidden; mask-image:linear-gradient(to right, transparent, black 4%); }
-.security-reference__art img { position:absolute; width:186.047%; max-width:none; height:100%; left:-86.047%; }
-.security-reference__labels { position:absolute; inset:0; }
-.security-reference__label { position:absolute; display:flex; align-items:center; gap:10px; background:var(--wp-panel); color:var(--wp-ink); border-radius:var(--radius-lg); padding:11px 14px; width:19%; min-height:9%; font-size:var(--fs-caption); line-height:1.3; font-weight:var(--fw-bold); box-shadow:var(--shadow-sm); }
-.security-reference__label fa-icon { color:var(--wp-blue); font-size:23px; flex:0 0 auto; }
-.security-reference__labels--allow .security-reference__label:nth-child(1) { left:9%; top:20%; }
-.security-reference__labels--allow .security-reference__label:nth-child(2) { left:3.7%; top:43%; }
-.security-reference__labels--allow .security-reference__label:nth-child(3) { left:14.4%; top:69%; width:17%; }
-.security-reference__labels--deny .security-reference__label:nth-child(1) { left:76%; top:23%; width:17%; }
-.security-reference__labels--deny .security-reference__label:nth-child(2) { left:76%; top:48.5%; }
-.security-reference__labels--deny .security-reference__label:nth-child(3) { left:74.5%; top:72.5%; width:20%; }
+.security-loop { aspect-ratio:4 / 3; }
 @media (max-width:1100px) {
   #zero-trust .split-section { grid-template-columns:1fr; }
-  .security-reference { width:min(100%, 820px); margin-inline:auto; }
+  .security-loop { width:min(100%, 820px); margin-inline:auto; }
 }
 @media (max-width:639px) {
   #zero-trust .feature-row { grid-template-columns:repeat(2, minmax(0, 1fr)); }
   #zero-trust .feature-row li + li { border:0; padding-left:0; }
-  .security-reference__label { padding:6px; gap:var(--space-xs); border-radius:var(--radius-md); font-size:7px; }
-  .security-reference__label fa-icon { font-size:var(--fs-caption); }
 }
 
 @media (max-width:639px) {
@@ -1005,41 +971,23 @@ h1 > span .text-blue { display:inline; }
   .trust-bar li { white-space:normal; }
 }
 
-/* Challenge reference composition with live copy and checklist cards. */
-#challenges .split-section { grid-template-columns:1.05fr 1fr; gap:var(--space-lg); }
-#challenges .split-section__copy { padding:38px; border-radius:28px; background:color-mix(in srgb, var(--wp-tone-rose) 5%, var(--wp-panel)); }
-#challenges .section-heading { font-size:clamp(30px, 3.1vw, 46px); line-height:1.12; }
-#challenges .eyebrow__rule { background:var(--wp-tone-rose); }
-#challenges .feature-grid { margin-top:var(--space-xl); margin-bottom:0; gap:28px 20px; }
-#challenges .feature-grid .tone-icon { width:60px; height:60px; font-size:26px; border-radius:var(--radius-xl); }
-.challenge-visual { position:relative; display:block; min-height:0; aspect-ratio:770 / 666; }
-.challenge-photo { inset:0; border-radius:0; box-shadow:none; display:block; }
-.challenge-photo img { position:absolute; width:207.792%; max-width:none; height:100%; left:-107.792%; object-fit:fill; }
-.checklist-stack { position:absolute; inset:0; width:auto; margin:0; display:block; }
-.checklist-card { position:absolute; width:52%; padding:var(--space-lg); border:1px solid var(--wp-panel-line); border-radius:22px; }
-.checklist-card--rose { left:41.5%; top:14%; min-height:38%; }
-.checklist-card--green { left:45.5%; top:56%; min-height:39%; margin-left:0; }
-.checklist-card h3 { font-size:20px; margin:0 0 18px; }
-.checklist-card--rose h3 { color:var(--wp-ink); }
-.checklist-card li { font-size:var(--fs-body-sm); font-weight:var(--fw-regular); line-height:1.5; }
-.checklist-card ul { gap:12px; }
-.checklist-connector { display:none; }
-@media (max-width:1100px) {
-  #challenges .split-section { grid-template-columns:1fr; }
-  .challenge-visual { width:min(100%, 770px); margin-inline:auto; }
+/* Desktop: the photo is the section background, pinned to the right edge at
+   its own 3:2 (so the floating cards stay on the cloud), dissolving into the
+   hero gradient behind the copy and fading at top and foot. From 1440px it is
+   the hero's full 640px height (960 wide); narrower, it scales down so its
+   cloud always starts past the copy column (~412px in) instead of sliding
+   under the text. Only the image is masked, not the cards. */
+@media (min-width:1024px) {
+  .hero-photo { top:50%; bottom:auto; left:auto; right:0; width:min(960px, calc(100vw - 412px)); aspect-ratio:1.5; transform:translateY(-50%); border-radius:0; overflow:visible; -webkit-mask-image:none; mask-image:none; }
+  .hero-photo__img {
+    -webkit-mask-image:linear-gradient(to right, transparent, #000 32%), linear-gradient(to bottom, transparent, #000 10%, #000 82%, transparent);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to right, transparent, #000 32%), linear-gradient(to bottom, transparent, #000 10%, #000 82%, transparent);
+    mask-composite:intersect;
+  }
+  /* The photo is a bright daylight scene: tone it down on the dark theme. */
+  :host-context([data-theme='dark']) .hero-photo__img img { filter:brightness(.78) saturate(.92); }
 }
-@media (max-width:639px) {
-  #challenges .split-section__copy { padding:var(--space-lg); }
-  #challenges .feature-grid { grid-template-columns:1fr; }
-  .checklist-card { padding:10px; border-radius:var(--radius-lg); }
-  .checklist-card h3 { font-size:var(--fs-caption); margin-bottom:10px; }
-  .checklist-card li { font-size:9px; gap:5px; }
-  .checklist-card ul { gap:7px; }
-}
-
-/* Keep the complete hero photograph below the header without cropping. */
-.hero-photo { top:104px; bottom:24px; transform:none; aspect-ratio:auto; }
-.hero-photo > img { object-fit:contain; object-position:center; }
 
 /* Balance the hero copy vertically against the full photograph. */
 @media (min-width:1024px) {
@@ -1052,14 +1000,4 @@ h1 > span .text-blue { display:inline; }
 .pc-photo { aspect-ratio:4 / 3; box-shadow:none; }
 .pc-photo img { object-fit:contain; }
 
-/* Original CloudEdge screenshot, rendered directly on the monitor screen. */
-.pc-dashboard-screen { position:absolute; left:74.9%; top:60.1%; width:21.7%; height:21.2%; transform:matrix(1, .03, -.13, 1, 0, 0); transform-origin:top left; overflow:hidden; border-radius:2px; }
-.pc-dashboard-screen img { display:block; width:100%; height:100%; object-fit:fill; }
-
-
-/* Project the original light dashboard onto all four monitor corners. */
-.pc-photo { container-type:inline-size; }
-.pc-dashboard-stage { position:absolute; left:0; top:0; width:1448px; height:1086px; zoom:calc(100cqw / 1448px); pointer-events:none; }
-.pc-dashboard-screen { left:0; top:0; width:1600px; height:900px; transform:matrix3d(0.060669511919374614,-0.0561649815879579,0,-0.00009543575166354416,-0.04230283322924966,0.21839359418854215,0,-0.000013638549719691914,0,0,1,0,1090,644,0,1); transform-origin:0 0; border-radius:0; }
-.pc-dashboard-screen img { width:1600px; height:900px; object-fit:fill; max-width:none; }
 
