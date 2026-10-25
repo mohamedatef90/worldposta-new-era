@@ -11,6 +11,20 @@
          of the section's background rather than a framed screenshot. -->
     <div class="hero-photo" aria-hidden="true">
       <img [ngSrc]="heroPhoto" width="1872" height="1248" priority alt="" />
+      <!-- Desktop only: three of the trust-bar benefits float around the glass
+           cloud, tied to it by soft lines. Decorative repeats of the trust bar
+           below (the accessible list), so the whole photo stays aria-hidden. -->
+      <svg class="hero-links" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M27 25 C24 21, 20 19, 18 16.5" />
+        <path d="M49 30 C58 22, 66 11, 75.5 11" />
+        <path d="M29 53 C27 64, 21 72, 19 80.5" />
+      </svg>
+      @for (chip of heroFloatChips; track chip.id) {
+        <div class="floating-card hero-float hero-float--{{ chip.id }}">
+          <span class="tone-icon tone-icon--sm" [attr.data-tone]="chip.tone"><fa-icon [icon]="chip.icon" /></span>
+          <strong>{{ chip.label }}</strong>
+        </div>
+      }
     </div>
 
     <div class="hero__content ds-container" id="top">

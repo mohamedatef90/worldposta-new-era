@@ -192,7 +192,9 @@ export class CloudEdgeComponent {
     { id: 'cost', icon: faChartColumn, tone: 'blue', label: '50% Lower Total Cost' },
   ];
 
-  /** AI-generated stand-in for the customer's own photo; swap for the real asset when supplied. */
+  /** The three benefits that float over the hero photo on desktop. */
+  protected readonly heroFloatChips = this.heroChips.filter((c) => ['no-fees', 'support', 'security'].includes(c.id));
+
   /**
    * Hero visual: a Magnific-generated photo following the brand reference — a
    * professional at a laptop with a frosted-glass cloud and network lines. No

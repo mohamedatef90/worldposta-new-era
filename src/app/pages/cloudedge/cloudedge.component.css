@@ -137,13 +137,36 @@ h1 > span .text-blue { display:inline; }
 /* hero-photo — fades into the hero's own gradient on its left edge, so it
    reads as part of the section's background rather than a framed screenshot
    on top of it. Sized to the photo's own aspect ratio (aspect-ratio, not a
-   stretched inset box). The photo is real; only the CloudEdge console on the
-   laptop is composited in, so nothing is layered on top of it here. */
+   stretched inset box). On wide screens three benefit cards float around the
+   glass cloud (see .hero-float below). */
 .hero-photo { position:absolute; z-index:0; overflow:hidden; border-radius:28px; left:44%; right:28px; top:50%; aspect-ratio:1.5; transform:translateY(-50%); mask-image:linear-gradient(to right, transparent, black 1.5%); -webkit-mask-image:linear-gradient(to right, transparent, black 1.5%); }
 .hero-photo > img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 
 .floating-card { position:absolute; z-index:1; display:flex; flex-direction:row; align-items:center; gap:12px; max-width:220px; padding:12px var(--space-md); border:1px solid color-mix(in srgb, var(--wp-panel-line) 70%, transparent); border-radius:15px; background:var(--wp-panel); box-shadow:0 10px 24px -8px color-mix(in srgb, var(--wp-ink) 16%, transparent), 0 2px 6px -2px color-mix(in srgb, var(--wp-ink) 10%, transparent); }
 .floating-card strong { font-size:13px; line-height:1.3; color:var(--color-text-primary); font-weight:var(--fw-semibold); }
+
+/* Hero benefit cards and their links, placed in % of the photo around the
+   cloud (centre ≈ 33% 37%) and clear of the person on the right. */
+.hero-links, .hero-float { display:none; }
+@media (min-width:1200px) {
+  .hero-links { display:block; position:absolute; inset:0; z-index:1; width:100%; height:100%; overflow:visible; }
+  .hero-links path { fill:none; stroke:color-mix(in srgb, var(--wp-tone-sky) 75%, white); stroke-width:1.6; stroke-linecap:round; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 3px color-mix(in srgb, var(--wp-tone-sky) 70%, transparent)); opacity:.85; }
+  .hero-float { display:flex; max-width:none; padding:10px 16px 10px 10px; z-index:2; }
+  .hero-float strong { font-size:var(--fs-body-sm); white-space:nowrap; }
+  .hero-float--no-fees { left:5%; top:6%; }
+  .hero-float--support { right:4%; top:6%; }
+  .hero-float--security { left:6%; bottom:9%; }
+}
+@media (min-width:1200px) and (prefers-reduced-motion:no-preference) {
+  /* Fade, not a dash draw: non-scaling strokes ignore pathLength, so a dash animation breaks. */
+  .hero-links { opacity:0; animation:hero-links-in .8s ease-out .5s forwards; }
+  .hero-float { opacity:0; animation:hero-float-in .6s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-float--no-fees { animation-delay:.9s; }
+  .hero-float--support { animation-delay:1.05s; }
+  .hero-float--security { animation-delay:1.2s; }
+}
+@keyframes hero-links-in { to { opacity:1; } }
+@keyframes hero-float-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
 
 @media (max-width:1199px) { .hero-photo { left:50%; } }
 @media (max-width:1023px) {
