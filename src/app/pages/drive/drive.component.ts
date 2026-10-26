@@ -11,7 +11,7 @@ import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.co
 export class Drive {
   /** Challenge section: scattered apps settle into Drive. Loops while visible; respects reduced motion. */
   protected readonly flowConnected = signal(false);
-  private flowTimer: ReturnType<typeof setInterval> | undefined;
+  private flowTimer: ReturnType<typeof setTimeout> | undefined;
   private flowManual = false;
 
   constructor() {
@@ -153,11 +153,16 @@ export class Drive {
 
   private startFlowLoop(): void {
     this.stopFlowLoop();
-    this.flowTimer = setInterval(() => this.flowConnected.update(v => !v), 3400);
+    // Hold the connected (relieved) state longer so the turning point can land.
+    const step = () => {
+      this.flowConnected.update(v => !v);
+      this.flowTimer = setTimeout(step, this.flowConnected() ? 5200 : 3400);
+    };
+    this.flowTimer = setTimeout(step, this.flowConnected() ? 5200 : 3400);
   }
 
   private stopFlowLoop(): void {
-    if (this.flowTimer !== undefined) clearInterval(this.flowTimer);
+    if (this.flowTimer !== undefined) clearTimeout(this.flowTimer);
     this.flowTimer = undefined;
   }
 

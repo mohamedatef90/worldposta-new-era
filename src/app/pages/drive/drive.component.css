@@ -340,3 +340,13 @@
 .gm-card--ny { left:3%; top:17%; } .gm-card--lon { left:34%; top:11%; } .gm-card--dxb { left:58%; top:27%; }
 .gm-card--sao { left:4%; top:67%; } .gm-card--sin { left:50%; top:58%; } .gm-card--jnb { left:38%; top:74%; }
 @media (prefers-reduced-motion:reduce) { .gm-card { transition:none; } .gm-pin.is-hit::before { animation:none; } }
+/* Challenge: turning point, stressed to relieved */
+.comparison-reference-scene.challenge-flow .cf-woman img.cf-woman__happy{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.cf-stage.is-connected .cf-woman{filter:none;opacity:1;box-shadow:0 1.6cqw 3.4cqw rgba(19,32,58,.14),0 0 0 3px rgba(103,154,65,.55)}
+.cf-stage.is-connected .cf-woman img.cf-woman__happy{opacity:1;transition-delay:1.25s}
+.cf-woman{transition:box-shadow .6s ease 1.25s,filter .8s ease,opacity .8s ease}
+.cf-relief{position:absolute;right:1cqw;top:1cqw;width:3.2cqw;height:3.2cqw;border-radius:50%;background:#4c7d2c;display:grid;place-items:center;box-shadow:0 .8cqw 1.8cqw rgba(76,125,44,.35);opacity:0;transform:scale(.4);transition:opacity .3s ease,transform .3s ease}
+.cf-relief svg{width:58%;height:58%;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.cf-stage.is-connected .cf-relief{opacity:1;transform:scale(1);transition:opacity .35s ease 1.7s,transform .5s cubic-bezier(.34,1.56,.64,1) 1.7s}
+.comparison-reference-scene.challenge-flow .cf-toggle{margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){.comparison-reference-scene.challenge-flow .cf-woman img.cf-woman__happy,.cf-relief{transition:none!important}}
