@@ -3,19 +3,28 @@
   <app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" />
 </app-site-header>
 <main id="main-content" tabindex="-1">
-  <section class="wpsys-hero" aria-labelledby="wpsys-title">
-    <div class="wpsys-art"><img ngSrc="/worldposta-assets/wpsys-hero-reference.avif" width="1600" height="800" priority alt="WPSYS IT Solutions surrounded by cloud operations, IT automation, cybersecurity, expert support and SAP operations, beside an IT specialist working on a laptop" /></div>
-    <div class="wpsys-wrap">
-      <div class="wpsys-copy">
-        <p class="wpsys-eyebrow"><span aria-hidden="true"></span><span>WPSYS<small>IT SOLUTIONS</small></span></p>
-        <h1 id="wpsys-title" class="hero-palette">IT that works.<br><span class="hero-palette-blue">Security that protects.</span><br><span class="hero-palette-green">Operations that scale.</span></h1>
-        <p class="wpsys-lead">WPSYS provides managed IT, cybersecurity, cloud operations and automation for enterprises and service providers — with one expert team behind your environment.</p>
-        <div class="wpsys-actions"><a class="wpsys-primary" href="#wpsys-contact">Talk to an Expert <span aria-hidden="true">→</span></a><a class="wpsys-secondary" href="#wpsys-services">Explore Our Services</a></div>
+  <section class="wx-hero" aria-labelledby="wpsys-title">
+    <div class="ds-container">
+      <div class="wx-grid">
+        <div class="wx-copy">
+          <p class="eyebrow wx-eyebrow"><span aria-hidden="true"></span>WPSYS · IT Solutions</p>
+          <h1 id="wpsys-title" class="hero-palette wx-title">IT that works. <span class="hero-palette-blue">Security that protects.</span> <span class="hero-palette-green">Operations that scale.</span></h1>
+          <p class="wx-lead">WPSYS provides managed IT, cybersecurity, cloud operations and automation for enterprises and service providers — with one expert team behind your environment.</p>
+          <div class="wx-actions"><a class="wpsys-primary" href="#wpsys-contact">Talk to an Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a><a class="wpsys-secondary" href="#wpsys-services">Explore Our Services</a></div>
+        </div>
+        <div class="wx-shell" role="img" aria-label="IT that works: 99.9% infrastructure uptime. Security that protects: 24/7 security coverage with monitoring, detection and response. Operations that scale: 30% improved efficiency.">
+          <div class="wx-chrome" aria-hidden="true"><i></i><i></i><i></i><p>WPSYS <span>Managed IT</span></p><span class="wx-live">24/7</span></div>
+          <div class="wx-out" aria-hidden="true">
+            <div class="wx-card" data-tone="navy" [class.is-on]="heroStep() === 0"><span class="wx-icon"><fa-icon [icon]="icons.server" aria-hidden="true" /></span><div><h2>IT that works</h2><div class="wx-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="wx-k"><strong>99.9%</strong><small>Infrastructure uptime</small></div></div>
+            <div class="wx-card" data-tone="blue" [class.is-on]="heroStep() === 1"><span class="wx-icon"><fa-icon [icon]="icons.shield" aria-hidden="true" /></span><div><h2>Security that protects</h2><div class="wx-tags"><span><fa-icon [icon]="icons.eye" aria-hidden="true" />Monitoring</span><span><fa-icon [icon]="icons.search" aria-hidden="true" />Detection</span><span><fa-icon [icon]="icons.bolt" aria-hidden="true" />Response</span></div></div><div class="wx-k"><strong>24/7</strong><small>Security coverage</small></div></div>
+            <div class="wx-card" data-tone="green" [class.is-on]="heroStep() === 2"><span class="wx-icon"><fa-icon [icon]="icons.chart" aria-hidden="true" /></span><div><h2>Operations that scale</h2><div class="wx-grow"><i style="height:30%"></i><i style="height:38%"></i><i style="height:44%"></i><i style="height:50%"></i><i style="height:58%"></i><i style="height:66%"></i><i style="height:74%"></i><i style="height:82%"></i><i style="height:90%"></i><i style="height:100%"></i></div></div><div class="wx-k"><strong>30%</strong><small>Improved efficiency</small></div></div>
+          </div>
+        </div>
       </div>
-      <ul class="wpsys-proof" id="wpsys-proof" aria-label="WPSYS service benefits">
-        <li><span class="proof-icon support" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 18v-3a12 12 0 0 1 24 0v3M4 16H2v9h6v-9ZM28 16h2v9h-6v-9ZM28 25c0 5-4 5-9 5"/></svg></span><div><h2>24/7 IT Support</h2><p>Always on, whenever you need us.</p></div></li>
-        <li><span class="proof-icon security" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3c4 3 8 4 11 5v9c0 6-6 10-11 13C11 27 5 23 5 17V8c3-1 7-2 11-5ZM10 16l4 4 8-9"/></svg></span><div><h2>Secure Operations</h2><p>Protecting your business and data.</p></div></li>
-        <li><span class="proof-icon team" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="12" cy="9" r="5"/><path d="M3 28v-5c0-10 18-10 18 0v5M24 5c7 0 7 10 0 10m0 4c7 0 7 5 7 9"/></svg></span><div><h2>One Expert Team</h2><p>End-to-end support under one SLA.</p></div></li>
+      <ul class="wx-proof" id="wpsys-proof" aria-label="WPSYS service benefits">
+        <li data-tone="green"><span class="wx-icon"><fa-icon [icon]="icons.headset" aria-hidden="true" /></span><div><h2>24/7 IT Support</h2><p>Always on, whenever you need us.</p></div></li>
+        <li data-tone="blue"><span class="wx-icon"><fa-icon [icon]="icons.shield" aria-hidden="true" /></span><div><h2>Secure Operations</h2><p>Protecting your business and data.</p></div></li>
+        <li data-tone="purple"><span class="wx-icon"><fa-icon [icon]="icons.users" aria-hidden="true" /></span><div><h2>One Expert Team</h2><p>End-to-end support under one SLA.</p></div></li>
       </ul>
     </div>
   </section>
