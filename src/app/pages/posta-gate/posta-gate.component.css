@@ -232,7 +232,7 @@
 .ac-row{position:relative;padding:12px 14px;border-radius:var(--radius-lg);animation:acRow 8s infinite}
 .ac-row:nth-child(2){animation-delay:2s}.ac-row:nth-child(3){animation-delay:4s}.ac-row:nth-child(4){animation-delay:6s}
 @keyframes acRow{0%,100%{background:transparent}3%,22%{background:color-mix(in srgb,var(--tone) 8%,var(--wp-panel))}26%{background:transparent}}
-.ac-row .kf-tone-icon{position:absolute;top:10px;left:-42px;width:36px;height:36px;border-radius:50%;background:var(--wp-panel);box-shadow:0 0 0 1px var(--wp-panel-line);font-size:14px}
+.ac-row .kf-tone-icon{position:absolute;z-index:1;top:10px;left:-42px;width:36px;height:36px;border-radius:50%;background:var(--wp-panel);box-shadow:0 0 0 1px var(--wp-panel-line);font-size:14px}
 .ac-no{display:block;color:var(--color-text-muted);font-size:11px;font-weight:var(--fw-bold);letter-spacing:1.6px}
 .ac-row h3{margin:0;color:var(--wp-ink);font-size:14px;font-weight:var(--fw-bold)}
 .ac-row p{margin:0;color:var(--wp-body);font-size:12.5px;line-height:1.5}
@@ -583,3 +583,24 @@
 .gate-hero-ds #gate-heading{white-space:nowrap;font-size:clamp(30px,10.8cqi,56px)!important;line-height:1.04!important}
 .gate-hero-ds .hero-copy__description{max-width:none}
 @media (max-width:1023px){.gate-hero-ds #gate-heading{font-size:clamp(30px,10.8cqi,46px)!important}}
+
+/* Hero visual inside a white product window (home page console-shell pattern), so the
+   hero reads as one product screen and stays distinct from the How It Works diagram. */
+.gate-shell{position:relative;overflow:hidden;border:8px solid var(--wp-console-frame);border-radius:var(--radius-2xl);background:var(--wp-console-chrome);box-shadow:var(--wp-console-shadow)}
+.gate-shell__chrome{display:flex;align-items:center;gap:var(--space-sm);height:40px;padding:0 var(--space-md);border-bottom:1px solid var(--wp-hairline);background:var(--wp-console-chrome)}
+.gate-shell__chrome>span{width:8px;height:8px;border-radius:50%;background:var(--wp-console-dot)}
+.gate-shell__chrome p{margin:0 0 0 var(--space-sm);color:var(--color-text-primary);font-size:var(--fs-caption);font-weight:var(--fw-bold)}
+.gate-shell__chrome p span{margin-left:var(--space-sm);color:var(--color-text-muted);font-weight:var(--fw-medium)}
+/* The stage has 86px of empty space above its content; crop it so the window hugs the visual. */
+.gate-shell .gv-frame{width:calc(760px * var(--s) * .88);height:calc(472px * var(--s) * .88);margin:var(--space-lg)}
+.gate-shell .gv-stage{top:calc(-80px * var(--s) * .88);transform:scale(calc(var(--s) * .88))}
+@media (max-width:639px){.gate-shell{border-width:6px}.gate-shell__chrome{height:32px;padding:0 12px}.gate-shell__chrome p{font-size:11px}.gate-shell__chrome p span{display:none}.gate-shell .gv-frame{margin:12px}}
+
+/* Key Features stack, refined: the shield badge sits above the stack instead of on
+   the first layer, layers are evenly spaced, and each icon sits in its own tinted tile. */
+.kf-badge{width:72px;height:72px;margin-bottom:var(--space-md);border-radius:var(--radius-xl);font-size:30px}
+.kf-badge::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:var(--space-md);background:var(--wp-panel-line)}
+.kf-layers{gap:var(--space-sm)}
+.kf-layer,.kf-layer:nth-child(1){height:52px;margin-top:0;padding-top:0}
+.kf-layer:nth-child(1){width:76%}.kf-layer:nth-child(2){width:84%}
+.kf-layer__ic{display:grid;width:28px;height:28px;place-items:center;border-radius:var(--radius-md);background:color-mix(in srgb,var(--tone) var(--wp-tone-fill),transparent);font-size:12px}
