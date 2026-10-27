@@ -180,7 +180,6 @@
 @media (prefers-reduced-motion: no-preference){
   .lk-stage .lk-live-m2{animation:lkM2 6.4s cubic-bezier(.32,.72,0,1) infinite}
   .lk-stage .lk-live-m3{animation:lkM3 6.4s cubic-bezier(.32,.72,0,1) infinite}
-  .lk-stage .lk-hero-13-typing{animation:lkTyp 1.2s ease-in-out infinite}
   .lk-stage .lk-hero-ring{animation:lkRing 6.4s step-end infinite}
   .lk-stage .lk-live-ring-1{animation-delay:-4.8s}
   .lk-stage .lk-live-ring-2{animation-delay:-3.2s}
@@ -237,3 +236,27 @@
 .demo-dialog__close:hover{background:rgba(255,255,255,.22)}
 .demo-dialog__close:focus-visible{outline:3px solid #8fd16a;outline-offset:2px}
 .demo-dialog video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
+/* Hero: live meeting tiles (muted looping webcam clips over the window's tiles) */
+.lk-stage .lk-hero-tile{height:28.893%;width:11.347%;object-fit:cover;border-radius:5%/6%;background:#1d2734;pointer-events:none}
+.lk-stage .lk-hero-tile-0{left:72.617%;top:28.705%}
+.lk-stage .lk-hero-tile-1{left:84.339%;top:28.705%}
+.lk-stage .lk-hero-tile-2{left:72.617%;top:58.724%}
+.lk-stage .lk-hero-tile-3{left:84.339%;top:58.724%}
+.lk-stage .lk-hero-tile-name{pointer-events:none}
+.lk-stage .lk-hero-tile-name-0{left:72.992%;top:52.814%;width:4.344%}
+.lk-stage .lk-hero-tile-name-1{left:84.714%;top:52.814%;width:5.293%}
+.lk-stage .lk-hero-tile-name-2{left:72.992%;top:82.833%;width:4.767%}
+.lk-stage .lk-hero-tile-name-3{left:84.714%;top:82.833%;width:4.172%}
+/* Hero: the "is typing" name follows the green speaker ring (same 6.4s cycle, same order) */
+.lk-stage .lk-hero-typing{left:51.938%;top:85.553%;opacity:0;pointer-events:none}
+.lk-stage .lk-hero-typing-0{width:7.267%;opacity:1}
+.lk-stage .lk-hero-typing-1{width:7.709%}
+.lk-stage .lk-hero-typing-2{width:7.266%}
+.lk-stage .lk-hero-typing-3{width:7.377%}
+@media (prefers-reduced-motion: no-preference){
+  .lk-stage .lk-hero-typing{animation:lkRing 6.4s step-end infinite,lkTypDots 1.2s ease-in-out infinite}
+  .lk-stage .lk-hero-typing-1{animation-delay:-4.8s,0s}
+  .lk-stage .lk-hero-typing-2{animation-delay:-3.2s,0s}
+  .lk-stage .lk-hero-typing-3{animation-delay:-1.6s,0s}
+}
+@keyframes lkTypDots{50%{filter:opacity(.45)}}

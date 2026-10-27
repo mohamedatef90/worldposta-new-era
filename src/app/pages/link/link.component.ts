@@ -63,6 +63,7 @@ export class PostaLink {
     afterNextRender(() => {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.cycle(host.querySelector('.lk-spotlight'), destroyRef, reduce, 2400, () => this.benefitHover, () => this.benefitStep.update((v) => (v + 1) % 6));
+      this.initLiveTiles(host.querySelector('.link-hero'), destroyRef, reduce);
       this.initTilt(host.querySelector('.link-final'), host.querySelector('.final-device-art .lk-tilt'), destroyRef, reduce);
       this.initOrbit(host.querySelector('.trial-product-visual .lk-stage'), destroyRef, reduce);
     });
@@ -140,6 +141,26 @@ export class PostaLink {
     area.addEventListener('pointermove', move);
     area.addEventListener('pointerleave', leave);
     destroyRef.onDestroy(() => { cancelAnimationFrame(raf); area.removeEventListener('pointermove', move); area.removeEventListener('pointerleave', leave); });
+  }
+
+  /** Hero: the four meeting tiles play short muted webcam loops while the hero is on screen. */
+  private initLiveTiles(hero: HTMLElement | null, destroyRef: DestroyRef, reduce: boolean): void {
+    if (!hero || reduce) return;
+    const videos = Array.from(hero.querySelectorAll<HTMLVideoElement>('video.lk-hero-tile'));
+    if (!videos.length) return;
+    let visible = false;
+    const sync = () => {
+      videos.forEach((v) => {
+        if (visible && !document.hidden) { v.muted = true; v.play().catch(() => { /* stays on its poster */ }); }
+        else v.pause();
+      });
+    };
+    const io = 'IntersectionObserver' in window
+      ? new IntersectionObserver((entries) => { visible = entries.some((e) => e.isIntersecting); sync(); }, { threshold: 0.1 })
+      : null;
+    if (io) io.observe(hero); else { visible = true; sync(); }
+    document.addEventListener('visibilitychange', sync);
+    destroyRef.onDestroy(() => { io?.disconnect(); document.removeEventListener('visibilitychange', sync); videos.forEach((v) => v.pause()); });
   }
 
 }
