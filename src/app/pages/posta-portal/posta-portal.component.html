@@ -1,32 +1,224 @@
 <app-site-header #header [solid]="true"><app-main-nav-links nav-links /><app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" /></app-site-header>
-<main id="main-content" tabindex="-1"><section class="portal-hero" aria-labelledby="portal-hero-title"><div class="portal-wrap">
-  <div class="portal-copy"><p class="portal-eyebrow"><span aria-hidden="true"></span>POSTA PORTAL</p><h1 id="portal-hero-title" class="hero-palette">Your Branded<br><span class="hero-palette-blue">Email Platform.</span><br><span class="hero-palette-green">Under Your Control.</span></h1><p class="portal-lead">Posta Portal is a powerful, white-label email administration platform built for service providers and government organizations — to manage, secure and grow their email services with ease.</p>
-    <div class="portal-actions"><a class="ds-btn ds-btn--primary" href="/posta-portal#portal-contact">Request a Demo <span aria-hidden="true">→</span></a><a class="ds-btn ds-btn--secondary" href="/posta-portal#portal-overview-title">Explore Features <span aria-hidden="true">→</span></a></div>
-    <ul class="portal-benefits"><li class="portal-blue"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="10" r="6"/><path d="M8 36V26c0-10 24-10 24 0v10ZM8 5a5 5 0 0 0 0 10M32 5a5 5 0 0 1 0 10M3 32V22c0-4 4-5 7-5M37 32V22c0-4-4-5-7-5"/></svg></span><h2>Multi-Tenant Management</h2><p>Manage customers, domains and mailboxes from one platform.</p></li><li class="portal-green"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13"/></svg></span><h2>Advanced Email Security</h2><p>Built-in protection, backup and zero-downtime migration.</p></li><li class="portal-purple"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><h2>New Revenue Opportunities</h2><p>Offer and scale your email services under your own brand.</p></li></ul>
+<main id="main-content" tabindex="-1"><section class="portal-hero portal-hero-stage" aria-labelledby="portal-hero-title"><div class="hero-stage-wrap ds-container"><div class="hero-stage-grid"><div class="hero-stage-copy">
+  <p class="portal-eyebrow hero-stage-eyebrow"><img ngSrc="/worldposta-assets/posta/posta-mark.avif" width="20" height="20" alt="" />POSTA PORTAL</p>
+  <h1 id="portal-hero-title" class="hero-palette">Your Branded<br><span class="hero-palette-blue">Email Platform.</span><br><span class="hero-palette-green">Under Your Control.</span></h1>
+  <p class="hero-stage-lead">Posta Portal is a powerful, white-label email administration platform built for service providers and government organizations — to manage, secure and grow their email services with ease.</p>
+  <div class="hero-stage-actions"><a class="ds-btn ds-btn--primary" href="/posta-portal#portal-contact">Request a Demo <span aria-hidden="true">→</span></a><a class="ds-btn ds-btn--secondary" href="/posta-portal#portal-overview-title">Explore Features <span aria-hidden="true">→</span></a></div>
   </div>
-  <div class="portal-art"><img ngSrc="/worldposta-assets/posta-portal-hero-visual.jpg" width="817" height="669" priority alt="WorldPosta email administration dashboard showing organizations, mailboxes, domains, active subscriptions, email activity and a security overview. Add New Customer: Quick onboarding. Create Mailbox: john@yourbrand.com. Security Status: No threats detected." /></div>
+  <div class="hero-stage">
+    <div class="hero-shell">
+      <div class="hero-shell-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+      <img ngSrc="/worldposta-assets/posta/email-exchange-mailboxes.avif" width="1540" height="735" priority alt="Posta Portal admin suite showing the Mailboxes list with each mailbox’s display name, login, mailbox plan, creation date, drive quota and level." />
+    </div>
+    <div class="hero-phone"><img ngSrc="/worldposta-assets/posta/mobile-app.avif" width="620" height="1344" alt="Posta mobile app showing the inbox." /></div>
+  </div>
+</div>
+  <ul class="hero-stage-benefits" aria-label="Posta Portal benefits"><li class="portal-blue"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="10" r="6"/><path d="M8 36V26c0-10 24-10 24 0v10ZM8 5a5 5 0 0 0 0 10M32 5a5 5 0 0 1 0 10M3 32V22c0-4 4-5 7-5M37 32V22c0-4-4-5-7-5"/></svg></span><div><h2>Multi-Tenant Management</h2><p>Manage customers, domains and mailboxes from one platform.</p></div></li><li class="portal-green"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13"/></svg></span><div><h2>Advanced Email Security</h2><p>Built-in protection, backup and zero-downtime migration.</p></div></li><li class="portal-purple"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><div><h2>New Revenue Opportunities</h2><p>Offer and scale your email services under your own brand.</p></div></li></ul>
 </div></section>
-  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/posta-portal#portal-overview-title">Overview</a><a href="/posta-portal#portal-platform-title">Platform</a><a href="/posta-portal#portal-modules-title">Key modules</a><a href="/posta-portal#portal-business-title">Business benefits</a><a href="/posta-portal#portal-contact">Request a demo</a></div></nav>
-  <section class="portal-overview" aria-labelledby="portal-overview-title"><div class="portal-overview-wrap">
-    <div class="portal-overview-copy"><p class="portal-eyebrow"><span aria-hidden="true"></span>WHAT IS POSTA PORTAL</p><h2 id="portal-overview-title">A Complete Email<br><span>Management Platform.</span></h2><p class="portal-overview-lead">Posta Portal gives you everything you need to manage, secure and grow your email services — from customer onboarding to billing, all in one powerful platform.</p><div class="portal-feature-grid">@for (feature of portalFeatures; track feature.title) {<article [class]="'portal-feature portal-' + feature.tone"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="feature.icon" /></svg></span><div><h3>{{ feature.title }}</h3><p>{{ feature.description }}</p></div></article>}</div></div>
-    <div class="portal-overview-art"><img ngSrc="/worldposta-assets/posta-portal-overview-visual.jpg" width="772" height="625" alt="Posta Portal dashboard connecting Service Providers: Grow your email business; Government Organizations: Secure and manage at scale; Enterprises: Reliable and professional email services. Increase Efficiency: Automate and scale your operations. Improve Security: Built-in security and SOC integration. Unlock New Revenue: Offer branded email services under your own name." /></div>
-  </div></section>
+  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/posta-portal#portal-overview-title">Overview</a><a href="/posta-portal#portal-tour-title">Platform</a><a href="/posta-portal#portal-modules-title">Key modules</a><a href="/posta-portal#portal-brand-title">White-label</a><a href="/posta-portal#portal-business-title">Business benefits</a><a href="/posta-portal#portal-contact">Request a demo</a></div></nav>
+  <section class="portal-overview po" aria-labelledby="portal-overview-title">
+    <div class="ds-container po-grid">
+      <div>
+        <p class="eyebrow po-eyebrow"><span aria-hidden="true"></span>What Is Posta Portal</p>
+        <h2 id="portal-overview-title">A Complete Email <span class="po-green">Management Platform.</span></h2>
+        <p class="po-lede">Posta Portal gives you everything you need to manage, secure and grow your email services — from customer onboarding to billing, all in one powerful platform.</p>
+        <ul class="po-features">
+          @for (feature of portalFeatures; track feature.title) {
+            <li [attr.data-tone]="feature.tone"><span class="po-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="feature.icon" /></svg></span><div><h3>{{ feature.title }}</h3><p>{{ feature.description }}</p></div></li>
+          }
+        </ul>
+      </div>
+      <div class="po-stage" role="img" aria-label="Posta Portal administration window listing organizations for service providers, government organizations and enterprises. Increase Efficiency: automate and scale your operations. Improve Security: built-in security and SOC integration. Unlock New Revenue: offer branded email services under your own name.">
+        <div class="po-shell" aria-hidden="true">
+          <div class="po-chrome"><i></i><i></i><i></i><p>Posta Portal <span>Organizations</span></p><span class="po-live">Live</span></div>
+          <div class="po-adm">
+            <nav>
+              @for (item of adminNav; track item.label; let first = $first) {
+                <span [class.is-on]="first"><fa-icon [icon]="item.icon" />{{ item.label }}</span>
+              }
+            </nav>
+            <div class="po-main">
+              <h4>Organizations</h4>
+              <table>
+                <thead><tr><th>Organization</th><th>Type</th><th>Status</th></tr></thead>
+                <tbody>
+                  @for (org of portalAudiences; track org.label) {
+                    <tr><td>{{ org.org }}</td><td><span class="po-tag" [attr.data-tone]="org.tone"><fa-icon [icon]="org.icon" />{{ org.label }}</span></td><td><em>Configured</em></td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        @for (gain of portalGains; track gain.title; let i = $index) {
+          <div [class]="'po-float po-float--' + i" [attr.data-tone]="gain.tone" aria-hidden="true"><fa-icon [icon]="gain.icon" /><span><strong>{{ gain.title }}</strong><small>{{ gain.text }}</small></span></div>
+        }
+      </div>
+    </div>
+  </section>
 
-  <section class="portal-platform" aria-labelledby="portal-platform-title"><div class="portal-platform-wrap"><header class="portal-platform-heading"><p class="portal-eyebrow"><span aria-hidden="true"></span>KEY FEATURES</p><h2 id="portal-platform-title">Everything You Need<br><span>in One Platform.</span></h2><p>Posta Portal brings together all the tools to manage, secure and grow your email services — with full control, flexibility and scalability.</p></header>
-    <div class="portal-platform-art native-product-art"><app-product-visual kind="portal" /></div>
-    <div class="portal-platform-grid">@for (feature of platformFeatures; track feature.title) {<article [class]="'portal-platform-card portal-' + feature.tone"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="feature.icon" /></svg></span><div><h3>{{ feature.title }}</h3><p>{{ feature.description }}</p></div></article>}</div>
+  <section class="portal-tour" id="portal-tour" aria-labelledby="portal-tour-title"><div class="portal-tour-wrap">
+    <header class="portal-tour-head">
+      <div><p class="portal-eyebrow"><span aria-hidden="true"></span>KEY FEATURES</p><h2 id="portal-tour-title">Everything You Need<br><span>in One Platform.</span></h2></div>
+      <p>Posta Portal brings together all the tools to manage, secure and grow your email services — with full control, flexibility and scalability.</p>
+    </header>
+    <div class="portal-tour-grid">
+      <ul class="portal-tour-list" role="tablist" aria-label="Posta Portal capabilities" aria-orientation="vertical">
+        @for (module of tourModules; track module.id; let i = $index) {
+          <li role="presentation"><button type="button" role="tab" [class]="'portal-tour-tab portal-' + module.tone" [id]="'portal-tour-tab-' + module.id"
+            aria-controls="portal-tour-panel" [attr.aria-selected]="activeModule() === i" [attr.tabindex]="activeModule() === i ? 0 : -1"
+            (click)="activeModule.set(i)" (keydown)="onTourKey($event, i)">
+            <span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="module.icon" /></svg></span>
+            <span><strong>{{ module.title }}</strong><small>{{ module.description }}</small></span>
+          </button></li>
+        }
+      </ul>
+      <div class="portal-tour-stage" role="tabpanel" id="portal-tour-panel" [attr.aria-labelledby]="'portal-tour-tab-' + tourModule().id">
+        <p class="portal-tour-sr">{{ tourModule().preview }}</p>
+        <div class="tour-app" aria-hidden="true">
+          <div class="tour-app-top"><i></i><i></i><i></i><span class="tour-brand"><img ngSrc="/worldposta-assets/posta/posta-mark.avif" width="22" height="22" alt="" />Posta Portal</span><span class="tour-user">admin&#64;example.com</span></div>
+          <div class="tour-app-body">
+            <nav class="tour-app-nav">@for (module of tourModules; track module.id; let i = $index) {<span [class.is-on]="activeModule() === i">{{ module.nav }}</span>}</nav>
+            <div class="tour-app-main">
+              @switch (tourModule().id) {
+                @case ('onboarding') {
+                  <h3>Add new customer</h3>
+                  <div class="tour-field">Company name<span>Example Logistics</span></div>
+                  <div class="tour-field">Administrator email<span>admin&#64;examplelogistics.com</span></div>
+                  <div class="tour-field">Domain<span>examplelogistics.com</span></div>
+                  <span class="tour-btn">Create customer</span>
+                }
+                @case ('mailboxes') {
+                  <h3>Mailboxes</h3>
+                  <div class="tour-rows">
+                    <div><span>Mailbox</span><span>Size</span><span>Status</span></div>
+                    <div><strong>john&#64;company.com</strong><span>50 GB</span><span class="tour-pill portal-green">Active</span></div>
+                    <div><strong>sales&#64;company.com</strong><span>50 GB</span><span class="tour-pill portal-green">Active</span></div>
+                    <div><strong>support&#64;company.com</strong><span>100 GB</span><span class="tour-pill portal-green">Active</span></div>
+                    <div><strong>hr&#64;company.com</strong><span>50 GB</span><span class="tour-pill portal-amber">Suspended</span></div>
+                  </div>
+                }
+                @case ('security') {
+                  <h3>Security overview</h3>
+                  <div class="tour-security">
+                    <svg viewBox="0 0 120 120"><circle class="tour-ring-track" cx="60" cy="60" r="48" /><circle class="tour-ring" cx="60" cy="60" r="48" /><text x="60" y="67" text-anchor="middle">98%</text></svg>
+                    <div class="tour-bars">
+                      <div class="portal-green">Clean<i style="--w:98%"></i>98%</div>
+                      <div class="portal-amber">Spam<i style="--w:12%"></i>1.2%</div>
+                      <div class="portal-purple">Malware<i style="--w:5%"></i>0.5%</div>
+                      <div class="portal-blue">Blocked<i style="--w:3%"></i>0.3%</div>
+                    </div>
+                  </div>
+                }
+                @case ('billing') {
+                  <h3>Subscription plans</h3>
+                  <div class="tour-plans">
+                    <div><b>Business</b><small>Per user, monthly</small><em>Edit plan</em></div>
+                    <div><b>Enterprise</b><small>Per user, monthly</small><em>Edit plan</em></div>
+                    <div><b>Custom</b><small>Your own terms</small><em>Configure</em></div>
+                  </div>
+                  <p class="tour-hint">You set the prices your customers pay.</p>
+                }
+                @case ('migration') {
+                  <h3>Migration progress</h3>
+                  <div class="tour-steps"><span class="is-done">Connect</span><span class="is-done">Validate</span><span class="is-now">Migrate</span><span>Complete</span></div>
+                  <div class="tour-progress"><i></i></div>
+                  <p class="tour-hint">612 of 816 mailboxes moved · 75%</p>
+                }
+                @case ('support') {
+                  <h3>Support · Ticket #2041</h3>
+                  <div class="tour-chat">
+                    <p class="from-user">Our new hire can’t receive email yet.</p><small>Customer · 10:42</small>
+                    <p class="from-ai">The mailbox exists but has no license. I can assign the Business plan now. Shall I go ahead?</p><small>AI assistant · 10:42</small>
+                  </div>
+                }
+                @case ('branding') {
+                  <h3>Branding</h3>
+                  <div class="tour-field">Portal name<span>YourBrand Mail</span></div>
+                  <div class="tour-field">Custom domain<span>mail.yourbrand.com</span></div>
+                  <div class="tour-field">Brand color<span><i class="tour-swatch"></i>#4F7D2F</span></div>
+                  <span class="tour-btn">Publish branding</span>
+                }
+                @case ('integrations') {
+                  <h3>Integrations</h3>
+                  <div class="tour-integrations"><span>SSO</span><span>REST API</span><span>Webhooks</span><span>ERP</span></div>
+                  <p class="tour-hint">Your tools. One connected platform.</p>
+                }
+              }
+            </div>
+          </div>
+        </div>
+        <ul class="tour-tags" aria-label="Included">@for (tag of tourModule().tags; track tag) {<li>{{ tag }}</li>}</ul>
+      </div>
+    </div>
     <ul class="portal-platform-outcomes">@for (outcome of platformOutcomes; track outcome.title) {<li [class]="'portal-' + outcome.tone"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="outcome.icon" /></svg></span><div><h3>{{ outcome.title }}</h3><p>{{ outcome.description }}</p></div></li>}</ul>
   </div></section>
 
-  <section class="portal-modules" aria-labelledby="portal-modules-title"><div class="portal-modules-wrap"><div class="portal-modules-copy"><p class="portal-eyebrow"><span aria-hidden="true"></span>KEY MODULES</p><h2 id="portal-modules-title">Powerful Modules.<br><span>Complete Control.</span></h2><p>Posta Portal gives you a full set of tools to manage, secure and grow your email services — all from one easy-to-use platform.</p><a class="ds-btn ds-btn--primary" href="/posta-portal#portal-platform-title">Explore All Features <span aria-hidden="true">→</span></a><div class="portal-modules-art native-product-art"><app-product-visual kind="portal" /></div></div>
-    <div class="portal-module-grid">@for (module of portalModules; track module.title) {<article [class]="'portal-module portal-' + module.tone"><div class="portal-module-heading"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="module.icon" /></svg></span><div><h3>{{ module.title }}</h3><p>{{ module.description }}</p></div></div><div class="module-interface" role="img" [attr.aria-label]="module.preview"><small>Interface preview</small><div aria-hidden="true">@switch (module.id) {
-@case ('onboarding') {<div class="mini-field">Company name<span>Example organization</span></div><div class="mini-field">Administrator<span>admin&#64;example.com</span></div><span class="mini-action">Create customer</span>}
-@case ('mailboxes') {<div class="mini-row"><span>team&#64;example.com</span><b>Active</b></div><div class="mini-row"><span>sales&#64;example.com</span><b>Active</b></div><div class="mini-row"><span>support&#64;example.com</span><b>Active</b></div>}
-@case ('security') {<div class="mini-security"><svg viewBox="0 0 64 64"><circle class="mini-ring-track" cx="32" cy="32" r="25"/><circle class="mini-ring" cx="32" cy="32" r="25"/><path d="m22 32 7 7 14-16"/></svg><span><b>Security overview</b><small>Threat filtering<br>Access policies<br>Data protection</small></span></div>}
-@case ('billing') {<div class="mini-row"><span>Business email</span><b>Manage</b></div><div class="mini-row"><span>Enterprise email</span><b>Manage</b></div><div class="mini-row"><span>Custom plans</span><b>Configure</b></div>}
-@case ('migration') {<div class="mini-steps"><span>Connect</span><span>Validate</span><span>Migrate</span></div><div class="mini-progress"><span></span></div><p>Track each step in one place.</p>}
-@case ('integrations') {<div class="mini-integrations"><span>SSO</span><span>API</span><span>Webhooks</span><span>ERP</span></div><p>Your tools. One connected platform.</p>}
-}</div></div></article>}</div>
+  <section class="portal-modules pm" aria-labelledby="portal-modules-title">
+    <div class="ds-container">
+      <div class="pm-head">
+        <div><p class="eyebrow po-eyebrow"><span aria-hidden="true"></span>Key Modules</p><h2 id="portal-modules-title">Powerful Modules. <span class="po-green">Complete Control.</span></h2></div>
+        <div><p class="po-lede">Posta Portal gives you a full set of tools to manage, secure and grow your email services — all from one easy-to-use platform.</p><a class="ds-btn ds-btn--primary pm-btn" href="/posta-portal#portal-platform-title">Explore All Features <span aria-hidden="true">→</span></a></div>
+      </div>
+      <div class="po-shell pm-app">
+        <div class="po-chrome" aria-hidden="true"><i></i><i></i><i></i><p>Posta Portal</p><span class="po-live">Live</span></div>
+        <div class="pm-body">
+          <div class="pm-nav" role="tablist" aria-label="Posta Portal modules" (keydown)="onKeyModuleKey($event)">
+            <p class="pm-cap" aria-hidden="true">Modules</p>
+            @for (module of portalModules; track module.id; let i = $index) {
+              <button type="button" role="tab" [id]="'pm-tab-' + module.id" [attr.aria-selected]="keyModule() === i" [attr.aria-controls]="'pm-panel'" [tabIndex]="keyModule() === i ? 0 : -1" [attr.data-tone]="module.tone" (click)="keyModule.set(i)"><span class="pm-ni" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="module.icon" /></svg></span>{{ module.title }}</button>
+            }
+          </div>
+          @let m = portalModules[keyModule()];
+          <div class="pm-pane" id="pm-panel" role="tabpanel" [attr.aria-labelledby]="'pm-tab-' + m.id">
+            <div class="pm-text" [attr.data-tone]="m.tone">
+              <span class="po-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path [attr.d]="m.icon" /></svg></span>
+              <h3>{{ m.title }}</h3>
+              <p>{{ m.description }}</p>
+            </div>
+            <div class="pm-card" role="img" [attr.aria-label]="m.preview">
+              <div class="pm-pv" aria-hidden="true">
+                @switch (m.id) {
+                  @case ('onboarding') {<p class="pm-h">Add New Customer</p><div class="pm-fld">Company Name<span>Example Corp</span></div><div class="pm-fld">Administrator Email<span>admin&#64;company.com</span></div><div class="pm-fld">Domain Name<span>company.com</span></div><span class="pm-act">Create Customer</span>}
+                  @case ('mailboxes') {<p class="pm-h">Mailboxes</p><div class="pm-search"><fa-icon [icon]="icons.search" />Search mailboxes</div>@for (box of mailboxes; track box.name) {<div class="pm-row">{{ box.name }}<small>{{ box.size }}</small><b>Active</b></div>}}
+                  @case ('security') {<p class="pm-h">Security Overview</p><div class="pm-sec"><div class="pm-donut"><span>98%<small>Secure</small></span></div><div class="pm-leg">@for (s of securityMix; track s.label) {<div [attr.data-tone]="s.tone"><i></i>{{ s.label }}<b>{{ s.value }}</b></div>}</div></div>}
+                  @case ('billing') {<p class="pm-h pm-h--split">Subscription Plans<span>+ Add Plan</span></p>@for (plan of plans; track plan.name) {<div class="pm-plan">{{ plan.name }}<small>{{ plan.price }}</small></div>}}
+                  @case ('migration') {<p class="pm-h pm-h--split">Migration Progress<span>75%</span></p><div class="pm-steps"><span class="is-done">Connect</span><span class="is-done">Validate</span><span class="is-done">Migrate</span><span>Complete</span></div><div class="pm-bar"><i></i></div><p class="pm-muted">Track each step in one place.</p>}
+                  @case ('integrations') {<p class="pm-h">Integrations</p><div class="pm-ints">@for (it of integrations; track it.label) {<span><fa-icon [icon]="it.icon" />{{ it.label }}</span>}</div><p class="pm-muted">Your tools. One connected platform.</p>}
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-brand" id="portal-brand" aria-labelledby="portal-brand-title"><div class="portal-brand-wrap">
+    <div class="portal-brand-copy">
+      <p class="portal-eyebrow"><span aria-hidden="true"></span>WHITE-LABEL</p>
+      <h2 id="portal-brand-title">Your Brand.<br><span>Not Ours.</span></h2>
+      <p class="portal-brand-lead">Your customers see your name, your colors and your domain on every screen and email. WorldPosta stays in the background.</p>
+      <div class="portal-brand-controls">
+        <label for="portal-brand-name">Your company name<input #brandInput id="portal-brand-name" type="text" maxlength="24" autocomplete="off" [value]="brandName()" (input)="brandName.set(brandInput.value)" /></label>
+        <div>
+          <span class="portal-brand-label" id="portal-brand-color-label">Brand color</span>
+          <div class="portal-brand-swatches" role="group" aria-labelledby="portal-brand-color-label">
+            @for (color of brandColors; track color.value) {
+              <button type="button" [style.--swatch]="color.value" [attr.aria-label]="color.name" [attr.aria-pressed]="brandColor() === color.value" (click)="brandColor.set(color.value)"></button>
+            }
+          </div>
+        </div>
+        <p class="portal-brand-note">Logo, domain, sign-in page and email templates can all be branded.</p>
+      </div>
+    </div>
+    <div class="portal-brand-visual" [style.--brand]="brandColor()">
+      <div class="portal-brand-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="portal-brand-url"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>{{ brandDomain() }}</span></div>
+      <div class="portal-brand-screen">
+        <img ngSrc="/worldposta-assets/posta/email-exchange-mailboxes.avif" width="1540" height="735" alt="Posta Portal admin suite showing the Mailboxes list, with the portal branded under your company name." />
+        <span class="portal-brand-logo" aria-hidden="true"><i>{{ brandInitial() }}</i><b>{{ brandLabel() }}</b></span>
+      </div>
+    </div>
   </div></section>
 
   <section class="portal-business" aria-labelledby="portal-business-title"><div class="portal-business-wrap">
@@ -35,10 +227,9 @@
       <li class="portal-blue"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m16 3 8 0 2 5 5 2 5-1 3 6-4 4v5l4 4-3 6-5-1-5 2-2 5h-8l-2-5-5-2-5 1-3-6 4-4v-5l-4-4 3-6 5 1 5-2ZM27 21a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></span><div><h3>Reduce Operational Effort</h3><p>Automate onboarding, billing, support and administration tasks.</p></div></li>
       <li class="portal-purple"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13"/></svg></span><div><h3>Deliver a Secure Experience</h3><p>Advanced security, backup and SOC integration to protect your customers’ communications.</p></div></li>
     </ul></div>
-    <div class="portal-business-art"><img ngSrc="/worldposta-assets/posta-portal-business-visual.jpg" width="988" height="669" alt="Posta Portal organizations dashboard. Multi-Tenant Management: Manage multiple customers from one platform. Domain & Mailbox Management: Full control over domains, mailboxes and policies. Billing & Subscriptions: Flexible plans and automated billing. Security Overview: 98% Secure. Add New Customer. Migration & Backup: Zero-downtime migration and reliable backup. Migration Completed." /></div>
   </div></section>
 
-  <section class="portal-contact" id="portal-contact" aria-labelledby="portal-contact-title"><div class="portal-contact-wrap"><div class="portal-contact-copy"><p class="portal-eyebrow"><span aria-hidden="true"></span>GET STARTED</p><h2 id="portal-contact-title">Ready to Launch<br><span>Your Email Platform?</span></h2><p class="portal-contact-lead">Talk to our team and discover how Posta Portal can help you manage, secure and grow your email services — your way.</p><ul class="portal-contact-benefits"><li class="portal-green"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M35 18c0 9-8 15-17 15H9l-6 4 2-11a16 16 0 1 1 30-8ZM12 17h1m6 0h1m6 0h1"/></svg></span><div><h3>Get Expert Advice</h3><p>Tailored to your business needs</p></div></li><li class="portal-blue"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="m16 12 12 8-12 8Z"/></svg></span><div><h3>See a Live Demo</h3><p>Explore the platform in action</p></div></li><li class="portal-purple"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><div><h3>Custom Solution</h3><p>Built for your requirements</p></div></li></ul><div class="portal-contact-art"><img ngSrc="/worldposta-assets/posta-portal-contact-visual.jpg" width="628" height="307" alt="Posta Portal organizations dashboard on a laptop beside a specialist ready to discuss your email platform requirements." /></div></div>
+  <section class="portal-contact" id="portal-contact" aria-labelledby="portal-contact-title"><div class="portal-contact-wrap"><div class="portal-contact-copy"><p class="portal-eyebrow"><span aria-hidden="true"></span>GET STARTED</p><h2 id="portal-contact-title">Ready to Launch<br><span>Your Email Platform?</span></h2><p class="portal-contact-lead">Talk to our team and discover how Posta Portal can help you manage, secure and grow your email services — your way.</p><ul class="portal-contact-benefits"><li class="portal-green"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M35 18c0 9-8 15-17 15H9l-6 4 2-11a16 16 0 1 1 30-8ZM12 17h1m6 0h1m6 0h1"/></svg></span><div><h3>Get Expert Advice</h3><p>Tailored to your business needs</p></div></li><li class="portal-blue"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="m16 12 12 8-12 8Z"/></svg></span><div><h3>See a Live Demo</h3><p>Explore the platform in action</p></div></li><li class="portal-purple"><span class="portal-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31"/></svg></span><div><h3>Custom Solution</h3><p>Built for your requirements</p></div></li></ul></div>
     <form class="portal-contact-form" (submit)="submitDemo($event)" aria-labelledby="portal-demo-title"><p class="portal-eyebrow">REQUEST A DEMO</p><h3 id="portal-demo-title">Let’s Discuss <span>Your Requirements</span></h3><p>Fill in the form and our team will get in touch with you to schedule a demo and answer all your questions.</p><div class="portal-contact-fields"><label>Full Name *<input name="fullName" placeholder="Your full name" autocomplete="name" maxlength="120" required /></label><label>Company Name *<input name="company" placeholder="Your company name" autocomplete="organization" maxlength="160" required /></label><label>Business Email *<input name="email" type="email" placeholder="you@company.com" autocomplete="email" maxlength="254" required /></label><label>Phone Number *<input name="phone" type="tel" placeholder="+20 10 1234 5678" autocomplete="tel" maxlength="32" required /></label><label>Country *<select name="country" autocomplete="country-name" required><option value="" disabled selected>Select country</option><option>Egypt</option><option>Saudi Arabia</option><option>United Arab Emirates</option><option>Qatar</option><option>Kuwait</option><option>Bahrain</option><option>Oman</option><option>Jordan</option><option>United Kingdom</option><option>United States</option><option>Other</option></select></label><label>I am interested in *<select name="interest" required><option value="" disabled selected>Select product or solution</option><option>Posta Portal</option><option>White-Label Email Platform</option><option>Email Security</option><option>Migration &amp; Backup</option><option>Billing &amp; Subscription Management</option><option>Custom Solution</option></select></label><label class="portal-field-full">Tell us about your requirements<textarea name="requirements" placeholder="Type your message here..." rows="4" maxlength="5000"></textarea></label></div><div class="portal-contact-submit"><label class="portal-demo-consent"><input type="checkbox" name="consent" required />I agree to be contacted by the WorldPosta team.</label><button class="ds-btn ds-btn--primary" type="submit">Request a Demo <span aria-hidden="true">→</span></button></div><p class="portal-demo-note">Opens an email draft for you to review and send.</p><p class="portal-demo-status" role="status">{{ demoStatus() }}</p></form>
   </div></section>
 

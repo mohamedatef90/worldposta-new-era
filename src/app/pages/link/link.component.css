@@ -243,16 +243,16 @@
 .lk-stage .lk-hero-tile-2{left:72.617%;top:58.724%}
 .lk-stage .lk-hero-tile-3{left:84.339%;top:58.724%}
 .lk-stage .lk-hero-tile-name{pointer-events:none}
-.lk-stage .lk-hero-tile-name-0{left:72.992%;top:52.814%;width:4.344%}
-.lk-stage .lk-hero-tile-name-1{left:84.714%;top:52.814%;width:5.293%}
-.lk-stage .lk-hero-tile-name-2{left:72.992%;top:82.833%;width:4.767%}
-.lk-stage .lk-hero-tile-name-3{left:84.714%;top:82.833%;width:4.172%}
+.lk-stage .lk-hero-tile-name-0{left:72.992%;top:52.814%;width:4.833%}
+.lk-stage .lk-hero-tile-name-1{left:84.714%;top:52.814%;width:4.625%}
+.lk-stage .lk-hero-tile-name-2{left:72.992%;top:82.833%;width:4.583%}
+.lk-stage .lk-hero-tile-name-3{left:84.714%;top:82.833%;width:5.333%}
 /* Hero: the "is typing" name follows the green speaker ring (same 6.4s cycle, same order) */
 .lk-stage .lk-hero-typing{left:51.938%;top:85.553%;opacity:0;pointer-events:none}
-.lk-stage .lk-hero-typing-0{width:7.267%;opacity:1}
-.lk-stage .lk-hero-typing-1{width:7.709%}
-.lk-stage .lk-hero-typing-2{width:7.266%}
-.lk-stage .lk-hero-typing-3{width:7.377%}
+.lk-stage .lk-hero-typing-0{width:7.458%;opacity:1}
+.lk-stage .lk-hero-typing-1{width:7.333%}
+.lk-stage .lk-hero-typing-2{width:7.250%}
+.lk-stage .lk-hero-typing-3{width:7.583%}
 @media (prefers-reduced-motion: no-preference){
   .lk-stage .lk-hero-typing{animation:lkRing 6.4s step-end infinite,lkTypDots 1.2s ease-in-out infinite}
   .lk-stage .lk-hero-typing-1{animation-delay:-4.8s,0s}
