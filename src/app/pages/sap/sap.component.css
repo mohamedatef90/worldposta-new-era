@@ -225,10 +225,9 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .sap-float small{font-size:var(--fs-caption);color:var(--color-text-secondary)}
 .sap-float__icon{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;font-weight:var(--fw-bold);background:color-mix(in srgb,currentColor 14%,transparent)}
 .sap-float__icon svg{width:20px;height:20px}
-.sap-float--health{left:8%;top:12%}
 .sap-float--backup{right:4%;top:9%}
-.sap-float--monitor{left:12%;bottom:12%}
-@media(prefers-reduced-motion:no-preference){.sap-float{opacity:0;animation:sap-float-in .6s cubic-bezier(.2,.7,.2,1) forwards}.sap-float--health{animation-delay:.6s}.sap-float--backup{animation-delay:.75s}.sap-float--monitor{animation-delay:.9s}}
+.sap-float--monitor{left:9%;top:13%}
+@media(prefers-reduced-motion:no-preference){.sap-float{opacity:0;animation:sap-float-in .6s cubic-bezier(.2,.7,.2,1) forwards}.sap-float--monitor{animation-delay:.6s}.sap-float--backup{animation-delay:.75s}}
 @keyframes sap-float-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media(max-width:1199px){
   .sap-hero{flex-direction:column;align-items:stretch;min-height:0}
@@ -254,7 +253,8 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 
 /* Services, stories and closing: whole photos, cropped with object-fit. */
 .services-art{border-radius:var(--radius-xl)}
-.services-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+/* Zoomed toward the laptop so its SAP Operations Center screen reads at this size. */
+.services-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:47% 62%;scale:1.7;transform-origin:47% 66%}
 .success-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .closing-photo{position:relative;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg)}
 .closing-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
