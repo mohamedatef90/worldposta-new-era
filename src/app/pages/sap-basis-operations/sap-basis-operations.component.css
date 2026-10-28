@@ -246,3 +246,16 @@ main > :is(.basis-hero,.basis-challenge,.basis-coverage,.basis-proactive,.basis-
    tone toward the theme ink keeps the hue and clears AA in both themes; the
    tint and icon stroke follow, as both read currentColor. */
 .proactive-badge{color:color-mix(in srgb,currentColor 62%,var(--wp-ink))}
+
+/* What's included: the shared card style used across the site (white card, soft border and shadow, tinted icon tile, neutral text) */
+.coverage-card{--tone:currentColor;min-height:0;padding:var(--space-lg);border:1px solid var(--color-border);border-radius:18px;background:var(--wp-panel);box-shadow:0 10px 30px -22px rgba(7,28,76,.35);transition:transform .2s,box-shadow .2s,border-color .2s}
+.coverage-card::after{display:none}
+.coverage-card .risk-icon{width:48px;height:48px;border-radius:12px;margin:0 0 var(--space-md);background:color-mix(in srgb,currentColor 11%,var(--wp-panel))}
+.coverage-card .risk-icon svg{width:24px;height:24px}
+.coverage-card h3{color:var(--wp-ink);font-size:var(--fs-body);margin:0 0 6px}
+.coverage-card p{color:var(--wp-body);font-size:var(--fs-body-sm);line-height:1.55}
+.coverage-card a{width:32px;height:32px;font-size:18px;border-color:color-mix(in srgb,currentColor 35%,transparent)}
+.coverage-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,currentColor 30%,var(--color-border));box-shadow:0 18px 40px -24px rgba(7,28,76,.4)}
+@media(prefers-reduced-motion:reduce){.coverage-card,.coverage-card:hover{transition:none;transform:none}}
+.coverage-grid .coverage-card h3{color:var(--wp-ink,var(--color-text-primary))}
+.coverage-grid .coverage-card p{color:var(--wp-body,var(--color-text-secondary))}

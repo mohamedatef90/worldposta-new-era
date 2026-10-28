@@ -1,118 +1,65 @@
 <app-site-header [solid]="true" />
 <main id="main-content" tabindex="-1">
-  <section class="story-hero" aria-labelledby="story-heading">
-    <div class="story-scene" aria-hidden="true">
-      <img ngSrc="/worldposta-assets/our-story-hero.png" fill priority alt="" />
-    </div>
-    <div class="story-copy">
-      <p class="story-eyebrow"><span aria-hidden="true"></span>Our Story</p>
+  <section class="story-hero os" aria-labelledby="story-heading">
+    <div class="os-wrap"><div class="os-hero-card">
+      <p class="story-eyebrow os-eyebrow"><span aria-hidden="true"></span>Our Story</p>
       <h1 id="story-heading" class="hero-palette">Built on a<br /><strong><span class="hero-palette-blue">Different&nbsp;</span><span class="hero-palette-green">Idea.</span></strong></h1>
-      <p class="story-lead">Technology should make business simpler —<br class="desktop-break" /> not more complicated.</p>
-      <p class="story-description">WorldPosta was built around a simple belief: businesses shouldn’t have to choose between performance, security, flexibility and simplicity.<br />We bring cloud, collaboration, security and managed services together into an ecosystem designed around the way businesses actually operate.</p>
-      <a class="story-cta" href="/our-story#our-belief">Explore Our Story <span aria-hidden="true">⟶</span></a>
+      <p class="os-hero-lead">Technology should make business simpler — not more complicated.</p>
+      <p class="os-hero-text">WorldPosta was built around a simple belief: businesses shouldn’t have to choose between performance, security, flexibility and simplicity.<br />We bring cloud, collaboration, security and managed services together into an ecosystem designed around the way businesses actually operate.</p>
+      <a class="os-btn" href="/our-story#our-belief">Explore Our Story <span aria-hidden="true">⟶</span></a>
     </div>
+    <div class="os-hero-photo"><img ngSrc="/worldposta-assets/our-story-hero-team.avif" width="1600" height="1067" priority alt="The WorldPosta team around a laptop showing the CloudEdge Console dashboard, a city skyline behind them." /></div></div>
   </section>
 
-  <section class="mission" id="our-belief" aria-labelledby="mission-heading">
-    <div class="mission-inner">
-      <div class="mission-top">
-        <div class="mission-intro">
-          <h2 id="mission-heading">Make Enterprise Technology<br /><strong><span>Simpler.</span> Safer. <span>Smarter.</span></strong></h2>
-          <p>We believe businesses shouldn’t need to navigate layers of complexity just to get the technology they need. We simplify the technology behind the business so organizations can focus on what really matters — innovating, growing and creating impact.</p>
-        </div>
-        <aside class="mission-statement" aria-label="Our mission statement">
-          <h3><span>Our</span>Mission</h3>
-          <p>Our mission is to make enterprise-grade cloud and IT services simpler to adopt, easier to manage and smarter to scale — bringing infrastructure, security, collaboration and managed services together around the needs of the business.</p>
-        </aside>
+  <section class="mission os" id="our-belief" aria-labelledby="mission-heading">
+    <div class="os-wrap">
+      <div class="os-headrow">
+        <div><h2 id="mission-heading" class="os-h2">Make Enterprise Technology<br /><strong><span>Simpler.</span> Safer. <span>Smarter.</span></strong></h2>
+        <p class="os-lead">We believe businesses shouldn’t need to navigate layers of complexity just to get the technology they need. We simplify the technology behind the business so organizations can focus on what really matters — innovating, growing and creating impact.</p></div>
+        <div class="os-mission-photo"><img ngSrc="/worldposta-assets/our-story-mission-desk.avif" width="1600" height="1200" alt="A business owner smiling at his laptop showing the CloudEdge Console dashboard." /><aside class="os-mission-card" aria-label="Our mission statement"><h3><span>Our</span> Mission</h3><p>Our mission is to make enterprise-grade cloud and IT services simpler to adopt, easier to manage and smarter to scale — bringing infrastructure, security, collaboration and managed services together around the needs of the business.</p></aside></div>
       </div>
-      <div class="mission-flow">
-        <svg class="mission-wave" viewBox="0 0 1400 160" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="mission-line"><stop stop-color="#76c78a"/><stop offset=".4" stop-color="#73c8f1"/><stop offset=".7" stop-color="#76c78a"/><stop offset="1" stop-color="#73c8f1"/></linearGradient></defs><path d="M-120 5C-25-70-10 145 150 110S280 55 350 100S500 145 650 100S800 65 900 110S1040 120 1160 100S1330 90 1390 15S1490-20 1520 0"/><g><circle cx="12" cy="88" r="4"/><circle cx="350" cy="100" r="4"/><circle cx="700" cy="88" r="4"/><circle cx="1050" cy="114" r="4"/><circle cx="1390" cy="15" r="4"/></g></svg>
-        <ul class="mission-outcomes">
-          <li><span class="mission-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m20 4 14 8v16l-14 8-14-8V12Z M6 12l14 8 14-8M20 20v16M13 8l14 8"/></svg></span><div><p>Complex<br />infrastructure</p><span class="mission-arrow" aria-hidden="true">→</span><h3>A simpler way<br />to build.</h3></div></li>
-          <li><span class="mission-icon mission-icon-blue"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 5 8 6 13 6v12c0 6-7 11-13 14C14 33 7 28 7 22V10c5 0 9-1 13-6Z"/></svg></span><div><p>Fragmented<br />security</p><span class="mission-arrow" aria-hidden="true">→</span><h3>Protection designed<br />into the environment.</h3></div></li>
-          <li><span class="mission-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="10" rx="13" ry="6"/><path d="M7 10v8c0 3 6 6 13 6s13-3 13-6v-8M7 18v8c0 3 6 6 13 6s13-3 13-6v-8M7 26v4c0 3 6 6 13 6s13-3 13-6v-4"/></svg></span><div><p>Unpredictable<br />costs</p><span class="mission-arrow" aria-hidden="true">→</span><h3>Clearer, more<br />transparent choices.</h3></div></li>
-          <li><span class="mission-icon mission-icon-blue"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="7" r="4"/><circle cx="9" cy="30" r="4"/><circle cx="31" cy="30" r="4"/><circle cx="20" cy="21" r="4"/><path d="M20 11v6M17 24l-5 3M23 24l5 3M8 16h5M10 13v6M28 15h5M30 12v6M20 29v7M17 33h6"/></svg></span><div><p>Disconnected<br />services</p><span class="mission-arrow" aria-hidden="true">→</span><h3>One connected<br />ecosystem.</h3></div></li>
-        </ul>
-      </div>
-      <div class="mission-bottom"><p>Technology should enable your business.<br /><span>Not become another problem to manage.</span></p><p>That’s the idea behind WorldPosta.</p></div>
+      <ul class="os-flow"><li><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5ZM3 13l9 5 9-5"/></svg></span><p class="os-from">Complex<br />infrastructure</p><span class="os-arrow os-green-text" aria-hidden="true">→</span><h3>A simpler way<br />to build.</h3></li><li><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6Z"/></svg></span><p class="os-from">Fragmented<br />security</p><span class="os-arrow os-blue-text" aria-hidden="true">→</span><h3>Protection designed<br />into the environment.</h3></li><li><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7c0 2 4 3 8 3s8-1 8-3-4-3-8-3-8 1-8 3ZM4 7v10c0 2 4 3 8 3s8-1 8-3V7M4 12c0 2 4 3 8 3s8-1 8-3"/></svg></span><p class="os-from">Unpredictable<br />costs</p><span class="os-arrow os-green-text" aria-hidden="true">→</span><h3>Clearer, more<br />transparent choices.</h3></li><li><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><p class="os-from">Disconnected<br />services</p><span class="os-arrow os-blue-text" aria-hidden="true">→</span><h3>One connected<br />ecosystem.</h3></li></ul>
+      <div class="os-mission-end"><p>Technology should enable your business.<br /><span>Not become another problem to manage.</span></p><p>That’s the idea behind WorldPosta.</p></div>
     </div>
   </section>
-  <section class="story-ecosystem" aria-labelledby="story-ecosystem-heading" id="our-ecosystem">
-    <div class="ecosystem-inner">
-      <div class="ecosystem-heading">
-        <p class="story-eyebrow"><span aria-hidden="true"></span>Our Ecosystem</p>
-        <h2 id="story-ecosystem-heading">One Ecosystem.<br /><span>Everything Connected.</span></h2>
-        <p>Cloud, security, collaboration and managed services designed<br class="ecosystem-break" /> to work together as one connected business platform.</p>
+  <section class="story-ecosystem os" aria-labelledby="story-ecosystem-heading" id="our-ecosystem">
+    <div class="os-wrap">
+      <div class="os-center">
+        <p class="story-eyebrow os-eyebrow"><span aria-hidden="true"></span>Our Ecosystem</p>
+        <h2 id="story-ecosystem-heading" class="os-h2">One Ecosystem.<br /><span>Everything Connected.</span></h2>
+        <p class="os-lead">Cloud, security, collaboration and managed services designed to work together as one connected business platform.</p>
       </div>
-      <ul class="ecosystem-products" aria-label="The WorldPosta ecosystem">
-        <li class="ecosystem-card">
-          <span class="ecosystem-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 37h22a9 9 0 0 0 1-18 13 13 0 0 0-25-2 10 10 0 0 0 2 20Z"/></svg></span>
-          <h3>CloudEdge</h3><p>Enterprise cloud solutions to build, run and scale your business.</p>
-        </li>
-        <li class="ecosystem-card ecosystem-card-blue">
-          <span class="ecosystem-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="11" width="34" height="27" rx="1"/><path d="m8 12 16 14 16-14"/></svg></span>
-          <h3>Posta</h3><p>Business email and productivity tools for modern teams.</p>
-        </li>
-        <li class="ecosystem-card">
-          <span class="ecosystem-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6c5 5 11 7 15 7v12c0 8-8 14-15 18C17 39 9 33 9 25V13c4 0 10-2 15-7Z"/></svg></span>
-          <h3>Posta Gate</h3><p>Advanced email security to keep your business and data safe.</p>
-        </li>
-        <li class="ecosystem-card ecosystem-card-blue">
-          <span class="ecosystem-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="15" r="7"/><circle cx="35" cy="17" r="5"/><path d="M5 40v-4c0-8 6-11 13-11s13 3 13 11v4M32 28c7 0 11 3 11 9v3"/></svg></span>
-          <h3>Drive + Link</h3><p>Collaboration tools for seamless teamwork anytime, anywhere.</p>
-        </li>
-        <li class="ecosystem-card">
-          <span class="ecosystem-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="m20 6 8 0 2 6 5-1 5 6-3 5 4 4-3 8-6 0-2 6-8 2-3-5-6 1-4-7 3-5-3-5 4-7 6 1Z"/><circle cx="24" cy="24" r="6"/></svg></span>
-          <h3>WPSYS</h3><p>Managed IT and security services to keep your business running smoothly.</p>
-        </li>
-      </ul>
+      <div class="os-hub"><span class="os-hub-line" aria-hidden="true"></span><ul class="os-eco-grid" aria-label="The WorldPosta ecosystem"><li class="os-eco os-green-dot"><span class="os-dot" aria-hidden="true"></span><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.6-9.96A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9Z"/></svg></span><h3>CloudEdge</h3><p>Enterprise cloud solutions to build, run and scale your business.</p></li><li class="os-eco os-blue-dot"><span class="os-dot" aria-hidden="true"></span><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3ZM3 5l9 7 9-7"/></svg></span><h3>Posta</h3><p>Business email and productivity tools for modern teams.</p></li><li class="os-eco os-green-dot"><span class="os-dot" aria-hidden="true"></span><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6ZM9 12l2 2 4-4"/></svg></span><h3>Posta Gate</h3><p>Advanced email security to keep your business and data safe.</p></li><li class="os-eco os-blue-dot"><span class="os-dot" aria-hidden="true"></span><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0ZM3 21v-1a7 7 0 0 1 18 0v1"/></svg></span><h3>Drive + Link</h3><p>Collaboration tools for seamless teamwork anytime, anywhere.</p></li><li class="os-eco os-green-dot"><span class="os-dot" aria-hidden="true"></span><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM19 12l2-1-1-3-2 .3-1.4-1.4L17 5l-3-1-1 2h-2L10 4 7 5l.4 2L6 8.4 4 8 3 11l2 1-2 1 1 3 2-.3 1.4 1.4L7 19l3 1 1-2h2l1 2 3-1-.4-2 1.4-1.4 2 .4 1-3Z"/></svg></span><h3>WPSYS</h3><p>Managed IT and security services to keep your business running smoothly.</p></li></ul></div>
     </div>
   </section>
-  <section class="story-vision" id="our-vision" aria-labelledby="vision-heading">
-    <div class="vision-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-vision.png" fill alt="" /></div>
-    <div class="vision-inner">
-      <div class="vision-copy">
-        <p class="story-eyebrow"><span aria-hidden="true"></span>Our Vision</p>
-        <h2 id="vision-heading">To be the most trusted<br /><span>cloud and IT partner</span><br />in the region.</h2>
-        <p>Enabling governments and enterprises to innovate with confidence through secure, sovereign and intelligent digital capabilities — building a more connected, resilient and sustainable future.</p>
+  <section class="story-vision os" id="our-vision" aria-labelledby="vision-heading">
+    <div class="os-wrap">
+      <div class="os-split">
+        <div><p class="story-eyebrow os-eyebrow"><span aria-hidden="true"></span>Our Vision</p><h2 id="vision-heading" class="os-h2">To be the most trusted<br /><span>cloud and IT partner</span><br />in the region.</h2>
+        <p class="os-lead">Enabling governments and enterprises to innovate with confidence through secure, sovereign and intelligent digital capabilities — building a more connected, resilient and sustainable future.</p></div>
+        <div class="os-framed"><img ngSrc="/worldposta-assets/our-story-vision-photo.avif" width="983" height="793" alt="Glass cloud sculpture in a bright modern lobby overlooking a city skyline" /></div>
       </div>
-      <ul class="vision-benefits" aria-label="Our vision for the region">
-        <li><span class="vision-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><h3>Safer<br />Organizations</h3><p>Built on trust, compliance and sovereign capabilities.</p></li>
-        <li><span class="vision-icon vision-icon-blue"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="22" width="6" height="14" rx="1"/><rect x="17" y="14" width="6" height="22" rx="1"/><rect x="29" y="5" width="6" height="31" rx="1"/></svg></span><h3>Smarter<br />Operations</h3><p>Powered by intelligent technology and automation.</p></li>
-        <li><span class="vision-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 30C0 10 18 5 35 5c0 17-5 35-24 28M5 36 27 14M11 30c-1-9 5-15 16-16"/></svg></span><h3>More<br />Sustainable Growth</h3><p>Through efficient infrastructure and responsible innovation.</p></li>
-        <li><span class="vision-icon vision-icon-blue"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="12" r="6"/><circle cx="7" cy="14" r="4"/><circle cx="33" cy="14" r="4"/><path d="M9 36v-5c0-6 5-10 11-10s11 4 11 10v5ZM3 32H0v-7c0-4 3-6 7-6M37 32h3v-7c0-4-3-6-7-6"/></svg></span><h3>A Stronger<br />Digital Region</h3><p>Connecting businesses, communities and possibilities.</p></li>
-      </ul>
+      <ul class="os-grid4" aria-label="Our vision for the region"><li class="os-card os-green-top"><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6Z"/></svg></span><h3>Safer<br />Organizations</h3><p>Built on trust, compliance and sovereign capabilities.</p></li><li class="os-card os-blue-top"><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.9.6 1.5 1.6 1.5 2.6V17h4v-.5c0-1 .6-2 1.5-2.6A6 6 0 0 0 12 3Z"/></svg></span><h3>Smarter<br />Operations</h3><p>Powered by intelligent technology and automation.</p></li><li class="os-card os-green-top"><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19c10 0 14-6 14-14C9 5 5 10 5 19ZM5 19l7-7"/></svg></span><h3>More<br />Sustainable Growth</h3><p>Through efficient infrastructure and responsible innovation.</p></li><li class="os-card os-blue-top"><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM3 12h18M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18"/></svg></span><h3>A Stronger<br />Digital Region</h3><p>Connecting businesses, communities and possibilities.</p></li></ul>
     </div>
   </section>
-  <section class="story-slogan" id="our-slogan" aria-labelledby="slogan-heading">
-    <div class="slogan-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-slogan.png" fill alt="" /></div>
-    <div class="slogan-inner">
-      <p class="story-eyebrow"><span aria-hidden="true"></span>Our Slogan</p>
-      <h2 id="slogan-heading">Cloud that works<br /><span>smarter</span> for your business<span>.</span></h2>
-      <p class="slogan-lead">More than just cloud services — we deliver smarter, more secure and more flexible solutions that help your business run, grow and innovate with confidence.</p>
-      <ul class="slogan-benefits" aria-label="What smarter cloud means for your business">
-        <li><span class="slogan-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="24" width="6" height="12" rx="1"/><rect x="17" y="16" width="6" height="20" rx="1"/><rect x="29" y="6" width="6" height="30" rx="1"/></svg></span><h3>Run Smarter</h3><p>Simpler operations with intelligent technology.</p></li>
-        <li><span class="slogan-icon slogan-icon-blue"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><h3>Grow Faster</h3><p>Flexible solutions that scale with your ambitions.</p></li>
-        <li><span class="slogan-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 30a14 14 0 1 1 10 4M5 36l18-19M12 10c-2 12 5 16 16 16"/></svg></span><h3>Stay Ahead</h3><p>Secure, reliable and ready for what’s next.</p></li>
-      </ul>
+  <section class="story-slogan os" id="our-slogan" aria-labelledby="slogan-heading">
+    <div class="os-wrap">
+      <div class="os-center">
+        <p class="story-eyebrow os-eyebrow"><span aria-hidden="true"></span>Our Slogan</p>
+        <h2 id="slogan-heading" class="os-h2 os-xl">Cloud that works<br /><span>smarter</span> for your business<span>.</span></h2>
+        <p class="os-lead">More than just cloud services — we deliver smarter, more secure and more flexible solutions that help your business run, grow and innovate with confidence.</p>
+      </div>
+      <ul class="os-grid3" aria-label="What smarter cloud means for your business"><li class="os-card os-center-card os-green-top"><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19l3-1 1-3M14 4c3 0 6 3 6 6l-7 7-6-6 7-7ZM15 9h.01"/></svg></span><h3>Run Smarter</h3><p>Simpler operations with intelligent technology.</p></li><li class="os-card os-center-card os-blue-top"><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></span><h3>Grow Faster</h3><p>Flexible solutions that scale with your ambitions.</p></li><li class="os-card os-center-card os-green-top"><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg></span><h3>Stay Ahead</h3><p>Secure, reliable and ready for what’s next.</p></li></ul>
     </div>
   </section>
-  <section class="story-principles" id="what-we-believe" aria-labelledby="principles-heading">
-    <div class="principles-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-principles.png" fill alt="" /></div>
-    <div class="principles-inner">
-      <div class="principles-copy">
-        <p class="story-eyebrow"><span aria-hidden="true"></span>What We Believe</p>
-        <h2 id="principles-heading">Technology<br />Should Work<br /><span>Around Your<br />Business.</span></h2>
-        <p>We don’t believe businesses should have to redesign the way they operate around the limitations of their technology.</p>
-        <p>We believe technology should adapt to them.</p>
+  <section class="story-principles os" id="what-we-believe" aria-labelledby="principles-heading">
+    <div class="os-wrap">
+      <div class="os-headrow os-headrow-end">
+        <div><p class="story-eyebrow os-eyebrow"><span aria-hidden="true"></span>What We Believe</p><h2 id="principles-heading" class="os-h2">Technology Should Work<br /><span>Around Your Business.</span></h2></div>
+        <div><p class="os-lead">We don’t believe businesses should have to redesign the way they operate around the limitations of their technology.</p>
+        <p class="os-lead os-strong">We believe technology should adapt to them.</p></div>
       </div>
-      <ol class="principles-list" aria-label="Our technology principles">
-        <li><span class="principle-number" aria-hidden="true">01</span><span class="principle-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="17" width="26" height="21" rx="2"/><path d="M12 17V10a8 8 0 0 1 16 0v7M20 25v6"/><circle cx="20" cy="25" r="1"/></svg></span><div><h3>Private by Default</h3><p>Your environment should start with privacy and controlled access — not public exposure with security added afterward.</p></div></li>
-        <li><span class="principle-number" aria-hidden="true">02</span><span class="principle-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Secure by Design</h3><p>Security should be part of the architecture,<br class="principle-break" /> not an afterthought.</p></div></li>
-        <li><span class="principle-number" aria-hidden="true">03</span><span class="principle-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 4h17l7 7v25H9ZM25 4v9h8M14 19h14M14 24h14M14 29h9"/><path d="M14 10h4v4h-4Z"/></svg></span><div><h3>Transparent by Nature</h3><p>Technology costs should be understandable, predictable and free from unnecessary hidden charges.</p></div></li>
-        <li><span class="principle-number" aria-hidden="true">04</span><span class="principle-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 26v10h10M25 4h10v10M5 36l12-12M35 4 23 16"/></svg></span><div><h3>Flexible by Choice</h3><p>Choose the architecture, resources, licensing model and level of management that fits your business.</p></div></li>
-        <li><span class="principle-number" aria-hidden="true">05</span><span class="principle-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="24" width="6" height="12" rx="1"/><rect x="17" y="16" width="6" height="20" rx="1"/><rect x="29" y="6" width="6" height="30" rx="1"/></svg></span><div><h3>Built to Scale</h3><p>Your technology environment should grow with your business without forcing you to start again.</p></div></li>
-      </ol>
+      <ol class="os-pgrid" aria-label="Our technology principles"><li class="os-card os-pcard "><span class="os-num os-green-text" aria-hidden="true">01</span><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 10h12v11H6ZM9 10V7a3 3 0 0 1 6 0v3"/></svg></span><h3>Private by Default</h3><p>Your environment should start with privacy and controlled access — not public exposure with security added afterward.</p></li><li class="os-card os-pcard os-blue-top"><span class="os-num os-blue-text" aria-hidden="true">02</span><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6Z"/></svg></span><h3>Secure by Design</h3><p>Security should be part of the architecture, not an afterthought.</p></li><li class="os-card os-pcard "><span class="os-num os-green-text" aria-hidden="true">03</span><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg></span><h3>Transparent by Nature</h3><p>Technology costs should be understandable, predictable and free from unnecessary hidden charges.</p></li><li class="os-card os-pcard os-blue-top"><span class="os-num os-blue-text" aria-hidden="true">04</span><span class="os-ico os-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4"/></svg></span><h3>Flexible by Choice</h3><p>Choose the architecture, resources, licensing model and level of management that fits your business.</p></li><li class="os-card os-pcard "><span class="os-num os-green-text" aria-hidden="true">05</span><span class="os-ico os-green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 20V10M12 20V4M17 20v-7"/></svg></span><h3>Built to Scale</h3><p>Your technology environment should grow with your business without forcing you to start again.</p></li></ol>
     </div>
   </section>
   <section class="story-approach" id="our-approach" aria-labelledby="approach-heading">
@@ -130,121 +77,88 @@
     </div>
     <div class="approach-platform" aria-hidden="true"><svg viewBox="0 0 1600 150" preserveAspectRatio="none"><defs><linearGradient id="approach-wave"><stop stop-color="#47b769"/><stop offset=".2" stop-color="#71c9f4"/><stop offset=".4" stop-color="#47b769"/><stop offset=".6" stop-color="#71c9f4"/><stop offset=".8" stop-color="#47b769"/><stop offset="1" stop-color="#71c9f4"/></linearGradient></defs><path d="M-50 60Q80 5 190 52T435 56T675 54T925 56T1170 56T1420 54T1650 60"/></svg></div>
   </section>
-  <section class="story-partner" id="why-choose-worldposta" aria-labelledby="partner-heading">
-    <div class="partner-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-partner.png" fill alt="" /></div>
-    <div class="partner-inner">
-      <div class="partner-copy">
-        <p class="story-eyebrow"><span aria-hidden="true"></span>Why Choose WorldPosta</p>
-        <h2 id="partner-heading">A Partner<br />Built for<br /><span>Your Success.</span></h2>
-        <p>We combine enterprise-grade technology, local expertise and a customer-first approach to give you a simpler, more secure and more cost-effective way to run your business.</p>
-        <dl class="partner-stats"><div><dt>50%</dt><dd>Lower cost<br />vs. public cloud</dd></div><div><dt>24/7</dt><dd>SOC monitoring<br />and support</dd></div><div><dt>99.9%</dt><dd>High availability<br />and reliability</dd></div></dl>
+  <section class="story-partner os s2 s2-band" id="why-choose-worldposta" aria-labelledby="partner-heading">
+    <div class="s2-wrap">
+      <div class="s2-two">
+        <div class="s2-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Why Choose WorldPosta</p><h2 id="partner-heading">A Partner Built for<br /><span>Your Success.</span></h2><p>We combine enterprise-grade technology, local expertise and a customer-first approach to give you a simpler, more secure and more cost-effective way to run your business.</p></div>
+        <div class="s2-photo s2-photo--bar"><img ngSrc="/worldposta-assets/our-story-partner-handshake.avif" width="1600" height="1200" alt="A WorldPosta consultant shaking hands with a client in a bright meeting room." />
+          <dl class="s2-stats s2-glass"><div><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="21" r="14"/><path d="M20 3v5M20 13v17M25 16c-1-4-11-4-11 1 0 5 12 2 12 7 0 5-11 6-13 1"/></svg></span><dt>50%</dt><dd>Lower cost<br />vs. public cloud</dd></div><div><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 22v-4a14 14 0 0 1 28 0v4M6 20H3v10h7V20ZM34 20h3v10h-7V20Z"/></svg></span><dt>24/7</dt><dd>SOC monitoring<br />and support</dd></div><div><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="6" y="4" width="28" height="9" rx="1"/><rect x="6" y="16" width="28" height="9" rx="1"/><rect x="6" y="28" width="28" height="9" rx="1"/></svg></span><dt>99.9%</dt><dd>High availability<br />and reliability</dd></div></dl></div>
       </div>
-      <ul class="partner-cards" aria-label="Why choose WorldPosta">
-        <li><span class="partner-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="9" rx="13" ry="6"/><path d="M7 9v8c0 3 6 6 13 6s13-3 13-6V9M7 17v8c0 3 6 6 13 6s13-3 13-6v-8M7 25v5c0 3 6 6 13 6s13-3 13-6v-5"/></svg></span><h3>End-to-End<br />Ecosystem</h3><p>From cloud and data to security and collaboration — all the essential services under one connected ecosystem.</p></li>
-        <li><span class="partner-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><h3>Enterprise-Grade<br />Security</h3><p>Security is built into every layer — with private infrastructure, Zero Trust Architecture and 24/7 monitoring.</p></li>
-        <li><span class="partner-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="21" r="14"/><path d="M20 3v5M20 13v17M25 16c-1-4-11-4-11 1 0 5 12 2 12 7 0 5-11 6-13 1"/></svg></span><h3>Cost Efficiency<br />&amp; Transparency</h3><p>High performance without hidden fees, with clear and predictable pricing.</p></li>
-        <li><span class="partner-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 32a16 16 0 1 1 26 0ZM20 6v4M7 15l4 2M33 15l-4 2M6 25h4M34 25h-4M20 24l9-11"/><circle cx="20" cy="24" r="3"/></svg></span><h3>High Performance<br />&amp; Reliability</h3><p>A secure, resilient and high-performance environment designed for mission-critical business operations.</p></li>
-        <li><span class="partner-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5ZM8 20c-5 0-7 3-7 7v3h5M32 20c5 0 7 3 7 7v3h-5"/></svg></span><h3>Local Expertise<br />&amp; Dedicated Support</h3><p>A regional team that understands your business, with 24/7 support and personalized guidance.</p></li>
-        <li><span class="partner-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="26" width="6" height="10" rx="1"/><rect x="17" y="20" width="6" height="16" rx="1"/><rect x="29" y="13" width="6" height="23" rx="1"/><path d="M8 21 31 4M23 4h9v9"/></svg></span><h3>Built for Growth</h3><p>Flexible solutions that scale with your needs — whether you’re a growing business or a large enterprise.</p></li>
+      <ul class="s2-cards s2-cards--3" aria-label="Why choose WorldPosta">
+        <li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><ellipse cx="20" cy="9" rx="13" ry="6"/><path d="M7 9v8c0 3 6 6 13 6s13-3 13-6V9M7 17v8c0 3 6 6 13 6s13-3 13-6v-8M7 25v5c0 3 6 6 13 6s13-3 13-6v-5"/></svg></span><div><h3>End-to-End Ecosystem</h3><p>From cloud and data to security and collaboration — all the essential services under one connected ecosystem.</p></div></li>
+        <li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Enterprise-Grade Security</h3><p>Security is built into every layer — with private infrastructure, Zero Trust Architecture and 24/7 monitoring.</p></div></li>
+        <li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="21" r="14"/><path d="M20 3v5M20 13v17M25 16c-1-4-11-4-11 1 0 5 12 2 12 7 0 5-11 6-13 1"/></svg></span><div><h3>Cost Efficiency &amp; Transparency</h3><p>High performance without hidden fees, with clear and predictable pricing.</p></div></li>
+        <li><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M7 32a16 16 0 1 1 26 0ZM20 6v4M7 15l4 2M33 15l-4 2M6 25h4M34 25h-4M20 24l9-11"/><circle cx="20" cy="24" r="3"/></svg></span><div><h3>High Performance &amp; Reliability</h3><p>A secure, resilient and high-performance environment designed for mission-critical business operations.</p></div></li>
+        <li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5ZM8 20c-5 0-7 3-7 7v3h5M32 20c5 0 7 3 7 7v3h-5"/></svg></span><div><h3>Local Expertise &amp; Dedicated Support</h3><p>A regional team that understands your business, with 24/7 support and personalized guidance.</p></div></li>
+        <li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="5" y="26" width="6" height="10" rx="1"/><rect x="17" y="20" width="6" height="16" rx="1"/><rect x="29" y="13" width="6" height="23" rx="1"/><path d="M8 21 31 4M23 4h9v9"/></svg></span><div><h3>Built for Growth</h3><p>Flexible solutions that scale with your needs — whether you’re a growing business or a large enterprise.</p></div></li>
       </ul>
     </div>
   </section>
-  <section class="story-impact" id="our-impact" aria-labelledby="impact-heading">
-    <div class="impact-inner">
-      <div class="impact-copy">
-        <p class="story-eyebrow"><span aria-hidden="true"></span>Our Impact</p>
-        <h2 id="impact-heading">Real Results.<br /><span>Stronger Businesses.</span></h2>
-        <p>We help organizations modernize their infrastructure, strengthen their security, improve collaboration and unlock new opportunities — with solutions that are built to deliver measurable outcomes.</p>
-        <dl class="impact-stats">
-          <div><dt><span class="impact-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 36V7h16v29M24 17h9v19M5 36h31M13 12h2M19 12h1M13 18h2M19 18h1M13 24h2M19 24h1M28 22h1M28 27h1M14 36v-6h5v6"/></svg></span><strong>500+</strong></dt><dd>Enterprise<br />customers</dd></div>
-          <div><dt><span class="impact-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15"/><path d="m10 8 4 7-3 5 7 3 2 11M22 5l-3 7 7 3 5-2M34 20l-7 2-3 7 4 5M6 23l6 1"/></svg></span><strong>3</strong></dt><dd>Countries<br />(Egypt, KSA, UAE)</dd></div>
-          <div><dt><span class="impact-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><strong>99.9%</strong></dt><dd>Service<br />availability</dd></div>
-          <div><dt><span class="impact-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5M8 20c-5 0-7 3-7 7v3M32 20c5 0 7 3 7 7v3"/></svg></span><strong>20+</strong></dt><dd>Years of<br />combined expertise</dd></div>
-        </dl>
+<section class="story-impact os s2" id="our-impact" aria-labelledby="impact-heading">
+    <div class="s2-wrap s2-two">
+      <div class="s2-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Impact</p><h2 id="impact-heading">Real Results.<br /><span>Stronger Businesses.</span></h2><p>We help organizations modernize their infrastructure, strengthen their security, improve collaboration and unlock new opportunities — with solutions that are built to deliver measurable outcomes.</p>
+        <dl class="s2-stats s2-stats--4"><div><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 36V7h16v29M24 17h9v19M5 36h31M13 12h2M19 12h1M13 18h2M19 18h1M13 24h2M19 24h1M28 22h1M28 27h1M14 36v-6h5v6"/></svg></span><dt>500+</dt><dd>Enterprise<br />customers</dd></div><div><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="m10 8 4 7-3 5 7 3 2 11M22 5l-3 7 7 3 5-2M34 20l-7 2-3 7 4 5M6 23l6 1"/></svg></span><dt>3</dt><dd>Countries<br />(Egypt, KSA, UAE)</dd></div><div><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><dt>99.9%</dt><dd>Service<br />availability</dd></div><div><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5M8 20c-5 0-7 3-7 7v3M32 20c5 0 7 3 7 7v3"/></svg></span><dt>20+</dt><dd>Years of<br />combined expertise</dd></div></dl>
       </div>
-      <div class="impact-testimonial">
-        <img ngSrc="/worldposta-assets/our-story-impact.png" fill alt="Modern glass office building and terrace overlooking the city at sunset" />
-        <figure class="impact-quote"><span class="impact-quote-mark" aria-hidden="true">“</span><blockquote>WorldPosta has been a trusted partner in our digital journey. Their expertise, responsiveness and focus on our business needs have made a real difference.</blockquote><figcaption>Enterprise Customer<br /><span>Egypt</span></figcaption></figure>
-        <dl class="impact-outcomes"><div><dt>50%</dt><dd>Lower infrastructure<br />costs</dd></div><div><dt>70%</dt><dd>Faster deployment<br />time</dd></div><div><dt>99%</dt><dd>Customer<br />satisfaction</dd></div></dl>
-      </div>
+      <figure class="s2-quote"><img ngSrc="/worldposta-assets/our-story-impact-customer.avif" width="1600" height="900" alt="An enterprise customer smiling in a bright office lobby." />
+        <blockquote><span class="s2-qmark" aria-hidden="true">“</span><p>WorldPosta has been a trusted partner in our digital journey. Their expertise, responsiveness and focus on our business needs have made a real difference.</p><figcaption>Enterprise Customer<span>Egypt</span></figcaption></blockquote>
+        <dl class="s2-stats s2-stats--line"><div><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 6v28M10 24l10 10 10-10"/></svg></span><dt>50%</dt><dd>Lower infrastructure<br />costs</dd></div><div><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m22 3-13 20h11l-4 14 15-23H21l5-11Z"/></svg></span><dt>70%</dt><dd>Faster deployment<br />time</dd></div><div><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M13 23c2 4 12 4 14 0M14 15h1M25 15h1"/></svg></span><dt>99%</dt><dd>Customer<br />satisfaction</dd></div></dl>
+      </figure>
     </div>
   </section>
-  <section class="story-services" id="our-services" aria-labelledby="story-services-heading">
-    <div class="services-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-services.png" fill alt="" /></div>
-    <div class="services-inner">
-      <p class="story-eyebrow"><span aria-hidden="true"></span>Our Services</p>
-      <div class="services-top"><div><h2 id="story-services-heading">A Complete Ecosystem<br /><span>for a Stronger Business.</span></h2><p>From cloud and infrastructure to security, collaboration and managed services, WorldPosta brings together the essential layers of enterprise technology to help you operate with confidence and scale with ease.</p></div><p>Our integrated ecosystem is designed to work together — giving you the performance, security and flexibility your business needs, with one trusted partner.</p></div>
-      <ol class="services-cards">
-        <li><span class="service-number" aria-hidden="true">01</span><span class="service-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><h3>CloudEdge</h3><p>Enterprise cloud infrastructure designed for performance, control and scalability.</p><a href="/cloudedge" aria-label="Learn more about CloudEdge">Learn more <span aria-hidden="true">→</span></a></li>
-        <li><span class="service-number" aria-hidden="true">02</span><span class="service-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><h3>Security</h3><p>Built-in security across every layer with Zero Trust Architecture and 24/7 monitoring.</p><a href="/cloud-based-soc-solutions" aria-label="Learn more about Security">Learn more <span aria-hidden="true">→</span></a></li>
-        <li><span class="service-number" aria-hidden="true">03</span><span class="service-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="9" rx="13" ry="6"/><path d="M7 9v8c0 3 6 6 13 6s13-3 13-6V9M7 17v8c0 3 6 6 13 6s13-3 13-6v-8M7 25v5c0 3 6 6 13 6s13-3 13-6v-5"/></svg></span><h3>Data &amp; Infrastructure</h3><p>Reliable, high-performance infrastructure for your mission-critical operations.</p><a href="/cloudedge" aria-label="Learn more about Data and Infrastructure">Learn more <span aria-hidden="true">→</span></a></li>
-        <li><span class="service-number" aria-hidden="true">04</span><span class="service-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5M8 20c-5 0-7 3-7 7v3M32 20c5 0 7 3 7 7v3"/></svg></span><h3>Collaboration</h3><p>Modern tools for teams to connect, communicate and work smarter from anywhere.</p><a href="/cloudspace" aria-label="Learn more about Collaboration">Learn more <span aria-hidden="true">→</span></a></li>
-        <li><span class="service-number" aria-hidden="true">05</span><span class="service-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><h3>Managed Services</h3><p>Expert support to optimize, manage and grow your technology environment.</p><a href="/wpsys" aria-label="Learn more about Managed Services">Learn more <span aria-hidden="true">→</span></a></li>
+<section class="story-services os s2 s2-band" id="our-services" aria-labelledby="story-services-heading">
+    <div class="s2-wrap">
+      <div class="s2-split"><div><p class="story-eyebrow"><span aria-hidden="true"></span>Our Services</p><h2 id="story-services-heading">A Complete Ecosystem<br /><span>for a Stronger Business.</span></h2><p>From cloud and infrastructure to security, collaboration and managed services, WorldPosta brings together the essential layers of enterprise technology to help you operate with confidence and scale with ease.</p></div><p>Our integrated ecosystem is designed to work together — giving you the performance, security and flexibility your business needs, with one trusted partner.</p></div>
+      <div class="s2-banner"><img ngSrc="/worldposta-assets/our-story-services-hub.avif" width="2000" height="769" alt="A glass cloud hub linked to email, security, files and collaboration services." /></div>
+      <ol class="s2-cards s2-cards--5 s2-cards--col">
+        <li><span class="s2-num">01</span><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><h3>CloudEdge</h3><p>Enterprise cloud infrastructure designed for performance, control and scalability.</p><a href="/cloudedge" aria-label="Learn more about CloudEdge">Learn more <span aria-hidden="true">→</span></a></li>
+        <li><span class="s2-num">02</span><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><h3>Security</h3><p>Built-in security across every layer with Zero Trust Architecture and 24/7 monitoring.</p><a href="/cloud-based-soc-solutions" aria-label="Learn more about Security">Learn more <span aria-hidden="true">→</span></a></li>
+        <li><span class="s2-num">03</span><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><ellipse cx="20" cy="9" rx="13" ry="6"/><path d="M7 9v8c0 3 6 6 13 6s13-3 13-6V9M7 17v8c0 3 6 6 13 6s13-3 13-6v-8M7 25v5c0 3 6 6 13 6s13-3 13-6v-5"/></svg></span><h3>Data &amp; Infrastructure</h3><p>Reliable, high-performance infrastructure for your mission-critical operations.</p><a href="/cloudedge" aria-label="Learn more about Data and Infrastructure">Learn more <span aria-hidden="true">→</span></a></li>
+        <li><span class="s2-num">04</span><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5M8 20c-5 0-7 3-7 7v3M32 20c5 0 7 3 7 7v3"/></svg></span><h3>Collaboration</h3><p>Modern tools for teams to connect, communicate and work smarter from anywhere.</p><a href="/cloudspace" aria-label="Learn more about Collaboration">Learn more <span aria-hidden="true">→</span></a></li>
+        <li><span class="s2-num">05</span><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><h3>Managed Services</h3><p>Expert support to optimize, manage and grow your technology environment.</p><a href="/wpsys" aria-label="Learn more about Managed Services">Learn more <span aria-hidden="true">→</span></a></li>
       </ol>
     </div>
   </section>
-  <section class="story-trusted" id="trusted-by" aria-labelledby="trusted-heading">
-    <div class="trusted-main">
-      <div class="trusted-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-trusted.png" fill alt="" /></div>
-      <div class="trusted-inner">
-        <div class="trusted-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Trusted By</p><h2 id="trusted-heading">Trusted by <span>Ambitious</span><br />Organizations.</h2><p>From leading enterprises to government entities, our customers trust WorldPosta to power their most critical operations — with secure, scalable and reliable technology.</p>
-          <ul class="trusted-industries" aria-label="Industries we serve">
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m5 12 15-8 15 8ZM8 15h24M9 32h22M5 36h30M11 16v12M20 16v12M29 16v12"/></svg></span><span class="trusted-industry-label">Financial<br />Services</span></li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><span class="trusted-industry-label">Government<br />&amp; Public Sector</span></li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 35V7h6v18l10-7v7l12-7v17ZM11 35h26M15 29h2M23 29h2M31 29h1M30 17V7h5v16"/></svg></span><span class="trusted-industry-label">Manufacturing<br />&amp; Industrial</span></li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34 6 20C-4 8 11-1 20 10 29-1 44 8 34 20Z"/></svg></span><span class="trusted-industry-label">Healthcare</span></li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 5h5l5 23h19l5-18H10M14 22h19"/><circle cx="16" cy="34" r="2"/><circle cx="30" cy="34" r="2"/></svg></span><span class="trusted-industry-label">Retail &amp;<br />Commercial</span></li>
-            <li><span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m3 14 17-9 17 9-17 9ZM9 18v12c8 5 14 5 22 0V18M37 14v15"/></svg></span><span class="trusted-industry-label">Education</span></li>
-          </ul>
+<section class="story-trusted os s2" id="trusted-by" aria-labelledby="trusted-heading">
+    <div class="s2-wrap">
+      <div class="s2-hero-band"><img ngSrc="/worldposta-assets/our-story-trusted-district.avif" width="2000" height="769" alt="Aerial view of a modern Gulf business district with towers, avenues and parks." />
+        <div class="s2-overcard"><p class="story-eyebrow"><span aria-hidden="true"></span>Trusted By</p><h2 id="trusted-heading">Trusted by <span>Ambitious</span><br />Organizations.</h2><p>From leading enterprises to government entities, our customers trust WorldPosta to power their most critical operations — with secure, scalable and reliable technology.</p></div>
+        <dl class="s2-stats s2-glass s2-glass--right"><div><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 36V7h16v29M24 17h9v19M5 36h31M13 12h2M19 12h1M13 18h2M19 18h1M13 24h2M19 24h1"/></svg></span><dt>500+</dt><dd>Enterprise customers</dd></div><div><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><ellipse cx="20" cy="20" rx="7" ry="15"/><path d="M6 14h28M6 26h28"/></svg></span><dt>3</dt><dd>Countries<br />Egypt, KSA, UAE</dd></div><div><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><dt>99.9%</dt><dd>Service availability</dd></div></dl>
+      </div>
+      <ul class="s2-chips" aria-label="Industries we serve"><li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m5 12 15-8 15 8ZM8 15h24M9 32h22M5 36h30M11 16v12M20 16v12M29 16v12"/></svg></span><span>Financial<br />Services</span></li><li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><span>Government<br />&amp; Public Sector</span></li><li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M5 35V7h6v18l10-7v7l12-7v17ZM11 35h26M15 29h2M23 29h2M31 29h1M30 17V7h5v16"/></svg></span><span>Manufacturing<br />&amp; Industrial</span></li><li><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 34 6 20C-4 8 11-1 20 10 29-1 44 8 34 20Z"/></svg></span><span>Healthcare</span></li><li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M3 5h5l5 23h19l5-18H10M14 22h19"/><circle cx="16" cy="34" r="2"/><circle cx="30" cy="34" r="2"/></svg></span><span>Retail &amp;<br />Commercial</span></li><li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m3 14 17-9 17 9-17 9ZM9 18v12c8 5 14 5 22 0V18M37 14v15"/></svg></span><span>Education</span></li></ul>
+      <div class="s2-logos"><p>Our customers<br />include</p><img ngSrc="/worldposta-assets/our-story-customer-logos.avif" width="1345" height="120" alt="Our customers include QNB, HSBC, ADNOC, etisalat e&amp;, DP World, Emirates NBD and Hassan Allam Holding" /></div>
+    </div>
+  </section>
+<section class="story-infrastructure os s2 s2-band" id="our-infrastructure" aria-labelledby="infrastructure-heading">
+    <div class="s2-wrap">
+      <div class="s2-two">
+        <div class="s2-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Infrastructure</p><h2 id="infrastructure-heading">Built for Today.<br /><span>Ready for What’s Next.</span></h2><p>Our modern infrastructure is designed for performance, security and scalability — so your business can grow today and adapt to tomorrow.</p>
+          <ul class="s2-list"><li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="6" y="4" width="28" height="9" rx="1"/><rect x="6" y="16" width="28" height="9" rx="1"/><rect x="6" y="28" width="28" height="9" rx="1"/><path d="M11 8h9M11 20h9M11 32h9M28 8h1M28 20h1M28 32h1"/></svg></span><div><h3>High Performance</h3><p>Enterprise-grade infrastructure to support your most critical operations.</p></div></li><li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Built-in Security</h3><p>Zero Trust architecture with continuous monitoring and threat protection.</p></div></li><li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="5" y="26" width="6" height="10" rx="1"/><rect x="17" y="20" width="6" height="16" rx="1"/><rect x="29" y="13" width="6" height="23" rx="1"/><path d="M8 21 31 4M23 4h9v9"/></svg></span><div><h3>Scalable for Growth</h3><p>Flexible and future-ready to scale with your evolving business needs.</p></div></li></ul>
         </div>
-        <dl class="trusted-stats"><div><dt>500+</dt><dd>Enterprise customers</dd></div><div><dt>3</dt><dd>Countries<br /><span>Egypt, KSA, UAE</span></dd></div><div><dt>99.9%</dt><dd>Service availability</dd></div></dl>
+        <div class="s2-photo s2-photo--card"><img ngSrc="/worldposta-assets/our-story-infrastructure-aisle.avif" width="1600" height="1200" alt="An engineer walking down a bright, modern data center aisle." />
+          <article class="s2-darkcard"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Data Centers</p><h3>Secure. Reliable.<br />Always On.</h3><p>WorldPosta’s data centers are built to meet the highest standards of security, reliability and performance — ensuring your business runs without interruption.</p></article></div>
       </div>
-    </div>
-    <div class="trusted-logo-scroll"><div class="trusted-logo-strip"><img ngSrc="/worldposta-assets/our-story-customer-reference.jpg" width="1600" height="639" alt="Our customers include QNB, HSBC, ADNOC, etisalat e&amp;, DP World, Emirates NBD and Hassan Allam Holding" /></div></div>
-  </section>
-  <section class="story-infrastructure" id="our-infrastructure" aria-labelledby="infrastructure-heading">
-    <div class="infrastructure-scene" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-infrastructure.png" fill alt="" /></div>
-    <div class="infrastructure-inner">
-      <div class="infrastructure-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Infrastructure</p><h2 id="infrastructure-heading">Built for Today.<br /><span>Ready for What’s Next.</span></h2><p>Our modern infrastructure is designed for performance, security and scalability — so your business can grow today and adapt to tomorrow.</p>
-        <ul class="infrastructure-features">
-          <li><span class="infrastructure-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="4" width="28" height="9" rx="1"/><rect x="6" y="16" width="28" height="9" rx="1"/><rect x="6" y="28" width="28" height="9" rx="1"/><path d="M11 8h9M11 20h9M11 32h9M28 8h1M28 20h1M28 32h1"/></svg></span><div><h3>High Performance</h3><p>Enterprise-grade infrastructure to support your most critical operations.</p></div></li>
-          <li><span class="infrastructure-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Built-in Security</h3><p>Zero Trust architecture with continuous monitoring and threat protection.</p></div></li>
-          <li><span class="infrastructure-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="26" width="6" height="10" rx="1"/><rect x="17" y="20" width="6" height="16" rx="1"/><rect x="29" y="13" width="6" height="23" rx="1"/><path d="M8 21 31 4M23 4h9v9"/></svg></span><div><h3>Scalable for Growth</h3><p>Flexible and future-ready to scale with your evolving business needs.</p></div></li>
-        </ul>
-      </div>
-      <div class="infrastructure-panels">
-        <article class="datacenter-card"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Data Centers</p><h3>Secure. Reliable.<br />Always On.</h3><p>WorldPosta’s data centers are built to meet the highest standards of security, reliability and performance — ensuring your business runs without interruption.</p><svg class="datacenter-wave" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="datacenter-gradient"><stop stop-color="#4dc36d"/><stop offset="1" stop-color="#1a9adc"/></linearGradient></defs><path d="M-20 40C70-10 140 110 230 65S340 15 420 35M-20 45C70-5 140 100 230 60S340 20 420 40M-20 50C70 0 140 90 230 55S340 25 420 45M-20 55C70 5 140 80 230 50S340 30 420 50M-20 60C70 10 140 70 230 45S340 35 420 55M-20 65C70 15 140 60 230 40S340 40 420 60"/></svg></article>
-        <dl class="infrastructure-specs">
-          <div><dt><span class="spec-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="21" r="13"/><path d="M20 10v12l7 4M20 4v6M20 32v5M4 21h6M30 21h6"/></svg></span><strong>99.9%</strong></dt><dd>Uptime guarantee</dd></div>
-          <div><dt><span class="spec-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><strong>24/7</strong></dt><dd>Monitoring and support</dd></div>
-          <div><dt><span class="spec-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="4" width="28" height="9" rx="1"/><rect x="6" y="16" width="28" height="9" rx="1"/><rect x="6" y="28" width="28" height="9" rx="1"/><path d="M11 8h9M11 20h9M11 32h9M28 8h1M28 20h1M28 32h1"/></svg></span><strong>Tier III</strong></dt><dd>Data center infrastructure</dd></div>
-          <div><dt><span class="spec-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><ellipse cx="20" cy="20" rx="6" ry="14"/><path d="M7 14h26M6 25h28M20 6v28"/></svg></span><strong>Multi-Region</strong></dt><dd>Local data residency and compliance</dd></div>
-        </dl>
-      </div>
+      <dl class="s2-stats s2-stats--4 s2-stats--strip"><div><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="21" r="13"/><path d="M20 10v12l7 4M20 4v6M20 32v5M4 21h6M30 21h6"/></svg></span><dt>99.9%</dt><dd>Uptime guarantee</dd></div><div><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><dt>24/7</dt><dd>Monitoring and support</dd></div><div><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="6" y="4" width="28" height="9" rx="1"/><rect x="6" y="16" width="28" height="9" rx="1"/><rect x="6" y="28" width="28" height="9" rx="1"/><path d="M11 8h9M11 20h9M11 32h9M28 8h1M28 20h1M28 32h1"/></svg></span><dt>Tier III</dt><dd>Data center infrastructure</dd></div><div><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><ellipse cx="20" cy="20" rx="6" ry="14"/><path d="M7 14h26M6 25h28M20 6v28"/></svg></span><dt>Multi-Region</dt><dd>Local data residency and compliance</dd></div></dl>
     </div>
   </section>
-  <section class="story-partnerships" id="our-partnerships" aria-labelledby="partnerships-heading">
-    <div class="partnerships-inner">
-      <div class="partnerships-copy">
-        <p class="story-eyebrow"><span aria-hidden="true"></span>Our Partnerships</p>
-        <h2 id="partnerships-heading">The Right Technology.<br /><span>Greater Possibilities.</span></h2>
-        <p>We work with leading global technology partners to bring you world-class solutions, backed by the highest levels of expertise and support.</p>
-        <ul class="partnership-benefits">
-          <li><span class="partnership-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m20 3 5 3 6 1 1 6 3 5-3 5-1 6-6 1-5 3-5-3-6-1-1-6-3-5 3-5 1-6 6-1ZM12 29l-2 9 8-4M28 29l2 9-8-4"/><circle cx="20" cy="18" r="7"/></svg></span><div><h3>Highest Level<br />Partnerships</h3><p>Platinum, Gold and Advanced certifications.</p></div></li>
-          <li><span class="partnership-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15"/><ellipse cx="20" cy="20" rx="7" ry="15"/><path d="M6 14h28M6 26h28M20 5v30"/></svg></span><div><h3>Proven Expertise</h3><p>Certified teams with deep technical knowledge.</p></div></li>
-          <li><span class="partnership-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><div><h3>End-to-End Solutions</h3><p>From design to deployment and managed services.</p></div></li>
-          <li><span class="partnership-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5M8 20c-5 0-7 3-7 7v3M32 20c5 0 7 3 7 7v3"/></svg></span><div><h3>Stronger Outcomes</h3><p>Trusted partnerships delivering real business value.</p></div></li>
-        </ul>
+<section class="story-partnerships os s2" id="our-partnerships" aria-labelledby="partnerships-heading">
+    <div class="s2-wrap">
+      <div class="s2-two s2-two--stretch">
+        <div class="s2-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Partnerships</p><h2 id="partnerships-heading">The Right Technology.<br /><span>Greater Possibilities.</span></h2><p>We work with leading global technology partners to bring you world-class solutions, backed by the highest levels of expertise and support.</p>
+          <ul class="s2-cards s2-cards--2"><li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m20 3 5 3 6 1 1 6 3 5-3 5-1 6-6 1-5 3-5-3-6-1-1-6-3-5 3-5 1-6 6-1ZM12 29l-2 9 8-4M28 29l2 9-8-4"/><circle cx="20" cy="18" r="7"/></svg></span><div><h3>Highest Level Partnerships</h3><p>Platinum, Gold and Advanced certifications.</p></div></li><li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><ellipse cx="20" cy="20" rx="7" ry="15"/><path d="M6 14h28M6 26h28M20 5v30"/></svg></span><div><h3>Proven Expertise</h3><p>Certified teams with deep technical knowledge.</p></div></li><li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><div><h3>End-to-End Solutions</h3><p>From design to deployment and managed services.</p></div></li><li><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="5"/><circle cx="7" cy="13" r="4"/><circle cx="33" cy="13" r="4"/><path d="M9 34v-5c0-6 5-9 11-9s11 3 11 9v5M8 20c-5 0-7 3-7 7v3M32 20c5 0 7 3 7 7v3"/></svg></span><div><h3>Stronger Outcomes</h3><p>Trusted partnerships delivering real business value.</p></div></li></ul>
+        </div>
+        <div class="s2-photo s2-photo--fill"><img ngSrc="/worldposta-assets/our-story-partnerships-engineers.avif" width="1600" height="1200" alt="Three certified engineers sketching a network architecture on a glass whiteboard." /></div>
       </div>
-      <div class="partnerships-visual"><img ngSrc="/worldposta-assets/our-story-partnerships-reference.jpg" width="1600" height="639" alt="Our technology partners: Fortinet Platinum Partner, IBM Platinum Partner, Cisco Premier Partner, Dell Technologies Titanium Partner, Infoblox Premier Partner, Pure Storage Elite Partner, Nutanix Premier Partner, Red Hat Advanced Partner and Lenovo Gold Partner. A stronger ecosystem for your success." /></div>
+      <div class="s2-logos s2-logos--partners"><p>Our technology<br />partners</p><img ngSrc="/worldposta-assets/our-story-partner-badges.avif" width="1440" height="66" alt="Fortinet Platinum Partner, IBM Platinum Partner, Cisco Premier Partner, Dell Technologies Titanium Partner, Infoblox Premier Partner, Pure Storage Elite Partner, Nutanix Premier Partner, Red Hat Advanced Partner and Lenovo Gold Partner" /></div>
     </div>
   </section>
-  <section class="story-compliance" id="security-compliance" aria-labelledby="compliance-heading">
-    <div class="compliance-shield" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-compliance-reference.jpg" width="1600" height="639" alt="" /></div>
-    <div class="compliance-inner">
-      <p class="story-eyebrow"><span aria-hidden="true"></span>Security &amp; Compliance</p>
-      <h2 id="compliance-heading">Trust Is Built Into<br /><span>Every Layer.</span></h2>
-      <p class="compliance-lead">Independent assessments, recognized frameworks and<br class="compliance-break" /> regional requirements help us support businesses with confidence.</p>
+<section class="story-compliance os s2 s2-band" id="security-compliance" aria-labelledby="compliance-heading">
+    <div class="s2-wrap compliance-inner">
+      <div class="s2-two">
+        <div class="s2-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Security &amp; Compliance</p><h2 id="compliance-heading">Trust Is Built Into<br /><span>Every Layer.</span></h2><p class="compliance-lead">Independent assessments, recognized frameworks and<br class="compliance-break" /> regional requirements help us support businesses with confidence.</p>
+          <div class="compliance-actions"><a href="mailto:hello@worldposta.com?subject=Compliance%20Information%20Request">Request Compliance Information <span aria-hidden="true">→</span></a><p><svg viewBox="0 0 32 40" aria-hidden="true"><path d="M5 2h14l8 8v28H5ZM18 2v10h9M10 19h12M10 25h12M10 31h8"/></svg>Audit and attestation documentation<br />available upon request.</p></div>
+        </div>
+        <div class="s2-photo s2-photo--soft"><img ngSrc="/worldposta-assets/our-story-compliance-shield.avif" width="1600" height="1000" alt="A glass shield wrapped in protective layers with certification badges." /></div>
+      </div>
       <div class="compliance-panels">
         <div class="compliance-panel"><h3>Certifications &amp; Attestations</h3><ul>
           <li><span class="compliance-mark" aria-hidden="true">ISO</span><div><h4>ISO 27001</h4><p>Certified</p><small>Information Security Management System<br />(Audited Sep 2025)</small></div></li>
@@ -257,69 +171,66 @@
           <li><span class="compliance-mark compliance-mark-nca" aria-hidden="true">NCA</span><div><h4>NCA KSA</h4><p>Aligned</p><small>National Cybersecurity Authority</small></div></li>
         </ul></div>
       </div>
-      <div class="compliance-actions"><a href="mailto:hello@worldposta.com?subject=Compliance%20Information%20Request">Request Compliance Information <span aria-hidden="true">→</span></a><p><svg viewBox="0 0 32 40" aria-hidden="true"><path d="M5 2h14l8 8v28H5ZM18 2v10h9M10 19h12M10 25h12M10 31h8"/></svg>Audit and attestation documentation<br />available upon request.</p></div>
+      
     </div>
   </section>
-  <section class="story-resilience" id="performance-resilience" aria-labelledby="resilience-heading">
-    <div class="resilience-visual" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-resilience-reference.jpg" width="1600" height="639" alt="" /></div>
-    <div class="resilience-inner">
-      <div class="resilience-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Infrastructure</p><h2 id="resilience-heading">Built for Performance.<br /><span>Engineered for</span> Resilience.</h2><p>Our enterprise-grade infrastructure is designed to keep your business running — securely, reliably and without compromise.</p>
-        <ul class="resilience-benefits">
-          <li><span class="resilience-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="3" width="30" height="10" rx="2"/><rect x="5" y="15" width="30" height="10" rx="2"/><rect x="5" y="27" width="30" height="10" rx="2"/><path d="M11 8h1M11 20h1M11 32h1M28 8h1M28 20h1M28 32h1"/></svg></span><h3>High Availability</h3><p>Redundant infrastructure for continuous operations.</p></li>
-          <li><span class="resilience-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><h3>Data Sovereignty</h3><p>Your data stays in our regional data centers.</p></li>
-          <li><span class="resilience-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 32a16 16 0 1 1 26 0ZM20 6v4M7 15l4 2M33 15l-4 2M6 25h4M34 25h-4M20 24l9-11"/><circle cx="20" cy="24" r="3"/></svg></span><h3>Scalable by Design</h3><p>Grow with confidence as your needs evolve.</p></li>
-        </ul>
+<section class="story-resilience os s2" id="performance-resilience" aria-labelledby="resilience-heading">
+    <div class="s2-wrap">
+      <div class="s2-hero-band s2-hero-band--tall"><img ngSrc="/worldposta-assets/our-story-resilience-datacenter.avif" width="2000" height="800" alt="A modern regional data center building in a landscaped business park." />
+        <div class="s2-overcard"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Infrastructure</p><h2 id="resilience-heading">Built for Performance.<br /><span>Engineered for</span> Resilience.</h2><p>Our enterprise-grade infrastructure is designed to keep your business running — securely, reliably and without compromise.</p></div>
       </div>
-      <dl class="resilience-stats">
-        <div><dt><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 36V8h6V3h12v5h6v28M4 36h32M14 14h3M23 14h3M14 21h3M23 21h3M14 28h3M23 28h3M17 36v-4h6v4"/></svg><strong>3</strong></dt><dd>Regional<br />Data Centers</dd></div>
-        <div><dt><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg><strong>99.99%</strong></dt><dd>Service<br />Availability</dd></div>
-        <div><dt><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"/><ellipse cx="20" cy="20" rx="7" ry="16"/><path d="M5 13h30M5 27h30M20 4v32"/></svg><strong>24/7</strong></dt><dd>Network &amp; Security<br />Monitoring</dd></div>
-      </dl>
+      <div class="s2-row">
+        <ul class="s2-cards s2-cards--3"><li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="5" y="3" width="30" height="10" rx="2"/><rect x="5" y="15" width="30" height="10" rx="2"/><rect x="5" y="27" width="30" height="10" rx="2"/><path d="M11 8h1M11 20h1M11 32h1M28 8h1M28 20h1M28 32h1"/></svg></span><div><h3>High Availability</h3><p>Redundant infrastructure for continuous operations.</p></div></li><li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Data Sovereignty</h3><p>Your data stays in our regional data centers.</p></div></li><li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M7 32a16 16 0 1 1 26 0ZM20 6v4M7 15l4 2M33 15l-4 2M6 25h4M34 25h-4M20 24l9-11"/><circle cx="20" cy="24" r="3"/></svg></span><div><h3>Scalable by Design</h3><p>Grow with confidence as your needs evolve.</p></div></li></ul>
+        <dl class="s2-stats s2-stats--box"><div><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 36V8h6V3h12v5h6v28M4 36h32M14 14h3M23 14h3M14 21h3M23 21h3M14 28h3M23 28h3M17 36v-4h6v4"/></svg></span><dt>3</dt><dd>Regional<br />Data Centers</dd></div><div><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><dt>99.99%</dt><dd>Service<br />Availability</dd></div><div><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16"/><ellipse cx="20" cy="20" rx="7" ry="16"/><path d="M5 13h30M5 27h30M20 4v32"/></svg></span><dt>24/7</dt><dd>Network &amp; Security<br />Monitoring</dd></div></dl>
+      </div>
     </div>
   </section>
-  <section class="story-delivery" id="strategy-to-delivery" aria-labelledby="delivery-heading">
-    <div class="delivery-visual"><img ngSrc="/worldposta-assets/our-story-delivery-reference.jpg" width="1600" height="639" alt="Business leader overlooking the city beside a connected cloud marked Secure, Scalable and Always On" /></div>
-    <div class="delivery-inner">
-      <div class="delivery-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Approach</p><h2 id="delivery-heading">From Strategy<br /><span>to Seamless Delivery.</span></h2><p>We start with your business goals and build the right cloud solutions — designed, deployed and managed for long-term success.</p></div>
-      <ol class="delivery-steps" aria-label="Our delivery process">
-        <li><span class="delivery-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="19" cy="21" r="15"/><circle cx="19" cy="21" r="9"/><circle cx="19" cy="21" r="3"/><path d="m19 21 15-16M29 5h6v6"/></svg></span><span class="delivery-number" aria-hidden="true">01</span><h3>Discover</h3><p>We understand your challenges, goals and unique requirements.</p></li>
-        <li><span class="delivery-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M13 28c0-6-6-8-6-15a13 13 0 0 1 26 0c0 7-6 9-6 15ZM14 32h12M16 36h8M17 28V17h6"/></svg></span><span class="delivery-number" aria-hidden="true">02</span><h3>Design</h3><p>We build the right architecture and solution for your business.</p></li>
-        <li><span class="delivery-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m12 17 4 1 3 4-2 4 1 4-4 3-4-2-4 1-3-4 2-4-1-4 4-3Z M28 3l4 1 2 4-1 4-4 2-4-1-2-4 1-4Z"/><circle cx="11" cy="25" r="4"/><circle cx="28" cy="8" r="3"/></svg></span><span class="delivery-number" aria-hidden="true">03</span><h3>Implement</h3><p>We deploy with precision, ensuring minimal disruption and maximum efficiency.</p></li>
-        <li><span class="delivery-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><span class="delivery-number" aria-hidden="true">04</span><h3>Manage</h3><p>We monitor, optimize and support — so you can focus on what matters.</p></li>
+  <section class="story-delivery os s2 s2-band" id="strategy-to-delivery" aria-labelledby="delivery-heading">
+    <div class="s2-wrap">
+      <div class="s2-two">
+        <div class="s2-copy"><p class="story-eyebrow"><span aria-hidden="true"></span>Our Approach</p><h2 id="delivery-heading">From Strategy<br /><span>to Seamless Delivery.</span></h2><p>We start with your business goals and build the right cloud solutions — designed, deployed and managed for long-term success.</p></div>
+        <div class="s2-photo"><img ngSrc="/worldposta-assets/our-story-delivery-workshop.avif" width="1600" height="1000" alt="A WorldPosta consultant leading a discovery workshop with client executives." /></div>
+      </div>
+      <ol class="s2-cards s2-cards--4 s2-cards--col" aria-label="Our delivery process">
+        <li><span class="s2-num">01</span><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="19" cy="21" r="15"/><circle cx="19" cy="21" r="9"/><circle cx="19" cy="21" r="3"/><path d="m19 21 15-16M29 5h6v6"/></svg></span><h3>Discover</h3><p>We understand your challenges, goals and unique requirements.</p></li>
+        <li><span class="s2-num">02</span><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M13 28c0-6-6-8-6-15a13 13 0 0 1 26 0c0 7-6 9-6 15ZM14 32h12M16 36h8M17 28V17h6"/></svg></span><h3>Design</h3><p>We build the right architecture and solution for your business.</p></li>
+        <li><span class="s2-num">03</span><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m12 17 4 1 3 4-2 4 1 4-4 3-4-2-4 1-3-4 2-4-1-4 4-3Z M28 3l4 1 2 4-1 4-4 2-4-1-2-4 1-4Z"/><circle cx="11" cy="25" r="4"/><circle cx="28" cy="8" r="3"/></svg></span><h3>Implement</h3><p>We deploy with precision, ensuring minimal disruption and maximum efficiency.</p></li>
+        <li><span class="s2-num">04</span><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><h3>Manage</h3><p>We monitor, optimize and support — so you can focus on what matters.</p></li>
       </ol>
-      <p class="delivery-tagline">Your Goals. Our Technology.<span aria-hidden="true"></span></p>
+      <p class="s2-tagline">Your Goals. Our Technology.</p>
     </div>
   </section>
-  <section class="story-complete" id="complete-cloud-ecosystem" aria-labelledby="complete-heading">
-    <div class="complete-visual complete-selectable"><img ngSrc="/worldposta-assets/our-story-complete-clean.png" width="1600" height="639" alt="Server room with luminous glass panels and a cloud-shaped city portal" />
-  <p class="complete-panel-title">One<br />Ecosystem.<br />Real Possibilities.</p>
-  <ul class="complete-panel-labels" aria-label="Integrated cloud services"><li>Compute</li><li>Storage</li><li>Virtualization</li><li>Private Cloud</li><li>Security</li><li>Backup</li><li>Disaster Recovery</li><li>Managed Services</li></ul>
-</div>
-    <div class="complete-inner">
-      <p class="story-eyebrow"><span aria-hidden="true"></span>Our Infrastructure</p>
-      <h2 id="complete-heading">A Complete Cloud<br /><span>Ecosystem</span> Under One Roof<span>.</span></h2>
-      <p class="complete-lead">From compute and storage to security and collaboration,<br class="complete-break" /> our integrated cloud ecosystem gives you everything you need<br class="complete-break" /> to run, grow and innovate — with confidence.</p>
-      <ul class="complete-features">
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="3" width="30" height="10" rx="2"/><rect x="5" y="15" width="30" height="10" rx="2"/><rect x="5" y="27" width="30" height="10" rx="2"/><path d="M11 8h1M11 20h1M11 32h1M27 8h2M27 20h2M27 32h2"/></svg></span><div><h3>Compute</h3><p>High-performance infrastructure</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="8" rx="13" ry="5"/><path d="M7 8v8c0 3 6 5 13 5s13-2 13-5V8M7 16v8c0 3 6 5 13 5s13-2 13-5v-8M7 24v8c0 3 6 5 13 5s13-2 13-5v-8"/></svg></span><div><h3>Storage</h3><p>Secure and scalable storage</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="15" width="21" height="21" rx="2"/><rect x="15" y="4" width="21" height="21" rx="2"/></svg></span><div><h3>Virtualization</h3><p>Flexible and efficient environments</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><div><h3>Private Cloud</h3><p>Your cloud,<br />your control</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Security</h3><p>Built-in protection at every layer</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M34 14A15 15 0 0 0 8 8l-3 4M6 26a15 15 0 0 0 26 6l3-4M5 5v7h7M35 35v-7h-7"/><circle cx="20" cy="20" r="4"/></svg></span><div><h3>Backup</h3><p>Data always<br />within reach</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 31H9a7 7 0 0 1-1-14 12 12 0 0 1 23-2 8 8 0 0 1 1 16h-5M20 36V17M13 24l7-7 7 7"/></svg></span><div><h3>Disaster Recovery</h3><p>Be ready<br />for what’s next</p></div></li>
-        <li><span class="complete-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><div><h3>Managed Services</h3><p>Expert support around the clock</p></div></li>
+  <section class="story-complete os s2" id="complete-cloud-ecosystem" aria-labelledby="complete-heading">
+    <div class="s2-wrap">
+      <div class="s2-two">
+        <div class="s2-copy">
+          <p class="s2-kicker">One Ecosystem. <span>Real Possibilities.</span></p>
+          <p class="story-eyebrow"><span aria-hidden="true"></span>Our Infrastructure</p>
+          <h2 id="complete-heading">A Complete Cloud<br /><span>Ecosystem</span> Under One Roof<span>.</span></h2>
+          <p class="complete-lead">From compute and storage to security and collaboration,<br class="complete-break" /> our integrated cloud ecosystem gives you everything you need<br class="complete-break" /> to run, grow and innovate — with confidence.</p>
+          <div class="complete-actions"><a href="/our-story#our-services">Explore Our Solutions <span aria-hidden="true">→</span></a><p><svg viewBox="0 0 32 40" aria-hidden="true"><path d="M5 2h14l8 8v28H5ZM18 2v10h9M10 19h12M10 25h12M10 31h8"/></svg>Tailored solutions for your industry.<br /><a href="mailto:hello@worldposta.com?subject=Cloud%20Solutions%20Enquiry">Let’s discuss your needs.</a></p></div>
+        </div>
+        <div class="s2-photo s2-photo--soft"><img ngSrc="/worldposta-assets/our-story-complete-tower.avif" width="1600" height="1200" alt="A glass server tower with compute, storage, virtualization, private cloud, security, backup, disaster recovery and managed services around it." /></div>
+      </div>
+      <ul class="s2-cards s2-cards--4 s2-cards--compact" aria-label="Integrated cloud services">
+        <li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="5" y="3" width="30" height="10" rx="2"/><rect x="5" y="15" width="30" height="10" rx="2"/><rect x="5" y="27" width="30" height="10" rx="2"/><path d="M11 8h1M11 20h1M11 32h1M27 8h2M27 20h2M27 32h2"/></svg></span><div><h3>Compute</h3><p>High-performance infrastructure</p></div></li>
+        <li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><ellipse cx="20" cy="8" rx="13" ry="5"/><path d="M7 8v8c0 3 6 5 13 5s13-2 13-5V8M7 16v8c0 3 6 5 13 5s13-2 13-5v-8M7 24v8c0 3 6 5 13 5s13-2 13-5v-8"/></svg></span><div><h3>Storage</h3><p>Secure and scalable storage</p></div></li>
+        <li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="4" y="15" width="21" height="21" rx="2"/><rect x="15" y="4" width="21" height="21" rx="2"/></svg></span><div><h3>Virtualization</h3><p>Flexible and efficient environments</p></div></li>
+        <li><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 32h20a8 8 0 0 0 0-16 11 11 0 0 0-21-2 9 9 0 0 0 1 18Z"/></svg></span><div><h3>Private Cloud</h3><p>Your cloud,<br />your control</p></div></li>
+        <li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 4c4 4 9 6 14 6v11c0 7-7 12-14 16C13 33 6 28 6 21V10c5 0 10-2 14-6Z"/></svg></span><div><h3>Security</h3><p>Built-in protection at every layer</p></div></li>
+        <li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M34 14A15 15 0 0 0 8 8l-3 4M6 26a15 15 0 0 0 26 6l3-4M5 5v7h7M35 35v-7h-7"/><circle cx="20" cy="20" r="4"/></svg></span><div><h3>Backup</h3><p>Data always<br />within reach</p></div></li>
+        <li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M12 31H9a7 7 0 0 1-1-14 12 12 0 0 1 23-2 8 8 0 0 1 1 16h-5M20 36V17M13 24l7-7 7 7"/></svg></span><div><h3>Disaster Recovery</h3><p>Be ready<br />for what’s next</p></div></li>
+        <li><span class="s2-ico s2-amber" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><div><h3>Managed Services</h3><p>Expert support around the clock</p></div></li>
       </ul>
-      <div class="complete-actions"><a href="/our-story#our-services">Explore Our Solutions <span aria-hidden="true">→</span></a><p><svg viewBox="0 0 32 40" aria-hidden="true"><path d="M5 2h14l8 8v28H5ZM18 2v10h9M10 19h12M10 25h12M10 31h8"/></svg>Tailored solutions for your industry.<br /><a href="mailto:hello@worldposta.com?subject=Cloud%20Solutions%20Enquiry">Let’s discuss your needs.</a></p></div>
     </div>
   </section>
-<section class="closing-html" id="request-consultation" aria-labelledby="closing-heading">
-  <div class="closing-art" aria-hidden="true"><img ngSrc="/worldposta-assets/our-story-closing-clean.png" fill alt="" /></div>
-  <div class="closing-content">
-    <p class="story-eyebrow"><span aria-hidden="true"></span>Let’s Build What’s Next</p>
-    <h2 id="closing-heading">Ready to Transform<br /><span>Your Business?</span></h2>
-    <p class="closing-lead">Talk to our team and discover how WorldPosta can help you build<br /> a more secure, efficient and future-ready organization.</p>
-    <div class="closing-grid">
-<form class="consultation-form" (submit)="requestConsultation($event)">
+<section class="closing-html os s2 s2-band" id="request-consultation" aria-labelledby="closing-heading">
+  <div class="s2-wrap s2-two s2-two--stretch s2-close">
+    <div class="s2-copy">
+      <p class="story-eyebrow"><span aria-hidden="true"></span>Let’s Build What’s Next</p>
+      <h2 id="closing-heading">Ready to Transform<br /><span>Your Business?</span></h2>
+      <p>Talk to our team and discover how WorldPosta can help you build<br /> a more secure, efficient and future-ready organization.</p>
+      <form class="consultation-form" (submit)="requestConsultation($event)">
           <div class="consultation-fields">
             <label><span class="consultation-field-label">Full name *</span><input name="fullName" autocomplete="name" placeholder="Full Name *" required maxlength="150" /></label>
             <label><span class="consultation-field-label">Company name *</span><input name="company" autocomplete="organization" placeholder="Company Name *" required maxlength="200" /></label>
@@ -330,14 +241,11 @@
           <div class="consultation-submit"><button type="submit">Request a Consultation <span aria-hidden="true">→</span></button><p><svg viewBox="0 0 32 40" aria-hidden="true"><rect x="5" y="17" width="22" height="21" rx="2"/><path d="M9 17v-7a7 7 0 0 1 14 0v7M16 25v6"/></svg>Your information is secure<br />and will never be shared.</p></div>
           <p class="consultation-status" role="status">{{ consultationStatus() }}</p>
         </form>
-      <ul class="closing-benefits">
-        <li><span aria-hidden="true">♧</span><div><h3>Expert Consultation</h3><p>Get tailored recommendations for your business.</p></div></li>
-        <li><span aria-hidden="true">⚙</span><div><h3>Right Solutions</h3><p>Build the right cloud, security and collaboration strategy.</p></div></li>
-        <li><span aria-hidden="true">ϟ</span><div><h3>Faster Outcomes</h3><p>Move from planning to impact — with confidence.</p></div></li>
-      </ul>
+      <ul class="s2-promises"><li><span class="s2-ico s2-green" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 8h28v18H18l-8 7v-7H6Z"/><path d="M13 16h14M13 21h9"/></svg></span><div><h3>Expert Consultation</h3><p>Get tailored recommendations for your business.</p></div></li><li><span class="s2-ico s2-blue" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m17 3 6 0 2 5 5-1 4 5-2 5 4 3-2 6-5 1-1 5-6 3-4-4-5 1-4-5 2-5-3-4 3-6 5 0Z"/><circle cx="20" cy="19" r="6"/></svg></span><div><h3>Right Solutions</h3><p>Build the right cloud, security and collaboration strategy.</p></div></li><li><span class="s2-ico s2-purple" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m22 3-13 20h11l-4 14 15-23H21l5-11Z"/></svg></span><div><h3>Faster Outcomes</h3><p>Move from planning to impact — with confidence.</p></div></li></ul>
     </div>
+    <div class="s2-photo s2-photo--fill s2-photo--tag"><img ngSrc="/worldposta-assets/our-story-closing-consultant.avif" width="1600" height="1200" alt="A friendly WorldPosta consultant with a headset, ready to help." />
+      <p class="closing-slogan">Cloud that<br />works smarter<br /><span>for your business.</span></p></div>
   </div>
-  <p class="closing-slogan">Cloud that<br />works smarter<br /><span>for your business.</span></p>
 </section>
 </main>
 <app-site-footer />
