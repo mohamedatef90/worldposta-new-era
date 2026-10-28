@@ -98,3 +98,117 @@ main .soc-why-art img {
 @media (max-width: 850px) {
   main .soc-contact-art { max-width: 420px; aspect-ratio: 418 / 448; }
 }
+
+/* Hero photo: bright analyst photo in a framed card (3:2), copy and divided highlights on the left. */
+main .soc-hero .soc-art{aspect-ratio:3/2;border:10px solid var(--wp-panel);border-radius:var(--radius-2xl);background:var(--wp-panel);box-shadow:0 30px 60px -28px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .soc-hero .soc-art img{object-fit:cover;object-position:center}
+
+/* Hero highlights: one full-width card under copy + photo, same start and end as the hero container. */
+main .soc-hero .soc-benefits{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;width:100%;margin:0;padding:18px 24px;list-style:none;border:1px solid color-mix(in srgb,var(--wp-ink) 7%,transparent);border-radius:var(--radius-xl);background:color-mix(in srgb,var(--wp-panel) 86%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 2px color-mix(in srgb,var(--wp-ink) 4%,transparent),0 14px 30px -24px color-mix(in srgb,var(--wp-ink) 30%,transparent)}
+main .soc-hero .soc-benefits li{display:flex;flex-direction:row;align-items:center;gap:14px;min-width:0;padding:0 24px;border-left:1px solid var(--color-border)}
+main .soc-hero .soc-benefits li:first-child{padding-left:0;border-left:0}
+main .soc-hero .soc-benefits li:last-child{padding-right:0}
+main .soc-hero .soc-benefits .soc-icon{width:46px;height:46px;border-radius:var(--radius-lg)}
+main .soc-hero .soc-benefits .soc-icon svg{width:24px;height:24px}
+main .soc-hero .soc-benefits h2{margin:0 0 2px;font-size:var(--fs-body)}
+main .soc-hero .soc-benefits p{margin:0;font-size:var(--fs-body-sm)}
+@media(max-width:850px){main .soc-hero .soc-benefits{grid-row:3}}
+@media(max-width:640px){main .soc-hero .soc-benefits{grid-template-columns:minmax(0,1fr);gap:var(--space-md);padding:18px}main .soc-hero .soc-benefits li{padding:0;border-left:0}}
+
+/* Overview, option "Team at the live dashboard": copy and six features as a calm two-column list on the left;
+   the team photo on the right with the three metrics in a dark bar underneath. */
+main .soc-overview-wrap{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,4vw,64px)}
+main .soc-overview .soc-features{gap:22px 28px}
+main .soc-overview .soc-feature{grid-template-columns:40px minmax(0,1fr);gap:14px;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+main .soc-overview .soc-feature .soc-icon{width:40px;height:40px;border-radius:var(--radius-md)}
+main .soc-overview .soc-feature .soc-icon svg{width:22px;height:22px}
+main .soc-overview .soc-feature h3{font-size:var(--fs-body);margin:2px 0 4px}
+main .soc-overview-panel{display:grid;gap:16px;overflow:visible;border:0;border-radius:0;background:none;box-shadow:none}
+main .soc-overview-art{aspect-ratio:4/3;border-radius:var(--radius-2xl);background:var(--wp-panel);box-shadow:0 30px 60px -28px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .soc-overview-art img{inset:0;top:0;right:auto;width:100%;height:100%;object-fit:cover;object-position:center}
+main .soc-overview-metrics{padding:20px 6px;border-radius:var(--radius-xl);background:#071c4c;box-shadow:0 24px 50px -30px rgba(7,28,76,.6)}
+main .soc-overview-metrics>div{grid-template-rows:auto auto;gap:6px;padding-inline:18px}
+main .soc-overview-metrics>div+div{border-left:1px solid rgba(255,255,255,.14)}
+main .soc-overview-metrics .soc-icon{display:none}
+main .soc-overview-metrics dd{grid-row:1;font-size:clamp(28px,2.6vw,38px);line-height:1;color:var(--soc-tone)}
+main .soc-overview-metrics dt{grid-row:2;font-size:var(--fs-body-sm);font-weight:var(--fw-semibold);color:#cfdaf0}
+main .soc-overview-metrics .soc-green{--soc-tone:#9ccc65}
+main .soc-overview-metrics .soc-blue{--soc-tone:#7cc4ff}
+main .soc-overview-metrics .soc-purple{--soc-tone:#c4b1f7}
+@media(max-width:850px){main .soc-overview-wrap{grid-template-columns:minmax(0,1fr)}main .soc-overview-panel{max-width:650px}}
+@media(max-width:540px){main .soc-overview .soc-features{grid-template-columns:minmax(0,1fr)}main .soc-overview-metrics>div{padding-inline:10px}main .soc-overview-metrics dd{font-size:26px}main .soc-overview-metrics dt{font-size:var(--fs-caption)}}
+
+/* How it works, option "Five steps in a row": heading row, five steps on one dotted line, four outcomes below. */
+main .soc-workflow-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,3vw,40px)}
+main .soc-workflow-wrap>*{grid-column:auto;grid-row:auto}
+main .soc-workflow-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 48px;align-items:end;max-width:none;text-align:left}
+main .soc-workflow-heading h2{margin:0}
+main .soc-workflow-heading>p{margin:0}
+main .soc-workflow-steps{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+main .soc-workflow-steps::before{content:"";position:absolute;left:10%;right:10%;top:27px;height:2px;background:repeating-linear-gradient(90deg,var(--color-border) 0 8px,transparent 8px 14px)}
+main .soc-workflow-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;text-align:center}
+main .soc-workflow-step::before,main .soc-workflow-step::after{display:none}
+main .soc-workflow-step>.soc-icon{order:0;position:relative;z-index:1;width:56px;height:56px;border-radius:50%;background:var(--wp-panel);border:2px solid var(--soc-tone);box-shadow:0 0 0 6px var(--color-bg-primary)}
+main .soc-workflow-step .soc-icon svg{width:26px;height:26px}
+main .soc-workflow-step .soc-step-number{order:1;position:static;font-family:var(--font-heading);font-size:12px;font-weight:var(--fw-bold);letter-spacing:.1em;color:var(--soc-tone);background:none;padding:0;width:auto;height:auto}
+main .soc-workflow-step h3{order:2;margin:0;font-size:var(--fs-body)}
+main .soc-workflow-step p{order:3;margin:0;font-size:var(--fs-body-sm);line-height:1.55;color:var(--wp-body)}
+main .soc-workflow-outcomes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none}
+main .soc-workflow-outcomes li{display:flex;gap:12px;align-items:flex-start;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--wp-panel)}
+@media(max-width:1060px){main .soc-workflow-steps{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:28px}main .soc-workflow-steps::before{display:none}main .soc-workflow-outcomes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){main .soc-workflow-heading{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:620px){main .soc-workflow-steps,main .soc-workflow-outcomes{grid-template-columns:minmax(0,1fr)}}
+
+/* Key Benefits, option "Copy and photo, benefits below": copy beside real WorldPosta product screens, six cards below. */
+main .soc-key-benefits-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(30px,3vw,44px)}
+main .soc-key-benefits-wrap>*{grid-column:auto;grid-row:auto}
+main .soc-kb-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(28px,4vw,64px);align-items:center}
+main .soc-key-benefits-content{grid-column:auto;grid-row:auto}
+main .soc-benefits-art{position:relative;aspect-ratio:auto;overflow:visible;width:auto;max-width:none;margin:0 0 28px 28px;border:0;border-radius:0;background:none;box-shadow:none}
+main .soc-kb-screen{overflow:hidden;border:6px solid var(--wp-panel);border-radius:var(--radius-xl);background:var(--wp-panel);box-shadow:0 30px 60px -28px rgba(15,19,24,.4),0 0 0 1px var(--color-border)}
+main .soc-kb-bar{display:flex;gap:6px;align-items:center;height:26px;padding:0 10px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border)}
+main .soc-kb-bar i{width:8px;height:8px;border-radius:50%;background:var(--color-border)}
+main .soc-benefits-art .soc-kb-screen img{position:static;display:block;width:100%;height:auto;max-width:none;transform:none}
+main .soc-benefits-art .soc-kb-score{position:absolute;left:-28px;bottom:-28px;top:auto;width:34%;height:auto;max-width:200px;border-radius:14px;border:1px solid var(--color-border);box-shadow:0 22px 44px -20px rgba(15,19,24,.45);transform:none}
+main .soc-key-benefits-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+main .soc-benefit-card{border-top:3px solid var(--soc-tone)}
+@media(max-width:900px){main .soc-kb-top{grid-template-columns:minmax(0,1fr)}main .soc-benefits-art{margin:0 0 24px;max-width:650px;justify-self:center}main .soc-benefits-art .soc-kb-score{left:12px;bottom:-24px;width:30%}}
+@media(max-width:700px){main .soc-key-benefits-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){main .soc-key-benefits-grid{grid-template-columns:minmax(0,1fr)}}
+main .soc-workflow-steps>.soc-workflow-step{grid-column:auto}
+main .soc-benefits-art .soc-kb-score{width:28%;max-width:170px;bottom:-36px}
+
+/* Key Benefits visual in light mode: light console screen, Security Score card floating on the right. */
+main .soc-benefits-art{margin:0 28px 28px 0}
+main .soc-benefits-art .soc-kb-score{left:auto;right:-28px;bottom:-36px;width:30%;max-width:180px}
+main .soc-kb-screen,main .soc-kb-bar{background:#ffffff;border-color:#ffffff}
+main .soc-kb-bar{border-bottom:1px solid #e5e7eb}
+main .soc-kb-bar i{background:#d9dee5}
+@media(max-width:900px){main .soc-benefits-art{margin:0 0 24px}main .soc-benefits-art .soc-kb-score{right:12px;left:auto;bottom:-24px}}
+
+
+/* Why choose us, option "Copy and photo, numbered cards": copy beside the team photo, three numbered cards, assurances strip. */
+main .soc-why-wrap{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,3vw,40px) clamp(28px,4vw,64px)}
+main .soc-why-copy{grid-column:1;grid-row:1}
+main .soc-why-lead{margin-bottom:0}
+main .soc-why-art{grid-column:2;grid-row:1;aspect-ratio:16/9;width:100%;max-width:none;border:0;border-radius:var(--radius-2xl);box-shadow:0 30px 60px -28px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .soc-why-art img{object-fit:cover;object-position:center}
+main .soc-advantages{grid-column:1/-1;grid-row:2;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+main .soc-advantage{display:grid;align-content:start;gap:10px;padding:20px;border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--wp-panel)}
+main .soc-advantage-top{grid-column:auto;grid-row:auto;flex-direction:row;align-items:center;justify-content:space-between;margin:0}
+main .soc-advantage-number{font-size:24px;color:color-mix(in srgb,var(--soc-tone) 45%,var(--color-border))}
+main .soc-advantage h3,main .soc-advantage p{grid-column:auto;margin:0}
+main .soc-assurances{grid-column:1/-1;grid-row:3;margin:0}
+@media(max-width:850px){main .soc-why-wrap{grid-template-columns:minmax(0,1fr)}main .soc-why-copy{grid-row:1}main .soc-why-art{grid-column:1;grid-row:2;max-width:650px;justify-self:center}main .soc-advantages{grid-row:3}main .soc-assurances{grid-row:4}}
+@media(max-width:700px){main .soc-advantages{grid-template-columns:minmax(0,1fr)}}
+
+/* Get Started, option "Copy and form side by side": tinted reason rows and a consultant photo beside the form. */
+main .soc-contact-benefits{gap:12px;margin-top:var(--space-lg)}
+main .soc-contact-benefits li{grid-template-columns:44px minmax(0,1fr);padding:14px 16px;border-radius:var(--radius-lg);background:color-mix(in srgb,var(--soc-tone) 9%,var(--wp-panel))}
+main .soc-contact-benefits .soc-icon{width:44px;height:44px;border-radius:var(--radius-md)}
+main .soc-contact-benefits .soc-icon svg{width:24px;height:24px}
+main .soc-contact-benefits h3{margin:0 0 2px}
+main .soc-contact-art{aspect-ratio:16/10;max-width:none;width:100%;margin-top:22px;border:0;border-radius:var(--radius-xl);box-shadow:0 26px 50px -28px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .soc-contact-art img{object-fit:cover;object-position:center 35%}
+@media(max-width:850px){main .soc-contact-art{max-width:650px}}
+main .soc-advantage{grid-template-columns:minmax(0,1fr)}
