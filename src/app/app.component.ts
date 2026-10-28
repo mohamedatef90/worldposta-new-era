@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DOCUMENT, ViewportScroller } from '@angular/common';
 import { scrollToFragmentOnClick } from './shared/utils/scroll-to-fragment';
+import { ScrollFxService } from './shared/services/scroll-fx.service';
 import { Router, RouterOutlet } from '@angular/router';
 @Component({
  imports: [RouterOutlet],
@@ -17,6 +18,8 @@ export class App {
   // Deep links (/page#section) scroll through the router, which ignores CSS
   // scroll-padding; reuse that value so they land under the sticky header too.
   inject(ViewportScroller).setOffset(() => [0, parseFloat(getComputedStyle(this.document.documentElement).scrollPaddingTop) || 0]);
+  // Section reveal + parallax on every page (see ScrollFxService).
+  inject(ScrollFxService);
   this.openHashPage();
  }
  protected openHashPage(): void {

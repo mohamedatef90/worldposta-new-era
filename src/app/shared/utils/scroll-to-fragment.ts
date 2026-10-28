@@ -12,6 +12,15 @@ export function scrollToFragmentOnClick(event: MouseEvent, document: Document): 
   const target = document.getElementById(id);
   if (!target) return;
   event.preventDefault();
+  // A section still waiting to fade in (ScrollFxService) sits 40px low; show it
+  // at once so the jump lands at its real position, not the offset one.
+  const pending = target.closest<HTMLElement>('.fx-reveal:not(.fx-in)');
+  if (pending) {
+    pending.style.transition = 'none';
+    pending.classList.add('fx-in');
+    void pending.offsetHeight;
+    pending.style.transition = '';
+  }
   // Smooth only for these in-page jumps (jump nav, #anchors), so readers keep
   // their place. Route changes, deep links and the skip link stay instant, and
   // reduced motion makes this instant too.

@@ -514,41 +514,27 @@ main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea):not(
 }
 
 /* ============================================================
-   Scroll-driven parallax (CSS only, no scroll listeners)
-   .parallax-window  on an overflow:hidden frame: its image drifts
-                     ±--parallax-window inside the fixed frame.
-   .parallax-drift   on a top-of-page layer (hero): it lags by --parallax
-                     over the first 640px of page scroll (negative values
-                     lead instead), so it is exactly 0 on load.
-   The frame timeline is named on the frame itself: an anonymous view()
-   would bind to the nearest overflow:hidden box, which never scrolls.
-   Uses `translate`, which composes with any existing `transform`.
-   Off without scroll-timeline support (static page) and under
-   reduced motion; travel is halved on phones.
+   Scroll effects — driven by ScrollFxService (every browser, one
+   passive scroll listener). These rules are the styling half:
+   .parallax-window  overflow:hidden frame; its image is scaled up so it
+                     can glide ±--parallax-window (%) inside the frame.
+   .parallax-drift   top-of-page layer; lags --parallax (px) over the
+                     first 640px of scroll (negative values lead).
+   .fx-reveal        added by the service to each section below the hero;
+                     .fx-in fades it up once it enters the viewport.
+   Nothing here applies under reduced motion (the service skips it too),
+   and nothing is hidden unless the service has run.
    ============================================================ */
 :root { --parallax-k: 1; }
 @media (max-width: 767px) { :root { --parallax-k: .5; } }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .parallax-window { overflow: hidden; view-timeline: --parallax-window; }
-    .parallax-window > img {
-      scale: 1.14;
-      animation: wp-parallax-window linear both;
-      animation-timeline: --parallax-window;
-      animation-range: cover;
-    }
-    .parallax-drift {
-      animation: wp-parallax-drift linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0px 640px;
-    }
+@media (prefers-reduced-motion: no-preference) {
+  .parallax-window { overflow: hidden; }
+  .parallax-window > img { scale: 1.2; will-change: translate; }
+  .fx-reveal {
+    opacity: 0;
+    translate: 0 40px;
+    transition: opacity .8s cubic-bezier(.2, .7, .2, 1), translate .8s cubic-bezier(.2, .7, .2, 1);
   }
+  .fx-reveal.fx-in { opacity: 1; translate: none; }
 }
-@keyframes wp-parallax-window {
-  from { translate: 0 calc(var(--parallax-window, 6%) * var(--parallax-k) * -1); }
-  to { translate: 0 calc(var(--parallax-window, 6%) * var(--parallax-k)); }
-}
-@keyframes wp-parallax-drift {
-  from { translate: 0 0; }
-  to { translate: 0 calc(var(--parallax, 80px) * var(--parallax-k)); }
-}
+@media print { .fx-reveal { opacity: 1 !important; translate: none !important; } }

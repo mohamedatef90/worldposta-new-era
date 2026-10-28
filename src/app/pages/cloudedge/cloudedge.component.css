@@ -141,12 +141,12 @@ h1 > span .text-blue { display:inline; }
    glass cloud (see .hero-float below). */
 .hero-photo { position:absolute; z-index:0; overflow:hidden; border-radius:28px; left:44%; right:28px; top:50%; aspect-ratio:1.5; transform:translateY(-50%); mask-image:linear-gradient(to right, transparent, black 1.5%); -webkit-mask-image:linear-gradient(to right, transparent, black 1.5%); }
 .hero-photo__img, .hero-photo__links { position:absolute; inset:0; }
-/* Parallax (see .parallax-drift in styles.css): the photo and its lines lag as
+/* Parallax (see .parallax-drift in styles.css and ScrollFxService): the photo and its lines lag as
    the hero scrolls away, the cards don't, and the blobs lead. The image moves
    inside its still, masked wrapper so the fades stay put. Only on desktop,
    where the photo is a background; below 1024px it is a framed photo. */
-.hero-photo__img img, .hero-photo__links { --parallax:110px; }
-.hero__cloud { --parallax:-90px; }
+.hero-photo__img img, .hero-photo__links { --parallax:150px; }
+.hero__cloud { --parallax:-120px; }
 @media (max-width:1023px) { .hero-photo__img img, .hero-photo__links { --parallax:0px; } }
 .hero-photo__img img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 
