@@ -1,11 +1,10 @@
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SapArchitectureComponent } from './sap-architecture/sap-architecture.component';
 import { SapOpsBoardComponent } from './sap-ops-board/sap-ops-board.component';
-import { ThemeService } from '@/shared/services/theme.service';
 
 import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
@@ -14,15 +13,6 @@ import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.compo
   styleUrl: './sap.component.css',
 })
 export class Sap {
-  private readonly theme = inject(ThemeService);
-
-  /*
-   * The Services photo (a Magnific concept scene) carries the page's own SAP
-   * Operations Center board on its laptop, composited onto the screen, in the
-   * board theme that matches the site's. No SAP UI or logo.
-   */
-  protected readonly servicesPhoto = computed(() => `/worldposta-assets/sap/sap-services-console-${this.theme.isDark() ? 'dark' : 'light'}.avif`);
-
   protected readonly enquiryStatus = signal('');
   protected submitEnquiry(event: Event): void {
     event.preventDefault();

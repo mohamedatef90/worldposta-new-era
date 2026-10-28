@@ -34,3 +34,80 @@ main{padding-top:80px}
 .contact-product .product-logo{display:flex;justify-content:center;align-items:flex-end;height:150px;margin:0 auto 14px}
 .contact-product .product-logo img{height:100%;width:auto;max-width:100%;object-fit:contain}
 @media(max-width:600px){.contact-product .product-logo{height:120px}}
+
+
+/* Hero, option "Copy beside the ecosystem card": copy on the left, one white card with the WorldPosta logo and the three products. */
+main .contact-reference-container{max-width:1400px;width:min(1400px,88%);padding:0;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,4vw,56px)}
+main .contact-reference-copy h2{font-size:clamp(30px,3vw,46px);letter-spacing:-1.4px}
+main .contact-reference-perks{flex-wrap:wrap;gap:10px}
+main .contact-reference-perks>span{min-height:38px;padding:0 14px 0 6px;border:1px solid var(--color-border);border-radius:999px;background:var(--wp-panel);font-size:13px;font-weight:600;color:var(--wp-ink)}
+main .contact-reference-perks>span+span{padding-left:6px;border-left:1px solid var(--color-border)}
+main .contact-reference-perks fa-icon{width:28px;height:28px;font-size:14px}
+main .contact-products{padding:22px;border:1px solid var(--color-border);border-radius:24px;background:var(--wp-panel);box-shadow:0 30px 60px -30px rgba(7,28,76,.35)}
+main .contact-worldposta-logo{width:auto;height:40px;max-width:70%;margin:0 auto}
+main .contact-products-label{display:block;width:max-content;max-width:100%;margin:10px auto 0;padding:5px 14px;border-radius:999px;font-size:11.5px;font-weight:var(--fw-bold);letter-spacing:.12em}
+main .contact-product-grid{margin-top:18px;gap:12px}
+main .contact-product-grid:before,main .contact-product:before{display:none}
+main .contact-product{display:flex;flex-direction:column;gap:10px;padding:16px;border:1px solid var(--color-border);border-top:3px solid var(--product-accent);border-radius:18px;background:var(--wp-panel);box-shadow:none}
+main .contact-product .product-logo{height:64px;margin:0 auto}
+main .contact-product>p{min-height:0;margin:0;font-size:14px;line-height:1.45;text-align:center;color:var(--wp-body)}
+main .contact-product ul{display:grid;gap:6px}
+main .contact-product li{margin:0;padding:8px 10px;border-radius:10px;background:color-mix(in srgb,var(--product-accent) 9%,var(--wp-panel));font-size:13px;font-weight:600;color:var(--wp-ink)}
+main .contact-product li fa-icon{font-size:15px}
+main .contact-products-caption{margin:16px 0 0;font-size:14px;color:var(--wp-body)}
+@media(max-width:1023px){main .contact-reference-container{grid-template-columns:minmax(0,1fr)}main .contact-products{max-width:760px}}
+@media(max-width:640px){main .contact-product-grid{grid-template-columns:minmax(0,1fr)}main .contact-product{max-width:none}main .contact-product li{font-size:13px}}
+
+/* Get in touch, option "Details tiles, photo-topped form": copy and the five details as tiles on the left;
+   the form on the right with a photo strip on top. */
+main .touch-container{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,4vw,56px);align-items:start;max-width:1400px;width:min(1400px,88%);padding:0}
+main .touch-copy h2{font-size:clamp(32px,3vw,46px);letter-spacing:-1.4px;color:var(--wp-ink)}
+main .touch-copy h2 span{color:var(--wp-green)}
+main .touch-copy .lead{font-size:var(--fs-body-lg);color:var(--wp-body);margin-bottom:0}
+main .touch-details{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:26px}
+main .touch-details>div{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start;padding:14px;border:1px solid var(--color-border);border-radius:14px;background:var(--wp-panel)}
+main .touch-details>div:last-child{grid-column:1/-1}
+main .touch-details .icon{width:44px;height:44px;font-size:19px;border-radius:12px}
+main .touch-details dt{font-size:15px;color:var(--wp-ink)}
+main .touch-details dd{font-size:14px;line-height:1.45;color:var(--wp-body);overflow-wrap:anywhere}
+main .touch-details a{color:inherit}
+main .touch-form-column{display:grid;min-width:0;max-width:none}
+main .touch-photo{position:relative;aspect-ratio:21/8;margin:0;overflow:hidden;border-radius:20px 20px 0 0;border:1px solid var(--color-border);border-bottom:0}
+main .touch-photo img{position:absolute;inset:0;left:0;top:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center 30%}
+main .get-in-touch .request-form{border-radius:0 0 20px 20px;border-top:0}
+@media(max-width:1023px){main .touch-container{grid-template-columns:minmax(0,1fr)}main .touch-form-column{max-width:720px;width:100%;justify-self:center}}
+@media(max-width:600px){main .touch-details{grid-template-columns:minmax(0,1fr)}main .touch-details>div:last-child{grid-column:auto}main .touch-container,main .contact-reference-container{width:auto;padding:0 20px}main .touch-photo{aspect-ratio:16/9}}
+
+/* Stay in the loop, option "Soft green band": copy on the left, email field and button on the right. */
+main .newsletter.loop-panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(24px,3vw,40px);border:1px solid var(--color-border);border-radius:24px;background:linear-gradient(120deg,color-mix(in srgb,var(--wp-green) 9%,var(--wp-panel)),var(--wp-panel));box-shadow:none;overflow:hidden}
+main .newsletter.loop-panel::before,main .newsletter.loop-panel::after{display:none}
+main .loop-illustration{display:none}
+main .loop-signup{display:block;min-width:0;padding:0;border:0;background:none;box-shadow:none}
+main .loop-copy h2{color:var(--wp-ink)}
+main .loop-copy .lead{color:var(--wp-body)}
+@media(max-width:900px){main .newsletter.loop-panel{grid-template-columns:minmax(0,1fr)}}
+
+main .loop-form{padding:0;background:none;border:0;border-radius:0;box-shadow:none}
+main .loop-email{min-height:52px;background:var(--wp-panel);border-color:var(--color-border)}
+main .loop-signup{max-width:none}
+main .touch-container{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+main .touch-details dd{overflow-wrap:normal}
+@media(min-width:1024px) and (max-width:1279px){main .touch-details{grid-template-columns:minmax(0,1fr)}main .touch-details>div:last-child{grid-column:auto}}
+main .newsletter.loop-panel{min-height:0}
+main .loop-copy .loop-badge{margin-bottom:14px}
+@media(max-width:1023px){main .touch-container{grid-template-columns:minmax(0,1fr)}}
+
+/* Get in touch: both columns end on the same line. Details stack as one column that stretches to the form's height;
+   the photo strip and form are a little more compact. */
+@media(min-width:1024px){
+main .touch-container{align-items:stretch}
+main .touch-copy{display:flex;flex-direction:column}
+main .touch-details{flex:1;grid-template-columns:minmax(0,1fr);grid-auto-rows:1fr;align-content:stretch}
+main .touch-details>div,main .touch-details>div:last-child{grid-column:auto;align-items:center}
+main .touch-form-column{grid-template-rows:auto 1fr}
+main .touch-photo{aspect-ratio:21/6}
+main .get-in-touch .request-form{display:flex;flex-direction:column;padding:24px 28px}
+main .get-in-touch .fields{gap:12px 18px}
+main .get-in-touch textarea{min-height:84px}
+main .get-in-touch .consent{margin:14px 0}
+}
