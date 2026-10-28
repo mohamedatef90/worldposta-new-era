@@ -256,7 +256,10 @@ export class CloudEdgeComponent {
   // CLOUD COMPUTING OVERVIEW
   // ============================================================
   protected readonly sidebarLinks: readonly SidebarLink[] = [
-    { icon: faCloud, label: 'Cloud Computing', href: '#cloud-computing', active: true },
+    // No `active` here on purpose: these eight links point at four anchors, so
+    // a fixed flag highlighted "Cloud Computing" whichever one you clicked.
+    // Nothing is marked until something can set it from where you actually are.
+    { icon: faCloud, label: 'Cloud Computing', href: '#cloud-computing' },
     { icon: faServer, label: 'Virtual Machines', href: '#cloud-computing' },
     { icon: faDharmachakra, label: 'Kubernetes', href: '#cloud-computing' },
     { icon: faDatabase, label: 'Storage', href: '#cloud-computing' },

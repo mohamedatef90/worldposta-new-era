@@ -103,21 +103,37 @@ export class PageJumpNavComponent {
   }
 
   /**
-   * The current section is the one on screen: the listed section that covers a
-   * reading line a third of the way down the area below the header and this
-   * nav. Page position decides, not the order of the links, and a section the
-   * nav doesn't list (or the hero) leaves nothing marked.
+   * The current section is the last listed one whose top has passed a reading
+   * line a third of the way down the area below the header and this nav.
+   *
+   * "Last passed", not "covers the line": pages list only some of their
+   * sections — CloudEdge lists 5 of 10 — so asking which listed section covers
+   * the line left nothing marked for every stretch in between, and skipped
+   * listed sections outright whenever an unlisted one happened to straddle the
+   * line. Carrying the last one forward keeps exactly one link marked from the
+   * first section to the foot of the page. Above the first (the hero), nothing
+   * is marked, which is correct.
    */
   #spy(win: Window): void {
     const top = parseFloat(win.getComputedStyle(this.#document.documentElement).scrollPaddingTop) || 0;
     const line = top + (win.innerHeight - top) / 3;
-    const current = this.links().findIndex(link => {
+    // Of the sections already passed, the one furthest down the page wins.
+    // Picking the last in *link* order instead assumes the nav lists sections
+    // in the order the page lays them out, which it does not always do: on
+    // /posta the nav lists Migration before Security while the page runs the
+    // other way round, so Migration was skipped the moment Security passed.
+    let current = -1;
+    let lowestTop = -Infinity;
+    this.links().forEach((link, i) => {
       const target = this.#document.getElementById(decodeURIComponent(link.href.split('#')[1] ?? ''));
       // The page-level block holding the target: its top-level section, not a nested one.
       const section = target?.closest('main > *') ?? target;
-      if (!section) return false;
-      const box = section.getBoundingClientRect();
-      return box.top <= line && box.bottom > line;
+      if (!section) return;
+      const top = section.getBoundingClientRect().top;
+      if (top <= line && top > lowestTop) {
+        lowestTop = top;
+        current = i;
+      }
     });
     this.active.set(current);
   }

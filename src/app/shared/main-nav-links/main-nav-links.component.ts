@@ -99,10 +99,16 @@ export class MainNavLinksComponent {
       intro: 'Talk to sales, request a consultation or reach our support team.',
       overview: { label: 'Contact us', href: '/contact' },
       groups: [{ title: 'Get in touch', items: [
+        { name: 'Knowledge Base', description: 'Guides, docs and troubleshooting', href: 'https://knowledge.worldposta.com/', icon: faBookOpen },
         { name: 'Contact Us', description: 'Talk to sales or reach our support team', href: '/contact', icon: faPaperPlane },
       ] }],
     },
   ];
+
+  /** Absolute URLs leave the app, so they render as plain anchors, not routerLinks. */
+  protected isExternal(href: string): boolean {
+    return href.startsWith('http://') || href.startsWith('https://');
+  }
 
   protected prefix(): string { return this.mobile() ? 'mobile-menu-' : 'desktop-menu-'; }
 

@@ -1,0 +1,80 @@
+# ai-memory project marker.
+#
+# Its presence opts this repository in to capture and anchors the project
+# coordinate so sessions land in one place instead of a scope fallback.
+#
+# `ignore_paths` is enforced inside the hook binary before anything is spooled
+# or sent, so a matching path never reaches disk or the wire. It is honoured by
+# native `ai-memory hook` installs; legacy .sh/.ps1 hook installs do NOT read
+# it, so verify with `ai-memory install-hooks --agent claude-code --apply`
+# which reports the integration it selected.
+
+# The coordinate every session from this checkout lands on. Taken from the
+# canonical candidate `ai-memory doctor` derives from the git remote, so the
+# marker pins what was already being resolved rather than renaming anything.
+project = "mohamedatef90-worldposta-new-era"
+workspace = "default"
+
+[capture]
+ignore_paths = [
+  # --- Environment files and secrets -----------------------------------
+  ".env",
+  ".env.*",
+  "**/.env",
+  "**/.env.*",
+  "**/*.env",
+
+  # --- Credentials, API keys, tokens, private certificates --------------
+  "**/*.pem",
+  "**/*.key",
+  "**/*.p12",
+  "**/*.pfx",
+  "**/*.crt",
+  "**/*.cer",
+  "**/*.keystore",
+  "**/id_rsa*",
+  "**/*secret*",
+  "**/*credential*",
+  "**/.npmrc",
+  "**/.netrc",
+
+  # Machine-local agent and tooling state. Not source, and the likeliest
+  # place a bearer token or server credential sits in this repo.
+  ".claude/settings.local.json",
+  ".claude/**",
+  ".codex/**",
+  ".cursor/**",
+  ".tifo/**",
+  ".playwright-mcp/**",
+  ".vercel/**",
+  ".mcp.json",
+
+  # --- Customer or production data --------------------------------------
+  # Private correspondence screenshots committed at the repo root. They are
+  # chat exports, so they can carry names, numbers and message content that
+  # has nothing to do with the code.
+  "WhatsApp Image*",
+  "**/*.sql",
+  "**/*.sqlite",
+  "**/*.sqlite3",
+  "**/*.db",
+  "**/dump*",
+  "**/fixtures/**",
+
+  # --- Private backups and archives -------------------------------------
+  "**/backup/**",
+  "**/backups/**",
+  "**/*.bak",
+  "**/*.tar.gz",
+  "**/*.zip",
+
+  # --- Build output and vendored code -----------------------------------
+  # Not sensitive, but large and regenerable: capturing it buys nothing and
+  # crowds out signal.
+  "node_modules/**",
+  "dist/**",
+  ".angular/**",
+  "coverage/**",
+  ".git/**",
+  "pnpm-lock.yaml",
+]

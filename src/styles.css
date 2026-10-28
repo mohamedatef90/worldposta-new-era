@@ -349,7 +349,7 @@ main > section:first-of-type :is(.secondary-cta,.btn--ghost,.outline,.secondary,
   min-height:48px!important;
   height:auto!important;
   padding:12px 28px!important;
-  border-radius:9999px!important;
+  border-radius: var(--radius-md);
   font-family:var(--font-body)!important;
   font-size:15px!important;
   font-weight:600!important;

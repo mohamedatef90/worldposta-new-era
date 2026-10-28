@@ -22,8 +22,8 @@
       </div>
 
       <div class="header-actions">
-        <a class="sign-in" href="https://home.worldposta.com/">Login</a>
-        <a class="header-cta" href="https://www.worldposta.com/signup">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+        <a class="sign-in" href="https://admin.worldposta.com/auth/login?redirect=https:%2F%2Fwww.worldposta.com" target="_blank" rel="noopener noreferrer">Login<span class="sr-only">(opens in a new tab)</span></a>
+        <a class="header-cta" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /><span class="sr-only">(opens in a new tab)</span></a>
       </div>
       <button
       #menuButton
@@ -53,10 +53,10 @@
           {{ theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme' }}
         </button>
 
-        <a href="https://home.worldposta.com/" (click)="closeMenu()">Login</a>
-        <a class="mobile-nav__cta" href="https://www.worldposta.com/signup" (click)="closeMenu()">
+        <a href="https://admin.worldposta.com/auth/login?redirect=https:%2F%2Fwww.worldposta.com" target="_blank" rel="noopener noreferrer" (click)="closeMenu()">Login<span class="sr-only">(opens in a new tab)</span></a>
+        <a class="mobile-nav__cta" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer" (click)="closeMenu()">
           Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
-        </a>
+        <span class="sr-only">(opens in a new tab)</span></a>
       </nav>
     }
   </header>

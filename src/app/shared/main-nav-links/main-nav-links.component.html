@@ -27,11 +27,22 @@
                   <ul class="mega-items">
                     @for (item of group.items; track item.href) {
                       <li>
-                        <a class="mega-item" [routerLink]="item.href" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" (click)="follow()">
-                          <span class="item-icon" aria-hidden="true"><fa-icon [icon]="item.icon" /></span>
-                          <span class="item-text"><strong>{{ item.name }}</strong><small>{{ item.description }}</small></span>
-                          <fa-icon class="item-arrow" [icon]="arrow" aria-hidden="true" />
-                        </a>
+                        <!-- Items on another WorldPosta host are plain anchors opening a
+                             new tab; routerLink would try to resolve them as app routes. -->
+                        @if (isExternal(item.href)) {
+                          <a class="mega-item" [href]="item.href" target="_blank" rel="noopener noreferrer" (click)="follow()">
+                            <span class="item-icon" aria-hidden="true"><fa-icon [icon]="item.icon" /></span>
+                            <span class="item-text"><strong>{{ item.name }}</strong><small>{{ item.description }}</small></span>
+                            <span class="sr-only">(opens in a new tab)</span>
+                            <fa-icon class="item-arrow" [icon]="arrow" aria-hidden="true" />
+                          </a>
+                        } @else {
+                          <a class="mega-item" [routerLink]="item.href" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" (click)="follow()">
+                            <span class="item-icon" aria-hidden="true"><fa-icon [icon]="item.icon" /></span>
+                            <span class="item-text"><strong>{{ item.name }}</strong><small>{{ item.description }}</small></span>
+                            <fa-icon class="item-arrow" [icon]="arrow" aria-hidden="true" />
+                          </a>
+                        }
                       </li>
                     }
                   </ul>

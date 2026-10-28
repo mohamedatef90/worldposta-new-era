@@ -13,7 +13,7 @@ img { max-width:100%; }
 
 .page { overflow-x:clip; background:var(--color-bg-primary); }
 
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-sm); min-height:48px; padding:0 28px; border:1.5px solid transparent; border-radius:var(--radius-full); font-family:var(--font-body); font-size:var(--fs-body-sm); font-weight:var(--fw-semibold); text-decoration:none; white-space:nowrap; cursor:pointer; transition:transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out), box-shadow var(--duration-base) var(--ease-out); }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-sm); min-height:48px; padding:0 28px; border:1.5px solid transparent; border-radius: var(--radius-md); font-family:var(--font-body); font-size:var(--fs-body-sm); font-weight:var(--fw-semibold); text-decoration:none; white-space:nowrap; cursor:pointer; transition:transform var(--duration-base) var(--ease-out), background var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out), box-shadow var(--duration-base) var(--ease-out); }
 .btn--primary { color:var(--primary-foreground); background:var(--color-action); box-shadow:0 8px 20px color-mix(in srgb, var(--color-brand-green) 25%, transparent); }
 .btn--primary:hover { color:var(--primary-foreground); background:var(--color-action-hover); transform:translateY(-2px); }
 .btn--ghost { color:var(--wp-ink); background:var(--wp-panel); border-color:var(--wp-panel-line); box-shadow:var(--shadow-sm); }
@@ -325,19 +325,31 @@ h1 > span .text-blue { display:inline; }
 /* ============================================================
    CLOUD COMPUTING OVERVIEW — sidebar + dashboard mockup.
    ============================================================ */
-.cc-layout { display:grid; grid-template-columns:220px 1fr; gap:var(--space-2xl); align-items:start; }
-.cc-sidebar { display:flex; flex-direction:column; gap:2px; padding:var(--space-md); border-radius:var(--radius-xl); background:var(--wp-panel); box-shadow:var(--wp-panel-shadow); position:static; align-self:start; height:auto; max-height:none; overflow:visible; }
-.cc-sidebar__title { font-size:11px; font-weight:var(--fw-bold); letter-spacing:1.5px; text-transform:uppercase; color:var(--color-text-muted); padding:0 10px; margin-bottom:6px; }
-.cc-sidebar__link { display:flex; align-items:center; gap:10px; padding:10px; border-radius:var(--radius-md); color:var(--wp-body-strong); font-size:13.5px; font-weight:var(--fw-semibold); text-decoration:none; }
+/* One surface holding the rail and the content, matching the home page's
+   ecosystem section: the two share a bordered, rounded panel split by a
+   hairline instead of sitting apart as separate cards with a gap between.
+   overflow:clip rather than hidden so the rounded corners cut the rail without
+   turning this into a scroll container. */
+.cc-layout { display:grid; grid-template-columns:268px minmax(0, 1fr); gap:0; align-items:stretch; border:1px solid var(--color-border); border-radius:var(--radius-xl); background:var(--color-bg-secondary); box-shadow:var(--shadow-lg); overflow:clip; }
+.cc-sidebar { display:flex; flex-direction:column; gap:var(--space-xs); padding:12px var(--space-sm); background:color-mix(in srgb, var(--wp-panel) 72%, transparent); border-right:1px solid var(--color-border); border-radius:0; box-shadow:none; position:static; align-self:stretch; height:auto; max-height:none; overflow:visible; }
+.cc-sidebar__title { padding:0 var(--space-sm); margin:0 0 var(--space-xs); color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:1px; text-transform:uppercase; }
+.cc-sidebar__link { display:flex; align-items:center; gap:var(--space-sm); min-height:24px; padding:var(--space-xs) var(--space-sm); border-radius:var(--radius-md); color:var(--color-text-secondary); font-size:var(--fs-caption); font-weight:var(--fw-medium); text-decoration:none; transition:background-color var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out); }
 .cc-sidebar__link span { flex:1; }
-.cc-sidebar__chevron { font-size:10px; color:var(--color-text-muted); }
-.cc-sidebar__link:hover { background:color-mix(in srgb, var(--color-brand-green) 8%, transparent); }
-.cc-sidebar__link.is-active { background:color-mix(in srgb, var(--color-brand-green) 12%, transparent); color:var(--ce-green-text); }
+.cc-sidebar__link fa-icon { flex:0 0 auto; width:15px; font-size:var(--fs-caption); color:inherit; }
+.cc-sidebar__chevron { margin-left:auto; width:auto; font-size:10px; opacity:.45; color:inherit; }
+.cc-sidebar__link:hover { background:var(--color-bg-elevated); color:var(--color-text-primary); }
+/* Solid fill, as the home tabs mark their current tab — the old 12% tint read
+   as a hover state next to it. */
+.cc-sidebar__link.is-active { background:var(--color-action); color:var(--primary-foreground); }
+.cc-sidebar__link.is-active .cc-sidebar__chevron { opacity:.8; }
+/* The content side carries the padding now that the surface has none. */
+.cc-main { padding:var(--space-xl) var(--space-xl) var(--space-lg); }
 .cc-main .split-section__visual { min-height:440px; }
 
 @media (max-width:1023px) {
   .cc-layout { grid-template-columns:1fr; }
-  .cc-sidebar { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); overflow:visible; }
+  .cc-sidebar { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); overflow:visible; border-right:0; border-bottom:1px solid var(--color-border); }
+  .cc-main { padding:var(--space-lg); }
   .cc-sidebar__title { display:block; grid-column:1 / -1; }
 }
 
