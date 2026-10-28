@@ -111,3 +111,30 @@ main .get-in-touch .fields{gap:12px 18px}
 main .get-in-touch textarea{min-height:84px}
 main .get-in-touch .consent{margin:14px 0}
 }
+
+/* Each contact row is its own <dl> beside its icon: a dt/dd pair may not sit
+   two levels deep inside one list with an icon span alongside. */
+.touch-details dl{margin:0;min-width:0}
+
+/* Text-safe greens. The brand green is under 4.5:1 as small text, so text uses
+   it mixed toward the ink: the label sits on its own light tint, while the
+   caption and consent links follow the theme ink (lighter in dark mode). */
+main .contact-products-label{color:color-mix(in srgb,var(--contact-green) 72%,var(--contact-ink))}
+main .contact-products-caption strong{color:color-mix(in srgb,var(--contact-green) 72%,var(--wp-ink))}
+main .consent a{color:color-mix(in srgb,var(--wp-green) 70%,var(--wp-ink))}
+
+/* Request form: these used fixed light-theme colours beside theme tokens, so
+   in dark mode the heading went navy on a dark panel and the fields light on
+   light. They now follow the theme, and the button uses the action green
+   (the old rgb(52 142 31) was 4.2:1 behind white text). */
+main .get-in-touch .request-form{border-color:var(--color-border)}
+main .get-in-touch .request-form h2{color:var(--wp-ink)}
+main .get-in-touch :is(input,select,textarea){border-color:var(--color-border);background:var(--color-bg-primary)}
+main .get-in-touch .request-form .button{background:var(--color-action)}
+main .get-in-touch .request-form .button:hover{background:var(--color-action-hover)}
+/* The badge keeps its fixed mint pill in both themes; its text darkens to clear 4.5:1. */
+main .loop-badge{color:rgb(44 104 54)}
+/* The section's light gradient was fixed while its text follows the theme, so
+   "Let's Talk" went pale on pale in dark mode. Dark gets the same two glows
+   over the dark surface. */
+:host-context([data-theme='dark']) .get-in-touch{background:radial-gradient(ellipse at 95% 80%,color-mix(in srgb,var(--wp-blue) 14%,transparent),transparent 60%),radial-gradient(ellipse at 0 40%,color-mix(in srgb,var(--wp-green) 12%,transparent),transparent 48%),var(--color-bg-primary)}

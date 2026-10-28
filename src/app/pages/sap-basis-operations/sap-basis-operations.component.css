@@ -241,3 +241,8 @@ main > :is(.basis-hero,.basis-challenge,.basis-coverage,.basis-proactive,.basis-
   .basis-risk-grid p,.value-benefits p,.proactive-benefits p{font-size:13.5px}
   .basis-risk-grid .risk-icon,.value-benefits .risk-icon,.proactive-benefits .risk-icon{width:46px;height:46px}
 }
+
+/* Badge text sat in its tone on a tint of the same tone (2.8–4.5:1). Mixing the
+   tone toward the theme ink keeps the hue and clears AA in both themes; the
+   tint and icon stroke follow, as both read currentColor. */
+.proactive-badge{color:color-mix(in srgb,currentColor 62%,var(--wp-ink))}
