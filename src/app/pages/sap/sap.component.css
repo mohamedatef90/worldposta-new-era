@@ -221,7 +221,7 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 :host-context([data-theme='dark']) .sap-art__img img{filter:brightness(.8) saturate(.92)}
 /* The coded SAP Operations panel over the racks (right of the cloud). */
 .sap-panel{position:absolute;z-index:1;right:1%;top:1.5%;width:46%}
-.sap-cloud{position:absolute;z-index:2;left:21.58%;top:34.54%;width:38.68%;height:auto;--parallax:120px}
+.sap-cloud{position:absolute;z-index:2;left:21.63%;top:34.38%;width:38.62%;height:auto;--parallax:120px}
 :host-context([data-theme='dark']) .sap-cloud{filter:brightness(.8) saturate(.92)}
 @media(prefers-reduced-motion:no-preference){.sap-panel{opacity:0;animation:sap-panel-in .8s cubic-bezier(.2,.7,.2,1) .4s forwards}}
 @keyframes sap-panel-in{from{opacity:0;translate:0 14px}to{opacity:1;translate:none}}
