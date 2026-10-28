@@ -1,16 +1,27 @@
-import { ProductVisualComponent } from '@/shared/product-visual/product-visual.component';
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, afterNextRender, signal, viewChild } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 
 @Component({
-  imports: [ProductVisualComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
+  imports: [NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
   templateUrl: './it-automation.component.html',
   styleUrl: './it-automation.component.css',
 })
 export class ItAutomation {
+  /** The wall-display demo loops on its own; visitors who ask for reduced motion get the still poster. */
+  private readonly wallVideo = viewChild<ElementRef<HTMLVideoElement>>('wallVideo');
+  constructor() {
+    afterNextRender(() => {
+      const video = this.wallVideo()?.nativeElement;
+      if (!video) return;
+      video.muted = true;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.pause();
+      else void video.play().catch(() => undefined);
+    });
+  }
+
   protected readonly automationContactStatus = signal('');
   protected submitAutomationContact(event: Event): void {
     event.preventDefault();
