@@ -5,10 +5,11 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SapArchitectureComponent } from './sap-architecture/sap-architecture.component';
 import { SapOpsBoardComponent } from './sap-ops-board/sap-ops-board.component';
+import { SapOpsPanelComponent } from './sap-ops-panel/sap-ops-panel.component';
 import { ThemeService } from '@/shared/services/theme.service';
 
 @Component({
-  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent],
+  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent, SapOpsPanelComponent],
   templateUrl: './sap.component.html',
   styleUrl: './sap.component.css',
 })
@@ -16,11 +17,10 @@ export class Sap {
   private readonly theme = inject(ThemeService);
 
   /*
-   * Hero and Services photos (Magnific concept scenes) carry the page's own
-   * SAP Operations Center board on their screens, composited onto chroma-green
-   * monitors, in the board theme that matches the site's. No SAP UI or logo.
+   * The Services photo (a Magnific concept scene) carries the page's own SAP
+   * Operations Center board on its laptop, composited onto the screen, in the
+   * board theme that matches the site's. No SAP UI or logo.
    */
-  protected readonly heroPhoto = computed(() => `/worldposta-assets/sap/sap-hero-console-${this.theme.isDark() ? 'dark' : 'light'}.avif`);
   protected readonly servicesPhoto = computed(() => `/worldposta-assets/sap/sap-services-console-${this.theme.isDark() ? 'dark' : 'light'}.avif`);
 
   protected readonly enquiryStatus = signal('');
