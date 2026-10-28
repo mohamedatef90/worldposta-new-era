@@ -158,3 +158,145 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .sap-services .services-cta{grid-column:1/-1;justify-self:start}
 }
 @media(min-width:851px){.sap-continuous .continuous-art img{width:200%;height:auto;right:0;top:0}.sap-continuous .continuous-art:after{background:linear-gradient(90deg,var(--color-bg-primary),transparent 10%)}}
+
+/* ===== Redesign 2026-10-28: hero "Copy beside a photo card, highlights below" ===== */
+main .sap-hero{display:block;min-height:0;padding-block:clamp(40px,5vw,72px)}
+main .sap-hero-wrap{width:min(1440px,90%);margin-inline:auto}
+main .sap-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:center}
+main .sap-hero .sap-copy{width:auto;margin:0}
+main .sap-hero-photo{aspect-ratio:4/3;overflow:hidden;border:10px solid var(--wp-panel,#fff);border-radius:var(--radius-2xl);box-shadow:0 30px 60px -28px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .sap-hero-photo img{display:block;width:100%;height:100%;object-fit:cover}
+main .sap-hero .benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;max-width:none;margin:clamp(28px,3vw,40px) 0 0;padding:18px 24px;border:1px solid var(--color-border);border-radius:var(--radius-xl);background:color-mix(in srgb,var(--wp-panel,#fff) 88%,transparent);box-shadow:0 14px 30px -24px rgba(15,19,24,.3)}
+main .sap-hero .benefits li{flex:none;width:auto;padding:0 24px;border-left:1px solid var(--color-border)}
+main .sap-hero .benefits li:first-child{padding-left:0;border-left:0}
+main .sap-hero .benefits li:last-child{padding-right:0}
+main .sap-hero .benefits .icon{width:48px;height:48px}
+@media(max-width:900px){main .sap-hero-grid{grid-template-columns:minmax(0,1fr)}main .sap-hero-photo{max-width:650px;width:100%;justify-self:center}}
+@media(max-width:640px){main .sap-hero .benefits{grid-template-columns:minmax(0,1fr);gap:14px;padding:18px}main .sap-hero .benefits li{padding:0;border-left:0}}
+
+/* ===== Managed end to end: "Cards beside the data center" (heading row, cards beside photo, pillar strip) ===== */
+main .sap-operations .operations-copy>.eyebrow{grid-column:1;grid-row:1}
+main .sap-operations .operations-copy>h2{grid-column:1;grid-row:2;margin-bottom:28px}
+main .sap-operations .operations-lead{grid-column:2;grid-row:2;align-self:end;margin:0 0 28px;max-width:none}
+main .sap-operations .operations-grid{grid-column:1;grid-row:3}
+main .sap-operations .operations-grid article{min-height:0;border-top:3px solid currentColor}
+main .sap-operations .operations-art{grid-column:2;grid-row:3;height:auto;min-height:0;margin:0;border:0;border-radius:var(--radius-xl);box-shadow:0 30px 60px -30px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .sap-operations .operations-art img,main .sap-continuous .continuous-art img{position:absolute;inset:0;top:0;right:auto;width:100%;height:100%;max-width:none;object-fit:cover;aspect-ratio:auto}
+main .sap-operations .operations-art::after,main .sap-continuous .continuous-art::after,main .sap-contact .contact-art::after{display:none}
+main .sap-operations .operations-strip{grid-row:4}
+@media(max-width:900px){
+ main .sap-operations .operations-wrap{grid-template-columns:minmax(0,1fr)}
+ main .sap-operations .operations-copy>.eyebrow,main .sap-operations .operations-copy>h2,main .sap-operations .operations-lead,main .sap-operations .operations-grid,main .sap-operations .operations-art,main .sap-operations .operations-strip{grid-column:1;grid-row:auto}
+ main .sap-operations .operations-copy>h2{margin-bottom:14px}
+ main .sap-operations .operations-art{height:360px;margin-top:20px}
+}
+
+/* ===== Always-on: "Copy beside the operations photo" (copy + services left, photo right, promise strip below) ===== */
+main .sap-continuous .operations-wrap{align-items:start}
+main .sap-continuous .continuous-copy>.eyebrow{grid-column:1;grid-row:1}
+main .sap-continuous .continuous-copy>h2{grid-column:1;grid-row:2}
+main .sap-continuous .operations-lead{grid-column:1;grid-row:3;max-width:none}
+main .sap-continuous .operations-grid{grid-column:1;grid-row:4}
+main .sap-continuous .operations-grid article{min-height:0}
+main .sap-continuous .continuous-art{grid-column:2;grid-row:1/5;align-self:center;height:auto;aspect-ratio:4/3;border:0;border-radius:var(--radius-xl);box-shadow:0 30px 60px -30px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .sap-continuous .operations-strip{grid-row:5}
+@media(max-width:900px){
+ main .sap-continuous .operations-wrap{grid-template-columns:minmax(0,1fr)}
+ main .sap-continuous .continuous-copy>.eyebrow,main .sap-continuous .continuous-copy>h2,main .sap-continuous .operations-lead,main .sap-continuous .operations-grid,main .sap-continuous .continuous-art,main .sap-continuous .operations-strip{grid-column:1;grid-row:auto}
+ main .sap-continuous .continuous-art{margin-top:20px;max-width:650px;width:100%;justify-self:center}
+}
+
+/* ===== Expert support: "Copy, steps and photo beside the form" ===== */
+main .sap-contact .contact-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px)}
+main .sap-contact .contact-benefits{width:auto;max-width:none;gap:12px;margin-top:22px}
+main .sap-contact .contact-benefits li{gap:14px;padding:14px 16px;border-radius:var(--radius-lg);background:color-mix(in srgb,currentColor 7%,var(--color-bg-primary))}
+main .sap-contact .contact-benefits .operation-icon{width:46px;height:46px}
+main .sap-contact .contact-benefits h3{font-size:var(--fs-body);margin:0 0 2px}
+main .sap-contact .contact-benefits p{font-size:var(--fs-body-sm)}
+main .sap-contact .contact-art{display:block;position:relative;inset:auto;top:auto;right:auto;width:100%;height:auto;aspect-ratio:16/9;margin-top:18px;z-index:0;border-radius:var(--radius-xl);box-shadow:0 26px 50px -28px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .sap-contact .contact-art img{position:absolute;inset:0;left:0;top:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center 30%}
+main .sap-contact .contact-outcomes{margin-top:16px}
+@media(max-width:900px){main .sap-contact .contact-wrap{grid-template-columns:minmax(0,1fr)}main .sap-contact .contact-art{max-width:650px}}
+
+/* ===== Trusted partner: "Strengths and logos beside photo + advantage card" ===== */
+main .sap-partner .partner-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
+main .sap-partner .partner-strengths{grid-template-columns:repeat(2,minmax(0,1fr))}
+main .sap-partner .partner-strengths article{background:var(--color-bg-secondary);border-top:3px solid currentColor}
+main .sap-partner .sap-partner-logos{flex-wrap:wrap;justify-content:flex-start;gap:14px 26px}
+main .sap-partner .partner-side{display:grid;gap:16px;min-width:0}
+main .sap-partner .partner-photo{aspect-ratio:16/10;overflow:hidden;border-radius:var(--radius-xl);box-shadow:0 30px 60px -30px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .sap-partner .partner-photo img{display:block;width:100%;height:100%;object-fit:cover}
+main .sap-partner .partner-advantage{margin:0;min-width:0;padding:22px 24px}
+main .sap-partner .partner-advantage li{padding:12px 0;gap:14px}
+main .sap-partner .partner-advantage .operation-icon{width:44px;height:44px}
+main .sap-partner .partner-advantage h4{font-size:var(--fs-body);margin:0 0 2px}
+main .sap-partner .partner-advantage p{font-size:var(--fs-body-sm)}
+@media(max-width:900px){main .sap-partner .partner-wrap{grid-template-columns:minmax(0,1fr)}main .sap-partner .partner-side{max-width:650px;width:100%;justify-self:center}}
+@media(max-width:540px){main .sap-partner .partner-strengths{grid-template-columns:minmax(0,1fr)}}
+main .sap-operations .operations-grid article:nth-child(1){border-top-color:var(--color-brand-green)}
+main .sap-operations .operations-grid article:nth-child(2){border-top-color:var(--wp-sap-blue,#126ddb)}
+main .sap-operations .operations-grid article:nth-child(3){border-top-color:#7a4ee3}
+main .sap-operations .operations-grid article:nth-child(4){border-top-color:#d97706}
+main .sap-partner .partner-strengths article{border-top-color:currentColor}
+main .sap-contact .contact-benefits li:nth-child(1){background:color-mix(in srgb,var(--color-brand-green) 9%,var(--color-bg-primary))}
+main .sap-contact .contact-benefits li:nth-child(2){background:color-mix(in srgb,var(--wp-blue) 9%,var(--color-bg-primary))}
+main .sap-contact .contact-benefits li:nth-child(3){background:color-mix(in srgb,var(--wp-tone-purple) 9%,var(--color-bg-primary))}
+
+
+/* ===== Services: "Copy and photo, six cards below" ===== */
+main .sap-services .services-copy>.eyebrow{grid-column:1;grid-row:1}
+main .sap-services .services-copy>h2{grid-column:1;grid-row:2}
+main .sap-services .services-lead{grid-column:1;grid-row:3;max-width:none}
+main .sap-services .services-cta{grid-column:1;grid-row:4;margin-top:4px;min-width:0}
+main .sap-services .services-art{grid-column:2;grid-row:1/5;align-self:center;height:auto;aspect-ratio:16/10;border:0;border-radius:var(--radius-xl);box-shadow:0 30px 60px -30px rgba(15,19,24,.35),0 0 0 1px var(--color-border)}
+main .sap-services .services-art img{position:absolute;inset:0;top:0;right:auto;width:100%;height:100%;max-width:none;object-fit:cover;aspect-ratio:auto}
+main .sap-services .services-art::after{display:none}
+main .sap-services .sap-services-grid{grid-column:1/-1;grid-row:5;margin-top:clamp(28px,3vw,40px)}
+main .sap-services .sap-services-grid article{border-top:3px solid currentColor}
+main .sap-services .sap-services-grid article:nth-child(3n+1){border-top-color:var(--wp-blue)}
+main .sap-services .sap-services-grid article:nth-child(3n+2){border-top-color:var(--color-brand-green)}
+main .sap-services .sap-services-grid article:nth-child(3){border-top-color:var(--wp-tone-purple)}
+main .sap-services .sap-services-grid article:nth-child(4){border-top-color:var(--wp-tone-amber)}
+@media(max-width:900px){
+ main .sap-services .operations-wrap{grid-template-columns:minmax(0,1fr)}
+ main .sap-services .services-copy>.eyebrow,main .sap-services .services-copy>h2,main .sap-services .services-lead,main .sap-services .services-cta,main .sap-services .services-art,main .sap-services .sap-services-grid{grid-column:1;grid-row:auto}
+ main .sap-services .services-art{margin-top:20px;max-width:650px;width:100%;justify-self:center}
+}
+
+/* ===== Customer success: "Three story cards" ===== */
+main .sap-success .operations-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 48px;align-items:end}
+main .sap-success .operations-wrap>.eyebrow{grid-column:1;grid-row:1}
+main .sap-success h2{grid-column:1;grid-row:2;margin:0 0 28px}
+main .sap-success .success-lead{grid-column:2;grid-row:2;margin:0 0 28px}
+main .sap-success .success-grid,main .sap-success .success-strip{grid-column:1/-1}
+main .sap-success .success-grid{align-items:stretch;gap:20px}
+main .sap-success .success-card{display:flex;flex-direction:column;border-radius:18px;background:var(--color-bg-secondary)}
+main .sap-success .success-photo{aspect-ratio:16/9;max-height:none}
+main .sap-success .success-photo img{position:absolute;inset:0;top:0;left:0;width:100%;height:100%;max-width:none;object-fit:cover}
+main .sap-success .success-card-copy{display:flex;flex-direction:column;flex:1;padding:20px}
+main .sap-success .success-card h3{font-size:var(--fs-body-lg)}
+main .sap-success .success-card-copy>p{min-height:0;font-size:var(--fs-body-sm)}
+main .sap-success .success-benefits{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+main .sap-success .success-benefits li,main .sap-success .success-benefits li+li{padding:5px 10px;border:0;border-radius:999px;background:color-mix(in srgb,var(--color-brand-green) 11%,var(--color-bg-primary));color:var(--color-text-primary);font-weight:var(--fw-semibold)}
+main .sap-success .success-benefits li:before{display:none}
+main .sap-success .success-card details{margin-top:auto;border-top-style:dashed}
+@media(max-width:900px){main .sap-success .operations-wrap{grid-template-columns:minmax(0,1fr)}main .sap-success .operations-wrap>*{grid-column:1;grid-row:auto}main .sap-success h2{margin-bottom:14px}}
+
+/* ===== Closing: "Copy beside a photo-topped form" ===== */
+main .sap-closing .closing-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start;padding-right:0}
+main .sap-closing .closing-benefits{grid-template-columns:minmax(0,1fr);gap:12px}
+main .sap-closing .closing-benefits li{align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius-lg)}
+main .sap-closing .closing-benefits li:nth-child(1){background:color-mix(in srgb,var(--color-brand-green) 9%,var(--color-bg-primary))}
+main .sap-closing .closing-benefits li:nth-child(2){background:color-mix(in srgb,var(--wp-blue) 9%,var(--color-bg-primary))}
+main .sap-closing .closing-benefits li:nth-child(3){background:color-mix(in srgb,var(--wp-tone-purple) 9%,var(--color-bg-primary))}
+main .sap-closing .closing-benefits h3{font-size:var(--fs-body);margin:0 0 2px}
+main .sap-closing .closing-benefits p{font-size:var(--fs-body-sm)}
+main .sap-closing .sap-partner-logos{margin-top:26px;justify-content:flex-start;gap:14px 24px}
+main .sap-closing .closing-side{display:grid;min-width:0}
+main .sap-closing .closing-photo{aspect-ratio:21/8;overflow:hidden;border-radius:var(--radius-xl) var(--radius-xl) 0 0;border:1px solid var(--color-border);border-bottom:0}
+main .sap-closing .closing-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+main .sap-closing .closing-form{width:100%;max-width:none;border-radius:0 0 var(--radius-xl) var(--radius-xl);border-top:0}
+@media(max-width:900px){main .sap-closing .closing-wrap{grid-template-columns:minmax(0,1fr)}main .sap-closing .closing-side{max-width:650px;width:100%;justify-self:center}}
+main .sap-services .sap-services-grid article:nth-child(6){border-top-color:var(--wp-tone-purple)}
+main .sap-closing .closing-wrap{align-items:center}
+main .sap-success .success-photo .industry{min-width:0;padding:6px 14px;font-size:13px}
