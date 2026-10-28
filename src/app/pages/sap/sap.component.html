@@ -4,16 +4,12 @@
 </app-site-header>
 <main id="main-content" tabindex="-1">
   <section class="sap-hero" aria-labelledby="sap-title">
-    <!-- Wide screens: the section background, pinned right so it starts past the
-         copy column: a data hall with a segmented glass cloud on a pedestal, and the coded
-         "SAP Operations" panel floating over the racks (live text, both themes).
-         Narrower, it drops under the copy as a framed photo. -->
+    <!-- Wide screens: pinned right, starting past the copy column so the
+         headline never sits on it; narrower, it drops under the copy as a
+         framed image. A GPT 2 (Magnific) render: SAP Operations panel and a
+         glass cloud over a data hall. -->
     <div class="sap-art" aria-hidden="true">
-      <div class="sap-art__img"><img class="parallax-drift" ngSrc="/worldposta-assets/sap/sap-hero-cloud-hall.avif" width="1872" height="1248" priority alt="" /></div>
-      <app-sap-ops-panel class="sap-panel" />
-      <!-- The glass cloud is its own layer (generated separately and set on the
-           render's empty pedestal), above the panel; drifts with the render. -->
-      <img class="sap-cloud parallax-drift" ngSrc="/worldposta-assets/sap/sap-hero-cloud.avif" width="800" height="408" alt="" />
+      <div class="sap-art__img"><img class="parallax-drift" ngSrc="/worldposta-assets/sap/sap-hero-operations.avif" width="1600" height="1422" priority alt="" /></div>
     </div>
     <div class="sap-copy">
       <p class="eyebrow"><span aria-hidden="true"></span>SAP CLOUD OPERATIONS</p>

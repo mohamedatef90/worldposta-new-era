@@ -5,11 +5,10 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SapArchitectureComponent } from './sap-architecture/sap-architecture.component';
 import { SapOpsBoardComponent } from './sap-ops-board/sap-ops-board.component';
-import { SapOpsPanelComponent } from './sap-ops-panel/sap-ops-panel.component';
 import { ThemeService } from '@/shared/services/theme.service';
 
 @Component({
-  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent, SapOpsPanelComponent],
+  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent],
   templateUrl: './sap.component.html',
   styleUrl: './sap.component.css',
 })

@@ -215,22 +215,18 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
    and starting past the copy column (min left 700px) so the headline never
    sits on the bright photo; it blends in from the left. Narrower, it drops
    under the copy as a framed photo. Status cards float over it on desktop. */
-.sap-art{position:absolute;z-index:-1;top:50%;right:0;left:max(700px,calc(100% - 940px));aspect-ratio:1.5;transform:translateY(-50%)}
-.sap-art__img{position:absolute;inset:0;-webkit-mask-image:linear-gradient(to right,transparent,#000 22%),linear-gradient(to bottom,transparent,#000 10%,#000 86%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 22%),linear-gradient(to bottom,transparent,#000 10%,#000 86%,transparent);mask-composite:intersect}
-.sap-art__img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;--parallax:120px}
-:host-context([data-theme='dark']) .sap-art__img img{filter:brightness(.8) saturate(.92)}
-/* The coded SAP Operations panel over the racks (right of the cloud). */
-.sap-panel{position:absolute;z-index:1;right:1%;top:1.5%;width:46%}
-.sap-cloud{position:absolute;z-index:2;left:22.70%;top:41.27%;width:36.32%;height:auto;--parallax:120px}
-:host-context([data-theme='dark']) .sap-cloud{filter:brightness(.8) saturate(.92)}
-@media(prefers-reduced-motion:no-preference){.sap-panel{opacity:0;animation:sap-panel-in .8s cubic-bezier(.2,.7,.2,1) .4s forwards}}
-@keyframes sap-panel-in{from{opacity:0;translate:0 14px}to{opacity:1;translate:none}}
+/* Anchored to the hero's bottom so its foot fade ends at the section edge;
+   640px wide keeps its height inside the hero's 570px photo area, so the
+   top fade is not clipped either. */
+.sap-art{position:absolute;z-index:-1;bottom:0;right:0;width:min(640px,calc(100% - 700px));aspect-ratio:1600/1422}
+.sap-art__img{position:absolute;inset:0;-webkit-mask-image:linear-gradient(to right,transparent,rgba(0,0,0,.35) 16%,#000 38%),linear-gradient(to bottom,transparent,#000 10%,#000 86%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,rgba(0,0,0,.35) 16%,#000 38%),linear-gradient(to bottom,transparent,#000 10%,#000 86%,transparent);mask-composite:intersect}
+.sap-art__img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;--parallax:100px}
+:host-context([data-theme='dark']) .sap-art__img img{filter:brightness(.74) saturate(.92)}
 @media(max-width:1199px){
   .sap-hero{flex-direction:column;align-items:stretch;min-height:0}
   .sap-art{position:relative;order:1;inset:auto;left:auto;transform:none;width:90%;margin:var(--space-xl) auto 0;border-radius:20px;overflow:hidden}
   .sap-art__img{-webkit-mask-image:none;mask-image:none}
   .sap-art__img img{--parallax:0px}
-  .sap-cloud{--parallax:0px}
 }
 
 /* Coded visuals in the right column of Operations and Always-On. */
