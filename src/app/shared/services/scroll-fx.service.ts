@@ -20,7 +20,9 @@ interface Frame {
  * Scroll effects for every page, started once by the root component:
  *
  * - Reveal: each top-level `<section>` in `<main>` (after the hero) fades up
- *   the first time it enters the viewport.
+ *   the first time its top passes the bottom of the viewport. Checked on every
+ *   scroll frame rather than with an IntersectionObserver, so sections skipped
+ *   by a fast scroll, the End key or an anchor jump are revealed too.
  * - Parallax: `.parallax-drift` layers lag by `--parallax` px over the first
  *   640px of scroll; a `.parallax-window` frame's image glides by
  *   ±`--parallax-window` % as the frame crosses the viewport.
@@ -37,7 +39,7 @@ export class ScrollFxService {
 
   #drifts: Drift[] = [];
   #frames: Frame[] = [];
-  #revealObserver?: IntersectionObserver;
+  #pendingReveal: HTMLElement[] = [];
   #frameRequested = false;
 
   constructor() {
@@ -62,7 +64,7 @@ export class ScrollFxService {
     for (const { img } of this.#frames) img.style.translate = '';
     this.#drifts = [];
     this.#frames = [];
-    if (reduced) return;
+    if (reduced) return this.#update();
 
     const root = win.getComputedStyle(this.#document.documentElement);
     const k = parseFloat(root.getPropertyValue('--parallax-k')) || 1;
@@ -79,37 +81,25 @@ export class ScrollFxService {
     this.#frames = [...this.#document.querySelectorAll<HTMLElement>('.parallax-window')]
       .map((frame) => ({ frame, img: frame.querySelector<HTMLElement>(':scope > img')!, amount: readVar(frame, '--parallax-window', 8) * k }))
       .filter((f) => f.img);
-    this.#update();
+    // Next frame, so sections already in view still play their fade-in.
+    this.#requestUpdate();
   }
 
   #setupReveal(reduced: boolean): void {
-    this.#revealObserver?.disconnect();
     const sections = [...this.#document.querySelectorAll<HTMLElement>('main section')]
       .filter((section) => !section.parentElement?.closest('section'))
       .slice(1); // the hero is already in view
-    if (reduced || !('IntersectionObserver' in this.#window!)) {
+    if (reduced) {
       for (const section of sections) section.classList.remove('fx-reveal');
+      this.#pendingReveal = [];
       return;
     }
-    this.#revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          entry.target.classList.add('fx-in');
-          observer.unobserve(entry.target);
-        }
-      },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.06 },
-    );
-    for (const section of sections) {
-      if (section.classList.contains('fx-in')) continue;
-      section.classList.add('fx-reveal');
-      this.#revealObserver.observe(section);
-    }
+    this.#pendingReveal = sections.filter((section) => !section.classList.contains('fx-in'));
+    for (const section of this.#pendingReveal) section.classList.add('fx-reveal');
   }
 
   #requestUpdate(): void {
-    if (this.#frameRequested || (!this.#drifts.length && !this.#frames.length)) return;
+    if (this.#frameRequested || (!this.#drifts.length && !this.#frames.length && !this.#pendingReveal.length)) return;
     this.#frameRequested = true;
     this.#window!.requestAnimationFrame(() => {
       this.#frameRequested = false;
@@ -119,6 +109,15 @@ export class ScrollFxService {
 
   #update(): void {
     const win = this.#window!;
+    if (this.#pendingReveal.length) {
+      // Revealed once its top is 8% above the viewport's bottom, or already passed.
+      const line = win.innerHeight * 0.92;
+      this.#pendingReveal = this.#pendingReveal.filter((section) => {
+        if (section.getBoundingClientRect().top >= line) return true;
+        section.classList.add('fx-in');
+        return false;
+      });
+    }
     const progress = Math.min(Math.max(win.scrollY / DRIFT_DISTANCE, 0), 1);
     for (const { el, amount } of this.#drifts) el.style.translate = `0 ${(progress * amount).toFixed(1)}px`;
 

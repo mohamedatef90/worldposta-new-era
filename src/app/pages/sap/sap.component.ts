@@ -3,16 +3,17 @@ import { Component, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
+import { SapArchitectureComponent } from './sap-architecture/sap-architecture.component';
+import { SapOpsBoardComponent } from './sap-ops-board/sap-ops-board.component';
 
 @Component({
-  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent],
+  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent],
   templateUrl: './sap.component.html',
   styleUrl: './sap.component.css',
 })
 export class Sap {
   protected readonly enquiryStatus = signal('');
-  protected readonly closingEnquiryStatus = signal('');
-  protected submitEnquiry(event: Event, closing = false): void {
+  protected submitEnquiry(event: Event): void {
     event.preventDefault();
     const form = event.target;
     if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
@@ -30,7 +31,7 @@ export class Sap {
       '', 'Additional details:', String(data.get('details') ?? ''),
     ].join('\n');
     window.location.href = 'mailto:hello@worldposta.com?subject=SAP%20Consultation%20Request&body=' + encodeURIComponent(body);
-    (closing ? this.closingEnquiryStatus : this.enquiryStatus).set('Your request is ready in your email app. Review and send it to complete your enquiry.');
+    this.enquiryStatus.set('Your request is ready in your email app. Review and send it to complete your enquiry.');
   }
 }
 
