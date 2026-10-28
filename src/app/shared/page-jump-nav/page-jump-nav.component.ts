@@ -102,18 +102,23 @@ export class PageJumpNavComponent {
     this.#host.nativeElement.querySelector<HTMLElement>('.page-jump-nav__toggle')?.focus();
   }
 
-  /** The current section is the last one whose top has passed the anchor line. */
+  /**
+   * The current section is the one on screen: the listed section that covers a
+   * reading line a third of the way down the area below the header and this
+   * nav. Page position decides, not the order of the links, and a section the
+   * nav doesn't list (or the hero) leaves nothing marked.
+   */
   #spy(win: Window): void {
-    const line = (parseFloat(win.getComputedStyle(this.#document.documentElement).scrollPaddingTop) || 0) + 8;
-    const atEnd = win.innerHeight + win.scrollY >= this.#document.documentElement.scrollHeight - 2;
-    let current = -1;
-    this.links().forEach((link, i) => {
+    const top = parseFloat(win.getComputedStyle(this.#document.documentElement).scrollPaddingTop) || 0;
+    const line = top + (win.innerHeight - top) / 3;
+    const current = this.links().findIndex(link => {
       const target = this.#document.getElementById(decodeURIComponent(link.href.split('#')[1] ?? ''));
-      const section = target?.closest('section') ?? target;
-      if (section && section.getBoundingClientRect().top <= line) current = i;
+      // The page-level block holding the target: its top-level section, not a nested one.
+      const section = target?.closest('main > *') ?? target;
+      if (!section) return false;
+      const box = section.getBoundingClientRect();
+      return box.top <= line && box.bottom > line;
     });
-    // A short last section can never reach the line; the page end counts as reaching it.
-    if (atEnd && current >= 0) current = this.links().length - 1;
     this.active.set(current);
   }
 
