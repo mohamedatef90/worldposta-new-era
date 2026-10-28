@@ -5,15 +5,15 @@
 <main id="main-content" tabindex="-1">
   <section class="sap-hero" aria-labelledby="sap-title">
     <!-- Wide screens: the section background, pinned right so it starts past the
-         copy column: a data hall with a glossy glass cloud icon, and the coded
+         copy column: a data hall with a segmented glass cloud on a pedestal, and the coded
          "SAP Operations" panel floating over the racks (live text, both themes).
          Narrower, it drops under the copy as a framed photo. -->
     <div class="sap-art" aria-hidden="true">
       <div class="sap-art__img"><img class="parallax-drift" ngSrc="/worldposta-assets/sap/sap-hero-cloud-hall.avif" width="1872" height="1248" priority alt="" /></div>
       <app-sap-ops-panel class="sap-panel" />
-      <!-- The cloud and pedestal cut from the same render, layered over the panel's
-           corner for depth; drifts with the render so they stay aligned. -->
-      <img class="sap-cloud parallax-drift" ngSrc="/worldposta-assets/sap/sap-hero-cloud.avif" width="723" height="592" alt="" />
+      <!-- The glass cloud is its own layer (generated separately and set on the
+           render's empty pedestal), above the panel; drifts with the render. -->
+      <img class="sap-cloud parallax-drift" ngSrc="/worldposta-assets/sap/sap-hero-cloud.avif" width="800" height="408" alt="" />
     </div>
     <div class="sap-copy">
       <p class="eyebrow"><span aria-hidden="true"></span>SAP CLOUD OPERATIONS</p>
