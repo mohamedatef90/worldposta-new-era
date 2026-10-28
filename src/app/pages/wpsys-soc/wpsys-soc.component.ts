@@ -4,8 +4,9 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
+  imports: [PageJumpNavComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
   templateUrl: './wpsys-soc.component.html',
   styleUrl: './wpsys-soc.component.css',
 })

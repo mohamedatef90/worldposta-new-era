@@ -42,6 +42,7 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { scrollToFragmentOnClick } from '@/shared/utils';
 import { ThemeService } from '@/shared/services/theme.service';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 interface HeroChip {
   readonly id: string;
   readonly icon: IconDefinition;
@@ -141,7 +142,7 @@ interface AddOn {
  * reference section mockups, section for section.
  */
 @Component({
-  imports: [ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
+  imports: [PageJumpNavComponent, ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {

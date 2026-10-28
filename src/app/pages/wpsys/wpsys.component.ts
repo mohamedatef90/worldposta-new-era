@@ -5,8 +5,9 @@ import { faArrowRight, faBolt, faChartColumn, faChartLine, faCircleCheck, faCirc
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [SiteFooterComponent, FaIconComponent, SiteHeaderComponent, MainNavLinksComponent],
+  imports: [PageJumpNavComponent, SiteFooterComponent, FaIconComponent, SiteHeaderComponent, MainNavLinksComponent],
   templateUrl: './wpsys.component.html',
   styleUrl: './wpsys.component.css',
 })

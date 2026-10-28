@@ -28,7 +28,7 @@
       </ul>
     </div>
   </section>
-  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/wpsys#wpsys-services">Service overview</a><a href="/wpsys#wpsys-approach">Our approach</a><a href="/wpsys#wpsys-contact">Talk to an expert</a></div></nav>
+  <nav appPageJumpNav [links]="[{ href: '/wpsys#wpsys-services', label: 'Service overview' }, { href: '/wpsys#wpsys-approach', label: 'Our approach' }, { href: '/wpsys#wpsys-contact', label: 'Talk to an expert' }]"></nav>
   <section class="wpsys-services sv" id="wpsys-services" aria-labelledby="wpsys-services-title">
     <div class="ds-container">
       <div class="sv-head">

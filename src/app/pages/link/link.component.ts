@@ -4,8 +4,9 @@ import { NgOptimizedImage } from '@angular/common';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent],
+  imports: [PageJumpNavComponent, SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
 })

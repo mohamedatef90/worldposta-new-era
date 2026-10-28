@@ -7,8 +7,9 @@ import { SapArchitectureComponent } from './sap-architecture/sap-architecture.co
 import { SapOpsBoardComponent } from './sap-ops-board/sap-ops-board.component';
 import { ThemeService } from '@/shared/services/theme.service';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent],
+  imports: [PageJumpNavComponent, SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SapArchitectureComponent, SapOpsBoardComponent],
   templateUrl: './sap.component.html',
   styleUrl: './sap.component.css',
 })

@@ -29,6 +29,7 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { PerformanceTrustComponent } from './performance-trust/performance-trust.component';
 import { scrollToFragmentOnClick } from '@/shared/utils';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 interface ProofPoint {
   readonly icon: IconDefinition;
   readonly title: string;
@@ -43,7 +44,7 @@ interface EcosystemTile {
 }
 
 @Component({
-  imports: [
+  imports: [PageJumpNavComponent, 
     FaIconComponent,
     NgOptimizedImage,
     SiteHeaderComponent,

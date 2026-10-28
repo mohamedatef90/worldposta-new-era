@@ -6,8 +6,9 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
+  imports: [PageJumpNavComponent, FaIconComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent, SiteFooterComponent],
   templateUrl: './posta-portal.component.html',
   styleUrl: './posta-portal.component.css',
 })

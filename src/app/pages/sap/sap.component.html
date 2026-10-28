@@ -26,7 +26,7 @@
       </ul>
     </div>
   </section>
-  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/sap#sap-operations-title">Operations</a><a href="/sap#sap-services-title">Services</a><a href="/sap#sap-success-title">Customer outcomes</a><a href="/sap#sap-contact">Talk to an SAP expert</a></div></nav>
+  <nav appPageJumpNav [links]="[{ href: '/sap#sap-operations-title', label: 'Operations' }, { href: '/sap#sap-services-title', label: 'Services' }, { href: '/sap#sap-success-title', label: 'Customer outcomes' }, { href: '/sap#sap-contact', label: 'Talk to an SAP expert' }]"></nav>
 
   <section class="sap-operations" aria-labelledby="sap-operations-title">
     

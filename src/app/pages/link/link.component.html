@@ -22,7 +22,7 @@
       </div>
     </div>
   </section>
-  <nav class="page-jump-nav" aria-label="On this page"><div class="page-jump-nav__inner"><span class="page-jump-nav__label">On this page</span><a href="/link#link-benefits-title">Benefits</a><a href="/link#link-workflow-title">How it works</a><a href="/link#link-demo-title">Product demo</a><a href="/link#link-team-use-title">Teams & use cases</a><a href="/link#link-trial">Start free trial</a></div></nav>
+  <nav appPageJumpNav [links]="[{ href: '/link#link-benefits-title', label: 'Benefits' }, { href: '/link#link-workflow-title', label: 'How it works' }, { href: '/link#link-demo-title', label: 'Product demo' }, { href: '/link#link-team-use-title', label: 'Teams & use cases' }, { href: '/link#link-trial', label: 'Start free trial' }]"></nav>
 
   <section class="link-benefits-section" aria-labelledby="link-benefits-title">
     <div class="link-benefits-wrap">

@@ -3,8 +3,9 @@ import { Component, signal } from '@angular/core';
 
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [NgOptimizedImage, SiteHeaderComponent, SiteFooterComponent],
+  imports: [PageJumpNavComponent, NgOptimizedImage, SiteHeaderComponent, SiteFooterComponent],
   templateUrl: './seamless-migration.component.html',
   styleUrl: './seamless-migration.component.css',
 })

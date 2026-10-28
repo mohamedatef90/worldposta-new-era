@@ -538,3 +538,60 @@ main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea):not(
   .fx-reveal.fx-in { opacity: 1; translate: none; }
 }
 @media print { .fx-reveal { opacity: 1 !important; translate: none !important; } }
+
+/* Jump nav, current section (scroll-spy sets aria-current in both layouts). */
+/* Brand blue alone is 4.3:1 on its own 10% tint; mixing in the theme ink clears
+   AA in both themes (darker on light, lighter on dark). Hover shares it. */
+.page-jump-nav a:is(:hover, [aria-current]) { color: color-mix(in srgb, var(--wp-blue) 72%, var(--wp-ink)); background: color-mix(in srgb, var(--wp-blue) 10%, transparent); }
+.page-jump-nav__toggle { display: none; }
+
+/* Phones and small tablets: a compact bar flush under the header naming the
+   current section; tapping it opens the full list as a panel below. The bar
+   slides behind the header while scrolling down and returns on scroll up,
+   but never while it holds focus or its list is open. */
+@media (max-width: 767px) {
+  :root { --page-jump-h: 48px; --page-jump-offset: calc(var(--site-header-h) + var(--page-jump-h) + 16px); }
+  .page-jump-nav {
+    display: block;
+    top: var(--site-header-h);
+    padding: 0;
+    pointer-events: auto;
+    border-bottom: 1px solid var(--wp-panel-line, var(--color-border));
+    background: color-mix(in srgb, var(--wp-panel) 92%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    transition: translate var(--duration-base, .2s) var(--ease-out, ease);
+  }
+  .page-jump-nav.is-tucked:not(:focus-within) { translate: 0 -100%; }
+  .page-jump-nav__toggle {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; min-height: 48px; padding: 0 20px;
+    border: 0; background: none; color: var(--color-text-primary);
+    font: inherit; text-align: left; cursor: pointer;
+  }
+  .page-jump-nav__toggle:focus-visible { outline: 2px solid var(--wp-blue); outline-offset: -4px; border-radius: 8px; }
+  .page-jump-nav__kicker { flex-shrink: 0; color: var(--color-text-muted); font-size: 13px; }
+  .page-jump-nav__kicker::after { content: '·'; margin-left: 8px; }
+  .page-jump-nav__current { flex: 1; min-width: 0; overflow: hidden; font-size: 15px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
+  .page-jump-nav__chevron { flex-shrink: 0; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: rotate var(--duration-base, .2s) var(--ease-out, ease); }
+  .page-jump-nav.is-open .page-jump-nav__chevron { rotate: 180deg; }
+
+  .page-jump-nav__inner { display: none; }
+  .page-jump-nav.is-open .page-jump-nav__inner {
+    position: absolute; top: 100%; left: 0; right: 0;
+    display: grid; gap: 2px;
+    max-height: calc(100dvh - var(--site-header-h) - var(--page-jump-h) - 16px);
+    padding: 8px 12px 12px;
+    overflow-y: auto; overscroll-behavior: contain;
+    border: 0; border-bottom: 1px solid var(--wp-panel-line, var(--color-border));
+    border-radius: 0 0 18px 18px;
+    background: var(--wp-panel);
+    box-shadow: 0 16px 32px color-mix(in srgb, var(--wp-ink) 14%, transparent);
+    backdrop-filter: none;
+  }
+  .page-jump-nav__label { display: none; }
+  .page-jump-nav a { justify-content: space-between; min-height: 48px; padding-inline: 12px; border-radius: var(--radius-md, 10px); font-size: 16px; }
+  .page-jump-nav a[aria-current]::after { content: '✓'; font-weight: 700; }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .page-jump-nav, .page-jump-nav__chevron { transition: none; }
+}

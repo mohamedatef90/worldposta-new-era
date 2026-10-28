@@ -5,10 +5,11 @@ import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faFolder, faCalendarDays, faUsers, faNoteSticky, faLayerGroup, faCheck, faShieldHalved, faVideo, faComments, faChartSimple, faLock, faEnvelope, faFileLines, faCoins, faPhone, faLocationDot, faHeadset, faClock, faBell, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { SiteFooterComponent } from '../../shared/site-footer/site-footer.component';
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
  selector: 'app-cloudspace',
  host: { '(click)': 'onInPageAnchorClick($event)' },
- imports: [SiteHeaderComponent, NgOptimizedImage, FaIconComponent, SiteFooterComponent],
+ imports: [PageJumpNavComponent, SiteHeaderComponent, NgOptimizedImage, FaIconComponent, SiteFooterComponent],
  templateUrl: './cloudspace.component.html',
  styleUrl: './cloudspace.component.css',
 })

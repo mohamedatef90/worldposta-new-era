@@ -86,6 +86,7 @@ import { SiteHeaderComponent } from '@/shared/site-header/site-header.component'
 import { RevealDirective } from '@/shared/directives/reveal.directive';
 import { scrollToFragmentOnClick } from '@/shared/utils';
 
+import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 type BillingPeriod = 'monthly' | 'annual';
 
 interface Plan {
@@ -148,7 +149,7 @@ interface ResourceCard {
  * sections below are specific to Posta and own their content + CSS.
  */
 @Component({
-  imports: [FaIconComponent, NgOptimizedImage, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
+  imports: [PageJumpNavComponent, FaIconComponent, NgOptimizedImage, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {
