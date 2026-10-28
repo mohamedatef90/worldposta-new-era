@@ -257,15 +257,21 @@ svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 @media(max-width:850px){.partner-intro{grid-template-columns:1fr;gap:var(--space-xl)}.partner-photo{min-height:0;aspect-ratio:16/9}.partner-copy h2{font-size:clamp(34px,6vw,48px)}}
 @media(max-width:560px){.partner-grid{grid-template-columns:1fr}.sap-partner-logos{flex-wrap:wrap;justify-content:center}}
 
-/* Desktop: the copy column matches the form's height. The steps share the
-   extra room evenly (connectors stretch with them) and the outcomes row
-   lines up with the form's foot. */
-@media(min-width:851px){
-  .contact-wrap{align-items:stretch}
-  .contact-copy{display:flex;flex-direction:column}
-  .contact-benefits{flex:1;grid-auto-rows:1fr}
-  .contact-outcomes{margin-top:var(--space-lg)}
-}
+/* Compact contact: steps keep their natural rhythm and the form is trimmed
+   to sit level with them, instead of stretching the copy to a tall form. */
+.contact-benefits li{padding-bottom:22px}
+.contact-benefits li:not(:last-child)::before{top:78px;bottom:0}
+.contact-outcomes{margin-top:4px;padding-top:20px}
+.sap-enquiry{padding:28px}
+.sap-enquiry>h3{font-size:26px;margin:0 0 6px}
+.sap-enquiry>p{font-size:var(--fs-body-sm);margin:0 0 18px}
+.form-grid{gap:12px}
+.form-grid input,.form-grid select,.form-grid textarea{margin-top:4px;padding:8px 12px}
+.form-grid textarea{min-height:64px}
+.contact-consent{margin:14px 0}
+.sap-enquiry button{min-height:48px}
+.sap-enquiry .form-note{margin-top:10px}
+@media(min-width:851px){.contact-wrap{align-items:center}}
 /* Two columns leave the ninth card alone; let it take the full row. */
 @media(min-width:561px) and (max-width:1100px){
   .partner-grid li:last-child:nth-child(odd){grid-column:1/-1}
