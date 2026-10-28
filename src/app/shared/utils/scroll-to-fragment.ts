@@ -12,6 +12,10 @@ export function scrollToFragmentOnClick(event: MouseEvent, document: Document): 
   const target = document.getElementById(id);
   if (!target) return;
   event.preventDefault();
-  target.scrollIntoView({ block: 'start' });
+  // Smooth only for these in-page jumps (jump nav, #anchors), so readers keep
+  // their place. Route changes, deep links and the skip link stay instant, and
+  // reduced motion makes this instant too.
+  const reduceMotion = document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches ?? true;
+  target.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'instant' : 'smooth' });
   document.defaultView?.history.replaceState(null, '', location.pathname + location.search + url.hash);
 }
