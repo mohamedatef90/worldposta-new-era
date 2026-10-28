@@ -77,26 +77,6 @@ export class SeamlessMigration {
     { number: '05', title: 'Switch', description: 'We complete the cutover with minimal disruption, ensuring your business continues to run smoothly.', color: 'blue', icon: 'M16 4h8l2 5 5-1 5 6-3 5 3 5-5 6-5-1-2 6h-8l-2-6-5 1-5-6 3-5-3-5 5-6 5 1ZM26 20a6 6 0 1 1-12 0 6 6 0 0 1 12 0' },
     { number: '06', title: 'Optimize', description: 'We fine-tune your environment and provide ongoing support to ensure maximum performance.', color: 'green', icon: 'M5 36V23h6v13M17 36V13h6v23M29 36V4h6v32M3 36h34' },
   ];
-  protected readonly enquiryStatus = signal('');
-  protected submitEnquiry(event: Event): void {
-    event.preventDefault();
-    const form = event.target;
-    if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
-    const data = new FormData(form);
-    const body = [
-      'Migration consultation request',
-      'Full name: ' + String(data.get('fullName') ?? ''),
-      'Company: ' + String(data.get('company') ?? ''),
-      'Work email: ' + String(data.get('email') ?? ''),
-      'Phone: ' + String(data.get('phone') ?? ''),
-      'Industry: ' + String(data.get('industry') ?? ''),
-      '',
-      'Migration requirements:',
-      String(data.get('requirements') ?? ''),
-    ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=Migration%20Consultation%20Request&body=' + encodeURIComponent(body);
-    this.enquiryStatus.set('Your email app will open with your enquiry. Review it and send it to complete your request.');
-  }
   protected readonly migrationEnvironments = [
     { title: 'Physical to Cloud', description: 'Migrate your on-premise servers and infrastructure to the cloud with minimal disruption.', kind: 'physical', color: 'pink', icon: 'M8 5h24v8H8ZM8 16h24v8H8ZM8 27h24v8H8ZM12 9h2m-2 11h2m-2 11h2' },
     { title: 'Virtual to Cloud', description: 'Move your virtual machines and environments to a secure and scalable cloud platform.', kind: 'virtual', color: 'blue', icon: 'M5 6h30v22H5ZM20 28v7m-8 0h16' },
