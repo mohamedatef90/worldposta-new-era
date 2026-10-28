@@ -286,3 +286,12 @@ h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { colo
    styles.css). Absolute layers stop at the padding edge, so the bottom veil
    is stretched over that border too, or the pill would sit on a pale band. */
 .hero::after { inset:38% 0 calc(-1 * var(--page-jump-h)); height:auto; }
+
+/* Phones: the logos wrapped raggedly (2 / 3 / 1, Dell alone). An even 3 x 2
+   grid with each mark centred in its cell keeps the strip balanced. */
+@media (max-width:639px) {
+  .trust-strip { align-items:stretch; text-align:center; }
+  .trust-logos { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); grid-auto-rows:44px; gap:var(--space-md) var(--space-sm); justify-items:center; align-items:center; }
+  .trust-logo { max-width:100%; }
+  .trust-logo--oracle { max-width:96px; }
+}
