@@ -21,19 +21,6 @@
         <button type="button" [class.active]="theme.isDark()" [attr.aria-pressed]="theme.isDark()" aria-label="Dark theme" (click)="theme.set('dark')"><fa-icon [icon]="icons.moon" /></button>
       </div>
 
-      <div class="lang-menu">
-        <button type="button" class="lang-trigger" aria-haspopup="menu" [attr.aria-expanded]="langOpen()" aria-label="Select language" (click)="toggleLang()">
-          <span>{{ lang() === 'ar' ? 'Ar' : 'En' }}</span>
-          <span class="lang-chevron" aria-hidden="true"></span>
-        </button>
-        @if (langOpen()) {
-          <ul class="lang-panel" role="menu" aria-label="Select language">
-            <li role="none"><button type="button" role="menuitemradio" [attr.aria-checked]="lang() === 'en'" (click)="setLang('en')">En</button></li>
-            <li role="none"><button type="button" role="menuitemradio" [attr.aria-checked]="lang() === 'ar'" (click)="setLang('ar')">Ar</button></li>
-          </ul>
-        }
-      </div>
-
       <div class="header-actions">
         <a class="sign-in" href="https://home.worldposta.com/">Login</a>
         <a class="header-cta" href="https://www.worldposta.com/signup">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>

@@ -16,7 +16,6 @@ import { ThemeService } from '@/shared/services/theme.service';
   // on `host` rather than @HostListener, per the project conventions.
   host: {
     '(document:keydown.escape)': 'closeMenu()',
-    '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'onScroll()',
   },
   selector: 'app-site-header',
@@ -32,8 +31,6 @@ export class SiteHeaderComponent {
    * this drawer is the only way to reach them on a phone.
    */
   protected readonly menuOpen = signal(false);
-  protected readonly langOpen = signal(false);
-  protected readonly lang = signal<'en' | 'ar'>('en');
 
   /**
    * The bar is fixed and transparent over the hero, so it only takes a surface
@@ -91,25 +88,9 @@ export class SiteHeaderComponent {
     this.menuOpen.update((open) => !open);
   }
 
-  protected toggleLang(): void {
-    this.langOpen.update((open) => !open);
-  }
-
-  protected setLang(lang: 'en' | 'ar'): void {
-    this.lang.set(lang);
-    this.langOpen.set(false);
-  }
-
-  protected onDocumentClick(event: Event): void {
-    if (!(event.target instanceof Element) || !event.target.closest('.lang-menu')) {
-      this.langOpen.set(false);
-    }
-  }
-
   /** Public: pages close the drawer themselves when a projected nav link is clicked. */
   closeMenu(): void {
     this.menuOpen.set(false);
-    this.langOpen.set(false);
   }
 
   protected readonly icons = {
