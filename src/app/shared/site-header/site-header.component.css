@@ -77,3 +77,22 @@
 
 /* Preserve the supplied logo’s intrinsic proportions at every breakpoint. */
 .brand img{height:auto;object-fit:contain}
+
+/* Mobile header: the menu button sits at the far right, and stays above the
+   drawer's backdrop so the same button can close it. */
+@media(max-width:1199px){
+  .header-end{margin-left:auto}
+  .menu-button{position:relative;z-index:51}
+}
+/* Drawer account links: Login as a regular 48px row, Start free as a full
+   pill button rather than bare text. */
+.mobile-nav>a{display:flex;min-height:48px;align-items:center;gap:var(--space-sm);padding:0 12px;border-radius:var(--radius-md);color:#253329;font-size:16px;font-weight:var(--fw-semibold);text-decoration:none}
+.mobile-nav>a:hover{background:color-mix(in srgb,var(--color-brand-green) 12%,transparent)}
+.mobile-nav>a.mobile-nav__cta{justify-content:center;margin-top:var(--space-sm);border-radius:var(--radius-full);color:#fff;background:var(--color-action)}
+.mobile-nav>a.mobile-nav__cta:hover{color:#fff;background:var(--color-action-hover)}
+/* The drawer's cream surface is light-only; in dark mode it takes the theme's
+   panel so the nav links (which already follow the theme) keep their contrast. */
+@media(max-width:1199px){
+  :host-context([data-theme='dark']) .mobile-nav{border-color:var(--wp-panel-line);background:var(--wp-panel);color:var(--wp-ink)}
+  :host-context([data-theme='dark']) .mobile-nav__toggle,:host-context([data-theme='dark']) .mobile-nav>a:not(.mobile-nav__cta){color:var(--wp-ink)}
+}
