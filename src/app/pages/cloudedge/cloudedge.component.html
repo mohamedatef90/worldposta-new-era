@@ -4,22 +4,24 @@
 
   <!-- ================= HERO ================= -->
   <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero__cloud hero__cloud--one" aria-hidden="true"></div>
-    <div class="hero__cloud hero__cloud--two" aria-hidden="true"></div>
+    <div class="hero__cloud hero__cloud--one parallax-drift" aria-hidden="true"></div>
+    <div class="hero__cloud hero__cloud--two parallax-drift" aria-hidden="true"></div>
 
     <!-- Desktop: the section background, pinned right at the photo's own 3:2
          and dissolving into the hero gradient behind the copy. Below 1024px it
          drops under the copy as a framed photo. -->
     <div class="hero-photo" aria-hidden="true">
-      <div class="hero-photo__img"><img [ngSrc]="heroPhoto" width="1872" height="1248" priority alt="" /></div>
+      <div class="hero-photo__img"><img class="parallax-drift" [ngSrc]="heroPhoto" width="1872" height="1248" priority alt="" /></div>
       <!-- Desktop only: three of the trust-bar benefits float around the glass
            cloud, tied to it by soft lines. Decorative repeats of the trust bar
            below (the accessible list), so the whole photo stays aria-hidden. -->
-      <svg class="hero-links" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path d="M25 28 C21 26, 16 24, 14 21.4" />
-        <path d="M49 30 C60 22, 70 17, 79.4 17" />
-        <path d="M30 53 C29 65, 24 74, 22 82.6" />
-      </svg>
+      <div class="hero-photo__links parallax-drift">
+        <svg class="hero-links" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M25 28 C21 26, 16 24, 14 21.4" />
+          <path d="M49 30 C60 22, 70 17, 79.4 17" />
+          <path d="M30 53 C29 65, 24 74, 22 82.6" />
+        </svg>
+      </div>
       @for (chip of heroFloatChips; track chip.id) {
         <div class="floating-card hero-float hero-float--{{ chip.id }}">
           <span class="tone-icon tone-icon--sm" [attr.data-tone]="chip.tone"><fa-icon [icon]="chip.icon" /></span>
@@ -160,7 +162,7 @@
       <div class="split-section__visual pc-visual">
         <!-- Dedicated racks behind glass: the isolation the section describes.
            Faded on its left edge like the other photo sections. -->
-        <div class="pc-photo" aria-hidden="true">
+        <div class="pc-photo parallax-window" aria-hidden="true">
           <img [ngSrc]="privateCloudPhoto" width="1600" height="1207" alt="" />
         </div>
       </div>
@@ -256,7 +258,7 @@
 
       <div class="split-section__visual">
         <div class="world-map">
-          <div class="world-map__art"><img ngSrc="/worldposta-assets/hero/cloudedge/global-earth-night.avif" width="1600" height="1207" alt="Earth from orbit at night, with city lights across Europe and North Africa" /></div>
+          <div class="world-map__art parallax-window"><img ngSrc="/worldposta-assets/hero/cloudedge/global-earth-night.avif" width="1600" height="1207" alt="Earth from orbit at night, with city lights across Europe and North Africa" /></div>
           <div class="floating-card world-map__card">
             <span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.globe" aria-hidden="true" /></span>
             <div><strong>Global Reach</strong><span>35+ regions worldwide</span></div>
@@ -288,7 +290,7 @@
 
       <div class="split-section__visual">
         <div class="migration-flow">
-          <div class="migration-art" aria-hidden="true"><img [ngSrc]="migrationPhoto()" width="1600" height="1207" alt="" /></div>
+          <div class="migration-art parallax-window" aria-hidden="true"><img [ngSrc]="migrationPhoto()" width="1600" height="1207" alt="" /></div>
           <div class="migration-flow__row">
             <div class="migration-flow__card">
               <span>From</span>
@@ -384,7 +386,7 @@
       </div>
 
       <div class="split-section__visual whitepaper-visual">
-        <div class="compare-photo">
+        <div class="compare-photo parallax-window">
           <img [ngSrc]="whitepaperPhoto()" width="1600" height="1067" alt="Laptop showing the CloudEdge console beside a printed cloud provider comparison report" />
         </div>
 
