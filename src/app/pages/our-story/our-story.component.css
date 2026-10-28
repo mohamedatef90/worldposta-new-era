@@ -1096,3 +1096,16 @@ main section.os.s2.s2{padding:clamp(48px,6vw,88px) 0}
 .story-complete .complete-actions>p{color:var(--os-body);border-left-color:var(--os-line);padding-left:52px}
 .story-complete .complete-actions>p>svg{left:16px}
 .story-complete .complete-actions>p>a{color:var(--os-blue);font-weight:600}
+
+/* Text-safe green. --os-green (brand green) stays for headings and fills;
+   small green text was 3.3:1 on white, so it mixes toward the theme ink
+   (darker on light, lighter on dark) and keeps the hue. */
+main section.os{--os-green-text:color-mix(in srgb,var(--os-green) 66%,var(--os-ink))}
+main section.os :is(.os-green-text,.s2-num,.s2-quote figcaption span,.s2-kicker span){color:var(--os-green-text)}
+
+/* SOC mark: white on #0498cc was 3.3:1; a deeper blue in the same family clears 4.5:1. */
+.compliance-mark-soc{background:#036f9c}
+
+/* The logo strips are single wide images that scroll sideways on phones; they
+   take keyboard focus (tabindex in the template), so they need a visible ring. */
+.s2-logos:focus-visible{outline:2px solid var(--wp-blue,#126ddb);outline-offset:3px}
