@@ -295,3 +295,68 @@ h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { colo
   .trust-logo { max-width:100%; }
   .trust-logo--oracle { max-width:96px; }
 }
+
+/* ============================================================
+   Hero — CloudEdge on phones
+
+   The 1600px console screenshot shrinks to an illegible strip below 640px,
+   so phones get CloudEdge's own dashboard in its mobile layout (stat cards
+   2-up, then Security Score, Network Status peeking), with the Posta phone
+   overlapping its bottom-right corner as the console does on desktop.
+   Laid out in fixed px like the Posta phone; figures mirror the screenshot.
+   ============================================================ */
+.ce-phone { display:none; }
+@media (max-width:639px) {
+  .hero-visual { width:100%; padding:0 0 36px; }
+  .hero-visual .console-shell { display:none; }
+  .ce-phone {
+    --ce-bg:#f6f8fb; --ce-card:#fff; --ce-line:#e6eaf0; --ce-ink:#1f2a37; --ce-muted:#6b7280; --ce-track:#edf0f4;
+    position:relative; z-index:2;
+    display:block; width:190px; aspect-ratio:.5; margin-left:calc(50% - 150px);
+    overflow:hidden;
+    border:6px solid var(--wp-console-frame); border-radius:26px;
+    background:var(--wp-console-chrome); box-shadow:var(--wp-console-shadow);
+  }
+  .posta-phone { right:calc(50% - 150px); bottom:36px; scale:.86; }
+  /* Hangs over the Network Status peek, the one part of the dashboard that is only a teaser. */
+  .floating-card--security { z-index:4; top:auto; right:auto; bottom:0; left:calc(50% - 168px); max-width:160px; }
+}
+.ce-phone__screen { height:100%; overflow:hidden; border-radius:19px; background:var(--ce-bg); color:var(--ce-ink); font-family:var(--font-body); }
+.ce-phone__status { display:flex; height:24px; align-items:center; justify-content:space-between; padding:3px 14px 0; background:var(--ce-card); font-size:7px; font-weight:800; }
+.ce-phone__signals { display:flex; align-items:end; gap:2px; }
+.ce-phone__signals i { display:block; width:2px; border-radius:1px; background:currentColor; }
+.ce-phone__signals i:nth-child(1) { height:3px; }.ce-phone__signals i:nth-child(2) { height:5px; }.ce-phone__signals i:nth-child(3) { height:7px; }
+.ce-phone__topbar { display:grid; height:30px; grid-template-columns:20px 1fr 20px; align-items:center; padding:0 10px; border-bottom:1px solid var(--ce-line); background:var(--ce-card); }
+.ce-phone__menu { color:var(--ce-muted); font-size:13px; line-height:1; }
+.ce-phone__brand { display:inline-flex; align-items:center; justify-content:center; gap:4px; font-size:9px; font-weight:800; }
+.ce-phone__brand img { display:block; width:15px; height:15px; }
+.ce-phone__bell { position:relative; justify-self:end; width:10px; height:11px; border-radius:5px 5px 2px 2px; border:1.5px solid var(--ce-muted); border-bottom-width:2px; }
+.ce-phone__bell b { position:absolute; top:-6px; right:-7px; display:grid; width:9px; height:9px; place-items:center; border-radius:50%; background:#ef4444; color:#fff; font-size:5px; }
+.ce-phone__title { display:flex; align-items:center; justify-content:space-between; gap:6px; padding:9px 9px 7px; }
+.ce-phone__title strong { font-size:10px; letter-spacing:-.2px; }
+.ce-phone__title span { flex-shrink:0; padding:4px 6px; border-radius:4px; background:#679a41; color:#fff; font-size:6px; font-weight:800; }
+.ce-phone__stats { display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:0 9px; }
+.ce-phone__stats > div { display:grid; gap:3px; padding:6px; border:1px solid var(--ce-line); border-radius:6px; background:var(--ce-card); }
+.ce-phone__stats small { color:var(--ce-muted); font-size:5px; font-weight:800; letter-spacing:.4px; }
+.ce-phone__stats strong { font-size:11px; line-height:1; }
+.ce-phone__stats em { color:var(--ce-muted); font-size:5.5px; font-style:normal; font-weight:600; }
+.ce-phone__stats i { position:relative; height:3px; border-radius:2px; background:var(--ce-track); }
+.ce-phone__stats i::after { position:absolute; inset:0 auto 0 0; width:var(--fill); border-radius:inherit; background:var(--tone); content:''; }
+.ce-phone__stats span { color:#4d7c2a; font-size:5px; font-weight:700; }
+.ce-phone__card { margin:6px 9px 0; padding:7px; border:1px solid var(--ce-line); border-radius:6px; background:var(--ce-card); }
+.ce-phone__card-head { display:flex; align-items:center; justify-content:space-between; }
+.ce-phone__card-head strong { font-size:8px; }
+.ce-phone__card-head span { padding:2px 4px; border-radius:3px; background:#e3f3e6; color:#2f6b1f; font-size:4.5px; font-weight:800; }
+.ce-phone__security { display:grid; grid-template-columns:50px 1fr; gap:8px; align-items:center; margin-top:6px; }
+.ce-phone__ring { display:grid; width:50px; height:50px; place-items:center; border-radius:50%; background:radial-gradient(closest-side, var(--ce-card) 76%, transparent 78%), conic-gradient(#679a41 0 87%, var(--ce-track) 0); font-size:10px; font-weight:800; }
+.ce-phone__security dl { display:grid; gap:4px; margin:0; }
+.ce-phone__security dl div { display:flex; justify-content:space-between; gap:4px; font-size:5.5px; }
+.ce-phone__security dt { font-weight:700; }
+.ce-phone__security dd { margin:0; font-weight:800; }
+.ce-phone__security .is-red { color:#dc2626; }
+.ce-phone__security .is-green { color:#3f7d27; }
+.ce-phone__card--peek { padding-bottom:16px; }
+:host-context([data-theme='dark']) .ce-phone { --ce-bg:#09111f; --ce-card:#101b2c; --ce-line:#243044; --ce-ink:#f4f7fb; --ce-muted:#98a5b8; --ce-track:#1f2b3d; }
+:host-context([data-theme='dark']) .ce-phone__stats span, :host-context([data-theme='dark']) .ce-phone__security .is-green { color:#8cc96a; }
+:host-context([data-theme='dark']) .ce-phone__security .is-red { color:#f87171; }
+:host-context([data-theme='dark']) .ce-phone__card-head span { background:#1d3a24; color:#9fdc86; }
