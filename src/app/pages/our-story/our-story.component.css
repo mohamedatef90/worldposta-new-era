@@ -1109,3 +1109,14 @@ main section.os :is(.os-green-text,.s2-num,.s2-quote figcaption span,.s2-kicker 
 /* The logo strips are single wide images that scroll sideways on phones; they
    take keyboard focus (tabindex in the template), so they need a visible ring. */
 .s2-logos:focus-visible{outline:2px solid var(--wp-blue,#126ddb);outline-offset:3px}
+
+/* Compliance items: a logo mark beside a text column. The column had no
+   min-width:0, so a long word ("Telecommunications") pushed past the divider
+   into the next item. It may now shrink and break an over-long word. */
+.compliance-panel li>div{min-width:0;overflow-wrap:break-word;hyphens:auto}
+/* While the two panels sit side by side each item is only ~150–190px wide,
+   too narrow for the mark plus text in a row: stack the mark above. */
+@media(min-width:951px) and (max-width:1500px){
+  .compliance-panel li{flex-direction:column;gap:8px}
+  .compliance-panel li>.compliance-mark{align-self:flex-start;justify-content:start}
+}
