@@ -344,14 +344,16 @@ main .portal-contact-art img{
 .po-adm{display:grid;grid-template-columns:150px minmax(0,1fr);min-height:360px}
 .po-adm nav{display:grid;align-content:start;gap:2px;padding:12px 8px;border-right:1px solid var(--wp-hairline);color:var(--wp-body-strong);font-size:12px;font-weight:var(--fw-semibold)}
 .po-adm nav span{display:flex;align-items:center;gap:var(--space-sm);padding:8px 10px;border-radius:var(--radius-md)}
-.po-adm nav span.is-on{color:var(--color-action);background:color-mix(in srgb,var(--color-action) 10%,var(--wp-panel))}
+/* Brand green as small text, mixed toward the theme ink: same hue, AA on the tint in both themes. */
+.po-adm nav span.is-on{color:color-mix(in srgb,var(--color-brand-green) 60%,var(--wp-ink));background:color-mix(in srgb,var(--color-action) 10%,var(--wp-panel))}
 .po-main{display:grid;gap:10px;align-content:start;padding:var(--space-md)}
 .po-main h4{margin:0;color:var(--wp-ink);font-family:var(--font-heading);font-size:16px;font-weight:var(--fw-bold)}
 .po-main table{width:100%;border-collapse:collapse;font-size:12px}
 .po-main th{padding:8px;border-bottom:1px solid var(--wp-hairline);color:var(--color-text-muted);font-size:10.5px;font-weight:var(--fw-bold);letter-spacing:.8px;text-align:left;text-transform:uppercase}
 .po-main td{padding:9px 8px;border-bottom:1px solid var(--wp-hairline);color:var(--wp-ink);font-weight:var(--fw-semibold)}
 .po-main td em{color:var(--wp-tone-green-ink);font-size:11px;font-style:normal}
-.po-tag{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:var(--radius-full);color:var(--tone);background:color-mix(in srgb,var(--tone) 10%,var(--wp-panel));font-size:10.5px}
+/* Tone text mixed toward the ink (like the --wp-tone-*-ink tokens) so the small labels clear AA. */
+.po-tag{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:var(--radius-full);color:color-mix(in srgb,var(--tone) 50%,var(--wp-ink));background:color-mix(in srgb,var(--tone) 10%,var(--wp-panel));font-size:10.5px}
 .po-float{position:absolute;z-index:2;display:flex;align-items:center;gap:var(--space-sm);max-width:250px;padding:12px var(--space-md);border:1px solid var(--wp-panel-line);border-radius:var(--radius-lg);background:color-mix(in srgb,var(--wp-panel) 94%,transparent);box-shadow:var(--shadow-lg);backdrop-filter:blur(8px);color:var(--tone);font-size:18px;animation:poBob 6s ease-in-out infinite}
 .po-float strong{display:block;color:var(--wp-ink);font-size:13px}
 .po-float small{display:block;margin-top:2px;color:var(--color-text-muted);font-size:11.5px;line-height:1.35}
