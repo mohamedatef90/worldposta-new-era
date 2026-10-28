@@ -417,3 +417,7 @@ main .portal-contact-art img{
   .pm-btn{width:100%;justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){.po-float,.pm-text,.pm-pv{animation:none}.pm-nav button{transition:none}}
+/* White-label: every brand-coloured part of the real admin screen (menu, buttons, links, scrollbars) follows the chosen colour */
+.portal-brand-tint{position:absolute;inset:0;background:var(--brand);-webkit-mask:url('/worldposta-assets/posta/email-exchange-mailboxes-brand-mask.png') 0 0/100% 100% no-repeat;mask:url('/worldposta-assets/posta/email-exchange-mailboxes-brand-mask.png') 0 0/100% 100% no-repeat;transition:background var(--duration-base,200ms) ease;pointer-events:none}
+.portal-brand-logo{z-index:1}
+@media(prefers-reduced-motion:reduce){.portal-brand-tint{transition:none}}

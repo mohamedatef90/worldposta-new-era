@@ -476,3 +476,4 @@
   .industry-card-copy{padding:var(--space-md)}
   .industry-card p{margin-bottom:var(--space-sm)}
 }
+.automation-coverage-art img{position:static;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
