@@ -61,13 +61,13 @@ export class PostaPortal {
       { title: 'Partners', text: 'Seamlessly manage resellers: view, add, edit, and delete partner accounts with ease.' },
       { title: 'Rules', text: 'Flexibly apply exchange rules across organizations, domains, or individual users to maintain consistent policies.' },
     ] },
-    { id: 'security', name: 'Mail Security Gateway', tone: 'blue', icon: faShieldHalved, features: [
-      { title: 'Trend Micro', text: 'Seamlessly integrated with Trend Micro, this solution offers robust protection against email threats, enhancing your security infrastructure.' },
-      { title: 'Proofpoint', text: 'With Proofpoint integration, advanced protection from email threats is ensured, keeping your communications secure.' },
-      { title: 'FortiMail', text: 'Powered by FortiMail, this solution delivers comprehensive email security, providing robust protection for your organization.' },
-      { title: 'SMTP Logs', text: 'Stay informed with SMTP Logs: access detailed logs of sent and received emails, monitor accepted or blocked messages, and easily release any held emails.' },
-      { title: 'White and Blacklists', text: 'Manage email flow with ease: whitelist trusted domains or mailboxes to allow emails, and blacklist unwanted ones to block them.' },
-      { title: 'Accepted Domains', text: 'Manage accepted domains to control and authorize trusted domains for secure email communication.' },
+    { id: 'security', name: 'Posta Gate', heading: 'Advanced Protection for Modern Businesses.', tone: 'blue', icon: faShieldHalved, features: [
+      { title: '30+ Antivirus Engines', text: 'Multiple industry-leading engines work together to detect known and emerging threats.' },
+      { title: 'AI Behavioral Analysis', text: 'Identifies suspicious patterns, phishing attempts and advanced threats in real time.' },
+      { title: 'Sandbox File Analysis', text: 'Suspicious attachments are opened in a secure sandbox to detect zero-day malware before delivery.' },
+      { title: 'Real-Time Threat Intelligence', text: 'Continuously updated global threat data to stop the latest attacks before they reach your inbox.' },
+      { title: 'Granular Security Policies', text: 'Create custom rules, filters and actions to match your business needs and compliance requirements.' },
+      { title: 'Full Visibility & Reporting', text: 'Detailed logs, real-time alerts and easy-to-read reports to keep you in control.', link: { href: '/posta-gate-security', label: 'Read more about Posta Gate' } },
     ] },
     { id: 'billing', name: 'Billing', tone: 'amber', icon: faFileInvoiceDollar, features: [
       { title: 'Payment Gateway Integration', text: 'Seamlessly integrate with various payment providers like Stripe, PayPal, Payoneer, and more to offer flexible and secure payment options.' },

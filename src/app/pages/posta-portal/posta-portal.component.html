@@ -214,7 +214,7 @@
         </div>
         @let area = currentArea();
         <div class="pf-panel" id="pf-panel" role="tabpanel" [attr.aria-labelledby]="'pf-tab-' + area.id" [attr.data-tone]="area.tone" tabindex="0">
-          <h3 class="pf-title">About {{ area.name }}</h3>
+          <h3 class="pf-title">{{ 'heading' in area ? area.heading : 'About ' + area.name }}</h3>
           <ul class="pf-list" [class.pf-list--single]="area.features.length === 1">
             @for (feature of area.features; track feature.title) {
               <li>
