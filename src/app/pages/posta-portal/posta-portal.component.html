@@ -194,6 +194,43 @@
     </div>
   </section>
 
+  <!-- Admin panel features: the full catalogue, one tab per area. -->
+  <section class="portal-features po" id="portal-features" aria-labelledby="portal-features-title">
+    <div class="ds-container">
+      <div class="pm-head">
+        <div><p class="eyebrow po-eyebrow"><span aria-hidden="true"></span>Admin Panel Features</p><h2 id="portal-features-title">Everything You Manage. <span class="po-green">In One Admin Panel.</span></h2></div>
+        <p class="po-lede">Explore every capability in the Posta Portal admin panel, from customer onboarding and mail security to billing, migration and white-label customization.</p>
+      </div>
+      <div class="pf-layout">
+        <div #featureRail class="pf-rail" role="tablist" aria-label="Admin panel areas" aria-orientation="vertical" (keydown)="onFeatureAreaKey($event)">
+          @for (area of featureAreas; track area.id; let i = $index) {
+            <button type="button" role="tab" [id]="'pf-tab-' + area.id" [attr.aria-selected]="featureArea() === i" aria-controls="pf-panel"
+              [tabIndex]="featureArea() === i ? 0 : -1" [attr.data-tone]="area.tone" (click)="selectArea(i, featureRail)">
+              <span class="pf-ico" aria-hidden="true"><fa-icon [icon]="area.icon" /></span>
+              <span class="pf-name">{{ area.name }}</span>
+              <span class="pf-count">{{ area.features.length }}<span class="sr-only"> {{ area.features.length === 1 ? 'feature' : 'features' }}</span></span>
+            </button>
+          }
+        </div>
+        @let area = currentArea();
+        <div class="pf-panel" id="pf-panel" role="tabpanel" [attr.aria-labelledby]="'pf-tab-' + area.id" [attr.data-tone]="area.tone" tabindex="0">
+          <h3 class="pf-title">About {{ area.name }}</h3>
+          <ul class="pf-list" [class.pf-list--single]="area.features.length === 1">
+            @for (feature of area.features; track feature.title) {
+              <li>
+                <fa-icon class="pf-check" [icon]="featureIcons.check" aria-hidden="true" />
+                <div>
+                  <h4>{{ feature.title }}</h4>
+                  <p>{{ feature.text }}</p>
+                  @if ('link' in feature) {<a class="pf-link" [href]="feature.link.href">{{ feature.link.label }} <span aria-hidden="true">→</span></a>}
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
   <section class="portal-brand" id="portal-brand" aria-labelledby="portal-brand-title"><div class="portal-brand-wrap">
     <div class="portal-brand-copy">
       <p class="portal-eyebrow"><span aria-hidden="true"></span>WHITE-LABEL</p>

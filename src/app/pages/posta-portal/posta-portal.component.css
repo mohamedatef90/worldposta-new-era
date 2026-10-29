@@ -423,3 +423,33 @@ main .portal-contact-art img{
 .portal-brand-tint{position:absolute;inset:0;background:var(--brand);-webkit-mask:url('/worldposta-assets/posta/email-exchange-mailboxes-brand-mask.png') 0 0/100% 100% no-repeat;mask:url('/worldposta-assets/posta/email-exchange-mailboxes-brand-mask.png') 0 0/100% 100% no-repeat;transition:background var(--duration-base,200ms) ease;pointer-events:none}
 .portal-brand-logo{z-index:1}
 @media(prefers-reduced-motion:reduce){.portal-brand-tint{transition:none}}
+
+/* ===== Admin Panel Features: every area as a tab, its features as a list ===== */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.portal-features [data-tone=blue]{--tone:var(--wp-tone-blue)}.portal-features [data-tone=green]{--tone:var(--wp-tone-green)}.portal-features [data-tone=purple]{--tone:var(--wp-tone-purple)}.portal-features [data-tone=amber]{--tone:var(--wp-tone-amber)}
+.pf-layout{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:var(--space-xl);align-items:start}
+.pf-rail{display:grid;gap:6px;position:sticky;top:calc(var(--page-jump-offset, 140px) + 8px)}
+.pf-rail button{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:8px 12px;border:1px solid transparent;border-radius:var(--radius-lg);background:transparent;color:var(--wp-body-strong);font:var(--fw-semibold) 15px var(--font-body);text-align:left;cursor:pointer;transition:background var(--duration-fast,.15s),border-color var(--duration-fast,.15s)}
+.pf-rail button:hover{background:var(--color-bg-secondary)}
+.pf-rail button[aria-selected=true]{border-color:color-mix(in srgb,var(--tone) 40%,var(--color-border));background:var(--wp-panel);color:var(--wp-ink);box-shadow:var(--shadow-md)}
+.pf-rail button:focus-visible,.pf-panel:focus-visible,.pf-link:focus-visible{outline:2px solid var(--wp-blue);outline-offset:2px}
+.pf-ico{display:grid;flex:0 0 auto;width:36px;height:36px;place-items:center;border-radius:var(--radius-md);color:var(--tone);background:color-mix(in srgb,var(--tone) var(--wp-tone-fill,14%),transparent);font-size:16px}
+.pf-name{flex:1;min-width:0}
+.pf-count{flex:0 0 auto;min-width:28px;padding:2px 8px;border-radius:999px;background:var(--color-bg-secondary);color:var(--wp-body);font:var(--fw-bold) 12px var(--font-body);text-align:center;font-variant-numeric:tabular-nums}
+.pf-rail button[aria-selected=true] .pf-count{background:color-mix(in srgb,var(--tone) 14%,var(--wp-panel));color:var(--wp-ink)}
+.pf-panel{min-width:0;padding:var(--space-xl);border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--wp-panel);box-shadow:var(--shadow-sm)}
+.pf-title{margin:0 0 var(--space-lg);padding-bottom:var(--space-md);border-bottom:1px solid var(--wp-hairline,var(--color-border));color:var(--wp-ink);font:var(--fw-bold) 22px/1.25 var(--font-heading);letter-spacing:-.02em}
+.pf-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-lg) var(--space-xl);margin:0;padding:0;list-style:none}
+.pf-list--single{grid-template-columns:minmax(0,1fr);max-width:62ch}
+.pf-list li{display:flex;gap:12px;min-width:0}
+.pf-check{flex:0 0 auto;margin-top:3px;color:var(--tone);font-size:16px}
+.pf-list h4{margin:0 0 4px;color:var(--wp-ink);font:var(--fw-bold) 16px/1.3 var(--font-heading)}
+.pf-list p{margin:0;color:var(--wp-body);font-size:14px;line-height:1.55}
+.pf-link{display:inline-flex;gap:6px;margin-top:8px;color:var(--wp-blue);font-size:14px;font-weight:var(--fw-semibold);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:1023px){.pf-layout{grid-template-columns:minmax(0,1fr);gap:var(--space-md)}
+  /* Phones and tablets: the rail becomes a row of chips that scrolls sideways. */
+  .pf-rail{position:static;display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
+  .pf-rail button{flex:0 0 auto;width:auto;min-height:44px;border-color:var(--color-border);border-radius:999px;font-size:14px}
+  .pf-ico{width:28px;height:28px;font-size:13px}}
+@media(max-width:640px){.pf-panel{padding:var(--space-lg)}.pf-list{grid-template-columns:minmax(0,1fr)}.pf-title{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.pf-rail button{transition:none}}

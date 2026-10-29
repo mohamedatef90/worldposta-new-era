@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faBolt, faBuilding, faChartLine, faCloudArrowUp, faCode, faDatabase, faEnvelope, faKey, faLandmark, faMagnifyingGlass, faSackDollar, faServer, faShareNodes, faShieldHalved, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faBuilding, faChartLine, faCircleCheck, faCloudArrowUp, faCode, faDatabase, faEnvelope, faFileInvoiceDollar, faKey, faLandmark, faMagnifyingGlass, faSackDollar, faServer, faShareNodes, faShieldHalved, faSliders, faTicket, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
@@ -46,6 +46,81 @@ export class PostaPortal {
     this.keyModule.set(next);
     (event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>('[role=tab]')[next]?.focus();
   }
+  // Admin panel features: the full catalogue from the live Posta Portal page,
+  // one tab per area. Titles and descriptions are kept word for word.
+  protected readonly featureIcons = { check: faCircleCheck };
+  protected readonly featureAreas = [
+    { id: 'customers', name: 'Customers & Partners', tone: 'green', icon: faUsers, features: [
+      { title: 'Customer Self Registration', text: 'Effortlessly onboard with self-registration: sign up your company, verify your email, set up your mailbox, confirm DNS settings, and seamlessly migrate existing data for a quick and smooth transition.' },
+      { title: 'Mailboxes', text: 'Manage mailboxes with ease: reset passwords, control account access, customize email flow, add aliases, configure permissions, oversee mobile connections, set data quotas, enable MFA, and more, all from one streamlined dashboard.' },
+      { title: 'Distribution lists', text: "Streamline distribution list management: add members, assign aliases, control message permissions, set moderator approvals, manage 'Send As' rights, and easily upload bulk members for a smooth setup experience." },
+      { title: 'Shared Contacts', text: 'Add shared contacts that can be used across the admin panel functions.' },
+      { title: 'Bulk Module', text: 'Optimize efficiency with the Bulk Module: swiftly create and update multiple mailboxes, distribution lists, and contacts in one go.' },
+      { title: 'Mailbox Plans', text: 'Easily manage mailbox plans: create, edit, and view plans, set user limits, and designate default options when multiple plans are available.' },
+      { title: 'Running Tasks', text: 'Monitor the progress of tasks like bulk mailbox creation or updates.' },
+      { title: 'Partners', text: 'Seamlessly manage resellers: view, add, edit, and delete partner accounts with ease.' },
+      { title: 'Rules', text: 'Flexibly apply exchange rules across organizations, domains, or individual users to maintain consistent policies.' },
+    ] },
+    { id: 'security', name: 'Mail Security Gateway', tone: 'blue', icon: faShieldHalved, features: [
+      { title: 'Trend Micro', text: 'Seamlessly integrated with Trend Micro, this solution offers robust protection against email threats, enhancing your security infrastructure.' },
+      { title: 'Proofpoint', text: 'With Proofpoint integration, advanced protection from email threats is ensured, keeping your communications secure.' },
+      { title: 'FortiMail', text: 'Powered by FortiMail, this solution delivers comprehensive email security, providing robust protection for your organization.' },
+      { title: 'SMTP Logs', text: 'Stay informed with SMTP Logs: access detailed logs of sent and received emails, monitor accepted or blocked messages, and easily release any held emails.' },
+      { title: 'White and Blacklists', text: 'Manage email flow with ease: whitelist trusted domains or mailboxes to allow emails, and blacklist unwanted ones to block them.' },
+      { title: 'Accepted Domains', text: 'Manage accepted domains to control and authorize trusted domains for secure email communication.' },
+    ] },
+    { id: 'billing', name: 'Billing', tone: 'amber', icon: faFileInvoiceDollar, features: [
+      { title: 'Payment Gateway Integration', text: 'Seamlessly integrate with various payment providers like Stripe, PayPal, Payoneer, and more to offer flexible and secure payment options.' },
+      { title: 'Billing', text: 'Handle all billing needs with ease: manage subscriptions, make payments, renew or suspend accounts, view invoices, add users or services, and send billing alerts from a single interface.' },
+      { title: 'Reports', text: 'Access and export comprehensive reports: view billing summaries, due and add-on invoices, and customer renewal details for complete financial oversight.' },
+      { title: 'Permission Groups', text: 'Create and manage permission groups for administrators, defining specific tasks and access levels for enhanced control.' },
+      { title: 'Users', text: 'Manage users with ease: add new administrators, assign roles and permissions across multiple domains, and organize resources by linking packages, organizations, and domains to admin accounts.' },
+      { title: 'Sister Companies', text: 'Expand your network by adding external domains as sister companies, seamlessly linking them to your organization.' },
+      { title: 'Background Tasks', text: 'Monitor background tasks: track and manage ongoing operations for efficient system performance.' },
+      { title: 'Action Logs', text: 'Stay informed with action logs: view detailed records of all admin panel activities, including who performed each action and when.' },
+    ] },
+    { id: 'organizations', name: 'Organizations', tone: 'purple', icon: faBuilding, features: [
+      { title: 'Account Statistics', text: 'Access comprehensive account statistics: review plan details, add-on history, and usage insights for efficient account management.' },
+      { title: 'Organizations and Domains', text: 'Efficiently manage organizations and domains: add quotas, set up mailboxes and distribution lists, and oversee domains, sharing address books within organizations or keeping them separate across different ones.' },
+    ] },
+    { id: 'migration', name: 'Migration', tone: 'blue', icon: faCloudArrowUp, features: [
+      { title: 'Advanced Migration Tool', text: 'Seamlessly transfer data with the Advanced Migration Tool: migrate old data to WorldPosta emails for individual users or in bulk, and track progress with detailed migration history.', link: { href: '/seamless-migration', label: 'Read more about migration' } },
+    ] },
+    { id: 'tickets', name: 'Tickets', tone: 'green', icon: faTicket, features: [
+      { title: 'Support Tickets', text: 'Streamline support with Tickets: submit new requests directly from the dashboard and review the full history of past support tickets.' },
+    ] },
+    { id: 'customization', name: 'Customization', tone: 'purple', icon: faSliders, features: [
+      { title: 'White-Label Branding', text: 'The panel can be fully white-labeled, allowing you to brand it with your own logo and design for a seamless, personalized experience.' },
+      { title: 'Smooth Software Integration', text: 'Can be easily integrated with any software solution, providing flexibility to adapt to your existing systems.' },
+    ] },
+  ] as const;
+  protected readonly featureArea = signal(0);
+  protected readonly currentArea = computed(() => this.featureAreas[this.featureArea()]);
+  // Roving focus across the area tabs: arrows step (either axis, as the rail
+  // turns horizontal on phones), Home and End jump to the ends.
+  protected onFeatureAreaKey(event: KeyboardEvent): void {
+    const count = this.featureAreas.length, cur = this.featureArea();
+    const next =
+      event.key === 'ArrowDown' || event.key === 'ArrowRight' ? (cur + 1) % count :
+      event.key === 'ArrowUp' || event.key === 'ArrowLeft' ? (cur - 1 + count) % count :
+      event.key === 'Home' ? 0 : event.key === 'End' ? count - 1 : -1;
+    if (next < 0) return;
+    event.preventDefault();
+    this.selectArea(next, event.currentTarget as HTMLElement);
+    (event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>('[role=tab]')[next]?.focus({ preventScroll: true });
+  }
+  // On phones the rail is a sideways-scrolling chip row, so the chosen chip is
+  // brought into view; on desktop the rail never overflows and this is a no-op.
+  protected selectArea(index: number, rail: HTMLElement): void {
+    this.featureArea.set(index);
+    const tab = rail.querySelectorAll<HTMLElement>('[role=tab]')[index];
+    if (!tab) return;
+    const r = rail.getBoundingClientRect(), t = tab.getBoundingClientRect();
+    if (t.left >= r.left && t.right <= r.right) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    rail.scrollBy({ left: t.left < r.left ? t.left - r.left - 16 : t.right - r.right + 16, behavior: reduce ? 'auto' : 'smooth' });
+  }
+
   protected readonly mailboxes = [
     { name: 'john@company.com', size: '50 GB' },
     { name: 'sales@company.com', size: '50 GB' },
