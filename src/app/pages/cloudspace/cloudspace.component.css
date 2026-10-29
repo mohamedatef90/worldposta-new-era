@@ -516,3 +516,28 @@ main .datasheet-card{padding-left:clamp(18px,2.4vw,32px);padding-right:clamp(18p
 .meeting-grid .request-form{transition:border-color .45s ease}
 .meeting-grid .request-form.on{box-shadow:0 18px 40px rgb(71 121 162 / .09)}
 .meeting-grid .request-form.on .button{animation:none}
+
+/* Contrast (WCAG AA): text follows the site's theme tokens instead of fixed
+   light-mode navy and grey, and green text uses a darker, text-safe mix of the
+   brand green (the plain brand green is under 4.5:1 on these light panels). */
+:host{--cs-green-text:color-mix(in srgb,var(--color-brand-green) 68%,var(--wp-ink))}
+.hero .eyebrow,.challenges-section .eyebrow,.story-copy .eyebrow,.demo-reference .eyebrow,.connect-section h2 span,.connect-section .fine strong,.demo-reference>div:first-child>h2 span,.demo-reference .request-form h2 span,.meeting-grid .request-form h2 span,.demo-reference .consent a,.meeting-grid .consent a{color:var(--cs-green-text)}
+.hero{--hero-muted:var(--wp-body)}
+.challenges-section{--challenge-ink:var(--wp-ink);--challenge-copy:var(--wp-body)}
+.collaboration-story{--story-ink:var(--wp-ink);--story-muted:var(--wp-body)}
+.connect-section .eyebrow{color:var(--wp-body)}
+.connect-section h2,.connect-section .benefit-grid h3,.demo-reference>div:first-child>h2,.demo-reference .benefit-grid h3,.demo-reference .request-form h2,.meeting-grid .request-form h2{color:var(--wp-ink)}
+.ecosystem-actions .button{background:var(--color-action);border-color:var(--color-action)}
+.demo-reference .trust .trust-set b:first-of-type{color:color-mix(in srgb,var(--wp-brand-ember) 62%,var(--wp-ink))}
+.demo-reference .trust .trust-set b:nth-of-type(2){color:color-mix(in srgb,rgb(11 160 218) 62%,var(--wp-ink))}
+
+/* Dark: the story section and the request forms were light-only. */
+:host-context([data-theme='dark']) .collaboration-story{background:radial-gradient(ellipse at 85% 50%,color-mix(in srgb,rgb(238 0 84) 10%,var(--color-bg-primary)),transparent 55%),var(--color-bg-primary)}
+:host-context([data-theme='dark']) .story-copy{background:color-mix(in srgb,rgb(238 0 84) 7%,var(--wp-panel))}
+:host-context([data-theme='dark']) .story-points>div:nth-child(even),:host-context([data-theme='dark']) .story-points>div:nth-child(n+3),:host-context([data-theme='dark']) .story-points>div+div{border-color:color-mix(in srgb,rgb(238 0 84) 22%,var(--color-border))}
+:host-context([data-theme='dark']) .story-visual:before{background:linear-gradient(145deg,color-mix(in srgb,rgb(238 0 84) 12%,var(--wp-panel)),color-mix(in srgb,rgb(24 133 238) 12%,var(--wp-panel)))}
+:host-context([data-theme='dark']) .story-before,:host-context([data-theme='dark']) .story-after{background:var(--wp-panel);border-color:var(--color-border)}
+:host-context([data-theme='dark']) .story-visual li{color:var(--wp-body)}
+:host-context([data-theme='dark']) .demo-reference input,:host-context([data-theme='dark']) .demo-reference select,:host-context([data-theme='dark']) .demo-reference textarea,:host-context([data-theme='dark']) .meeting-grid input,:host-context([data-theme='dark']) .meeting-grid select,:host-context([data-theme='dark']) .meeting-grid textarea{background:var(--color-bg-primary);border-color:var(--color-border)}
+:host-context([data-theme='dark']) .story-before li.on{--pill:color-mix(in srgb,rgb(238 0 84) 20%,var(--wp-panel));background:var(--pill);box-shadow:0 0 0 5px var(--pill);color:color-mix(in srgb,rgb(255 120 160) 70%,var(--wp-ink))}
+:host-context([data-theme='dark']) .story-after li.on{--pill:color-mix(in srgb,rgb(52 150 46) 22%,var(--wp-panel));background:var(--pill);box-shadow:0 0 0 5px var(--pill);color:color-mix(in srgb,rgb(140 210 120) 70%,var(--wp-ink))}
