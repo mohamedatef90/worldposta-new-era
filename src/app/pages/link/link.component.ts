@@ -12,6 +12,13 @@ import { PixelMapDirective } from '@/shared/pixel-map/pixel-map.directive';
   styleUrl: './link.component.css',
 })
 export class PostaLink {
+  /**
+   * The three pinned cities on the stories map (centres of the pulse dots), in
+   * the map image's own pixels and west to east, so the pixel waves fire along
+   * the arcs.
+   */
+  protected readonly storyPins = [[434, 164], [809, 254], [1174, 280]] as const;
+
   protected readonly videoNotice = signal('');
   protected readonly trialStatus = signal('');
   protected submitTrial(event: Event): void {

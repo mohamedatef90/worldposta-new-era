@@ -266,3 +266,6 @@
    is the dot colour, alpha included. */
 .lk-stage canvas.lk-stories-00-map{aspect-ratio:1350/599;color:rgb(72 121 162 / .3)}
 :host-context([data-theme='dark']) .lk-stage canvas.lk-stories-00-map{color:rgb(132 170 204 / .32)}
+/* Wave crest colour for the stories map: the arcs' green. */
+.lk-stage canvas.lk-stories-00-map{--pixel-map-wave:rgb(103 154 65 / .62)}
+:host-context([data-theme='dark']) .lk-stage canvas.lk-stories-00-map{--pixel-map-wave:rgb(140 201 106 / .62)}
