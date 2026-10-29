@@ -55,6 +55,7 @@ export class MainNavLinksComponent {
       groups: [{ title: 'Cloud services', items: [
         { name: 'Cloud Computing', description: 'Scalable IaaS, private cloud and Zero Trust', href: '/cloudedge', icon: faServer },
         { name: 'SAP Cloud Solutions', description: 'Managed SAP hosting, security and operations', href: '/sap', icon: faLayerGroup },
+        { name: 'CloudSpace', description: 'Files, chat, meetings and calendar in one workspace', href: '/cloudspace', icon: faCloud },
       ] }],
     },
     {
