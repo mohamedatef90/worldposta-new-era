@@ -4,7 +4,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faArrowRight, faBookOpen, faBuilding, faCloud, faComments, faEnvelope, faEnvelopeOpenText, faFolderOpen,
-  faGears, faHandshake, faHeadset, faLayerGroup, faPaperPlane, faRightLeft, faRobot, faScrewdriverWrench,
+  faGears, faHandshake, faHeadset, faLayerGroup, faPaperPlane, faPeopleGroup, faRightLeft, faRobot, faScrewdriverWrench,
   faServer, faShieldHalved, faTableColumns, faTrophy, faUserShield,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -55,7 +55,6 @@ export class MainNavLinksComponent {
       groups: [{ title: 'Cloud services', items: [
         { name: 'Cloud Computing', description: 'Scalable IaaS, private cloud and Zero Trust', href: '/cloudedge', icon: faServer },
         { name: 'SAP Cloud Solutions', description: 'Managed SAP hosting, security and operations', href: '/sap', icon: faLayerGroup },
-        { name: 'CloudSpace', description: 'Files, chat, meetings and calendar in one workspace', href: '/cloudspace', icon: faCloud },
       ] }],
     },
     {
@@ -68,6 +67,7 @@ export class MainNavLinksComponent {
         { name: 'Link', description: 'Team chat and video meetings', href: '/link', icon: faComments },
       ] }],
     },
+    { id: 'cloudspace', label: 'CloudSpace', icon: faPeopleGroup, tagline: 'Collaboration & Productivity', href: '/cloudspace' },
     { id: 'posta-gate', label: 'Posta Gate', icon: faShieldHalved, tagline: 'Email Gateway & Security', href: '/posta-gate-security' },
     {
       id: 'service-provider', label: 'Service Provider', icon: faHandshake, tagline: 'Managed Services & Support',
