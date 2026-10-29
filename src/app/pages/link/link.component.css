@@ -260,3 +260,9 @@
   .lk-stage .lk-hero-typing-3{animation-delay:-1.6s,0s}
 }
 @keyframes lkTypDots{50%{filter:opacity(.45)}}
+
+/* Stories map: drawn dot by dot on a canvas (PixelMapDirective) so the dots can
+   fade in and out. The canvas keeps the source image's shape, and its CSS colour
+   is the dot colour, alpha included. */
+.lk-stage canvas.lk-stories-00-map{aspect-ratio:1350/599;color:rgb(72 121 162 / .3)}
+:host-context([data-theme='dark']) .lk-stage canvas.lk-stories-00-map{color:rgb(132 170 204 / .32)}
