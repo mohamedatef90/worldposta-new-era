@@ -1,6 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { PixelMapDirective } from '../../../shared/pixel-map/pixel-map.directive';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faArrowRight,
@@ -57,7 +58,7 @@ interface Certification {
 
 @Component({
   selector: 'app-performance-trust',
-  imports: [FaIconComponent, NgOptimizedImage],
+  imports: [FaIconComponent, NgOptimizedImage, PixelMapDirective],
   templateUrl: './performance-trust.component.html',
   styleUrl: './performance-trust.component.css',
 })

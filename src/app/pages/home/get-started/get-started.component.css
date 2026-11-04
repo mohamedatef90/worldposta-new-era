@@ -278,3 +278,14 @@ h2 {
     width:100%;
   }
 }
+
+/* Narrower frames (laptops, tablets): give the orbit more height and push the
+   lower chips down, so they no longer cover the tagline under the mark. */
+@media (max-width:1279px) and (min-width:641px) {
+  .start-visual { min-height:400px; }
+  .start-chip[data-place='bottom-left'], .start-chip[data-place='bottom-right'] { bottom:4%; }
+  .start-chip[data-place='top-left'], .start-chip[data-place='top-right'] { top:4%; }
+}
+@media (max-width:980px) and (min-width:641px) {
+  .start-visual { width:min(100%, 560px); min-height:360px; margin-inline:auto; }
+}

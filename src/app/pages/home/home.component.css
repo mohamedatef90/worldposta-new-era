@@ -288,3 +288,21 @@ h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { colo
 :host-context([data-theme='dark']) .ce-phone__stats span, :host-context([data-theme='dark']) .ce-phone__security .is-green { color:#8cc96a; }
 :host-context([data-theme='dark']) .ce-phone__security .is-red { color:#f87171; }
 :host-context([data-theme='dark']) .ce-phone__card-head span { background:#1d3a24; color:#9fdc86; }
+
+/* Ecosystem strip on tablets and phones: every service visible in a tidy grid,
+   instead of a sideways scroll that hid most of them. */
+@media (max-width:1199px) {
+  .ecosystem-strip { flex-direction:column; align-items:stretch; gap:20px; }
+  .ecosystem-strip__intro { max-width:none; text-align:center; }
+  .ecosystem-strip__tiles { display:grid; grid-template-columns:repeat(8, minmax(0, 1fr)); gap:var(--space-sm); overflow:visible; }
+  @media (max-width:900px) { .ecosystem-strip__tiles { grid-template-columns:repeat(4, minmax(0, 1fr)); } }
+  .ecosystem-tile { min-width:0; white-space:normal; text-align:center; }
+  .ecosystem-tile__label { justify-content:center; }
+  .ecosystem-tile__chevron { display:none; }
+}
+@media (max-width:639px) {
+  .ecosystem-strip__tiles { gap:var(--space-xs); }
+  .ecosystem-tile { padding:var(--space-xs) 2px; }
+  .ecosystem-tile__label { justify-content:center; font-size:11px; line-height:1.25; }
+  .ecosystem-tile__chevron { display:none; }
+}

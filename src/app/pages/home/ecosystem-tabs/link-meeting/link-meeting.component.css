@@ -1,0 +1,42 @@
+:host{display:block}
+/* Window crop of the Posta Link hero (lw image 1440x746, window at 92,90 to 1349,736). */
+.lm{position:relative;aspect-ratio:1257/646;overflow:hidden;background:#fff}
+.lm-stage{position:absolute;left:-7.319%;top:-13.932%;width:114.558%;aspect-ratio:1440/746}
+.lm-stage>*{position:absolute;display:block;max-width:none;height:auto}
+.lm-base{left:0;top:0;width:100%}
+.lm-tile{object-fit:cover;border-radius:5%/6%;background:#1d2734}
+.lm-ring{box-sizing:border-box;border:3px solid #5fb36b;border-radius:6px;box-shadow:0 0 0 4px rgba(95,179,107,.18);opacity:0}
+.lm-ring-0{opacity:1}
+.lm-typing{opacity:0}.lm-typing-0{opacity:1}
+.lm-msg1{left:19.792%;top:32.172%;width:32.487%}
+.lm-msg2{left:19.792%;top:53.212%;width:32.487%}
+.lm-msg3{left:19.792%;top:61.645%;width:32.487%}
+.lm-tile-0{left:54.362%;top:23.525%;width:18.912%;aspect-ratio:272.3/231}
+.lm-tile-1{left:73.898%;top:23.525%;width:18.912%;aspect-ratio:272.3/231}
+.lm-tile-2{left:54.362%;top:55.697%;width:18.912%;aspect-ratio:272.3/231}
+.lm-tile-3{left:73.898%;top:55.697%;width:18.912%;aspect-ratio:272.3/231}
+.lm-name-0{left:54.987%;top:49.363%;width:8.055%}
+.lm-name-1{left:74.523%;top:49.363%;width:7.708%}
+.lm-name-2{left:54.987%;top:81.535%;width:7.638%}
+.lm-name-3{left:74.523%;top:81.535%;width:8.888%}
+.lm-typing{left:19.897%;top:84.450%}
+.lm-typing-0{width:12.430%}
+.lm-typing-1{width:12.222%}
+.lm-typing-2{width:12.083%}
+.lm-typing-3{width:12.638%}
+.lm-ring-0{left:54.362%;top:23.525%;width:18.912%;aspect-ratio:272.3/231}
+.lm-ring-1{left:73.898%;top:23.525%;width:18.912%;aspect-ratio:272.3/231}
+.lm-ring-2{left:54.362%;top:55.697%;width:18.912%;aspect-ratio:272.3/231}
+.lm-ring-3{left:73.898%;top:55.697%;width:18.912%;aspect-ratio:272.3/231}
+@media (prefers-reduced-motion:no-preference){
+  .lm-msg2{animation:lmM2 6.4s cubic-bezier(.32,.72,0,1) infinite}
+  .lm-msg3{animation:lmM3 6.4s cubic-bezier(.32,.72,0,1) infinite}
+  .lm-ring{animation:lmRing 6.4s step-end infinite}
+  .lm-ring-1{animation-delay:-4.8s}.lm-ring-2{animation-delay:-3.2s}.lm-ring-3{animation-delay:-1.6s}
+  .lm-typing{animation:lmRing 6.4s step-end infinite,lmDots 1.2s ease-in-out infinite}
+  .lm-typing-1{animation-delay:-4.8s,0s}.lm-typing-2{animation-delay:-3.2s,0s}.lm-typing-3{animation-delay:-1.6s,0s}
+}
+@keyframes lmM2{0%,22%{opacity:0;translate:0 8px}28%,97%{opacity:1;translate:0 0}100%{opacity:0;translate:0 0}}
+@keyframes lmM3{0%,47%{opacity:0;translate:0 8px}53%,97%{opacity:1;translate:0 0}100%{opacity:0;translate:0 0}}
+@keyframes lmRing{0%{opacity:1}25%,100%{opacity:0}}
+@keyframes lmDots{50%{filter:opacity(.45)}}
