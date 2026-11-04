@@ -269,3 +269,6 @@
 /* Wave crest colour for the stories map: the arcs' green. */
 .lk-stage canvas.lk-stories-00-map{--pixel-map-wave:rgb(103 154 65 / .62)}
 :host-context([data-theme='dark']) .lk-stage canvas.lk-stories-00-map{--pixel-map-wave:rgb(140 201 106 / .62)}
+
+/* Phone strips scroll sideways: focusable for keyboard scrolling, with a visible ring. */
+.workflow-visual:focus-visible,.stories-original:focus-visible,.team-use-visual:focus-visible{outline:3px solid var(--wp-blue,#126ddb);outline-offset:3px}
