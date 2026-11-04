@@ -1,25 +1,25 @@
-:host {
+:host{
   display:block;
 }
 
-.ecosystem-section {
+.ecosystem-section{
   padding:var(--wp-section-pad) 0;
   background:radial-gradient(circle at 88% 12%, var(--wp-band-glow), transparent 30%),
     linear-gradient(180deg, var(--color-bg-primary) 0%, var(--wp-hero-via) 100%);
 }
 
-.ecosystem-container {
+.ecosystem-container{
   max-width:1400px;
 }
 
 /* Header - Left-aligned */
-.ecosystem-header {
+.ecosystem-header{
   max-width:940px;
   margin-bottom:20px;
   text-align:left;
 }
 
-.eyebrow {
+.eyebrow{
   margin:0 0 var(--space-sm);
   color:var(--color-text-muted);
   font-size:var(--fs-caption);
@@ -28,7 +28,7 @@
   text-transform:uppercase;
 }
 
-.ecosystem-header h2 {
+.ecosystem-header h2{
   margin:0 0 var(--space-sm);
   color:var(--wp-ink);
   font-size:clamp(36px, 3.5vw, 48px);
@@ -40,11 +40,11 @@
   letter-spacing: -0.0375em;
 }
 
-.ecosystem-header .highlight {
+.ecosystem-header .highlight{
   color:var(--wp-green);
 }
 
-.subtitle {
+.subtitle{
   max-width:720px;
   margin:0;
   color:var(--wp-body);
@@ -53,7 +53,7 @@
 }
 
 /* Unified Surface */
-.ecosystem-surface {
+.ecosystem-surface{
   display:grid;
   grid-template-columns:268px minmax(0, 1fr);
   border-radius:var(--radius-xl);
@@ -67,7 +67,7 @@
 }
 
 /* Sidebar Tabs */
-.tabs-sidebar {
+.tabs-sidebar{
   display:flex;
   flex-direction:column;
   gap:var(--space-sm);
@@ -82,7 +82,7 @@
    runs 916px against a 643px list, so without this the tabs scroll out of reach
    before the panel ends. The aside stays stretched to the grid row, so the
    sidebar column still meets the panel's full height. */
-.tabs-sidebar__inner {
+.tabs-sidebar__inner{
   position:sticky;
   top:var(--space-md);
   display:flex;
@@ -95,13 +95,13 @@
   overscroll-behavior:contain;
 }
 
-.tab-group {
+.tab-group{
   display:flex;
   flex-direction:column;
   gap:0;
 }
 
-.tab-group-label {
+.tab-group-label{
   margin:0 0 var(--space-xs);
   padding:0 var(--space-sm);
   color:var(--color-text-muted);
@@ -111,13 +111,13 @@
   text-transform:uppercase;
 }
 
-.tab-group-items {
+.tab-group-items{
   display:flex;
   flex-direction:column;
   gap:var(--space-xs);
 }
 
-.tab-button {
+.tab-button{
   display:flex;
   align-items:center;
   gap:var(--space-sm);
@@ -136,38 +136,38 @@
     color var(--duration-fast) var(--ease-in-out);
 }
 
-.tab-button fa-icon {
+.tab-button fa-icon{
   flex:0 0 auto;
   width:15px;
   font-size:var(--fs-caption);
   color:inherit;
 }
 
-.tab-button__chevron {
+.tab-button__chevron{
   margin-left:auto;
   width:auto;
   font-size:10px;
   opacity:.45;
 }
 
-.tab-button:hover {
+.tab-button:hover{
   background:var(--color-bg-elevated);
   color:var(--color-text-primary);
 }
 
-.tab-button.active {
+.tab-button.active{
   background:var(--color-action);
   color:var(--primary-foreground);
   font-weight:var(--fw-semibold);
 }
 
-.tab-button:focus-visible {
+.tab-button:focus-visible{
   outline:2px solid var(--color-brand-green);
   outline-offset:2px;
 }
 
 /* Tab Panel */
-.tab-panel {
+.tab-panel{
   display:flex;
   flex-direction:column;
   /* Without this the grid track grows to the table's min-content width and the
@@ -176,13 +176,13 @@
   padding:var(--space-xl) var(--space-xl) var(--space-lg);
 }
 
-.tab-panel:focus-visible {
+.tab-panel:focus-visible{
   outline:2px solid var(--color-brand-green);
   outline-offset:-2px;
 }
 
 /* Panel Main:Copy + Visual side by side */
-.panel-main {
+.panel-main{
   display:grid;
   grid-template-columns:minmax(260px, .77fr) minmax(360px, 1.23fr);
   gap:28px;
@@ -195,13 +195,13 @@
 }
 
 /* Panel Copy */
-.panel-copy {
+.panel-copy{
   display:flex;
   flex-direction:column;
   gap:12px;
 }
 
-.badge {
+.badge{
   display:inline-flex;
   align-items:center;
   gap:var(--space-sm);
@@ -215,7 +215,7 @@
   text-transform:uppercase;
 }
 
-.badge-icon {
+.badge-icon{
   display:grid;
   place-items:center;
   width:36px;
@@ -226,7 +226,7 @@
   background:color-mix(in srgb, var(--wp-tone-sky) var(--wp-tone-fill), transparent);
 }
 
-.panel-copy h3 {
+.panel-copy h3{
   margin:0;
   color:var(--wp-ink);
   font-size:clamp(28px, 2.6vw, 38px);
@@ -235,14 +235,14 @@
   letter-spacing:-1.1px;
 }
 
-.description {
+.description{
   margin:0;
   color:var(--color-text-secondary);
   font-size:15px;
   line-height:1.42;
 }
 
-.bullet-list {
+.bullet-list{
   display:flex;
   flex-direction:column;
   gap:var(--space-sm);
@@ -251,7 +251,7 @@
   list-style:none;
 }
 
-.bullet-list li {
+.bullet-list li{
   display:flex;
   align-items:center;
   gap:var(--space-sm);
@@ -260,7 +260,7 @@
   font-weight:var(--fw-medium);
 }
 
-.bullet-list fa-icon {
+.bullet-list fa-icon{
   flex:0 0 auto;
   width:18px;
   height:18px;
@@ -273,7 +273,7 @@
 }
 
 /* Actions */
-.actions {
+.actions{
   display:flex;
   flex-wrap:wrap;
   gap:var(--space-sm);
@@ -281,7 +281,7 @@
 }
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary{
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -296,38 +296,38 @@
   min-height:42px;
 }
 
-.btn-primary {
+.btn-primary{
   background:var(--color-action);
   color:var(--primary-foreground);
   border:none;
   box-shadow:var(--shadow-md);
 }
 
-.btn-primary:hover {
+.btn-primary:hover{
   background:var(--color-action-hover);
   color:var(--primary-foreground);
   transform:translateY(-2px);
   box-shadow:var(--shadow-lg);
 }
 
-.btn-secondary {
+.btn-secondary{
   background:transparent;
   color:var(--wp-green-ink); /* brand green is 3.2:1 as text; it stays on the border */
   border:1.5px solid var(--color-brand-green);
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover{
   background:var(--color-action);
   color:var(--primary-foreground);
 }
 
 /* Panel Visual */
-.panel-visual {
+.panel-visual{
   display:flex;
   align-items:flex-start;
 }
 
-.mockup-shell {
+.mockup-shell{
   position:relative;
   overflow:hidden;
   border-radius:var(--radius-lg);
@@ -336,7 +336,7 @@
   border:1px solid var(--color-border);
 }
 
-.mockup-shell img {
+.mockup-shell img{
   display:block;
   width:100%;
   height:auto;
@@ -353,7 +353,7 @@
    ============================================================ */
 
 /* ---- Stat tiles ---- */
-.vm-stats {
+.vm-stats{
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:12px;
@@ -362,7 +362,7 @@
   list-style:none;
 }
 
-.vm-stat {
+.vm-stat{
   position:relative;
   overflow:hidden;
   display:grid;
@@ -380,11 +380,11 @@
      for colour-vision separation — see the component's ConsoleStat docs. */
   --tone:var(--wp-tone-sky);
 }
-.vm-stat[data-tone='amber'] { --tone:var(--wp-tone-amber); }
-.vm-stat[data-tone='green'] { --tone:var(--wp-tone-green); }
-.vm-stat[data-tone='purple'] { --tone:var(--wp-tone-purple); }
+.vm-stat[data-tone='amber']{ --tone:var(--wp-tone-amber); }
+.vm-stat[data-tone='green']{ --tone:var(--wp-tone-green); }
+.vm-stat[data-tone='purple']{ --tone:var(--wp-tone-purple); }
 
-.vm-stat__icon {
+.vm-stat__icon{
   grid-row:span 2;
   display:grid;
   place-items:center;
@@ -396,7 +396,7 @@
   background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent);
 }
 
-.vm-stat__label {
+.vm-stat__label{
   align-self:end;
   margin:0;
   color:var(--color-text-secondary);
@@ -404,7 +404,7 @@
   line-height:1.3;
 }
 
-.vm-stat__value {
+.vm-stat__value{
   align-self:start;
   display:flex;
   align-items:center;
@@ -418,7 +418,7 @@
   letter-spacing:-.5px;
 }
 
-.vm-stat__delta {
+.vm-stat__delta{
   display:inline-flex;
   align-items:center;
   gap:var(--space-xs);
@@ -434,7 +434,7 @@
 }
 
 /* Visually hidden, still read aloud:pairs the spoken direction with the arrow. */
-.vm-stat__delta-dir {
+.vm-stat__delta-dir{
   position:absolute;
   width:1px;
   height:1px;
@@ -443,7 +443,7 @@
   white-space:nowrap;
 }
 
-.vm-stat__spark {
+.vm-stat__spark{
   position:absolute;
   right:0;
   bottom:0;
@@ -451,21 +451,21 @@
   height:32px;
   pointer-events:none;
 }
-.vm-stat__line {
+.vm-stat__line{
   fill:none;
   stroke:var(--tone);
   stroke-width:2;
   stroke-linecap:round;
   stroke-linejoin:round;
 }
-.vm-stat__area {
+.vm-stat__area{
   fill:var(--tone);
   opacity:.12;
   stroke:none;
 }
 
 /* ---- Table card ---- */
-.vm-table-card {
+.vm-table-card{
   min-width:0;
   margin-top:var(--space-lg);
   border:1px solid var(--color-border);
@@ -474,7 +474,7 @@
   overflow:hidden;
 }
 
-.vm-table-card__head {
+.vm-table-card__head{
   display:flex;
   align-items:center;
   gap:var(--space-md);
@@ -482,7 +482,7 @@
   padding:var(--space-md) var(--space-lg);
 }
 
-.vm-table-card__title {
+.vm-table-card__title{
   flex:0 0 auto;
   margin:0;
   color:var(--wp-ink);
@@ -490,9 +490,9 @@
   font-size:var(--fs-body-lg);
   font-weight:var(--fw-bold);
 }
-.vm-table-card__title span { color:var(--color-text-secondary); font-weight:var(--fw-medium); }
+.vm-table-card__title span{ color:var(--color-text-secondary); font-weight:var(--fw-medium); }
 
-.vm-search {
+.vm-search{
   display:flex;
   flex:1 1 200px;
   align-items:center;
@@ -505,9 +505,9 @@
   background:var(--color-bg-tertiary);
   font-size:var(--fs-caption);
 }
-.vm-search__placeholder { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.vm-search__placeholder{ overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 
-.vm-create {
+.vm-create{
   display:inline-flex;
   flex:0 0 auto;
   align-items:center;
@@ -522,14 +522,14 @@
   text-decoration:none;
   transition:filter var(--duration-fast) var(--ease-in-out);
 }
-.vm-create:hover { color:var(--primary-foreground); filter:brightness(1.1); }
-.vm-create:focus-visible { outline:2px solid var(--color-brand-green); outline-offset:2px; }
+.vm-create:hover{ color:var(--primary-foreground); filter:brightness(1.1); }
+.vm-create:focus-visible{ outline:2px solid var(--color-brand-green); outline-offset:2px; }
 
 /* Tables are the one thing allowed to scroll sideways (design system §"no
    horizontal scroll" applies to the page, not to a data table). */
-.vm-table-scroll { overflow-x:auto; }
+.vm-table-scroll{ overflow-x:auto; }
 
-.vm-table {
+.vm-table{
   width:100%;
   border-collapse:collapse;
   font-size:var(--fs-caption);
@@ -537,14 +537,14 @@
 }
 
 .vm-table th,
-.vm-table td {
+.vm-table td{
   padding:12px var(--space-md);
   text-align:left;
   font-weight:var(--fw-regular);
   color:var(--color-text-secondary);
 }
 
-.vm-table thead th {
+.vm-table thead th{
   border-block:1px solid var(--color-border);
   color:var(--color-text-secondary); /* muted is 4.2:1 on the tertiary header fill */
   font-weight:var(--fw-semibold);
@@ -552,16 +552,16 @@
 }
 
 .vm-table tbody tr + tr th,
-.vm-table tbody tr + tr td { border-top:1px solid var(--color-border); }
+.vm-table tbody tr + tr td{ border-top:1px solid var(--color-border); }
 
-.vm-name {
+.vm-name{
   display:flex;
   align-items:center;
   gap:var(--space-sm);
   color:var(--wp-ink);
   font-weight:var(--fw-semibold);
 }
-.vm-name__icon {
+.vm-name__icon{
   display:grid;
   place-items:center;
   width:28px;
@@ -572,28 +572,28 @@
   font-size:var(--fs-caption);
 }
 
-.vm-created { color:var(--color-text-muted); }
+.vm-created{ color:var(--color-text-muted); }
 
 /* Reserved status colours — never reused as a decorative accent, and always
    paired with the word, so the state survives colour-blindness and greyscale. */
-.vm-status {
+.vm-status{
   display:inline-flex;
   align-items:center;
   gap:var(--space-sm);
   font-weight:var(--fw-semibold);
 }
 /* Status tones pulled toward the ink so the small labels clear 4.5:1 in both themes. */
-.vm-status[data-tone='good'] { color:var(--wp-tone-green-ink); }
-.vm-status[data-tone='warning'] { color:var(--wp-tone-amber-ink); }
-.vm-status[data-tone='critical'] { color:color-mix(in srgb, var(--color-error) 60%, var(--wp-ink)); }
-.vm-status__dot {
+.vm-status[data-tone='good']{ color:var(--wp-tone-green-ink); }
+.vm-status[data-tone='warning']{ color:var(--wp-tone-amber-ink); }
+.vm-status[data-tone='critical']{ color:color-mix(in srgb, var(--color-error) 60%, var(--wp-ink)); }
+.vm-status__dot{
   width:8px;
   height:8px;
   border-radius:50%;
   background:currentColor;
 }
 
-.vm-check {
+.vm-check{
   display:inline-block;
   width:14px;
   height:14px;
@@ -601,11 +601,11 @@
   border-radius:var(--radius-sm);
   background:var(--color-bg-tertiary);
 }
-.vm-col-select { width:44px; }
+.vm-col-select{ width:44px; }
 
-.vm-actions { color:var(--color-text-muted); }
+.vm-actions{ color:var(--color-text-muted); }
 
-.vm-table-card__foot {
+.vm-table-card__foot{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -615,11 +615,11 @@
   border-top:1px solid var(--color-border);
 }
 
-.vm-count { margin:0; color:var(--color-text-muted); font-size:var(--fs-caption); }
+.vm-count{ margin:0; color:var(--color-text-muted); font-size:var(--fs-caption); }
 
-.vm-pager { display:inline-flex; align-items:center; gap:var(--space-xs); }
+.vm-pager{ display:inline-flex; align-items:center; gap:var(--space-xs); }
 .vm-pager__page,
-.vm-pager__step {
+.vm-pager__step{
   display:grid;
   place-items:center;
   min-width:28px;
@@ -630,7 +630,7 @@
   color:var(--color-text-secondary);
   font-size:var(--fs-caption);
 }
-.vm-pager__page--current {
+.vm-pager__page--current{
   color:var(--primary-foreground);
   background:var(--wp-tone-blue);
   border-color:var(--wp-tone-blue);
@@ -638,7 +638,7 @@
 }
 
 /* Benefits Strip */
-.benefits-strip {
+.benefits-strip{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
   gap:var(--space-md);
@@ -647,7 +647,7 @@
   border-top:1px solid var(--color-border);
 }
 
-.benefit-item {
+.benefit-item{
   display:flex;
   align-items:flex-start;
   gap:var(--space-sm);
@@ -655,7 +655,7 @@
   border-right:1px solid var(--color-border);
 }
 
-.benefit-icon {
+.benefit-icon{
   display:grid;
   flex:0 0 auto;
   place-items:center;
@@ -667,7 +667,7 @@
   font-size:var(--fs-body);
 }
 
-.benefit-text h4 {
+.benefit-text h4{
   margin:0 0 var(--space-xs);
   color:var(--color-text-primary);
   font-size:var(--fs-caption);
@@ -675,7 +675,7 @@
   line-height:var(--lh-tight);
 }
 
-.benefit-text p {
+.benefit-text p{
   margin:0;
   color:var(--color-text-secondary);
   font-size:var(--fs-caption);
@@ -690,7 +690,7 @@
    resources, so it gets a real <table> with weekday column headers - the same
    structure a screen reader needs to read "Wed 10, Security Workshop".
    ============================================================ */
-.cal-card {
+.cal-card{
   display:flex;
   flex-direction:column;
   border:1px solid var(--color-border);
@@ -699,7 +699,7 @@
   overflow:hidden;
 }
 
-.cal-card__head {
+.cal-card__head{
   display:flex;
   align-items:center;
   gap:var(--space-md);
@@ -707,7 +707,7 @@
   border-bottom:1px solid var(--color-border);
 }
 
-.cal-card__month {
+.cal-card__month{
   margin:0;
   color:var(--wp-ink);
   font-size:17px;
@@ -715,8 +715,8 @@
   white-space:nowrap;
 }
 
-.cal-nav { display:inline-flex; gap:var(--space-xs); }
-.cal-nav__step {
+.cal-nav{ display:inline-flex; gap:var(--space-xs); }
+.cal-nav__step{
   display:grid;
   width:28px;
   height:28px;
@@ -728,38 +728,38 @@
 }
 
 /* Segmented control, presentational:the preview does not switch views. */
-.cal-views {
+.cal-views{
   display:inline-flex;
   gap:var(--space-xs);
   padding:3px;
   border-radius:var(--radius-md);
   background:var(--color-bg-secondary);
 }
-.cal-views__item {
+.cal-views__item{
   padding:5px 12px;
   border-radius:var(--radius-sm);
   color:var(--color-text-muted);
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
 }
-.cal-views__item--current {
+.cal-views__item--current{
   color:var(--primary-foreground);
   background:var(--wp-blue-action);
 }
 
-.cal-card__head .vm-search { margin-left:auto; }
+.cal-card__head .vm-search{ margin-left:auto; }
 
-.cal-body {
+.cal-body{
   display:grid;
   grid-template-columns:minmax(0, 1fr) 290px;
 }
 
-.cal-grid {
+.cal-grid{
   width:100%;
   border-collapse:collapse;
   table-layout:fixed;
 }
-.cal-grid th {
+.cal-grid th{
   padding:10px var(--space-sm);
   border-bottom:1px solid var(--color-border);
   color:var(--color-text-muted);
@@ -768,15 +768,15 @@
   text-align:center;
 }
 
-.cal-day {
+.cal-day{
   height:74px;
   padding:var(--space-xs);
   border-right:1px solid var(--color-border);
   border-bottom:1px solid var(--color-border);
   vertical-align:top;
 }
-.cal-day:last-child { border-right:0; }
-.cal-day__number {
+.cal-day:last-child{ border-right:0; }
+.cal-day__number{
   display:block;
   padding:0 var(--space-xs) var(--space-xs);
   color:var(--wp-body-strong);
@@ -785,8 +785,8 @@
 }
 /* Days borrowed from the neighbouring months stay legible but recede. */
 /* Dimmed by the muted colour alone: opacity on top took it below 4.5:1. */
-.cal-day--outside .cal-day__number { color:var(--color-text-muted); }
-.cal-day--today .cal-day__number {
+.cal-day--outside .cal-day__number{ color:var(--color-text-muted); }
+.cal-day--today .cal-day__number{
   display:inline-block;
   min-width:22px;
   padding:2px 0;
@@ -797,7 +797,7 @@
 }
 
 /* Tone is decoration; the label and time carry the event. */
-.cal-event {
+.cal-event{
   display:block;
   padding:5px 6px;
   border-radius:var(--radius-sm);
@@ -805,7 +805,7 @@
   font-size:11px;
   line-height:1.25;
 }
-.cal-event__dot {
+.cal-event__dot{
   display:inline-block;
   width:6px;
   height:6px;
@@ -813,55 +813,55 @@
   border-radius:50%;
   background:var(--tone);
 }
-.cal-event__label {
+.cal-event__label{
   color:var(--wp-ink);
   font-weight:var(--fw-semibold);
 }
-.cal-event__time { display:block; margin-top:2px; color:color-mix(in srgb, var(--wp-body) 45%, var(--wp-ink)); /* body grey was 3.4:1 on the event tint */ }
+.cal-event__time{ display:block; margin-top:2px; color:color-mix(in srgb, var(--wp-body) 45%, var(--wp-ink)); /* body grey was 3.4:1 on the event tint */ }
 
 .cal-event[data-tone='blue'],
-.cal-agenda__item[data-tone='blue'] { --tone:var(--wp-tone-blue); }
+.cal-agenda__item[data-tone='blue']{ --tone:var(--wp-tone-blue); }
 .cal-event[data-tone='green'],
-.cal-agenda__item[data-tone='green'] { --tone:var(--wp-tone-green); }
+.cal-agenda__item[data-tone='green']{ --tone:var(--wp-tone-green); }
 .cal-event[data-tone='purple'],
-.cal-agenda__item[data-tone='purple'] { --tone:var(--wp-tone-purple); }
+.cal-agenda__item[data-tone='purple']{ --tone:var(--wp-tone-purple); }
 .cal-event[data-tone='amber'],
-.cal-agenda__item[data-tone='amber'] { --tone:var(--wp-tone-amber); }
+.cal-agenda__item[data-tone='amber']{ --tone:var(--wp-tone-amber); }
 
-.cal-agenda {
+.cal-agenda{
   display:flex;
   flex-direction:column;
   gap:var(--space-md);
   padding:var(--space-md);
   border-left:1px solid var(--color-border);
 }
-.cal-agenda__head {
+.cal-agenda__head{
   display:flex;
   align-items:baseline;
   justify-content:space-between;
   gap:var(--space-sm);
   margin:0 0 var(--space-sm);
 }
-.cal-agenda__head strong { color:var(--wp-ink); font-size:var(--fs-body); }
-.cal-agenda__head span { color:var(--color-text-muted); font-size:var(--fs-caption); }
-.cal-agenda__list { display:grid; gap:var(--space-xs); padding:0; margin:0; list-style:none; }
-.cal-agenda__item {
+.cal-agenda__head strong{ color:var(--wp-ink); font-size:var(--fs-body); }
+.cal-agenda__head span{ color:var(--color-text-muted); font-size:var(--fs-caption); }
+.cal-agenda__list{ display:grid; gap:var(--space-xs); padding:0; margin:0; list-style:none; }
+.cal-agenda__item{
   display:flex;
   align-items:center;
   gap:var(--space-sm);
   padding:var(--space-sm);
   border-radius:var(--radius-md);
 }
-.cal-agenda__item:hover { background:var(--color-bg-secondary); }
-.cal-agenda__text { flex:1; min-width:0; }
-.cal-agenda__text strong {
+.cal-agenda__item:hover{ background:var(--color-bg-secondary); }
+.cal-agenda__text{ flex:1; min-width:0; }
+.cal-agenda__text strong{
   display:block;
   color:var(--wp-ink);
   font-size:var(--fs-caption);
   font-weight:var(--fw-semibold);
 }
-.cal-agenda__text span { color:var(--color-text-muted); font-size:11px; }
-.cal-agenda__join {
+.cal-agenda__text span{ color:var(--color-text-muted); font-size:11px; }
+.cal-agenda__join{
   padding:5px 12px;
   border-radius:var(--radius-full);
   color:var(--primary-foreground);
@@ -870,7 +870,7 @@
   font-weight:var(--fw-semibold);
   text-decoration:none;
 }
-.cal-agenda__all {
+.cal-agenda__all{
   display:flex;
   align-items:center;
   justify-content:center;
@@ -884,7 +884,7 @@
   font-weight:var(--fw-semibold);
   text-decoration:none;
 }
-.cal-agenda__all:hover { background:var(--color-bg-secondary); }
+.cal-agenda__all:hover{ background:var(--color-bg-secondary); }
 
 @media (max-width:1024px) {
   /* The agenda drops below the grid before the columns get too narrow to read. */
@@ -901,7 +901,7 @@
 
 /* With the full width available the four tiles run across in one row, as the
    Management mockups draw them, rather than the 2x2 the split column needs. */
-.panel-main--wide .vm-stats {
+.panel-main--wide .vm-stats{
   grid-template-columns:repeat(4, minmax(0, 1fr));
 }
 
@@ -915,11 +915,11 @@
 
 /* Management tabs:one full-width column, heading left and action right, with
    the stat tiles running the full width beneath rather than beside. */
-.panel-main--wide {
+.panel-main--wide{
   grid-template-columns:minmax(0, 1fr);
 }
 
-.panel-main--wide .panel-copy {
+.panel-main--wide .panel-copy{
   display:grid;
   grid-template-columns:minmax(0, 1fr) auto;
   align-items:start;
@@ -928,11 +928,11 @@
 
 .panel-main--wide .badge,
 .panel-main--wide h3,
-.panel-main--wide .description {
+.panel-main--wide .description{
   grid-column:1;
 }
 
-.panel-copy__action {
+.panel-copy__action{
   display:inline-flex;
   grid-row:1 / span 2;
   grid-column:2;
@@ -950,7 +950,7 @@
   white-space:nowrap;
 }
 
-.panel-copy__action:hover {
+.panel-copy__action:hover{
   color:var(--primary-foreground);
   filter:brightness(1.08);
 }
@@ -969,7 +969,7 @@
 }
 
 /* Initials bubble, for tables whose rows are people rather than resources. */
-.vm-name__icon--initials {
+.vm-name__icon--initials{
   border-radius:50%;
   color:var(--wp-tone-blue-ink); /* tone toward ink: 4.5:1 on its own tint */
   background:color-mix(in srgb, var(--wp-tone-blue) var(--wp-tone-fill), transparent);
@@ -1030,7 +1030,7 @@
   }
 }
 
-.tabs-collapse {
+.tabs-collapse{
   display:contents;
 }
 
@@ -1165,3 +1165,67 @@
 }
 
 /* Reduced motion is handled site-wide in styles.css. */
+
+/* Real product screen: compact header, then the actual screenshot first, bullets underneath */
+.tab-panel{scroll-margin-top:96px}
+.eco-shot{display:flex;flex-direction:column;gap:var(--space-lg);min-width:0}
+.eco-shot__head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-lg)}
+.eco-shot__copy{min-width:0;max-width:620px}
+.eco-shot__copy h3{margin:var(--space-sm) 0 6px}
+.eco-shot__copy .description{margin:0}
+.eco-shot__actions{flex:none;margin:0}
+.eco-shot__window{margin:0;overflow:hidden;border:1px solid var(--color-border);border-radius:var(--radius-xl);background:var(--color-bg-secondary);box-shadow:0 24px 48px -28px rgba(7,28,76,.35)}
+.eco-shot__bar{display:flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-tertiary,var(--color-bg-secondary))}
+.eco-shot__bar i{width:9px;height:9px;border-radius:50%;background:var(--color-border)}
+.eco-shot__bar span{margin-left:10px;font-size:12px;font-weight:var(--fw-semibold);color:var(--color-text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eco-shot__window img{display:block;width:100%;height:auto}
+.eco-shot__bullets{display:flex;flex-wrap:wrap;gap:var(--space-sm) var(--space-xl);margin:0;padding:0;list-style:none}
+.eco-shot__bullets li{display:flex;align-items:center;gap:8px;font-size:var(--fs-body-sm);color:var(--color-text-secondary)}
+.eco-shot__bullets fa-icon{color:var(--color-brand-green)}
+@media (max-width:767px){.eco-shot__head{flex-direction:column;align-items:stretch}.eco-shot__actions .btn-primary{width:100%;justify-content:center}.eco-shot{gap:var(--space-md)}}
+
+/* Interactive real screen, always light */
+.eco-shot__window{background:#fff;border-color:#e3e8f0}
+.eco-shot__bar{background:#f4f6fa;border-bottom-color:#e3e8f0}
+.eco-shot__bar i{background:#d5dbe5}.eco-shot__bar span{color:#5b6577}
+.eco-shot__stage{position:relative}
+.eco-nav{position:absolute;left:.5%;padding:0;border:0;border-radius:10px;background:transparent;cursor:pointer;transition:background .2s,box-shadow .2s}
+.eco-nav:hover,.eco-nav:focus-visible{background:rgba(103,154,65,.16);box-shadow:inset 0 0 0 2px rgba(103,154,65,.55);outline:none}
+.eco-nav--current{cursor:default}
+
+.eco-shot__bullets{gap:var(--space-sm)}
+.eco-shot__bullet{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border:1px solid var(--color-border);border-radius:999px;background:var(--color-bg-primary);color:var(--color-text-primary);font:inherit;font-size:var(--fs-body-sm);font-weight:var(--fw-semibold);cursor:pointer;transition:border-color .2s,background .2s}
+.eco-shot__bullet:focus-visible{outline:2px solid #126ddb;outline-offset:2px}
+
+.eco-shot__bullet{text-align:left}
+.eco-live{margin-left:auto;white-space:nowrap;flex:none;padding:2px 10px;border-radius:999px;background:#e8f2df;color:#4f7d2f;font-style:normal;font-size:11px;font-weight:700}
+.eco-shot__window--live{overflow:visible}
+/* Feature list under each screen: check marks, no numbers */
+.eco-shot__bullets--plain .eco-shot__bullet{cursor:default;padding-left:12px}
+.eco-shot__bullets--plain .eco-shot__bullet:hover{border-color:var(--color-border);background:var(--color-bg-primary)}
+.eco-shot__tick{width:16px;height:16px;flex:none;border-radius:50%;background:#679a41 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+/* The screenshot's own buttons: invisible until hovered, then outlined like a focused control */
+.eco-act{position:absolute;z-index:2;padding:0;border:0;border-radius:8px;background:transparent;cursor:pointer;transition:box-shadow .18s,background-color .18s}
+.eco-act:hover,.eco-act:focus-visible{outline:none;background:rgba(103,154,65,.08);box-shadow:0 0 0 2px #679a41,0 0 0 6px rgba(103,154,65,.18)}
+.eco-act:active{background:rgba(103,154,65,.16)}
+.eco-act-note{position:absolute;z-index:3;left:50%;bottom:4%;display:flex;align-items:flex-start;gap:10px;width:max-content;max-width:min(520px,88%);margin:0;padding:12px 16px;border-radius:12px;background:#071c4c;color:#fff;font-size:14px;line-height:1.4;box-shadow:0 18px 36px -14px rgba(7,28,76,.6);transform:translateX(-50%)}
+.eco-act-note strong{flex:none;padding:2px 8px;border-radius:999px;background:#679a41;font-size:12px;font-weight:700;line-height:1.5;white-space:nowrap}
+@media (prefers-reduced-motion:no-preference){.eco-act-note{animation:eco-note-in .22s ease-out}}
+@keyframes eco-note-in{from{opacity:0;transform:translate(-50%,8px)}}
+@media (max-width:767px){.eco-act-note{position:static;flex-direction:column;gap:6px;width:auto;max-width:none;border-radius:0;font-size:13px;padding:10px 14px;transform:none;animation:none}}
+/* A product scene (Drive connected): no browser bar, a soft card instead of a window */
+.eco-shot__window--scene{border-color:#e6ebf2;background:#fff}
+.eco-shot__bar[hidden]{display:none}
+/* Calendar: the calendar itself comes right under the heading, so it is the first thing seen;
+   the feature list, buttons and usage figures follow it. */
+.tab-panel--visual-first .panel-main,.tab-panel--visual-first .panel-copy{display:contents}
+.tab-panel--visual-first .badge{order:0}
+.tab-panel--visual-first .panel-copy h3{order:1;margin-top:var(--space-sm)}
+.tab-panel--visual-first .description{order:2;margin-bottom:var(--space-md)}
+.tab-panel--visual-first .cal-card{order:3;margin:0 0 var(--space-md)}
+.tab-panel--visual-first .bullet-list{order:4;flex-direction:row;flex-wrap:wrap;gap:var(--space-sm) var(--space-lg);margin:0}
+.tab-panel--visual-first .actions{order:5;margin:var(--space-md) 0}
+.tab-panel--visual-first .vm-stats{order:6;grid-template-columns:repeat(4,minmax(0,1fr))}
+.tab-panel--visual-first .benefits-strip{order:7}
+@media (max-width:900px){.tab-panel--visual-first .vm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.tab-panel--visual-first .bullet-list{flex-direction:column}.tab-panel--visual-first .vm-stats{grid-template-columns:1fr}}

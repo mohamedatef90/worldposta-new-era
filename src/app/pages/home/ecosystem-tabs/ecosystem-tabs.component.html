@@ -57,11 +57,88 @@
 
       <div
         class="tab-panel"
+        [class.tab-panel--visual-first]="!!tabContent().calendar"
         [id]="'tabpanel-' + activeTabId()"
         role="tabpanel"
         [attr.aria-labelledby]="'tab-' + activeTabId()"
         [attr.tabindex]="0"
       >
+        @if (screen(); as shot) {
+          <div class="eco-shot">
+            <div class="eco-shot__head">
+              <div class="eco-shot__copy">
+                <span class="badge">
+                  <span class="badge-icon"><fa-icon [icon]="activeIcon()" aria-hidden="true" /></span>
+                  {{ tabContent().badge }}
+                </span>
+                <h3>{{ tabContent().heading }}</h3>
+                <p class="description">{{ tabContent().description }}</p>
+              </div>
+              <div class="actions eco-shot__actions">
+                <a class="btn-primary" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">
+                  {{ tabContent().cta ?? 'Get started' }}
+                  <fa-icon [icon]="icons.arrowRight" aria-hidden="true" />
+                <span class="sr-only">(opens in a new tab)</span></a>
+              </div>
+            </div>
+            @if (liveMode(); as live) {
+              <figure class="eco-shot__window eco-shot__window--live">
+                <div class="eco-shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>{{ live === 'vm' ? 'CloudEdge Console · Virtual Machines' : 'CloudEdge Console · Billing · Invoices' }}</span><em class="eco-live">Try it</em></div>
+                <app-live-console [mode]="live" (navigate)="setActiveTab($event)" />
+              </figure>
+            } @else {
+            <figure class="eco-shot__window" [class.eco-shot__window--scene]="shot.scene">
+              <div class="eco-shot__bar" aria-hidden="true" [hidden]="shot.scene"><i></i><i></i><i></i><span>{{ shot.title }}</span>@if (shot.actions.length) {<em class="eco-live">Click the buttons</em>}</div>
+              @if (meeting()) {
+                <app-link-meeting />
+              } @else {
+              <div class="eco-shot__stage">
+                <!-- A plain img: the source and its intrinsic size change with the service. -->
+                <img [src]="shot.src" [attr.width]="shot.width" [attr.height]="shot.height" [alt]="shot.alt" loading="lazy" decoding="async" />
+                <!-- The console's own sidebar, made clickable where a matching service exists. -->
+                @for (item of shot.nav; track item.tab) {
+                  <button
+                    type="button"
+                    class="eco-nav"
+                    [class.eco-nav--current]="item.current"
+                    [style.top]="item.top"
+                    [style.height]="item.height"
+                    [style.width]="item.width"
+                    [attr.aria-label]="'Open ' + item.label"
+                    [attr.aria-current]="item.current ? 'page' : null"
+                    (click)="setActiveTab(item.tab)"
+                  ></button>
+                }
+                <!-- The screenshot's own buttons, made clickable. -->
+                @for (act of shot.actions; track act.label) {
+                  <button
+                    type="button"
+                    class="eco-act"
+                    [style.left]="act.left"
+                    [style.top]="act.top"
+                    [style.width]="act.width"
+                    [style.height]="act.height"
+                    [attr.aria-label]="act.label"
+                    [title]="act.label"
+                    (click)="runAction(act)"
+                  ></button>
+                }
+                @if (actionNote(); as note) {
+                  <p class="eco-act-note" role="status"><strong>{{ note.label }}</strong><span>{{ note.text }}</span></p>
+                }
+              </div>
+              }
+            </figure>
+            }
+            @if (!liveMode()) {
+            <ul class="eco-shot__bullets eco-shot__bullets--plain" aria-label="Key features">
+              @for (bullet of tabContent().bullets; track $index) {
+                <li class="eco-shot__bullet"><span class="eco-shot__tick" aria-hidden="true"></span><span>{{ bullet }}</span></li>
+              }
+            </ul>
+            }
+          </div>
+        } @else {
         <div class="panel-main" [class.panel-main--wide]="tabContent().layout === 'wide'">
           <div class="panel-copy">
             <span class="badge">
@@ -368,6 +445,8 @@
             </div>
             }
           </div>
+        }
+
         }
 
         <div class="benefits-strip">

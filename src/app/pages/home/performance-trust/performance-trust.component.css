@@ -57,6 +57,19 @@ h2 { margin:0; font-family:var(--font-heading); font-weight:var(--fw-bold); line
    to carry comparable weight; Oracle is width-bound by the plate either way. */
 .logo-plate--partner img { max-height:34px; }.logo-wordmark { color:var(--wp-brand-ember); font-size:15px; font-weight:var(--fw-bold); letter-spacing:-.5px; }
 
+/* Global infrastructure card: the dotted world map on top, its callout and qualities beneath. */
+.global-visual { display:flex; flex-direction:column; gap:var(--space-md); min-height:0; height:100%; padding:var(--space-md); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:var(--wp-panel-wash); }
+.global-map { display:block; width:100%; height:auto; aspect-ratio:1350/599; color:rgb(72 121 162 / .5); }
+:host-context([data-theme='dark']) .global-map { color:rgb(132 170 204 / .34); }
+.global-visual .global-callout { position:static; box-shadow:none; background:var(--wp-panel); }
+.global-visual .global-list { position:static; display:grid; grid-template-columns:1fr 1fr; gap:var(--space-xs) var(--space-md); line-height:1.5; }
+
 @media (max-width:1100px) { .performance-inner { grid-template-columns:250px 1fr; }.global-visual { display:none; }.assurance-section { grid-template-columns:1fr; } }
 @media (max-width:760px) { .performance-inner, .company-section { grid-template-columns:1fr; }.metrics-grid { grid-template-columns:repeat(2, 1fr); }.company-intro { padding:0 0 var(--space-lg); border:0; }.company-logos { padding:0; }.certifications-card { grid-template-columns:1fr; }.certification-list { gap:var(--space-sm); }.assurance-card { padding:20px; } }
 @media (max-width:480px) { .metrics-grid { grid-template-columns:1fr 1fr; gap:var(--space-sm); }.metric-card { min-height:132px; padding:12px; }.company-logos { grid-template-columns:repeat(3, 1fr); gap:var(--space-md) var(--space-sm); }.certification-list, .partner-logos { grid-template-columns:repeat(2, 1fr); }.performance-intro h2 { font-size:38px; } }
+
+/* Built on Trust: copy and badges centred in the card's height (the partners card sets it),
+   each badge on its own soft tile so the four read as one set. */
+.certifications-card { align-items:center; }
+.certification { padding:var(--space-md) var(--space-xs); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:color-mix(in srgb, var(--wp-panel) 70%, transparent); }
+.certification-list { align-items:stretch; }

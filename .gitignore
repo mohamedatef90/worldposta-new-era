@@ -50,3 +50,6 @@ Thumbs.db
 .claude/settings.local.json
 .tifo/
 .playwright-mcp/
+
+# Local archives and snapshots, never committed
+/_to_delete/
