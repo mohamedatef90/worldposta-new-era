@@ -246,12 +246,9 @@ h1 > span .text-blue { display:inline; }
 .stat-grid strong { display:block; color:var(--wp-ink); font-size:19px; font-weight:var(--fw-bold); line-height:1.1; }
 .stat-grid span { color:var(--color-text-muted); font-size:var(--fs-caption); }
 
-/* cc-trust-row — the Cloud Computing overview's three benefit cards.
-   grid-column:1 / -1 spans the full cc-layout grid (sidebar + main), so
-   the row's own left/right edges line up exactly with the sidebar's left
-   edge and the dashboard's right edge, rather than being boxed into the
-   narrower copy column above it. */
-.cc-trust-row { grid-column:1 / -1; display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-lg); margin:var(--space-2xl) 0 0; padding:0; list-style:none; }
+/* cc-trust-row — the Cloud Computing section's three benefit cards, under
+   the ecosystem tabs and spanning the same width as their surface. */
+.cc-trust-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-lg); margin:var(--space-2xl) 0 0; padding:0; list-style:none; }
 .cc-trust-card { display:flex; align-items:center; gap:var(--space-md); min-height:88px; padding:18px var(--space-lg); border-radius:var(--radius-xl); background:color-mix(in srgb, var(--wp-panel) 92%, var(--wp-blue) 5%); border:1px solid color-mix(in srgb, var(--wp-blue) 20%, transparent); box-shadow:0 10px 24px -18px color-mix(in srgb, var(--wp-ink) 24%, transparent); }
 .cc-trust-card .tone-icon { flex-shrink:0; width:44px; height:44px; }
 .cc-trust-card__divider { align-self:stretch; width:1px; flex-shrink:0; background:color-mix(in srgb, var(--wp-blue) 20%, transparent); }
@@ -323,37 +320,6 @@ h1 > span .text-blue { display:inline; }
 }
 
 /* ============================================================
-   CLOUD COMPUTING OVERVIEW — sidebar + dashboard mockup.
-   ============================================================ */
-/* One surface holding the rail and the content, matching the home page's
-   ecosystem section: the two share a bordered, rounded panel split by a
-   hairline instead of sitting apart as separate cards with a gap between.
-   overflow:clip rather than hidden so the rounded corners cut the rail without
-   turning this into a scroll container. */
-.cc-layout { display:grid; grid-template-columns:268px minmax(0, 1fr); gap:0; align-items:stretch; border:1px solid var(--color-border); border-radius:var(--radius-xl); background:var(--color-bg-secondary); box-shadow:var(--shadow-lg); overflow:clip; }
-.cc-sidebar { display:flex; flex-direction:column; gap:var(--space-xs); padding:12px var(--space-sm); background:color-mix(in srgb, var(--wp-panel) 72%, transparent); border-right:1px solid var(--color-border); border-radius:0; box-shadow:none; position:static; align-self:stretch; height:auto; max-height:none; overflow:visible; }
-.cc-sidebar__title { padding:0 var(--space-sm); margin:0 0 var(--space-xs); color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:1px; text-transform:uppercase; }
-.cc-sidebar__link { display:flex; align-items:center; gap:var(--space-sm); min-height:24px; padding:var(--space-xs) var(--space-sm); border-radius:var(--radius-md); color:var(--color-text-secondary); font-size:var(--fs-caption); font-weight:var(--fw-medium); text-decoration:none; transition:background-color var(--duration-fast) var(--ease-in-out), color var(--duration-fast) var(--ease-in-out); }
-.cc-sidebar__link span { flex:1; }
-.cc-sidebar__link fa-icon { flex:0 0 auto; width:15px; font-size:var(--fs-caption); color:inherit; }
-.cc-sidebar__chevron { margin-left:auto; width:auto; font-size:10px; opacity:.45; color:inherit; }
-.cc-sidebar__link:hover { background:var(--color-bg-elevated); color:var(--color-text-primary); }
-/* Solid fill, as the home tabs mark their current tab — the old 12% tint read
-   as a hover state next to it. */
-.cc-sidebar__link.is-active { background:var(--color-action); color:var(--primary-foreground); }
-.cc-sidebar__link.is-active .cc-sidebar__chevron { opacity:.8; }
-/* The content side carries the padding now that the surface has none. */
-.cc-main { padding:var(--space-xl) var(--space-xl) var(--space-lg); }
-.cc-main .split-section__visual { min-height:440px; }
-
-@media (max-width:1023px) {
-  .cc-layout { grid-template-columns:1fr; }
-  .cc-sidebar { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); overflow:visible; border-right:0; border-bottom:1px solid var(--color-border); }
-  .cc-main { padding:var(--space-lg); }
-  .cc-sidebar__title { display:block; grid-column:1 / -1; }
-}
-
-/* ============================================================
    HUB DIAGRAM — a center icon with labeled cards floating around
    it. Used for Expert Support.
    ============================================================ */
@@ -382,17 +348,6 @@ h1 > span .text-blue { display:inline; }
 @media (max-width:639px) { .hub__card { width:100%; } }
 
 /* ============================================================
-   CLOUD COMPUTING DASHBOARD MOCKUP — the CloudEdge Console shown
-   as a premium floating panel (no device frame): a soft ambient
-   glow behind it, rounded corners and a soft shadow underneath,
-   near-front-facing with only the slightest perspective tilt.
-   ============================================================ */
-.cc-visual { display:flex; align-items:center; isolation:isolate; }
-.dashboard-glow { position:absolute; inset:-14% -10%; z-index:-1; border-radius:40px; background:radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--wp-blue) 20%, transparent), transparent 60%), radial-gradient(circle at 75% 78%, color-mix(in srgb, var(--color-brand-green) 18%, transparent), transparent 62%); filter:blur(6px); }
-.dashboard-mockup { width:100%; border-radius:var(--radius-xl); overflow:hidden; background:var(--wp-panel); box-shadow:0 30px 60px -20px color-mix(in srgb, var(--wp-ink) 28%, transparent), 0 10px 26px -12px color-mix(in srgb, var(--wp-ink) 18%, transparent); transform:perspective(1400px) rotateY(-2.5deg) rotateX(1deg); }
-.dashboard-mockup img { display:block; width:100%; height:auto; }
-
-@media (max-width:1023px) { .dashboard-mockup { transform:none; } }
 
 /* ============================================================
    PRIVATE CLOUD VISUAL — the real CloudEdge Console composited onto
@@ -602,10 +557,6 @@ h1 > span .text-blue { display:inline; }
 
 /* CloudEdge visual composition:product screens, topology, and service flow. */
 .split-section__visual { min-width:0; }
-.cc-main { grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr); gap:var(--space-lg); }
-.cc-main .split-section__visual { min-height:350px; }
-.dashboard-mockup { border:1px solid var(--wp-panel-line); transform:none; border-radius:var(--radius-xl); }
-.dashboard-glow { inset:0; }
 .pc-visual { min-height:510px; padding:90px 0; }
 .pc-photo { inset:65px 0; mask-image:none; -webkit-mask-image:none; }
 .pc-photo img { object-position:center; }
@@ -662,7 +613,7 @@ h1 > span .text-blue { display:inline; }
 .pricing-plan__features li { line-height:1.5; align-items:baseline; }
 .pricing-trust { min-width:0; }
 .final-cta { border:1px solid var(--wp-panel-line); }
-:where(.btn, .cc-sidebar__link, .stories-arrows button):focus-visible { outline:3px solid var(--wp-blue); outline-offset:4px; }
+:where(.btn, .stories-arrows button):focus-visible { outline:3px solid var(--wp-blue); outline-offset:4px; }
 @media (max-width:1199px) and (min-width: 1024px) {
   .pc-card { width:165px; }
   .migration-flow { padding:18px; }
@@ -674,8 +625,6 @@ h1 > span .text-blue { display:inline; }
   .zt-center { width:72px; }
 }
 @media (max-width:1023px) {
-  .cc-main { grid-template-columns:1fr; }
-  .cc-main .split-section__visual { min-height:auto; }
   .split-section__visual { min-height:auto; }
   .pc-visual { display:grid; grid-template-columns:1fr 1fr; padding:0; gap:var(--space-md); }
   .pc-photo { display:block; position:relative; inset:auto; grid-column:1 / -1; aspect-ratio:1.5; }
@@ -971,12 +920,6 @@ h1 > span .text-blue { display:inline; }
 @media (max-width:639px) {
   #zero-trust .feature-row { grid-template-columns:repeat(2, minmax(0, 1fr)); }
   #zero-trust .feature-row li + li { border:0; padding-left:0; }
-}
-
-@media (max-width:639px) {
-  .cc-sidebar { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--space-xs); }
-  .cc-sidebar__link { min-width:0; font-size:var(--fs-caption); padding:10px var(--space-sm); }
-  .cc-sidebar__link span { min-width:0; }
 }
 
 /* Benefits and ecosystem share the same centered card boundaries. */

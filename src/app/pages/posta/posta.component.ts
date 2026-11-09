@@ -4,7 +4,6 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
   faAward,
-  faBell,
   faBolt,
   faBoxArchive,
   faBrain,
@@ -39,12 +38,10 @@ import {
   faFileExcel,
   faFileLines,
   faFilePdf,
-  faGaugeHigh,
   faGear,
   faGift,
   faGlobe,
   faHandHoldingDollar,
-  faHeadset,
   faInbox,
   faLandmark,
   faLayerGroup,
@@ -67,7 +64,6 @@ import {
   faStar,
   faStopwatch,
   faTableCellsLarge,
-  faTableColumns,
   faTowerBroadcast,
   faTrashCan,
   faUpRightAndDownLeftFromCenter,
@@ -87,6 +83,8 @@ import { RevealDirective } from '@/shared/directives/reveal.directive';
 import { scrollToFragmentOnClick } from '@/shared/utils';
 
 import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
+import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
+import { POSTA_CATALOGUE } from '@/shared/ecosystem-tabs/ecosystem-catalogues';
 type BillingPeriod = 'monthly' | 'annual';
 
 interface Plan {
@@ -149,7 +147,7 @@ interface ResourceCard {
  * sections below are specific to Posta and own their content + CSS.
  */
 @Component({
-  imports: [PageJumpNavComponent, FaIconComponent, NgOptimizedImage, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
+  imports: [PageJumpNavComponent, EcosystemTabsComponent, FaIconComponent, NgOptimizedImage, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {
@@ -166,10 +164,12 @@ export class PostaComponent {
     scrollToFragmentOnClick(event, this.document);
   }
 
+  /** Features section: the home ecosystem tabs, scoped to Posta. */
+  protected readonly catalogue = POSTA_CATALOGUE;
+
   protected readonly icons = {
     arrowRight: faArrowRight,
     award: faAward,
-    bell: faBell,
     bolt: faBolt,
     boxArchive: faBoxArchive,
     brain: faBrain,
@@ -204,13 +204,11 @@ export class PostaComponent {
     fileExcel: faFileExcel,
     fileLines: faFileLines,
     filePdf: faFilePdf,
-    gaugeHigh: faGaugeHigh,
     gear: faGear,
     gift: faGift,
     globe: faGlobe,
     google: faGoogle,
     handHoldingDollar: faHandHoldingDollar,
-    headset: faHeadset,
     inbox: faInbox,
     landmark: faLandmark,
     layerGroup: faLayerGroup,
@@ -233,7 +231,6 @@ export class PostaComponent {
     star: faStar,
     stopwatch: faStopwatch,
     tableCellsLarge: faTableCellsLarge,
-    tableColumns: faTableColumns,
     towerBroadcast: faTowerBroadcast,
     trashCan: faTrashCan,
     upRightAndDownLeftFromCenter: faUpRightAndDownLeftFromCenter,

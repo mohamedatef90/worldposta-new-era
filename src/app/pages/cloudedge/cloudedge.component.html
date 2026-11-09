@@ -89,55 +89,24 @@
     </div>
   </section>
 
-  <!-- ================= CLOUD COMPUTING OVERVIEW ================= -->
-  <section class="alt-section alt-section--tint" id="cloud-computing" aria-labelledby="cloud-computing-heading">
-    <div class="ds-container cc-layout">
-      <nav class="cc-sidebar" aria-label="CloudEdge sections">
-        <p class="cc-sidebar__title">CloudEdge</p>
-        @for (link of sidebarLinks; track link.label) {
-          <a [href]="link.href" class="cc-sidebar__link" [class.is-active]="link.active">
-            <fa-icon [icon]="link.icon" aria-hidden="true" />
-            <span>{{ link.label }}</span>
-            <fa-icon class="cc-sidebar__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
-          </a>
-        }
-      </nav>
-
-      <div class="split-section cc-main">
-        <div class="split-section__copy">
-          <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Computing</p>
-          <h2 id="cloud-computing-heading" class="section-heading">Flexible, Secure <span class="text-green block">Cloud Computing</span> for Your Business.</h2>
-          <p class="section-subtitle">Build, deploy and scale with a global cloud platform designed for performance, security and simplicity. Cloud Computing gives you the infrastructure you need — on your terms.</p>
-
-          <div class="hero-copy__actions">
-            <a class="btn btn--primary" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Get Started Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /><span class="sr-only">(opens in a new tab)</span></a>
-            <a class="btn btn--ghost" href="https://www.worldposta.com/contact-us">Talk to an Expert</a>
-          </div>
-        </div>
-
-        <div class="split-section__visual cc-visual">
-          <div class="dashboard-glow" aria-hidden="true"></div>
-          <div class="dashboard-mockup">
-            <img [ngSrc]="cloudComputingDashboard()" width="1600" height="900" alt="CloudEdge Console dashboard showing CPU, memory, storage and active VM usage, top VMs by resource usage, and a 87% security score" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Full-width row: spans the same left-to-right boundary as the
-           sidebar + main content above it (grid-column 1 / -1 of cc-layout),
-           so the first card's left edge lines up with the sidebar and the
-           last card's right edge lines up with the dashboard. -->
-      <ul class="cc-trust-row">
-        @for (t of cloudComputingTrust; track t.label) {
-          <li class="cc-trust-card">
-            <span class="tone-icon" [attr.data-tone]="t.tone"><fa-icon [icon]="t.icon" aria-hidden="true" /></span>
-            <span class="cc-trust-card__divider" aria-hidden="true"></span>
-            <span>{{ t.label }}</span>
-          </li>
-        }
-      </ul>
+  <!-- ================= CLOUD COMPUTING: ECOSYSTEM TABS ================= -->
+  <!-- The home page's ecosystem tabs, scoped to CloudEdge's own services. -->
+  <app-ecosystem-tabs sectionId="cloud-computing" headingId="cloud-computing-heading" [catalogue]="catalogue">
+    <div ecosystemHeader>
+      <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Computing</p>
+      <h2 id="cloud-computing-heading" class="section-heading">Flexible, Secure <span class="text-green block">Cloud Computing</span> for Your Business.</h2>
+      <p class="section-subtitle">Build, deploy and scale with a global cloud platform designed for performance, security and simplicity. Cloud Computing gives you the infrastructure you need — on your terms.</p>
     </div>
-  </section>
+    <ul ecosystemFooter class="cc-trust-row">
+      @for (t of cloudComputingTrust; track t.label) {
+        <li class="cc-trust-card">
+          <span class="tone-icon" [attr.data-tone]="t.tone"><fa-icon [icon]="t.icon" aria-hidden="true" /></span>
+          <span class="cc-trust-card__divider" aria-hidden="true"></span>
+          <span>{{ t.label }}</span>
+        </li>
+      }
+    </ul>
+  </app-ecosystem-tabs>
 
   <!-- ================= PRIVATE CLOUD ================= -->
   <section class="alt-section" id="private-cloud" aria-labelledby="private-cloud-heading">

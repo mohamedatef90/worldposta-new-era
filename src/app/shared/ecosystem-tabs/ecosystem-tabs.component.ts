@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, input, linkedSignal } from '@angular/core';
 import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
@@ -24,10 +24,17 @@ import { ConsoleExtrasComponent } from './console-extras/console-extras.componen
 import { ConsoleCardsComponent } from './console-cards/console-cards.component';
 import { LiveConsoleComponent } from './live-console/live-console.component';
 import { LinkMeetingComponent } from './link-meeting/link-meeting.component';
-import { CONSOLE_NAV, ECOSYSTEM_SCREENS, type EcosystemAction } from './ecosystem-screens';
-import { TAB_CONTENT, TAB_GROUPS, type TabContent, type TabGroup } from './ecosystem-tabs.data';
+import { CONSOLE_NAV, type EcosystemAction } from './ecosystem-screens';
+import type { TabContent, TabGroup } from './ecosystem-tabs.data';
+import { HOME_CATALOGUE, type EcosystemCatalogue } from './ecosystem-catalogues';
 
 
+/**
+ * "Explore the ecosystem" tabs: a service list beside a live preview of the
+ * selected service. Home shows the whole catalogue; product pages pass their
+ * own slice and project their own header (eyebrow, h2 and subtitle) — the h2
+ * must carry the id given in `headingId`.
+ */
 @Component({
   selector: 'app-ecosystem-tabs',
   imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent, ServicePickerComponent, ConsoleExtrasComponent, ConsoleCardsComponent, LiveConsoleComponent, LinkMeetingComponent],
@@ -36,6 +43,12 @@ import { TAB_CONTENT, TAB_GROUPS, type TabContent, type TabGroup } from './ecosy
 })
 export class EcosystemTabsComponent {
   private readonly theme = inject(ThemeService);
+
+  readonly catalogue = input<EcosystemCatalogue>(HOME_CATALOGUE);
+  /** Anchor id for the section, for page jump links. */
+  readonly sectionId = input<string | null>(null);
+  /** Id of the section heading; a projected header must use it on its h2. */
+  readonly headingId = input('ecosystem-section-heading');
 
   protected readonly icons = {
     check: faCheck,
@@ -144,9 +157,10 @@ export class EcosystemTabsComponent {
     };
   });
 
-  protected readonly tabGroups = TAB_GROUPS;
+  protected readonly tabGroups = computed(() => this.catalogue().groups);
 
-  protected readonly activeTabId = signal<string>('cloud-infrastructure');
+  /** Opens on the catalogue's first service, and again whenever the catalogue changes. */
+  protected readonly activeTabId = linkedSignal(() => this.tabGroups()[0].items[0].id);
 
   /**
    * Phone-only disclosure state for the service list. On a phone the sidebar
@@ -159,16 +173,16 @@ export class EcosystemTabsComponent {
   /** The picker face: what you are looking at, and which family it belongs to. */
   protected readonly activeTab = computed(() => {
     const id = this.activeTabId();
-    for (const group of this.tabGroups) {
+    for (const group of this.tabGroups()) {
       const hit = group.items.find((item) => item.id === id);
       if (hit) return { ...hit, groupLabel: group.label };
     }
-    const first = this.tabGroups[0];
+    const first = this.tabGroups()[0];
     return { ...first.items[0], groupLabel: first.label };
   });
 
   /** Shown on the picker so the catalogue behind it is not a secret. */
-  protected readonly serviceCount = this.tabGroups.reduce((n, g) => n + g.items.length, 0);
+  protected readonly serviceCount = computed(() => this.tabGroups().reduce((n, g) => n + g.items.length, 0));
 
   /**
    * The panel screenshot for the active theme. A light screenshot on the dark
@@ -183,7 +197,7 @@ export class EcosystemTabsComponent {
   /** Icon of the active tab, shown beside the badge. */
   protected readonly activeIcon = computed<IconDefinition>(() => {
     const id = this.activeTabId();
-    for (const group of this.tabGroups) {
+    for (const group of this.tabGroups()) {
       const hit = group.items.find((item) => item.id === id);
       if (hit) return hit.icon;
     }
@@ -196,7 +210,7 @@ export class EcosystemTabsComponent {
    * Hotspots and sidebar targets are converted to percentages of the capture.
    */
   protected readonly screen = computed(() => {
-    const shot = ECOSYSTEM_SCREENS[this.activeTabId()];
+    const shot = this.catalogue().screens[this.activeTabId()];
     if (!shot) return null;
     const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
     return {
@@ -221,12 +235,13 @@ export class EcosystemTabsComponent {
   });
 
   /** Services whose preview is the working console instead of a screenshot. */
-  protected readonly liveMode = computed<'vm' | 'billing' | null>(() =>
-    this.activeTabId() === 'virtual-machines' ? 'vm' : this.activeTabId() === 'cost-management' ? 'billing' : null,
-  );
+  protected readonly liveMode = computed(() => {
+    const live = this.catalogue().live[this.activeTabId()];
+    return live === 'vm' || live === 'billing' ? live : null;
+  });
 
   /** Conferencing shows the live Posta Link meeting window from the Posta Link hero. */
-  protected readonly meeting = computed(() => this.activeTabId() === 'conferencing');
+  protected readonly meeting = computed(() => this.catalogue().live[this.activeTabId()] === 'meeting');
 
   /** The answer of the screenshot button the visitor just pressed. */
   protected readonly actionNote = signal<{ label: string; text: string } | null>(null);
@@ -246,9 +261,10 @@ export class EcosystemTabsComponent {
     this.actionTimer = setTimeout(() => this.actionNote.set(null), 3600);
   }
 
-  protected readonly tabContent = computed<TabContent>(
-    () => TAB_CONTENT[this.activeTabId()] ?? TAB_CONTENT['cloud-infrastructure'],
-  );
+  protected readonly tabContent = computed<TabContent>(() => {
+    const { content } = this.catalogue();
+    return content[this.activeTabId()] ?? content[this.tabGroups()[0].items[0].id];
+  });
 
   protected setActiveTab(tabId: string): void {
     this.activeTabId.set(tabId);
@@ -280,7 +296,7 @@ export class EcosystemTabsComponent {
   }
 
   protected handleKeydown(event: KeyboardEvent, groupId: string, itemIndex: number): void {
-    const group = this.tabGroups.find((g) => g.id === groupId);
+    const group = this.tabGroups().find((g) => g.id === groupId);
     if (!group) return;
 
     const items = group.items;

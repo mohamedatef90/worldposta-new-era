@@ -43,6 +43,8 @@ import { scrollToFragmentOnClick } from '@/shared/utils';
 import { ThemeService } from '@/shared/services/theme.service';
 
 import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
+import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
+import { CLOUDEDGE_CATALOGUE } from '@/shared/ecosystem-tabs/ecosystem-catalogues';
 interface HeroChip {
   readonly id: string;
   readonly icon: IconDefinition;
@@ -70,13 +72,6 @@ interface FeatureItem {
 interface HubCard extends FeatureItem {
   /** Matches a `.hub__card--<position>` CSS rule for this section. */
   readonly position: string;
-}
-
-interface SidebarLink {
-  readonly icon: IconDefinition;
-  readonly label: string;
-  readonly href: string;
-  readonly active?: boolean;
 }
 
 interface ChecklistItem {
@@ -142,7 +137,7 @@ interface AddOn {
  * reference section mockups, section for section.
  */
 @Component({
-  imports: [PageJumpNavComponent, ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
+  imports: [PageJumpNavComponent, EcosystemTabsComponent, ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {
@@ -253,21 +248,9 @@ export class CloudEdgeComponent {
   }));
 
   // ============================================================
-  // CLOUD COMPUTING OVERVIEW
+  // CLOUD COMPUTING (ecosystem tabs)
   // ============================================================
-  protected readonly sidebarLinks: readonly SidebarLink[] = [
-    // No `active` here on purpose: these eight links point at four anchors, so
-    // a fixed flag highlighted "Cloud Computing" whichever one you clicked.
-    // Nothing is marked until something can set it from where you actually are.
-    { icon: faCloud, label: 'Cloud Computing', href: '#cloud-computing' },
-    { icon: faServer, label: 'Virtual Machines', href: '#cloud-computing' },
-    { icon: faDharmachakra, label: 'Kubernetes', href: '#cloud-computing' },
-    { icon: faDatabase, label: 'Storage', href: '#cloud-computing' },
-    { icon: faNetworkWired, label: 'Networking', href: '#private-cloud' },
-    { icon: faShieldHalved, label: 'Backup & DR', href: '#expert-support' },
-    { icon: faLock, label: 'Security', href: '#zero-trust' },
-    { icon: faChartColumn, label: 'Monitoring', href: '#expert-support' },
-  ];
+  protected readonly catalogue = CLOUDEDGE_CATALOGUE;
 
   protected readonly cloudComputingTrust: readonly StatTile[] = [
     { icon: faPeopleGroup, tone: 'blue', value: '', label: 'Enterprise-grade infrastructure' },
@@ -276,16 +259,6 @@ export class CloudEdgeComponent {
   ];
 
   private readonly theme = inject(ThemeService);
-
-  /**
-   * The CloudEdge Console screenshot, presented as a floating dashboard mockup
-   * instead of the feature hub. Follows the site theme, like the home hero.
-   */
-  protected readonly cloudComputingDashboard = computed(() =>
-    this.theme.isDark()
-      ? '/worldposta-assets/hero/cloudedge/console-dashboard-dark.avif'
-      : '/worldposta-assets/hero/cloudedge/console-dashboard.avif',
-  );
 
   // ============================================================
   // PRIVATE CLOUD

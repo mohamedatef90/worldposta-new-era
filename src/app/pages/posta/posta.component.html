@@ -97,100 +97,15 @@
   </section>
   <nav appPageJumpNav [links]="[{ href: '/posta#features-console', label: 'Features' }, { href: '/posta#migration', label: 'Migration' }, { href: '/posta#security', label: 'Security' }, { href: '/posta#pricing', label: 'Plans & pricing' }, { href: '/posta#contact', label: 'Talk to an expert' }]"></nav>
 
-
-  <!-- ================= 2. EMAIL SERVICES — product screenshot view ================= -->
-  <section class="section section--panel" id="features-console" aria-labelledby="admin-heading-2">
-    <div class="ds-container">
-      <div class="eco-surface eco-surface--shot" appReveal>
-        <!-- Console chrome above the sidebar/panel grid, mirroring the real
-             Email Admin Suite's own top bar (brand, global search, help,
-             notifications, signed-in admin) rather than a marketing navbar. -->
-        <div aria-hidden="true" class="eco-topbar">
-          <span class="eco-topbar__brand">
-            <span class="eco-topbar__logo"><img class="posta-mark" ngSrc="/worldposta-assets/posta/posta-mark.avif" width="160" height="160" alt="" /><span>Posta</span></span>
-            <fa-icon class="eco-topbar__collapse" [icon]="icons.tableColumns" aria-hidden="true" />
-          </span>
-          <span class="eco-topbar__bar">
-            <span class="eco-topbar__search"><fa-icon [icon]="icons.magnifyingGlass" aria-hidden="true" />Search mailboxes, users, or domains&hellip;</span>
-            <span class="eco-topbar__actions">
-              <fa-icon [icon]="icons.circleQuestion" aria-hidden="true" />
-              <fa-icon [icon]="icons.bell" aria-hidden="true" />
-              <span class="eco-topbar__user">
-                <span class="eco-topbar__avatar">JD</span>
-                <span class="eco-topbar__user-text"><strong>John Doe</strong><small>IT Administrator</small></span>
-                <fa-icon class="eco-topbar__chevron" [icon]="icons.chevronDown" aria-hidden="true" />
-              </span>
-            </span>
-          </span>
-        </div>
-        <div class="eco-body">
-          <!-- Mirrors the real Email Admin Suite's own navigation, trimmed to
-               the Exchange Email items only (no Dashboard, no unrelated
-               Administration/More sections), so this panel reads as the
-               Posta email console it's showing a screenshot of. -->
-          <aside aria-hidden="true" class="admin-side">
-            <ul>
-              <li class="is-active"><fa-icon [icon]="icons.envelope" aria-hidden="true" />Mailboxes</li>
-              <li><fa-icon [icon]="icons.globe" aria-hidden="true" />Domains</li>
-              <li><fa-icon [icon]="icons.userGroup" aria-hidden="true" />Distribution Lists</li>
-              <li><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" />Security &amp; Gateway</li>
-              <li><fa-icon [icon]="icons.database" aria-hidden="true" />Storage &amp; Retention</li>
-              <li><fa-icon [icon]="icons.gear" aria-hidden="true" />Settings &amp; Policies</li>
-              <li><fa-icon [icon]="icons.chartSimple" aria-hidden="true" />Reports &amp; Logs</li>
-            </ul>
-            <h5>Management</h5>
-            <ul>
-              <li><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" />IAM &amp; Access</li>
-              <li><fa-icon [icon]="icons.users" aria-hidden="true" />Users</li>
-              <li><fa-icon [icon]="icons.headset" aria-hidden="true" />Tickets</li>
-              <li><fa-icon [icon]="icons.creditCard" aria-hidden="true" />Billing</li>
-            </ul>
-          </aside>
-          <div class="eco-panel eco-panel--shot">
-            <div class="shot-main">
-              <div class="eco-copy">
-                <span class="eco-badge"><span class="eco-badge__icon"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span>Posta · Email Services</span>
-                <h2 class="h2" id="admin-heading-2">Business Email,<br/><span class="text-green hero-palette-green">under your control.</span></h2>
-                <p class="eco-desc">Secure, reliable and professional email for your business, built for productivity.</p>
-                <ul class="check-list">
-                  <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Custom domain email (you&#64;yourcompany.com)</li>
-                  <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Advanced security and anti-spam protection</li>
-                  <li><fa-icon [icon]="icons.circleCheck" aria-hidden="true" />Access from anywhere, on any device</li>
-                </ul>
-                <div class="eco-actions">
-                  <a class="btn btn--primary" href="#start"><fa-icon [icon]="icons.plus" aria-hidden="true" /> Create Your Business Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-                  <a class="btn btn--outline" href="#pricing">View Plans</a>
-                </div>
-              </div>
-              <div class="shot-visual">
-                <div class="mockup-shell"><img ngSrc="/worldposta-assets/posta/email-exchange-mailboxes.avif" width="1540" height="735" alt="Posta Email Admin Suite: the Exchange Email mailboxes list, showing display names, mailbox plans and drive quota per user" /></div>
-                <div class="eco-chip"><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.gaugeHigh" aria-hidden="true" /></span><span><strong>Posta Admin Console</strong><small>Real-time analytics &amp; compliance</small></span></div>
-              </div>
-            </div>
-
-            <div class="benefits-strip">
-              <div class="benefit-item">
-                <div class="benefit-icon"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></div>
-                <div class="benefit-text"><h4>Custom Domain Email</h4><p>you&#64;yourcompany.com, fully configured in minutes.</p></div>
-              </div>
-              <div class="benefit-item">
-                <div class="benefit-icon"><fa-icon [icon]="icons.shieldHalved" aria-hidden="true" /></div>
-                <div class="benefit-text"><h4>Advanced Security</h4><p>Anti-spam and anti-malware protection built in.</p></div>
-              </div>
-              <div class="benefit-item">
-                <div class="benefit-icon"><fa-icon [icon]="icons.cloud" aria-hidden="true" /></div>
-                <div class="benefit-text"><h4>Access Anywhere</h4><p>Webmail, mobile and desktop clients, always in sync.</p></div>
-              </div>
-              <div class="benefit-item">
-                <div class="benefit-icon"><fa-icon [icon]="icons.gear" aria-hidden="true" /></div>
-                <div class="benefit-text"><h4>Full Admin Control</h4><p>Manage mailboxes, domains and policies from one console.</p></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- ================= 2. FEATURES: ECOSYSTEM TABS ================= -->
+  <!-- The home page's ecosystem tabs, scoped to Posta: email and its admin console, then the collaboration apps. -->
+  <app-ecosystem-tabs sectionId="features-console" headingId="admin-heading-2" [catalogue]="catalogue">
+    <div ecosystemHeader>
+      <p class="eyebrow">Posta · Email Services</p>
+      <h2 class="h2" id="admin-heading-2">Business Email,<br/><span class="text-green hero-palette-green">under your control.</span></h2>
+      <p class="lede">Secure, reliable and professional email for your business, built for productivity.</p>
     </div>
-  </section>
+  </app-ecosystem-tabs>
 
   <!-- ================= 3. DELIVERY ASSURANCE ================= -->
   <section class="section section--panel" id="delivery" aria-labelledby="delivery-heading">

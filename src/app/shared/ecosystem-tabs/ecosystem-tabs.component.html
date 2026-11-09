@@ -1,21 +1,24 @@
-<section class="ecosystem-section" aria-labelledby="ecosystem-section-heading">
+<section class="ecosystem-section" [attr.id]="sectionId()" [attr.aria-labelledby]="headingId()">
   <div class="ecosystem-container ds-container">
     <header class="ecosystem-header">
-      <p class="eyebrow">Explore the WorldPosta ecosystem</p>
-      <h2 id="ecosystem-section-heading">
-        One Platform.<br />
-        <span class="highlight">Every Tool</span> Your Business Runs On.
-      </h2>
-      <p class="subtitle">
-        From business communication and collaboration to secure, scalable cloud infrastructure —
-        WorldPosta gives you everything you need, in one connected ecosystem.
-      </p>
+      <!-- Pages project their own eyebrow, h2 (with the headingId) and subtitle; home uses this default. -->
+      <ng-content select="[ecosystemHeader]">
+        <p class="eyebrow">Explore the WorldPosta ecosystem</p>
+        <h2 id="ecosystem-section-heading">
+          One Platform.<br />
+          <span class="highlight">Every Tool</span> Your Business Runs On.
+        </h2>
+        <p class="subtitle">
+          From business communication and collaboration to secure, scalable cloud infrastructure —
+          WorldPosta gives you everything you need, in one connected ecosystem.
+        </p>
+      </ng-content>
     </header>
 
     <div class="ecosystem-surface">
       <app-service-picker
         [service]="activeTab()"
-        [count]="serviceCount"
+        [count]="serviceCount()"
         [open]="pickerOpen()"
         controls="service-tablist"
         (toggled)="togglePicker()"
@@ -27,7 +30,7 @@
            div, not an aside, so it doesn't nest a landmark inside main. -->
       <div id="service-tablist" class="tabs-sidebar">
         <div class="tabs-sidebar__inner">
-        @for (group of tabGroups; track group.id) {
+        @for (group of tabGroups(); track group.id) {
           <div class="tab-group">
             <h3 class="tab-group-label" [id]="'tab-group-' + group.id">{{ group.label }}</h3>
             <div class="tab-group-items" role="tablist" aria-orientation="vertical" [attr.aria-labelledby]="'tab-group-' + group.id">
@@ -464,6 +467,6 @@
         </div>
       </div>
     </div>
+    <ng-content select="[ecosystemFooter]" />
   </div>
 </section>
-

@@ -19,7 +19,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeService } from '@/shared/services/theme.service';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { EcosystemTabsComponent } from './ecosystem-tabs/ecosystem-tabs.component';
+import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
 import { GetStartedComponent } from './get-started/get-started.component';
 import { ProviderComparisonComponent } from './provider-comparison/provider-comparison.component';
 import { SecuritySectionComponent } from './security-section/security-section.component';
