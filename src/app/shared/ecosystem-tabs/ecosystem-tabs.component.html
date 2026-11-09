@@ -66,7 +66,7 @@
         [attr.aria-labelledby]="'tab-' + activeTabId()"
         [attr.tabindex]="0"
       >
-        @if (screen(); as shot) {
+        @if (screen() || liveMode()) {
           <div class="eco-shot">
             <div class="eco-shot__head">
               <div class="eco-shot__copy">
@@ -86,15 +86,17 @@
             </div>
             @if (liveMode(); as live) {
               <figure class="eco-shot__window eco-shot__window--live">
-                <div class="eco-shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>{{ liveTitle[live] }}</span><em class="eco-live">Try it · demo data</em></div>
-                <!-- The product's own page, working on demo data. Each loads only when its tab opens. -->
-                @switch (live) {
-                  @case ('vms') { @defer (on immediate) { <app-vm-demo /> } @placeholder (minimum 200ms) { <div class="eco-demo-loading" role="status">Loading the CloudEdge console…</div> } }
-                  @case ('mailboxes') { @defer (on immediate) { <app-mailbox-demo /> } @placeholder (minimum 200ms) { <div class="eco-demo-loading" role="status">Loading the Email Admin Suite…</div> } }
-                  @default { <app-live-console /> }
+                <div class="eco-shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>{{ demos[live].title }}</span><em class="eco-live">Try it · demo data</em></div>
+                <!-- The product's own page, working on demo data. Its code loads the first time its tab opens. -->
+                @if (liveComponent.value(); as demo) {
+                  <ng-container *ngComponentOutlet="demo" />
+                } @else if (liveComponent.error()) {
+                  <div class="eco-demo-loading" role="status">This demo could not load. Refresh the page to try again.</div>
+                } @else {
+                  <div class="eco-demo-loading" role="status">Loading {{ demos[live].title }}…</div>
                 }
               </figure>
-            } @else {
+            } @else if (screen(); as shot) {
             <figure class="eco-shot__window" [class.eco-shot__window--scene]="shot.scene">
               <div class="eco-shot__bar" aria-hidden="true" [hidden]="shot.scene"><i></i><i></i><i></i><span>{{ shot.title }}</span>@if (shot.actions.length) {<em class="eco-live">Click the buttons</em>}</div>
               @if (meeting()) {

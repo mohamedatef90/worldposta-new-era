@@ -5,10 +5,11 @@
  */
 import { faCloud, faEnvelope, faGear, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 import { ECOSYSTEM_SCREENS, type EcosystemScreen } from './ecosystem-screens';
+import type { DemoKey } from './demos/demo-registry';
 import { TAB_CONTENT, TAB_GROUPS, type TabContent, type TabGroup } from './ecosystem-tabs.data';
 
-/** A tab whose preview is a working app rather than a capture. */
-export type LiveDemo = 'vms' | 'mailboxes' | 'billing' | 'meeting';
+/** A tab whose preview is a working app rather than a capture: a registered demo, or the Posta Link meeting window. */
+export type LiveDemo = DemoKey | 'meeting';
 
 export interface EcosystemCatalogue {
   readonly groups: readonly TabGroup[];

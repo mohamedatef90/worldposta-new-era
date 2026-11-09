@@ -1,5 +1,5 @@
-import { Component, signal, computed, inject, input, linkedSignal } from '@angular/core';
-import { DecimalPipe, NgOptimizedImage } from '@angular/common';
+import { Component, signal, computed, inject, input, linkedSignal, resource } from '@angular/core';
+import { DecimalPipe, NgComponentOutlet, NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faCloud,
@@ -22,13 +22,11 @@ import { NotesPanelComponent } from './notes-panel/notes-panel.component';
 import { ServicePickerComponent } from './service-picker/service-picker.component';
 import { ConsoleExtrasComponent } from './console-extras/console-extras.component';
 import { ConsoleCardsComponent } from './console-cards/console-cards.component';
-import { LiveConsoleComponent } from './live-console/live-console.component';
 import { LinkMeetingComponent } from './link-meeting/link-meeting.component';
 import { CONSOLE_NAV, type EcosystemAction } from './ecosystem-screens';
 import type { TabContent, TabGroup } from './ecosystem-tabs.data';
-import { HOME_CATALOGUE, type EcosystemCatalogue, type LiveDemo } from './ecosystem-catalogues';
-import { VmDemoComponent } from './demos/cloudedge-vms/vm-demo.component';
-import { MailboxDemoComponent } from './demos/email-mailboxes/mailbox-demo.component';
+import { HOME_CATALOGUE, type EcosystemCatalogue } from './ecosystem-catalogues';
+import { DEMOS, type DemoKey } from './demos/demo-registry';
 
 
 /**
@@ -39,7 +37,7 @@ import { MailboxDemoComponent } from './demos/email-mailboxes/mailbox-demo.compo
  */
 @Component({
   selector: 'app-ecosystem-tabs',
-  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent, ServicePickerComponent, ConsoleExtrasComponent, ConsoleCardsComponent, LiveConsoleComponent, LinkMeetingComponent, VmDemoComponent, MailboxDemoComponent],
+  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent, ServicePickerComponent, ConsoleExtrasComponent, ConsoleCardsComponent, LinkMeetingComponent, NgComponentOutlet],
   templateUrl: './ecosystem-tabs.component.html',
   styleUrl: './ecosystem-tabs.component.css',
 })
@@ -237,17 +235,18 @@ export class EcosystemTabsComponent {
   });
 
   /** Services whose preview is the working console instead of a screenshot. */
-  protected readonly liveMode = computed(() => {
+  protected readonly liveMode = computed<DemoKey | null>(() => {
     const live = this.catalogue().live[this.activeTabId()];
     return live && live !== 'meeting' ? live : null;
   });
 
-  /** The window title for each working app, as its own browser tab reads. */
-  protected readonly liveTitle: Record<Exclude<LiveDemo, 'meeting'>, string> = {
-    vms: 'CloudEdge Console · Virtual Machines',
-    mailboxes: 'Email Admin Suite · Mailboxes',
-    billing: 'CloudEdge Console · Billing · Invoices',
-  };
+  protected readonly demos = DEMOS;
+
+  /** The active tab's demo component, imported on first use. */
+  protected readonly liveComponent = resource({
+    params: () => this.liveMode() ?? undefined,
+    loader: ({ params }) => DEMOS[params].load(),
+  });
 
   /** Conferencing shows the live Posta Link meeting window from the Posta Link hero. */
   protected readonly meeting = computed(() => this.catalogue().live[this.activeTabId()] === 'meeting');
