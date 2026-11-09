@@ -165,6 +165,23 @@
       <input class="d-input" required placeholder="Enter task name" [value]="main().name" (input)="setMain('name', $any($event.target).value)" [attr.aria-invalid]="mainSubmitted() && !!mainErrors().name" [attr.aria-describedby]="mainSubmitted() && mainErrors().name ? 'tsk-err-name' : null" />
       @if (mainSubmitted() && mainErrors().name; as e) { <p class="d-error" id="tsk-err-name">{{ e }}</p> }
     </label>
+    @if (!dlg.id) {
+      <label class="d-field">
+        <span>Virtual Machine <span class="d-req" aria-hidden="true">*</span></span>
+        <select class="d-select" required (change)="setQuick('objectName', $any($event.target).value)" [attr.aria-invalid]="mainSubmitted() && !!mainErrors().target" [attr.aria-describedby]="mainSubmitted() && mainErrors().target ? 'tsk-err-target' : null">
+          <option value="" disabled [selected]="!details()?.objectName">Select a virtual machine</option>
+          @for (o of quickTargets; track o) { <option [value]="o" [selected]="details()?.objectName === o">{{ o }}</option> }
+        </select>
+        @if (mainSubmitted() && mainErrors().target; as e) { <p class="d-error" id="tsk-err-target">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Action</span>
+        <select class="d-select" (change)="setQuick('action', $any($event.target).value)">
+          @for (a of quickActions; track a) { <option [value]="a" [selected]="details()?.action === a">{{ actionText(a) }}</option> }
+        </select>
+      </label>
+      <p class="tsk-summary">Runs daily at 02:00 UTC from today. Change the schedule later with Edit.</p>
+    } @else {
     <div class="d-grid">
       <label class="d-field">
         <span>Group</span>
@@ -196,6 +213,7 @@
       <input type="checkbox" role="switch" class="d-switch" [checked]="main().status" (change)="setMainStatus($any($event.target).checked)" aria-labelledby="tsk-status-label" />
       <span class="tsk-status-text" [class.is-on]="main().status" aria-hidden="true">{{ main().status ? 'Enabled' : 'Disabled' }}</span>
     </div>
+    }
     <div dialogActions>
       <button type="button" class="d-btn" (click)="taskDialog.set(null)">Cancel</button>
       <button type="button" class="d-btn d-btn--primary" (click)="saveTask()">Save</button>

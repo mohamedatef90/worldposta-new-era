@@ -9,7 +9,8 @@ import { ALL_VMS, BackupDemoStore, type BackupJob, type Frequency, type JobForm,
 
 type JobTab = 'Details' | 'VM' | 'Storage' | 'Schedule';
 
-const BLANK_JOB: JobForm = { name: '', description: '', reservation: 'VDC1', status: true, selectedVmIds: [], frequency: 'Daily', time: '02:00', retentionDays: 14, storagePolicy: 'Standard' };
+/** A new job: enabled on the first reservation, daily at 02:00, 30 days kept on the Standard policy. */
+const BLANK_JOB: JobForm = { name: '', description: '', reservation: 'VDC1', status: true, selectedVmIds: [ALL_VMS[0].id], frequency: 'Daily', time: '02:00', retentionDays: 30, storagePolicy: 'Standard' };
 
 /**
  * CloudEdge › Operations › Backup, working: Backup Jobs (search, High
@@ -141,6 +142,7 @@ export class BackupDemoComponent {
   protected readonly frequencies: Frequency[] = ['Daily', 'Weekly', 'Monthly'];
   protected readonly storagePolicies = ['Standard', 'Performance', 'Archive'];
   protected readonly reservations = ['VDC1', 'VDC2', 'VDC3'];
+  protected readonly allVms = ALL_VMS;
   protected readonly jobDialog = signal<{ id: string | null } | null>(null);
   protected readonly activeTab = signal<JobTab>('Details');
   protected readonly jobForm = signal<JobForm>(BLANK_JOB);
@@ -212,6 +214,7 @@ export class BackupDemoComponent {
       this.activeTab.set(this.errorTab[errors[0]]);
       return;
     }
+    const vmName = ALL_VMS.find((vm) => vm.id === this.jobForm().selectedVmIds[0])?.name;
     const f = { ...this.jobForm(), name: this.jobForm().name.trim(), description: this.jobForm().description.trim() };
     const id = this.jobDialog()?.id;
     if (id) {
@@ -219,7 +222,7 @@ export class BackupDemoComponent {
       this.notify(`${f.name} saved.`);
     } else {
       this.store.addJob(f);
-      this.notify(`Backup Job ${f.name} created: ${f.frequency.toLowerCase()} at ${f.time}, kept ${f.retentionDays} days.`);
+      this.notify(`Backup Job ${f.name} created for ${vmName}: ${f.frequency.toLowerCase()} at ${f.time}, kept ${f.retentionDays} days.`);
     }
     this.jobDialog.set(null);
   }

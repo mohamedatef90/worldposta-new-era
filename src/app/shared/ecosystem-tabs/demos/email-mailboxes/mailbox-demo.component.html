@@ -117,77 +117,28 @@
 @if (addOpen()) {
   <app-demo-dialog title="Add New Mailbox" kind="panel" (closed)="addOpen.set(false)">
     <form id="mbx-add-form" (submit)="$event.preventDefault(); save()" novalidate>
-      <section class="d-section">
-        <h5>Basic Information</h5>
-        <div>
-          <div class="d-grid d-grid--3">
-            <label class="d-field"><span>First Name</span><input class="d-input" autocomplete="off" placeholder="Enter first name" [value]="form().firstName" (input)="set('firstName', $any($event.target).value)" /></label>
-            <label class="d-field"><span>Initials</span><input class="d-input" autocomplete="off" placeholder="M." [value]="form().initials" (input)="set('initials', $any($event.target).value)" /></label>
-            <label class="d-field"><span>Last Name</span><input class="d-input" autocomplete="off" placeholder="Enter last name" [value]="form().lastName" (input)="set('lastName', $any($event.target).value)" /></label>
-          </div>
-          <label class="d-field">
-            <span>Display Name <span class="d-req" aria-hidden="true">*</span></span>
-            <input class="d-input" required autocomplete="off" [value]="form().displayName" (input)="set('displayName', $any($event.target).value)" [attr.aria-invalid]="!!err('displayName')" aria-describedby="mbx-err-dn" />
-            @if (err('displayName'); as e) { <p class="d-error" id="mbx-err-dn">{{ e }}</p> }
-          </label>
-          <div class="d-field">
-            <label class="d-label" for="mbx-email">Email <span class="d-req" aria-hidden="true">*</span></label>
-            <div class="mbx-email">
-              <input id="mbx-email" class="d-input" required autocomplete="off" [value]="form().emailUser" (input)="set('emailUser', $any($event.target).value)" [attr.aria-invalid]="!!err('emailUser')" aria-describedby="mbx-err-email" />
-              <span class="mbx-email__at" aria-hidden="true">&#64;</span>
-              <select class="d-select" aria-label="Email domain" [value]="form().emailDomain" (change)="set('emailDomain', $any($event.target).value)">
-                @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
-              </select>
-            </div>
-            @if (err('emailUser'); as e) { <p class="d-error" id="mbx-err-email">{{ e }}</p> }
-          </div>
-          <div class="d-grid">
-            <label class="d-field">
-              <span>Password <span class="d-req" aria-hidden="true">*</span></span>
-              <input class="d-input" required autocomplete="new-password" [type]="showPassword() ? 'text' : 'password'" [value]="form().password" (input)="set('password', $any($event.target).value)" [attr.aria-invalid]="!!err('password')" aria-describedby="mbx-err-pw" />
-              @if (err('password'); as e) { <p class="d-error" id="mbx-err-pw">{{ e }}</p> }
-            </label>
-            <label class="d-field">
-              <span>Confirm Password <span class="d-req" aria-hidden="true">*</span></span>
-              <input class="d-input" required autocomplete="new-password" [type]="showPassword() ? 'text' : 'password'" [value]="form().confirmPassword" (input)="set('confirmPassword', $any($event.target).value)" [attr.aria-invalid]="!!err('confirmPassword')" aria-describedby="mbx-err-cpw" />
-              @if (err('confirmPassword'); as e) { <p class="d-error" id="mbx-err-cpw">{{ e }}</p> }
-            </label>
-          </div>
-          <div class="mbx-pw-actions">
-            <button type="button" class="d-btn d-btn--sm d-btn--ghost" [attr.aria-pressed]="showPassword()" (click)="showPassword.set(!showPassword())"><fa-icon [icon]="showPassword() ? i.hide : i.show" aria-hidden="true" />{{ showPassword() ? 'Hide' : 'Show' }} password</button>
-            <button type="button" class="d-btn d-btn--sm d-btn--outline" (click)="generatePassword()">Generate Password</button>
-          </div>
+      <label class="d-field">
+        <span>Display Name <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" required autocomplete="off" placeholder="e.g. Sara Ali" [value]="form().displayName" (input)="set('displayName', $any($event.target).value)" [attr.aria-invalid]="!!err('displayName')" aria-describedby="mbx-err-dn" />
+        @if (err('displayName'); as e) { <p class="d-error" id="mbx-err-dn">{{ e }}</p> }
+      </label>
+      <div class="d-field">
+        <label class="d-label" for="mbx-email">Email <span class="d-req" aria-hidden="true">*</span></label>
+        <div class="mbx-email">
+          <input id="mbx-email" class="d-input" required autocomplete="off" [value]="form().emailUser" (input)="set('emailUser', $any($event.target).value)" [attr.aria-invalid]="!!err('emailUser')" aria-describedby="mbx-err-email mbx-email-hint" />
+          <span class="mbx-email__at" aria-hidden="true">&#64;</span>
+          <select class="d-select" aria-label="Email domain" [value]="form().emailDomain" (change)="set('emailDomain', $any($event.target).value)">
+            @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
+          </select>
         </div>
-      </section>
-
-      <section class="d-section">
-        <h5>Mailbox Configuration</h5>
-        <div>
-          <label class="d-field"><span>Mailbox Plan</span>
-            <select class="d-select" [value]="form().mailboxPlan" (change)="set('mailboxPlan', $any($event.target).value)">
-              @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
-            </select>
-          </label>
-          <fieldset class="d-field">
-            <legend class="d-label">Mailbox Type</legend>
-            <div class="mbx-radios">
-              @for (t of types; track t) {
-                <label class="d-check"><input type="radio" name="mbx-type" [checked]="form().mailboxType === t" (change)="set('mailboxType', t)" />{{ t }}</label>
-              }
-            </div>
-          </fieldset>
-          <label class="d-field"><span>Level</span>
-            <select class="d-select" [value]="form().level" (change)="set('level', $any($event.target).value)">
-              @for (l of levels; track l) { <option [value]="l">{{ l }}</option> }
-            </select>
-          </label>
-          <label class="d-check mbx-gap"><input type="checkbox" [checked]="form().sendInstructions" (change)="set('sendInstructions', $any($event.target).checked)" />Send Setup Instructions</label>
-          @if (form().sendInstructions) {
-            <label class="d-field"><span>Additional Setup Instructions Email</span><input class="d-input" type="email" autocomplete="off" placeholder="name@example.com" [value]="form().additionalEmail" (input)="set('additionalEmail', $any($event.target).value)" /></label>
-          }
-          <label class="mbx-switch-row"><span>Enable MFA</span><input class="d-switch" type="checkbox" role="switch" [checked]="form().mfaEnabled" (change)="set('mfaEnabled', $any($event.target).checked)" /></label>
-        </div>
-      </section>
+        @if (err('emailUser'); as e) { <p class="d-error" id="mbx-err-email">{{ e }}</p> }
+        <p class="d-hint" id="mbx-email-hint">A temporary password and setup instructions are sent when you save.</p>
+      </div>
+      <label class="d-field"><span>Mailbox Plan</span>
+        <select class="d-select" [value]="form().mailboxPlan" (change)="set('mailboxPlan', $any($event.target).value)">
+          @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
+        </select>
+      </label>
       @if (submitted() && hasErrors()) { <p class="d-error" role="alert">Fix the highlighted fields to add the mailbox.</p> }
     </form>
     <div dialogActions>

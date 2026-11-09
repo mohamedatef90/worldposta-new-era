@@ -47,6 +47,8 @@ export class RulesDemoComponent {
     { id: 'action', title: 'Do the following...', button: 'Add action', options: ACTION_OPTIONS },
     { id: 'exception', title: 'Except if...', button: 'Add exception', options: CONDITION_OPTIONS },
   ];
+  /** A new rule asks only for its name, a condition and an action; description and exceptions are added later in Edit. */
+  protected readonly createSections = this.sections.filter((s) => s.id !== 'exception');
   protected readonly key = KEY;
 
   protected readonly toast = signal('');

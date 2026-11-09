@@ -186,7 +186,19 @@ export class TasksDemoComponent {
   protected readonly mainErrors = computed(() => ({
     name: this.main().name.trim() ? null : 'Name is required.',
     details: this.details() ? null : 'Add the task details: what to run and when.',
+    target: this.details()?.objectName ? null : 'Select a virtual machine.',
   }));
+
+  /* Create: Name, target VM and action only; the rest takes the defaults below and stays editable with Edit. */
+  protected readonly quickTargets = OBJECTS['VirtualMachine'];
+  protected readonly quickActions = ONE_ACTIONS.filter((a) => a !== 'Run Script');
+  protected actionText(a: string): string {
+    return ACTION_LABEL[a] ?? a;
+  }
+
+  protected setQuick(key: 'objectName' | 'action', value: string): void {
+    this.details.update((d) => (d ? { ...d, [key]: value } : d));
+  }
 
   protected readonly detailsSummary = computed(() => {
     const d = this.details();
@@ -208,8 +220,9 @@ export class TasksDemoComponent {
   }
 
   protected openCreate(): void {
-    this.main.set({ name: '', groupId: this.groups()[0]?.id ?? '', reservation: '', description: '', status: true });
-    this.details.set(null);
+    // Defaults: first group and reservation, enabled, daily at 02:00 UTC from today, no end date.
+    this.main.set({ name: '', groupId: this.groups()[0]?.id ?? '', reservation: this.reservations[0], description: '', status: true });
+    this.details.set(this.blankDetails());
     this.mainSubmitted.set(false);
     this.taskDialog.set({ id: null });
   }
@@ -231,7 +244,7 @@ export class TasksDemoComponent {
     this.mainSubmitted.set(true);
     const e = this.mainErrors();
     const d = this.details();
-    if (e.name || e.details || !d) return;
+    if (e.name || e.details || e.target || !d) return;
     const m = this.main();
     const form: TaskForm = {
       name: m.name.trim(), reservation: m.reservation, description: m.description.trim(), status: m.status ? 'Enabled' : 'Disabled',

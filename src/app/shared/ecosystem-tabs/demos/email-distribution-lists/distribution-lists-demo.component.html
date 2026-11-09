@@ -148,14 +148,16 @@
       <button type="button" class="d-btn d-btn--outline d-btn--icon" aria-label="Select Manager" title="Select Manager" (click)="openManager()"><fa-icon [icon]="i.search" aria-hidden="true" /></button>
     </div>
   </div>
-  <label class="d-field"><span>Note</span><textarea class="d-textarea" rows="3" placeholder="Optional notes about this list..." [value]="form().note" (input)="set('note', $any($event.target).value)"></textarea></label>
+  <!-- Notes are an Edit-page detail; the Add panel keeps to the three essentials. -->
+  @if (!addOpen()) {
+    <label class="d-field"><span>Note</span><textarea class="d-textarea" rows="3" placeholder="Optional notes about this list..." [value]="form().note" (input)="set('note', $any($event.target).value)"></textarea></label>
+  }
 </ng-template>
 
 @if (addOpen()) {
   <app-demo-dialog title="Add Distribution List" kind="panel" (closed)="addOpen.set(false)">
     <form id="dl-add-form" (submit)="$event.preventDefault(); create()" novalidate>
       <ng-container *ngTemplateOutlet="general" />
-      <label class="d-check"><input type="checkbox" [checked]="form().hideFromAddressBook" (change)="set('hideFromAddressBook', $any($event.target).checked)" />Hide from Address Book</label>
       @if (submitted() && hasErrors()) { <p class="d-error" role="alert">Display Name and Email Address are required and must be valid.</p> }
     </form>
     <div dialogActions>

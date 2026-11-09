@@ -81,13 +81,13 @@ export class TeamDemoComponent {
     const editing = this.editingUser();
     const e: Partial<Record<keyof UserForm, string>> = {};
     if (!f.fullName.trim()) e.fullName = 'Name is required.';
-    if (!f.displayName.trim()) e.displayName = 'User Name is required.';
-    else if (!/^[A-Za-z0-9._-]+$/.test(f.displayName.trim())) e.displayName = 'Use letters, numbers, dots, dashes or underscores.';
+    // Adding asks only for name, email and group; the user name comes from the email.
+    if (editing && !f.displayName.trim()) e.displayName = 'User Name is required.';
+    else if (editing && !/^[A-Za-z0-9._-]+$/.test(f.displayName.trim())) e.displayName = 'Use letters, numbers, dots, dashes or underscores.';
     if (!f.email.trim()) e.email = 'Email is required.';
     else if (!EMAIL.test(f.email.trim())) e.email = 'Enter a valid email address, e.g. user@company.com.';
     else if (this.users().some((u) => u.id !== editing?.id && u.email.toLowerCase() === f.email.trim().toLowerCase())) e.email = 'A team user with this email already exists.';
-    if (!editing && !f.password) e.password = 'Password is required.';
-    else if (f.password && f.password.length < 8) e.password = 'Password must be at least 8 characters long.';
+    if (f.password && f.password.length < 8) e.password = 'Password must be at least 8 characters long.';
     if (f.phoneNumber && !/^[+\d][\d\s()-]{5,}$/.test(f.phoneNumber.trim())) e.phoneNumber = 'Enter a valid phone number.';
     if (!f.assignedGroupId) e.assignedGroupId = 'Select a group.';
     return e;
@@ -127,17 +127,19 @@ export class TeamDemoComponent {
     this.userSubmitted.set(true);
     if (Object.keys(this.userErrors()).length) return;
     const f = this.userForm();
+    const editing = this.editingUser();
+    // A new user gets a user name from their email and sets a password from the invitation email.
+    const displayName = editing ? f.displayName.trim() : f.email.trim().split('@')[0].replace(/[^A-Za-z0-9._-]/g, '');
     const data = {
-      fullName: f.fullName.trim(), displayName: f.displayName.trim(), email: f.email.trim(), phoneNumber: f.phoneNumber.trim(),
+      fullName: f.fullName.trim(), displayName, email: f.email.trim(), phoneNumber: f.phoneNumber.trim(),
       assignedGroupId: f.assignedGroupId, mfaEnabled: f.enableMfa, resources: this.resources(),
     };
-    const editing = this.editingUser();
     if (editing) {
       this.store.updateUser(editing.id, data);
       this.notify(`${data.fullName} updated.`);
     } else {
       this.store.addUser(data);
-      this.notify('User added successfully!');
+      this.notify(`${data.fullName} added. An invitation to set a password was sent to ${data.email}.`);
     }
     this.page.set('users');
   }

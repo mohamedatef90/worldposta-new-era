@@ -118,17 +118,13 @@
       <label class="d-field"><span>Title</span>
         <input class="d-input" maxlength="120" placeholder="e.g. Weekly sync" [value]="sched().title" (input)="setSched('title', $any($event.target).value)" />
       </label>
-      <div class="d-grid d-grid--3">
+      <!-- Meetings default to 30 minutes, as in Posta Link; change it after scheduling. -->
+      <div class="d-grid">
         <label class="d-field"><span>Date</span>
           <input class="d-input" type="date" [min]="minDate()" [value]="sched().date" (input)="setSched('date', $any($event.target).value)" />
         </label>
         <label class="d-field"><span>Time</span>
           <input class="d-input" type="time" [value]="sched().time" (input)="setSched('time', $any($event.target).value)" />
-        </label>
-        <label class="d-field"><span>Duration</span>
-          <select class="d-select" [value]="sched().minutes" (change)="setSched('minutes', $any($event.target).value)">
-            @for (d of durations; track d.value) { <option [value]="d.value">{{ d.label }}</option> }
-          </select>
         </label>
       </div>
       @if (schedTouched() && !schedComplete()) { <p class="d-error" role="alert">Fill in a title, date and time to schedule the meeting.</p> }

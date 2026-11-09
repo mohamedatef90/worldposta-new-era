@@ -80,16 +80,6 @@
     }
 
     @case ('stepper') {
-      <ol class="dom-steps" aria-label="Add domain progress">
-        @for (s of steps; track s; let n = $index) {
-          <li [class.is-current]="step() === n" [class.is-done]="step() > n" [attr.aria-current]="step() === n ? 'step' : null">
-            <span class="dom-steps__dot" aria-hidden="true">@if (step() > n) { <fa-icon [icon]="i.check" /> } @else { {{ n + 1 }} }</span>
-            <span>{{ s }}@if (step() > n) {<span class="sr-only"> (completed)</span>}</span>
-          </li>
-        }
-      </ol>
-
-      @if (step() === 0) {
         <div class="dom-verify">
           <h4 class="dom-h4">Verify Domain Ownership</h4>
           <form class="dom-box" id="dom-own-form" (submit)="$event.preventDefault(); verifyOwnership()" novalidate>
@@ -135,13 +125,10 @@
           <div class="dom-buttons">
             <button type="button" class="d-btn d-btn--ghost" (click)="view.set('table')">Cancel</button>
             <button type="submit" form="dom-own-form" class="d-btn d-btn--primary" [disabled]="ownership() !== 'idle'">
-              @if (ownership() === 'verifying') { <fa-icon class="dom-spin" [icon]="i.spin" aria-hidden="true" />Verifying… } @else if (ownership() === 'success') { <fa-icon [icon]="i.check" aria-hidden="true" />Verified! } @else { Verify Now }
+              @if (ownership() === 'verifying') { <fa-icon class="dom-spin" [icon]="i.spin" aria-hidden="true" />Verifying… } @else if (ownership() === 'success') { <fa-icon [icon]="i.check" aria-hidden="true" />Added! } @else { Verify &amp; Add Domain }
             </button>
           </div>
         </div>
-      } @else {
-        <ng-container *ngTemplateOutlet="dns; context: { $implicit: form().domain.trim(), adding: true }" />
-      }
     }
 
     @case ('dns') {
@@ -251,7 +238,6 @@
         @if (busy) { <fa-icon class="dom-spin" [icon]="i.spin" aria-hidden="true" />Verifying… } @else if (allDone()) { <fa-icon [icon]="i.check" aria-hidden="true" />Records Verified! } @else { Verify All DNS Records }
       </button>
       <div class="dom-buttons">
-        @if (adding) { <button type="button" class="d-btn d-btn--ghost" [disabled]="busy || allDone()" (click)="skipRecords()">Skip for now</button> }
         <button type="button" class="d-btn d-btn--ghost" (click)="view.set('table')"><fa-icon [icon]="i.back" aria-hidden="true" />Back to Domains</button>
       </div>
     </div>

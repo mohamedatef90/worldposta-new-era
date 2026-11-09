@@ -145,7 +145,29 @@
 }
 
 @if (jobDialog(); as dlg) {
-  <app-demo-dialog [title]="dlg.id ? 'Edit Backup Job' : 'Create Backup Job'" [wide]="true" (closed)="jobDialog.set(null)">
+  <app-demo-dialog [title]="dlg.id ? 'Edit Backup Job' : 'Create Backup Job'" [wide]="!!dlg.id" (closed)="jobDialog.set(null)">
+    @if (!dlg.id) {
+      <!-- Create: the essentials only; reservation, retention, storage policy and time take defaults. -->
+      <label class="d-field">
+        <span>Name <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" required [value]="jobForm().name" (input)="setJob('name', $any($event.target).value)" [attr.aria-invalid]="!!jobError('name')" [attr.aria-describedby]="jobError('name') ? 'bk-err-name' : null" />
+        @if (jobError('name'); as e) { <p class="d-error" id="bk-err-name">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Virtual Machine <span class="d-req" aria-hidden="true">*</span></span>
+        <select class="d-select" required (change)="setJob('selectedVmIds', [$any($event.target).value])" [attr.aria-invalid]="!!jobError('vms')" [attr.aria-describedby]="jobError('vms') ? 'bk-err-vm' : null">
+          @for (vm of allVms; track vm.id) { <option [value]="vm.id" [selected]="jobForm().selectedVmIds[0] === vm.id">{{ vm.name }}</option> }
+        </select>
+        @if (jobError('vms'); as e) { <p class="d-error" id="bk-err-vm">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Frequency</span>
+        <select class="d-select" (change)="setJob('frequency', $any($event.target).value)">
+          @for (f of frequencies; track f) { <option [selected]="jobForm().frequency === f">{{ f }}</option> }
+        </select>
+      </label>
+      <p class="bk-summary">Runs {{ jobForm().frequency.toLowerCase() }} at {{ jobForm().time }} and keeps {{ jobForm().retentionDays }} days of restore points. Change these later with Edit.</p>
+    } @else {
     <div class="bk-tabs" role="tablist" aria-label="Backup job settings">
       @for (tab of tabs; track tab; let n = $index) {
         <button type="button" role="tab" [id]="'bk-tab-' + n" aria-controls="bk-tabpanel" [attr.aria-selected]="activeTab() === tab" [attr.tabindex]="activeTab() === tab ? 0 : -1" (click)="activeTab.set(tab)" (keydown)="onTabKey($event, n)">
@@ -244,6 +266,7 @@
     </div>
     @if (jobError('name') || jobError('vms') || jobError('retention') || jobError('time')) {
       <p class="d-error" role="alert">Fix the fields on the tabs marked with ! to save the job.</p>
+    }
     }
     <div dialogActions>
       <button type="button" class="d-btn" (click)="jobDialog.set(null)">Cancel</button>

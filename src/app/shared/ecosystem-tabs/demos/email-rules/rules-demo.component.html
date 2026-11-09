@@ -11,12 +11,14 @@
         <input class="d-input" required autocomplete="off" [value]="draft().name" (input)="draft.set({ ...draft(), name: $any($event.target).value })" [attr.aria-invalid]="!!err('name')" aria-describedby="rule-err-name" />
         @if (err('name'); as e) { <p class="d-error" id="rule-err-name">{{ e }}</p> }
       </label>
-      <label class="d-field">
-        <span>Description</span>
-        <textarea class="d-textarea" rows="2" placeholder="Leave blank to describe the rule from its conditions and actions" [value]="draft().description" (input)="draft.set({ ...draft(), description: $any($event.target).value })"></textarea>
-      </label>
+      @if (target !== 'new') {
+        <label class="d-field">
+          <span>Description</span>
+          <textarea class="d-textarea" rows="2" placeholder="Leave blank to describe the rule from its conditions and actions" [value]="draft().description" (input)="draft.set({ ...draft(), description: $any($event.target).value })"></textarea>
+        </label>
+      }
 
-      @for (s of sections; track s.id) {
+      @for (s of target === 'new' ? createSections : sections; track s.id) {
         <fieldset class="rule-sec" [attr.aria-describedby]="err(s.id) ? 'rule-err-' + s.id : null">
           <legend class="rule-sec__title">{{ s.title }}</legend>
           @for (it of draft()[key[s.id]]; track it.id) {

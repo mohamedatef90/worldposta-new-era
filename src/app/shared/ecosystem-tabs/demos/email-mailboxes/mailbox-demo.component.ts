@@ -2,12 +2,12 @@ import { Component, ElementRef, computed, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
-  faCircleCheck, faCirclePause, faCirclePlus, faEye, faEyeSlash, faFileExport, faFilter,
+  faCircleCheck, faCirclePause, faCirclePlus, faFileExport, faFilter,
   faPenToSquare, faPencil, faRotate, faTrashCan, faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { DemoDialogComponent } from '../demo-dialog.component';
 import {
-  MAILBOX_DOMAINS, MAILBOX_LEVELS, MAILBOX_PLANS, MAILBOX_TYPES, MailboxDemoStore, PLAN_QUOTA_GB,
+  MAILBOX_DOMAINS, MAILBOX_LEVELS, MAILBOX_PLANS, MailboxDemoStore, PLAN_QUOTA_GB,
   type Mailbox, type MailboxLevel, type MailboxPlan, type MailboxType,
 } from './mailbox-demo.store';
 
@@ -16,18 +16,18 @@ const NO_FILTERS: MailboxFilters = { displayName: '', domain: 'ALL', plan: 'ALL'
 
 type BulkAction = 'activate' | 'suspend' | 'delete' | 'plan';
 
+/** Only what an admin must choose; level, type and MFA take the product's defaults. */
 const blankMailbox = () => ({
-  firstName: '', initials: '', lastName: '', displayName: '', emailUser: '', emailDomain: MAILBOX_DOMAINS[0],
-  password: '', confirmPassword: '', mailboxPlan: 'Posta Business' as MailboxPlan, mailboxType: 'User' as MailboxType,
-  level: 'Normal' as MailboxLevel, sendInstructions: true, additionalEmail: '', mfaEnabled: false,
+  displayName: '', emailUser: '', emailDomain: MAILBOX_DOMAINS[0], mailboxPlan: 'Posta Business' as MailboxPlan,
+  mailboxType: 'User' as MailboxType, level: 'Normal' as MailboxLevel, mfaEnabled: false,
 });
 type MailboxForm = ReturnType<typeof blankMailbox>;
 
 /**
  * Email Admin Suite › Exchange Email › Mailboxes, working: the mailbox table
  * with inline plan and level edits, selection with bulk actions, Filters &
- * Search, Refresh, Export, delete, and the Add New Mailbox panel with
- * Generate Password. Ported from MailboxesPage.tsx in the unified sign-in app;
+ * Search, Refresh, Export, delete, and the Add New Mailbox panel (display
+ * name, email and plan; the password is generated and emailed). Ported from MailboxesPage.tsx in the unified sign-in app;
  * only the page content is shown, without the suite's sidebar and top bar.
  */
 @Component({
@@ -41,12 +41,11 @@ export class MailboxDemoComponent {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
   protected readonly i = {
-    ok: faCircleCheck, suspend: faCirclePause, add: faCirclePlus, activate: faCircleCheck, show: faEye, hide: faEyeSlash,
+    ok: faCircleCheck, suspend: faCirclePause, add: faCirclePlus, activate: faCircleCheck,
     export: faFileExport, filter: faFilter, edit: faPenToSquare, pencil: faPencil, refresh: faRotate, trash: faTrashCan, close: faXmark,
   };
   protected readonly plans = MAILBOX_PLANS;
   protected readonly levels = MAILBOX_LEVELS;
-  protected readonly types = MAILBOX_TYPES;
   protected readonly domains = MAILBOX_DOMAINS;
   protected readonly statusTone = { active: 'good', suspended: 'warn', blocked: 'bad' } as const;
 
@@ -209,9 +208,8 @@ export class MailboxDemoComponent {
   /* ---------- Add New Mailbox ---------- */
   protected readonly addOpen = signal(false);
   protected readonly form = signal<MailboxForm>(blankMailbox());
-  protected readonly showPassword = signal(false);
   protected readonly submitted = signal(false);
-  /** Display name and email follow the first and last name until the admin types their own. */
+  /** The email follows the display name until the admin types their own. */
   private readonly touched: Partial<Record<keyof MailboxForm, boolean>> = {};
 
   protected readonly errors = computed(() => {
@@ -221,8 +219,6 @@ export class MailboxDemoComponent {
     if (!f.emailUser.trim()) e.emailUser = 'Email address is required.';
     else if (!/^[a-z0-9._-]+$/i.test(f.emailUser)) e.emailUser = 'Use letters, numbers, dots, dashes or underscores.';
     else if (this.store.mailboxes().some((m) => m.login === `${f.emailUser}@${f.emailDomain}`.toLowerCase())) e.emailUser = 'This email address is already in use.';
-    if (f.password.length < 8) e.password = 'Complex password with minimum 8 characters required.';
-    if (f.password !== f.confirmPassword) e.confirmPassword = 'Passwords do not match.';
     return e;
   });
   protected readonly hasErrors = computed(() => Object.keys(this.errors()).length > 0);
@@ -233,34 +229,22 @@ export class MailboxDemoComponent {
 
   protected openAdd(): void {
     this.form.set(blankMailbox());
-    this.touched.displayName = this.touched.emailUser = false;
+    this.touched.emailUser = false;
     this.submitted.set(false);
-    this.showPassword.set(false);
     this.addOpen.set(true);
   }
 
   protected set<K extends keyof MailboxForm>(key: K, value: MailboxForm[K]): void {
-    if (key === 'displayName' || key === 'emailUser') this.touched[key] = true;
+    if (key === 'emailUser') this.touched.emailUser = true;
     this.form.update((f) => {
       const next = { ...f, [key]: value };
-      if (key === 'firstName' || key === 'lastName') {
-        if (!this.touched.displayName) next.displayName = `${next.firstName} ${next.lastName}`.trim();
-        if (!this.touched.emailUser) {
-          next.emailUser = [next.firstName, next.lastName].filter(Boolean).join('.').toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9.-]/g, '');
-        }
+      if (key === 'displayName' && !this.touched.emailUser) {
+        next.emailUser = String(value).trim().toLowerCase().replace(/\s+/g, '.').replace(/[^a-z0-9.-]/g, '');
       }
       return next;
     });
   }
 
-  protected generatePassword(): void {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?';
-    const random = new Uint32Array(16);
-    crypto.getRandomValues(random);
-    const password = Array.from(random, (n) => chars[n % chars.length]).join('');
-    this.form.update((f) => ({ ...f, password, confirmPassword: password }));
-    this.showPassword.set(true);
-  }
 
   protected save(): void {
     this.submitted.set(true);
@@ -280,7 +264,8 @@ export class MailboxDemoComponent {
       mailboxType: f.mailboxType,
     });
     this.addOpen.set(false);
-    this.notify(`${login} created${f.sendInstructions ? ' and setup instructions sent' : ''}.`);
+    // Level, type and MFA keep their defaults (Normal, User, off); a temporary password is generated and emailed.
+    this.notify(`${login} created. Temporary password and setup instructions sent.`);
   }
 
   /* ---------- Shared ---------- */

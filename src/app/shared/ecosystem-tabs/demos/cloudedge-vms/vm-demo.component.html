@@ -122,86 +122,19 @@
             @if (error('vmName'); as e) { <p class="d-error" id="vm-err-name">{{ e }}</p> }
           </label>
           <label class="d-field">
-            <span>Reservation <span class="d-req" aria-hidden="true">*</span></span>
-            <select class="d-select" required [value]="form().reservation" (change)="setField('reservation', $any($event.target).value)" [attr.aria-invalid]="!!error('reservation')" aria-describedby="vm-err-res">
-              <option value="" disabled>Select Reservation</option>
-              @for (r of reservations; track r) { <option [value]="r">{{ r }}</option> }
-            </select>
-            @if (error('reservation'); as e) { <p class="d-error" id="vm-err-res">{{ e }}</p> }
-          </label>
-          <label class="d-field">
-            <span>Group <span class="d-req" aria-hidden="true">*</span></span>
-            <select class="d-select" required [value]="form().group" (change)="setField('group', $any($event.target).value)" [attr.aria-invalid]="!!error('group')" aria-describedby="vm-err-group">
-              <option value="" disabled>Select Group</option>
-              @for (g of groups; track g) { <option [value]="g">{{ g }}</option> }
-            </select>
-            @if (error('group'); as e) { <p class="d-error" id="vm-err-group">{{ e }}</p> }
-          </label>
-          <label class="d-field d-span">
             <span>OS blueprint <span class="d-req" aria-hidden="true">*</span></span>
-            <select class="d-select" required [value]="form().osBlueprint" (change)="setField('osBlueprint', $any($event.target).value)" [attr.aria-invalid]="!!error('osBlueprint')" aria-describedby="vm-err-os">
-              <option value="" disabled>Select from recent OSes...</option>
+            <select class="d-select" required [value]="form().osBlueprint" (change)="setField('osBlueprint', $any($event.target).value)">
               @for (os of osBlueprints; track os) { <option [value]="os">{{ os }}</option> }
             </select>
-            @if (error('osBlueprint'); as e) { <p class="d-error" id="vm-err-os">{{ e }}</p> }
           </label>
           <label class="d-field">
-            <span>Host Name <span class="d-req" aria-hidden="true">*</span></span>
-            <input class="d-input" required placeholder="Enter virtual machine host name" [value]="form().hostName" (input)="setField('hostName', $any($event.target).value)" [attr.aria-invalid]="!!error('hostName')" aria-describedby="vm-err-host" />
-            @if (error('hostName'); as e) { <p class="d-error" id="vm-err-host">{{ e }}</p> }
-          </label>
-          <label class="d-field">
-            <span>(Root &amp; Worldposta) password <span class="d-req" aria-hidden="true">*</span></span>
-            <input class="d-input" type="password" required autocomplete="new-password" placeholder="Enter (Root & Worldposta) password" [value]="form().password" (input)="setField('password', $any($event.target).value)" [attr.aria-invalid]="!!error('password')" aria-describedby="vm-err-pw" />
-            @if (error('password'); as e) { <p class="d-error" id="vm-err-pw">{{ e }}</p> }
-          </label>
-          <label class="d-field d-span">
-            <span>Gateway <span class="d-req" aria-hidden="true">*</span></span>
-            <select class="d-select" required [value]="form().gateway" (change)="setField('gateway', $any($event.target).value)" [attr.aria-invalid]="!!error('gateway')" aria-describedby="vm-err-gw">
-              <option value="" disabled>Select Gateway</option>
-              @for (g of gateways; track g) { <option [value]="g">{{ g }}</option> }
+            <span>Size <span class="d-req" aria-hidden="true">*</span></span>
+            <select class="d-select" required [value]="form().size" (change)="setField('size', $any($event.target).value)" aria-describedby="vm-hint-size">
+              @for (sz of sizes; track sz.id) { <option [value]="sz.id">{{ sz.label }}</option> }
             </select>
-            @if (error('gateway'); as e) { <p class="d-error" id="vm-err-gw">{{ e }}</p> }
-          </label>
-          <label class="d-field">
-            <span>CPU <span class="d-req" aria-hidden="true">*</span></span>
-            <input class="d-input" type="number" min="1" required [value]="form().cpu" (input)="setField('cpu', $any($event.target).value)" [attr.aria-invalid]="!!error('cpu')" aria-describedby="vm-hint-cpu" />
-            <span class="d-hint" id="vm-hint-cpu"><fa-icon [icon]="i.info" aria-hidden="true" />Available CPU GHz (24), Reserved (76), Total (100)</span>
-            @if (error('cpu'); as e) { <p class="d-error">{{ e }}</p> }
-          </label>
-          <label class="d-field">
-            <span>Memory <span class="d-req" aria-hidden="true">*</span></span>
-            <input class="d-input" type="number" min="1" required [value]="form().memory" (input)="setField('memory', $any($event.target).value)" [attr.aria-invalid]="!!error('memory')" aria-describedby="vm-hint-mem" />
-            <span class="d-hint" id="vm-hint-mem"><fa-icon [icon]="i.info" aria-hidden="true" />Available Memory (227) GB, Reserved (192) GB, Total (419) GB</span>
-            @if (error('memory'); as e) { <p class="d-error">{{ e }}</p> }
+            <span class="d-hint" id="vm-hint-size"><fa-icon [icon]="i.info" aria-hidden="true" />Default reservation, group and gateway; change them later in the console.</span>
           </label>
         </div>
-
-        <fieldset class="vm-disks">
-          <legend class="d-label">Disks</legend>
-          @for (disk of disks(); track $index; let n = $index) {
-            <div class="vm-disk">
-              <label class="d-field">
-                <span>Disk Name <span class="d-req" aria-hidden="true">*</span></span>
-                <input class="d-input" required [value]="disk.name" (input)="setDisk(n, 'name', $any($event.target).value)" />
-              </label>
-              <label class="d-field">
-                <span>Select disk space (GB) <span class="d-req" aria-hidden="true">*</span></span>
-                <input class="d-input" type="number" min="1" required [value]="disk.size" (input)="setDisk(n, 'size', $any($event.target).value)" />
-              </label>
-              @if (disks().length > 1) {
-                <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-disk__remove" (click)="removeDisk(n)">Remove Disk<span class="sr-only"> {{ disk.name }}</span></button>
-              }
-            </div>
-          }
-          @if (error('disks'); as e) { <p class="d-error">{{ e }}</p> }
-          <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-add-disk" (click)="addDisk()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add another disk</button>
-        </fieldset>
-
-        <label class="d-field">
-          <span>Description</span>
-          <textarea class="d-textarea" rows="3" placeholder="Enter an optional description for the virtual machine..." [value]="form().description" (input)="setField('description', $any($event.target).value)"></textarea>
-        </label>
 
         @if (submitted() && hasErrors()) {
           <p class="d-error" role="alert">Fix the highlighted fields to create the virtual machine.</p>

@@ -203,25 +203,6 @@
                 @for (t of diskTypes; track t) { <option [value]="t" [selected]="f().type === t">{{ t }}</option> }
               </select>
             </label>
-            @if (!d.edit) {
-              <label class="d-field">
-                <span>Attach to VM (Optional)</span>
-                <select class="d-select" (change)="set('vm', $any($event.target).value)">
-                  <option value="" [selected]="!f().vm">Unattached</option>
-                  @for (vm of vms(); track vm.id) { <option [value]="vm.name" [selected]="f().vm === vm.name">{{ vm.name }}</option> }
-                </select>
-              </label>
-              @if (f().vm) {
-                <label class="d-field">
-                  <span>Disk # <span class="d-req" aria-hidden="true">*</span></span>
-                  <select class="d-select" required (change)="set('diskNumber', $any($event.target).value)" [attr.aria-invalid]="!!err('diskNumber')" aria-describedby="ces-err-num">
-                    <option value="" disabled [selected]="f().diskNumber === ''">Select disk number</option>
-                    @for (n of freeNumbers(); track n) { <option [value]="n" [selected]="f().diskNumber === '' + n">{{ n }}</option> }
-                  </select>
-                  @if (err('diskNumber'); as e) { <p class="d-error" id="ces-err-num">{{ e }}</p> }
-                </label>
-              }
-            }
           </form>
           <div dialogActions>
             <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>

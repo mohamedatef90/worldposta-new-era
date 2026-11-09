@@ -13,7 +13,6 @@ import { VmDemoStore, type VirtualMachine, type VmOs, type VmStatus } from './vm
 
 type VmAction = 'connect' | 'powerOff' | 'restart';
 interface VmFilters { status: 'all' | VmStatus; os: 'all' | VmOs; hasReservation: boolean }
-interface Disk { name: string; size: number }
 
 const DEFAULT_FILTERS: VmFilters = { status: 'all', os: 'all', hasReservation: false };
 
@@ -247,28 +246,23 @@ export class VmDemoComponent {
 
   /* ---------- Create New Virtual Machine ---------- */
   protected readonly reservations = ['Default Reservation', 'High-Performance Reservation', 'Storage-Optimized Reservation'];
-  protected readonly groups = ['Default Group', 'Web Servers', 'Database Servers'];
-  protected readonly gateways = ['Default Gateway', 'DMZ Gateway', 'Internal Gateway'];
   protected readonly osBlueprints = ['Ubuntu 22.04 LTS', 'Windows Server 2022 Datacenter', 'CentOS Stream 9', 'Debian 12', 'Red Hat Enterprise Linux 9'];
 
+  /** Size presets stand in for the console's separate CPU, memory and disk fields. */
+  protected readonly sizes = [
+    { id: 's', label: '2 vCPU · 4 GB RAM · 100 GB', cpu: 2, memory: 4, disk: 100 },
+    { id: 'm', label: '4 vCPU · 8 GB RAM · 250 GB', cpu: 4, memory: 8, disk: 250 },
+    { id: 'l', label: '8 vCPU · 16 GB RAM · 512 GB', cpu: 8, memory: 16, disk: 512 },
+  ] as const;
+
   protected readonly form = signal(this.blankForm());
-  protected readonly disks = signal<Disk[]>([{ name: 'Disk-01', size: 512 }]);
   protected readonly submitted = signal(false);
 
   protected readonly formErrors = computed(() => {
-    const f = this.form();
+    const name = this.form().vmName.trim();
     const errors: Record<string, string> = {};
-    if (!f.vmName.trim()) errors['vmName'] = 'Virtual Machine Name is required.';
-    else if (this.vms().some((vm) => vm.name === f.vmName.trim())) errors['vmName'] = 'A virtual machine with this name already exists.';
-    if (!f.reservation) errors['reservation'] = 'Select a reservation.';
-    if (!f.group) errors['group'] = 'Select a group.';
-    if (!f.osBlueprint) errors['osBlueprint'] = 'Select an OS blueprint.';
-    if (!f.hostName.trim()) errors['hostName'] = 'Host Name is required.';
-    if (f.password.length < 8) errors['password'] = 'Use at least 8 characters.';
-    if (!f.gateway) errors['gateway'] = 'Select a gateway.';
-    if (!(f.cpu >= 1)) errors['cpu'] = 'At least 1 CPU.';
-    if (!(f.memory >= 1)) errors['memory'] = 'At least 1 GB of memory.';
-    if (this.disks().some((d) => !d.name.trim() || !(d.size >= 1))) errors['disks'] = 'Every disk needs a name and a size of at least 1 GB.';
+    if (!name) errors['vmName'] = 'Virtual Machine Name is required.';
+    else if (this.vms().some((vm) => vm.name === name)) errors['vmName'] = 'A virtual machine with this name already exists.';
     return errors;
   });
 
@@ -279,28 +273,17 @@ export class VmDemoComponent {
   }
 
   private blankForm() {
-    return { vmName: '', reservation: '', group: '', osBlueprint: '', hostName: '', password: '', gateway: '', cpu: 2, memory: 4, description: '' };
+    return { vmName: '', osBlueprint: this.osBlueprints[0], size: 's' };
   }
 
   protected setField(key: keyof ReturnType<VmDemoComponent['blankForm']>, value: string): void {
-    this.form.update((f) => ({ ...f, [key]: key === 'cpu' || key === 'memory' ? Number(value) : value }));
+    this.form.update((f) => ({ ...f, [key]: value }));
   }
 
   protected openCreate(): void {
     this.form.set(this.blankForm());
-    this.disks.set([{ name: 'Disk-01', size: 512 }]);
     this.submitted.set(false);
     this.page.set('create');
-  }
-
-  protected addDisk(): void {
-    this.disks.update((d) => [...d, { name: `Disk-0${d.length + 1}`, size: 100 }]);
-  }
-  protected removeDisk(index: number): void {
-    this.disks.update((d) => d.filter((_, i) => i !== index));
-  }
-  protected setDisk(index: number, field: keyof Disk, value: string): void {
-    this.disks.update((d) => d.map((disk, i) => (i === index ? { ...disk, [field]: field === 'size' ? Number(value) : value } : disk)));
   }
 
   protected createVm(event: Event): void {
@@ -309,10 +292,11 @@ export class VmDemoComponent {
     if (this.hasErrors()) return;
     const f = this.form();
     const os: VmOs = f.osBlueprint.startsWith('Windows') ? 'windows' : f.osBlueprint.startsWith('Ubuntu') ? 'ubuntu' : 'linux';
+    const size = this.sizes.find((sz) => sz.id === f.size) ?? this.sizes[0];
+    // Reservation, group, host name, password, gateway and the single disk take the console's defaults.
     const vm = this.store.addVm({
-      name: f.vmName.trim(), os, cores: f.cpu, memory: f.memory,
-      storage: this.disks().reduce((sum, d) => sum + d.size, 0),
-      description: f.description, reservationName: f.reservation,
+      name: f.vmName.trim(), os, cores: size.cpu, memory: size.memory, storage: size.disk,
+      description: f.osBlueprint, reservationName: this.reservations[0],
     });
     if (this.createOnly()) {
       this.closed.emit(vm.name);

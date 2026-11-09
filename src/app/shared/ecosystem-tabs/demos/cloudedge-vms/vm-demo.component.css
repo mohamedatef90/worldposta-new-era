@@ -39,10 +39,6 @@ td.vm-row-actions > *{display:inline-flex;vertical-align:middle}
 .vm-empty-icon{display:block;margin-bottom:10px;font-size:30px}
 
 .vm-back{margin:0 0 6px -8px;color:var(--d-mut)}
-.vm-disks{margin:4px 0 14px;padding-top:14px;border-top:1px solid var(--d-line)}
-.vm-disk{display:grid;grid-template-columns:1fr 1fr auto;align-items:end;gap:0 14px}
-.vm-disk__remove{margin-bottom:12px;color:var(--d-red)}
-.vm-add-disk{color:var(--d-green-text)}
 .vm-form-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid var(--d-line)}
 .vm-filter{display:grid;gap:8px;margin-bottom:18px}
 .vm-cap{text-transform:capitalize}
@@ -50,6 +46,4 @@ td.vm-row-actions > *{display:inline-flex;vertical-align:middle}
 .vm-dialog-text p{margin:0 0 8px}
 
 @container (max-width:620px){
-  .vm-disk{grid-template-columns:minmax(0,1fr)}
-  .vm-disk__remove{justify-self:start}
 }

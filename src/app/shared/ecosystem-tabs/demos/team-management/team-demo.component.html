@@ -42,7 +42,7 @@
           <button type="button" class="d-btn d-btn--ghost d-btn--sm tm-back" (click)="page.set('users')"><fa-icon [icon]="i.back" aria-hidden="true" />Team Users</button>
           <h3 id="tm-user-form-title">{{ editingUser() ? 'Edit Team User' : 'Add New Team User' }}</h3>
           @if (!editingUser()) {
-            <p>Create a new user account for a member of your team. You can assign them to a permissions group and allocate specific product resources directly to their account.</p>
+            <p>Add a member of your team. They get an email to set their password; resources, phone and MFA can be set later with Edit.</p>
           }
         </div>
       </div>
@@ -54,24 +54,9 @@
             @if (userError('fullName'); as e) { <p class="d-error" id="tm-err-name">{{ e }}</p> }
           </label>
           <label class="d-field">
-            <span>User Name <span class="d-req" aria-hidden="true">*</span></span>
-            <input class="d-input" required placeholder="e.g. johndoe" autocomplete="off" [value]="userForm().displayName" (input)="setUserField('displayName', $any($event.target).value)" [attr.aria-invalid]="!!userError('displayName')" aria-describedby="tm-err-user" />
-            @if (userError('displayName'); as e) { <p class="d-error" id="tm-err-user">{{ e }}</p> }
-          </label>
-          <label class="d-field">
             <span>Email <span class="d-req" aria-hidden="true">*</span></span>
             <input class="d-input" type="email" required placeholder="e.g. user@company.com" autocomplete="off" [value]="userForm().email" (input)="setUserField('email', $any($event.target).value)" [attr.aria-invalid]="!!userError('email')" aria-describedby="tm-err-email" />
             @if (userError('email'); as e) { <p class="d-error" id="tm-err-email">{{ e }}</p> }
-          </label>
-          <label class="d-field">
-            <span>{{ editingUser() ? 'New Password' : 'Password' }} @if (!editingUser()) { <span class="d-req" aria-hidden="true">*</span> }</span>
-            <input class="d-input" type="password" autocomplete="new-password" [required]="!editingUser()" [placeholder]="editingUser() ? 'Leave blank to keep the current password' : ''" [value]="userForm().password" (input)="setUserField('password', $any($event.target).value)" [attr.aria-invalid]="!!userError('password')" aria-describedby="tm-err-pw" />
-            @if (userError('password'); as e) { <p class="d-error" id="tm-err-pw">{{ e }}</p> }
-          </label>
-          <label class="d-field">
-            <span>Phone Number</span>
-            <input class="d-input" type="tel" autocomplete="off" [value]="userForm().phoneNumber" (input)="setUserField('phoneNumber', $any($event.target).value)" [attr.aria-invalid]="!!userError('phoneNumber')" aria-describedby="tm-err-phone" />
-            @if (userError('phoneNumber'); as e) { <p class="d-error" id="tm-err-phone">{{ e }}</p> }
           </label>
           <label class="d-field">
             <span>Permissions Group <span class="d-req" aria-hidden="true">*</span></span>
@@ -81,41 +66,60 @@
             </select>
             @if (userError('assignedGroupId'); as e) { <p class="d-error" id="tm-err-group">{{ e }}</p> }
           </label>
-        </div>
-        <div class="tm-checks">
-          @if (!editingUser()) {
-            <label class="d-check"><input type="checkbox" [checked]="userForm().requirePasswordChange" (change)="setUserField('requirePasswordChange', $any($event.target).checked)" />Require user to change password on first login</label>
+          @if (editingUser()) {
+            <label class="d-field">
+              <span>User Name <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required placeholder="e.g. johndoe" autocomplete="off" [value]="userForm().displayName" (input)="setUserField('displayName', $any($event.target).value)" [attr.aria-invalid]="!!userError('displayName')" aria-describedby="tm-err-user" />
+              @if (userError('displayName'); as e) { <p class="d-error" id="tm-err-user">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>{{ editingUser() ? 'New Password' : 'Password' }} @if (!editingUser()) { <span class="d-req" aria-hidden="true">*</span> }</span>
+              <input class="d-input" type="password" autocomplete="new-password" [required]="!editingUser()" [placeholder]="editingUser() ? 'Leave blank to keep the current password' : ''" [value]="userForm().password" (input)="setUserField('password', $any($event.target).value)" [attr.aria-invalid]="!!userError('password')" aria-describedby="tm-err-pw" />
+              @if (userError('password'); as e) { <p class="d-error" id="tm-err-pw">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Phone Number</span>
+              <input class="d-input" type="tel" autocomplete="off" [value]="userForm().phoneNumber" (input)="setUserField('phoneNumber', $any($event.target).value)" [attr.aria-invalid]="!!userError('phoneNumber')" aria-describedby="tm-err-phone" />
+              @if (userError('phoneNumber'); as e) { <p class="d-error" id="tm-err-phone">{{ e }}</p> }
+            </label>
           }
-          <label class="d-check"><input type="checkbox" [checked]="userForm().enableMfa" (change)="setUserField('enableMfa', $any($event.target).checked)" />Enable Multi-Factor Authentication (MFA) for this user</label>
         </div>
-
-        <div class="tm-resources">
-          <div class="tm-resources__head">
-            <h4 id="tm-res-title">Assigned Resources</h4>
-            <button type="button" class="d-btn d-btn--outline d-btn--sm" (click)="openResource()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Resource</button>
+        @if (editingUser()) {
+          <div class="tm-checks">
+            @if (!editingUser()) {
+              <label class="d-check"><input type="checkbox" [checked]="userForm().requirePasswordChange" (change)="setUserField('requirePasswordChange', $any($event.target).checked)" />Require user to change password on first login</label>
+            }
+            <label class="d-check"><input type="checkbox" [checked]="userForm().enableMfa" (change)="setUserField('enableMfa', $any($event.target).checked)" />Enable Multi-Factor Authentication (MFA) for this user</label>
           </div>
-          @if (resources().length) {
-            <div class="d-table-wrap" tabindex="0" role="region" aria-labelledby="tm-res-title">
-              <table class="d-table">
-                <caption class="sr-only">Assigned resources</caption>
-                <thead><tr><th scope="col">Product</th><th scope="col">Package</th><th scope="col">Organization</th><th scope="col">Domains</th><th scope="col" class="tm-right">Actions</th></tr></thead>
-                <tbody>
-                  @for (r of resources(); track r.id) {
-                    <tr>
-                      <th scope="row">{{ r.productId === 'posta' ? 'Posta' : 'CloudEdge' }}</th>
-                      <td>{{ packageName(r) }}</td>
-                      <td>{{ orgName(r.organizationId) }}</td>
-                      <td>{{ domainNames(r) }}</td>
-                      <td class="tm-right"><button type="button" class="d-btn d-btn--icon d-btn--ghost tm-danger" [attr.aria-label]="'Remove ' + packageName(r)" (click)="removeResource(r.id)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button></td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
+
+          <div class="tm-resources">
+            <div class="tm-resources__head">
+              <h4 id="tm-res-title">Assigned Resources</h4>
+              <button type="button" class="d-btn d-btn--outline d-btn--sm" (click)="openResource()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Resource</button>
             </div>
-          } @else {
-            <p class="d-muted tm-none">No resources assigned yet.</p>
-          }
-        </div>
+            @if (resources().length) {
+              <div class="d-table-wrap" tabindex="0" role="region" aria-labelledby="tm-res-title">
+                <table class="d-table">
+                  <caption class="sr-only">Assigned resources</caption>
+                  <thead><tr><th scope="col">Product</th><th scope="col">Package</th><th scope="col">Organization</th><th scope="col">Domains</th><th scope="col" class="tm-right">Actions</th></tr></thead>
+                  <tbody>
+                    @for (r of resources(); track r.id) {
+                      <tr>
+                        <th scope="row">{{ r.productId === 'posta' ? 'Posta' : 'CloudEdge' }}</th>
+                        <td>{{ packageName(r) }}</td>
+                        <td>{{ orgName(r.organizationId) }}</td>
+                        <td>{{ domainNames(r) }}</td>
+                        <td class="tm-right"><button type="button" class="d-btn d-btn--icon d-btn--ghost tm-danger" [attr.aria-label]="'Remove ' + packageName(r)" (click)="removeResource(r.id)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button></td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <p class="d-muted tm-none">No resources assigned yet.</p>
+            }
+          </div>
+        }
 
         @if (userSubmitted() && hasUserErrors()) {
           <p class="d-error" role="alert">Fix the highlighted fields to {{ editingUser() ? 'save the user' : 'add the user' }}.</p>
@@ -213,17 +217,19 @@
       </div>
       <p class="sr-only" aria-live="polite">{{ roleNote() }}</p>
 
-      <fieldset class="tm-members">
-        <legend class="d-label">Assigned Users</legend>
-        <p class="d-hint">A user belongs to one group: ticking a user moves them here from their current group.</p>
-        @for (u of users(); track u.id) {
-          <label class="d-check">
-            <input type="checkbox" [checked]="groupMembers().includes(u.id)" (change)="toggleMember(u.id, $any($event.target).checked)" />
-            {{ u.fullName }}
-            @if (u.assignedGroupId && u.assignedGroupId !== editingGroup()?.id && !groupMembers().includes(u.id)) { <span class="d-muted">({{ groupName(u.assignedGroupId) }})</span> }
-          </label>
-        }
-      </fieldset>
+      @if (editingGroup()) {
+        <fieldset class="tm-members">
+          <legend class="d-label">Assigned Users</legend>
+          <p class="d-hint">A user belongs to one group: ticking a user moves them here from their current group.</p>
+          @for (u of users(); track u.id) {
+            <label class="d-check">
+              <input type="checkbox" [checked]="groupMembers().includes(u.id)" (change)="toggleMember(u.id, $any($event.target).checked)" />
+              {{ u.fullName }}
+              @if (u.assignedGroupId && u.assignedGroupId !== editingGroup()?.id && !groupMembers().includes(u.id)) { <span class="d-muted">({{ groupName(u.assignedGroupId) }})</span> }
+            </label>
+          }
+        </fieldset>
+      }
 
       <div class="tm-form-actions">
         <button type="button" class="d-btn d-btn--ghost" (click)="page.set('groups')">Cancel</button>

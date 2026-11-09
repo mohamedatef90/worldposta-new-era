@@ -137,21 +137,10 @@
   <app-demo-dialog [title]="f.id ? 'Edit event' : 'New event'" [wide]="true" (closed)="form.set(null)">
     <form id="pc-form" novalidate (submit)="$event.preventDefault(); save()">
       <div class="d-grid">
-        <label class="d-field"><span>Calendar</span>
-          <select id="pc-calendar" class="d-select" [disabled]="!!f.id" (change)="setField('calendarId', $any($event.target).value)"
-                  [attr.aria-invalid]="err('calendarId') ? 'true' : null" [attr.aria-describedby]="err('calendarId') ? 'pc-cal-err' : null">
-            <option value="" [selected]="!f.calendarId">— pick —</option>
-            @for (c of calendars; track c.id) { <option [value]="c.id" [selected]="f.calendarId === c.id">{{ c.name }}</option> }
-          </select>
-          @if (err('calendarId'); as m) { <p id="pc-cal-err" class="d-error">{{ m }}</p> }
-        </label>
-        <label class="d-field"><span>Subject <span class="d-req" aria-hidden="true">*</span></span>
+        <label class="d-field d-span"><span>Subject <span class="d-req" aria-hidden="true">*</span></span>
           <input id="pc-subject" class="d-input" type="text" maxlength="300" required [value]="f.subject" (input)="setField('subject', $any($event.target).value)"
                  [attr.aria-invalid]="err('subject') ? 'true' : null" [attr.aria-describedby]="err('subject') ? 'pc-subject-err' : null" />
           @if (err('subject'); as m) { <p id="pc-subject-err" class="d-error">{{ m }}</p> }
-        </label>
-        <label class="d-field d-span"><span>Location</span>
-          <input class="d-input" type="text" maxlength="300" [value]="f.location" (input)="setField('location', $any($event.target).value)" />
         </label>
         <label class="d-field"><span>Start</span>
           <input class="d-input" type="datetime-local" [value]="f.start" (input)="setField('start', $any($event.target).value)" />
@@ -161,12 +150,26 @@
                  [attr.aria-invalid]="err('end') ? 'true' : null" [attr.aria-describedby]="err('end') ? 'pc-end-err' : null" />
           @if (err('end'); as m) { <p id="pc-end-err" class="d-error">{{ m }}</p> }
         </label>
-        <label class="d-field d-span"><span>Attendees (comma-separated emails)</span>
-          <input class="d-input" type="text" inputmode="email" [value]="f.attendees" (input)="setField('attendees', $any($event.target).value)" />
-        </label>
-        <label class="d-field"><span>Reminder (minutes before, blank for none)</span>
-          <input class="d-input" type="number" min="0" max="1440" [value]="f.reminder" (input)="setField('reminder', $any($event.target).value)" />
-        </label>
+        <!-- A new event needs only its subject and time; the default calendar and a 15-minute reminder apply, and the rest is added in Edit. -->
+        @if (f.id) {
+          <label class="d-field"><span>Calendar</span>
+            <select id="pc-calendar" class="d-select" [disabled]="!!f.id" (change)="setField('calendarId', $any($event.target).value)"
+                    [attr.aria-invalid]="err('calendarId') ? 'true' : null" [attr.aria-describedby]="err('calendarId') ? 'pc-cal-err' : null">
+              <option value="" [selected]="!f.calendarId">— pick —</option>
+              @for (c of calendars; track c.id) { <option [value]="c.id" [selected]="f.calendarId === c.id">{{ c.name }}</option> }
+            </select>
+            @if (err('calendarId'); as m) { <p id="pc-cal-err" class="d-error">{{ m }}</p> }
+          </label>
+          <label class="d-field d-span"><span>Location</span>
+            <input class="d-input" type="text" maxlength="300" [value]="f.location" (input)="setField('location', $any($event.target).value)" />
+          </label>
+          <label class="d-field d-span"><span>Attendees (comma-separated emails)</span>
+            <input class="d-input" type="text" inputmode="email" [value]="f.attendees" (input)="setField('attendees', $any($event.target).value)" />
+          </label>
+          <label class="d-field"><span>Reminder (minutes before, blank for none)</span>
+            <input class="d-input" type="number" min="0" max="1440" [value]="f.reminder" (input)="setField('reminder', $any($event.target).value)" />
+          </label>
+        }
       </div>
     </form>
     <div dialogActions>

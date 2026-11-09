@@ -162,8 +162,25 @@
           <input class="d-input" required [value]="policyName()" (input)="policyName.set($any($event.target).value)" [attr.aria-invalid]="pageSubmitted() && !!pageErrors().name" [attr.aria-describedby]="pageSubmitted() && pageErrors().name ? 'fw-err-pname' : null" />
           @if (pageSubmitted() && pageErrors().name; as e) { <p class="d-error" id="fw-err-pname">{{ e }}</p> }
         </label>
-        <button type="button" class="d-btn d-btn--outline" (click)="addPageRule()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Rule</button>
+        @if (editingPolicyId()) {
+          <button type="button" class="d-btn d-btn--outline" (click)="addPageRule()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Rule</button>
+        }
       </div>
+
+      @if (!editingPolicyId()) {
+        <!-- Adding a policy: one first rule in two choices; sources, destinations and profiles start as Any / None and are editable later. -->
+        <div class="d-grid">
+          <label class="d-field">
+            <span>Service</span>
+            <select class="d-select" (change)="quickService.set($any($event.target).value)">@for (sv of services; track sv) { <option [selected]="quickService() === sv">{{ sv }}</option> }</select>
+          </label>
+          <label class="d-field">
+            <span>Action</span>
+            <select class="d-select" (change)="quickAction.set($any($event.target).value)">@for (a of actions; track a) { <option [selected]="quickAction() === a">{{ a }}</option> }</select>
+          </label>
+        </div>
+        <p class="d-hint">The policy starts with one rule for this service, from any source to any destination. Add more rules later with ADD RULE.</p>
+      } @else {
 
       <div class="d-table-wrap" tabindex="0" role="region" aria-label="Rules in this policy">
         <table class="d-table fw-table">
@@ -195,6 +212,7 @@
         </table>
       </div>
       @if (pageSubmitted() && pageErrors().rules; as e) { <p class="d-error" role="alert">{{ e }}</p> }
+      }
 
       <div class="fw-form-actions">
         <button type="button" class="d-btn" (click)="page.set('list')">Cancel</button>

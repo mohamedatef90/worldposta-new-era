@@ -278,6 +278,9 @@ export class FirewallDemoComponent {
   protected readonly policyName = signal('');
   protected readonly pageRules = signal<PageRule[]>([]);
   protected readonly pageSubmitted = signal(false);
+  /** Adding a policy asks only for its name, one service and one action. */
+  protected readonly quickService = signal<string>('HTTPS');
+  protected readonly quickAction = signal<RuleAction>('Allow');
   private nextKey = 0;
 
   protected readonly pageErrors = computed(() => ({
@@ -289,6 +292,8 @@ export class FirewallDemoComponent {
     this.editingPolicyId.set(null);
     this.policyName.set('');
     this.pageRules.set([]);
+    this.quickService.set('HTTPS');
+    this.quickAction.set('Allow');
     this.pageSubmitted.set(false);
     this.page.set('policy');
   }
@@ -317,10 +322,12 @@ export class FirewallDemoComponent {
     event.preventDefault();
     this.pageSubmitted.set(true);
     const errors = this.pageErrors();
-    if (errors.name || errors.rules) return;
+    if (errors.name || (this.editingPolicyId() && errors.rules)) return;
     const name = this.policyName().trim();
-    const rules = this.pageRules().map(({ key: _k, ...r }) => ({ ...r, name: r.name.trim() }));
     const id = this.editingPolicyId();
+    const rules = id
+      ? this.pageRules().map(({ key: _k, ...r }) => ({ ...r, name: r.name.trim() }))
+      : [{ ...NEW_RULE(1), name: this.quickService() === 'Any' ? `${name} rule` : `${this.quickAction()} ${this.quickService()}`, services: this.quickService(), action: this.quickAction() }];
     if (id) {
       this.store.savePolicy(id, name, rules);
       this.notify(`Policy ${name} saved.`);

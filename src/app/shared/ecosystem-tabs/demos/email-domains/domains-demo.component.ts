@@ -17,8 +17,8 @@ const ALL_SECTIONS: readonly DnsSection[] = DNS_SECTIONS.map((s) => s.id);
 
 /**
  * Email Admin Suite › Organizations & Domains, working: the organization list
- * and its domains table with health checks, the Add Domain stepper (verify
- * ownership with a TXT record, then the MX, SPF, DKIM and DMARC records with
+ * and its domains table with health checks, Add Domain on one screen (verify
+ * ownership with a TXT record; the MX, SPF, DKIM and DMARC records, with
  * copy buttons), per-domain DNS Configuration whose checks flip a domain to
  * HEALTH OK, primary domain, Organization Settings and confirmed deletes.
  * Ported from OrgsAndDomainsPage.tsx in the unified sign-in app; only the
@@ -40,7 +40,6 @@ export class DomainsDemoComponent {
     star: faStar, trash: faTrashCan, warn: faTriangleExclamation,
   };
   protected readonly sections = DNS_SECTIONS;
-  protected readonly steps = ['Verify Domain', 'Configure DNS'];
   protected readonly statusIcon = { success: faCircleCheck, warning: faTriangleExclamation, error: faCircleXmark, pending: faClock };
   protected readonly statusText: Record<RecordStatus, string> = {
     success: 'Record verified', warning: 'Record has issues', error: 'Record missing or incorrect', pending: 'Verification pending',
@@ -97,7 +96,6 @@ export class DomainsDemoComponent {
   }
 
   /* ---------- Add Domain stepper ---------- */
-  protected readonly step = signal(0);
   protected readonly form = signal({ domain: '', organization: '' });
   protected readonly submitted = signal(false);
   protected readonly ownership = signal<Progress>('idle');
@@ -120,7 +118,6 @@ export class DomainsDemoComponent {
   }
 
   protected startAdd(): void {
-    this.step.set(0);
     this.form.set({ domain: '', organization: this.activeOrg()?.name ?? '' });
     this.submitted.set(false);
     this.ownership.set('idle');
@@ -139,14 +136,10 @@ export class DomainsDemoComponent {
     if (Object.keys(this.errors()).length) return;
     this.ownership.set('verifying');
     setTimeout(() => {
+      // One screen: verifying ownership adds the domain; its DNS records are finished later from the table.
       this.ownership.set('success');
-      this.notify(`Ownership of ${this.form().domain.trim()} verified.`);
-      setTimeout(() => this.step.set(1), 1000);
+      setTimeout(() => this.finishAdd(false), 800);
     }, 1500);
-  }
-
-  protected skipRecords(): void {
-    this.finishAdd(false);
   }
 
   private finishAdd(healthy: boolean): void {

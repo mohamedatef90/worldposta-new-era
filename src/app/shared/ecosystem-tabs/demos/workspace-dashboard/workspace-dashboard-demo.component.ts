@@ -6,10 +6,6 @@ import { WorkspaceDashboardDemoStore, type DashMeeting } from './workspace-dashb
 
 const DAY = 86_400_000;
 const UPCOMING_LIMIT = 6;
-const DURATIONS = [
-  { value: 15, label: '15 min' }, { value: 30, label: '30 min' }, { value: 45, label: '45 min' },
-  { value: 60, label: '60 min' }, { value: 90, label: '90 min' }, { value: 120, label: '2 hours' },
-];
 
 const pad = (n: number) => String(n).padStart(2, '0');
 const localDate = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -55,7 +51,6 @@ export class WorkspaceDashboardDemoComponent {
   private readonly store = inject(WorkspaceDashboardDemoStore);
 
   protected readonly i = { arrow: faArrowRight, cal: faCalendarDays, ok: faCircleCheck, code: faSquareCheck, video: faVideo };
-  protected readonly durations = DURATIONS;
 
   /** The clock ticks every second, as the source's live clock does. */
   protected readonly now = signal(Date.now());

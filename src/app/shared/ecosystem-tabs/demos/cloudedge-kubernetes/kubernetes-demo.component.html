@@ -85,12 +85,6 @@
           @if (err('nodeCount'); as e) { <p class="d-error" id="cek-err-nodes">{{ e }}</p> }
         </label>
       </div>
-      <label class="d-field">
-        <span>Region</span>
-        <select class="d-select" (change)="setField('region', $any($event.target).value)">
-          @for (r of regions; track r) { <option [value]="r" [selected]="f.region === r">{{ r }}</option> }
-        </select>
-      </label>
     </form>
     <div dialogActions>
       <button type="button" class="d-btn d-btn--ghost" (click)="creating.set(null)">Cancel</button>

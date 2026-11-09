@@ -92,18 +92,19 @@
           @if (error('name'); as e) { <p class="d-error" id="net-err-name">{{ e }}</p> }
         </div>
         <label class="d-field">
-          <span>Select Type</span>
-          <select class="d-select" [value]="form().type" (change)="setField('type', $any($event.target).value)">
-            @for (t of natTypes; track t) { <option [value]="t" [selected]="form().type === t">{{ t }}</option> }
-          </select>
-        </label>
-        <label class="d-field">
           <span>Select Gateway <span class="d-req" aria-hidden="true">*</span></span>
           <select class="d-select" required [value]="form().gateway" (change)="setField('gateway', $any($event.target).value)" [attr.aria-invalid]="!!error('gateway')" [attr.aria-describedby]="error('gateway') ? 'net-err-gw' : null">
             <option value="" disabled [selected]="!form().gateway">Select a gateway</option>
             @for (gw of gateways; track gw.id) { <option [value]="gw.name" [selected]="form().gateway === gw.name">{{ gw.name }}</option> }
           </select>
           @if (error('gateway'); as e) { <p class="d-error" id="net-err-gw">{{ e }}</p> }
+        </label>
+        @if (editingId()) {
+        <label class="d-field">
+          <span>Select Type</span>
+          <select class="d-select" [value]="form().type" (change)="setField('type', $any($event.target).value)">
+            @for (t of natTypes; track t) { <option [value]="t" [selected]="form().type === t">{{ t }}</option> }
+          </select>
         </label>
         <fieldset class="d-field d-span">
           <legend class="d-label">Selected Gateway Address <span class="d-req" aria-hidden="true">*</span></legend>
@@ -119,6 +120,7 @@
           </div>
           <span class="d-hint">Filled in from the gateway you select.</span>
         </fieldset>
+        }
       </div>
 
       <div class="d-grid net-section">
@@ -130,17 +132,21 @@
           </select>
           @if (error('elasticIp'); as e) { <p class="d-error" id="net-err-eip">{{ e }}</p> }
         </label>
+        @if (editingId()) {
         <label class="d-field">
           <span>Port</span>
           <input class="d-input" inputmode="numeric" placeholder="e.g. 80, 443" [value]="form().port" (input)="setField('port', $any($event.target).value)" [attr.aria-invalid]="!!error('port')" [attr.aria-describedby]="error('port') ? 'net-err-port' : null" />
           @if (error('port'); as e) { <p class="d-error" id="net-err-port">{{ e }}</p> }
         </label>
+        }
       </div>
 
+      @if (editingId()) {
       <label class="d-field net-section">
         <span>Description</span>
         <textarea class="d-textarea" rows="3" placeholder="Enter an optional description for the NAT rule..." [value]="form().description" (input)="setField('description', $any($event.target).value)"></textarea>
       </label>
+      }
 
       @if (submitted() && hasErrors()) {
         <p class="d-error" role="alert">Fix the highlighted fields to {{ editingId() ? 'save the NAT rule' : 'create the NAT rule' }}.</p>
