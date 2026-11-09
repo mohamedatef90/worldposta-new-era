@@ -1,0 +1,352 @@
+@switch (page()) {
+  @case ('list') {
+    <section class="d-page" aria-labelledby="vm-demo-title">
+      <div class="d-head">
+        <div>
+          <h3 id="vm-demo-title">Virtual Machines</h3>
+          <p>Manage your virtual machines.</p>
+        </div>
+        <div class="d-actions">
+          <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />ADD VM</button>
+          <button type="button" class="d-btn vm-market" (click)="notify('The Marketplace offers ready-made apps and OS images in the CloudEdge console.')"><fa-icon [icon]="i.cart" aria-hidden="true" />Marketplace</button>
+          <div class="d-menu-wrap" (keydown.escape)="exportOpen.set(false)">
+            <button type="button" class="d-btn" [attr.aria-expanded]="exportOpen()" aria-haspopup="true" (click)="exportOpen.set(!exportOpen())"><fa-icon [icon]="i.export" aria-hidden="true" />Export</button>
+            @if (exportOpen()) {
+              <div class="d-menu">
+                <button type="button" (click)="exportAs('csv')"><fa-icon [icon]="i.csv" aria-hidden="true" />Export as CSV</button>
+                <button type="button" (click)="exportAs('json')"><fa-icon [icon]="i.json" aria-hidden="true" />Export as JSON</button>
+              </div>
+            }
+          </div>
+          <button type="button" class="d-btn d-btn--outline" (click)="openFilters()">
+            <fa-icon [icon]="i.filter" aria-hidden="true" />Filters
+            @if (activeFilterCount()) { <span class="d-count">{{ activeFilterCount() }}<span class="sr-only"> active</span></span> }
+          </button>
+          <button type="button" class="d-btn" (click)="page.set('bin')"><fa-icon [icon]="i.bin" aria-hidden="true" />Recycle Bin @if (recycled().length) { ({{ recycled().length }}) }</button>
+        </div>
+      </div>
+
+      <div class="vm-bar">
+        <div class="d-seg" role="group" aria-label="View">
+          <button type="button" [attr.aria-pressed]="viewMode() === 'card'" (click)="viewMode.set('card')"><fa-icon [icon]="i.cards" aria-hidden="true" />Card View</button>
+          <button type="button" [attr.aria-pressed]="viewMode() === 'table'" (click)="viewMode.set('table')"><fa-icon [icon]="i.list" aria-hidden="true" />Table View</button>
+        </div>
+        <label class="d-search">
+          <span class="sr-only">Search virtual machines</span>
+          <fa-icon [icon]="i.search" aria-hidden="true" />
+          <input class="d-input" type="search" placeholder="Search virtual machines..." [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
+        </label>
+      </div>
+
+      <p class="sr-only" aria-live="polite">{{ filtered().length }} virtual machines shown</p>
+
+      @if (filtered().length) {
+        @if (viewMode() === 'card') {
+          <ul class="vm-cards">
+            @for (vm of filtered(); track vm.id) {
+              <li class="vm-card">
+                <div class="vm-card__head">
+                  <div class="vm-card__title">
+                    <fa-icon class="vm-os" [attr.data-os]="vm.os" [icon]="osIcon[vm.os]" aria-hidden="true" />
+                    <h4>{{ vm.name }}</h4>
+                  </div>
+                  <ng-container *ngTemplateOutlet="menu; context: { $implicit: vm }" />
+                </div>
+                <span class="d-pill" [class]="'d-pill d-pill--' + statusTone[vm.status]">{{ vm.status }}</span>
+                <dl class="vm-specs">
+                  <div><dt>Cores</dt><dd>{{ vm.cores }}</dd></div>
+                  <div><dt>Memory</dt><dd>{{ vm.memory }} GB</dd></div>
+                  <div><dt>Storage</dt><dd>{{ vm.storage }} GB</dd></div>
+                  <div><dt>NICs</dt><dd>{{ vm.nicCount }}</dd></div>
+                </dl>
+                <dl class="vm-facts">
+                  <div><dt>IP Address:</dt><dd class="d-mono">{{ vm.ipAddress }}</dd></div>
+                  <div><dt>Reservation:</dt><dd>{{ vm.reservationName ?? 'None' }}</dd></div>
+                  <div><dt>Created:</dt><dd>{{ vm.creationDate }}</dd></div>
+                </dl>
+                <div class="vm-card__foot">
+                  <button type="button" class="d-btn d-btn--sm" (click)="profile.set(vm)"><fa-icon [icon]="i.desktop" aria-hidden="true" />Profile<span class="sr-only"> of {{ vm.name }}</span></button>
+                  <button type="button" class="d-btn d-btn--sm d-btn--primary" [disabled]="vm.status !== 'running'" (click)="ask('connect', vm)"><fa-icon [icon]="i.console" aria-hidden="true" />Web Console<span class="sr-only"> for {{ vm.name }}</span></button>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="d-table-wrap" tabindex="0" role="region" aria-label="Virtual machines table">
+            <table class="d-table">
+              <caption class="sr-only">Virtual machines</caption>
+              <thead><tr><th scope="col">Name</th><th scope="col">Status</th><th scope="col">Specs</th><th scope="col">IP Address</th><th scope="col">Reservation</th><th scope="col">Creation Date</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+              <tbody>
+                @for (vm of filtered(); track vm.id) {
+                  <tr>
+                    <th scope="row" class="vm-name"><fa-icon class="vm-os" [attr.data-os]="vm.os" [icon]="osIcon[vm.os]" aria-hidden="true" />{{ vm.name }}</th>
+                    <td><span [class]="'d-pill d-pill--' + statusTone[vm.status]">{{ vm.status }}</span></td>
+                    <td>{{ vm.cores }} vCPU · {{ vm.memory }} GB · {{ vm.storage }} GB</td>
+                    <td class="d-mono">{{ vm.ipAddress }}</td>
+                    <td>{{ vm.reservationName ?? 'None' }}</td>
+                    <td>{{ vm.creationDate }}</td>
+                    <td class="vm-row-actions">
+                      <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Profile of ' + vm.name" (click)="profile.set(vm)"><fa-icon [icon]="i.desktop" aria-hidden="true" /></button>
+                      <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Web Console for ' + vm.name" [disabled]="vm.status !== 'running'" (click)="ask('connect', vm)"><fa-icon [icon]="i.console" aria-hidden="true" /></button>
+                      <ng-container *ngTemplateOutlet="menu; context: { $implicit: vm }" />
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      } @else {
+        <div class="d-empty">
+          <fa-icon class="vm-empty-icon" [icon]="i.none" aria-hidden="true" />
+          <strong>No Virtual Machines Found</strong>
+          Your search and filter combination did not return any results.
+        </div>
+      }
+    </section>
+  }
+
+  @case ('create') {
+    <section class="d-page" aria-labelledby="vm-create-title">
+      <div class="d-head">
+        <div>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-back" (click)="page.set('list')"><fa-icon [icon]="i.back" aria-hidden="true" />Virtual Machines</button>
+          <h3 id="vm-create-title">Create New Virtual Machine</h3>
+        </div>
+      </div>
+      <form (submit)="createVm($event)" novalidate>
+        <div class="d-grid">
+          <label class="d-field d-span">
+            <span>Virtual Machine Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required placeholder="e.g. web-server-02" [value]="form().vmName" (input)="setField('vmName', $any($event.target).value)" [attr.aria-invalid]="!!error('vmName')" aria-describedby="vm-err-name" />
+            @if (error('vmName'); as e) { <p class="d-error" id="vm-err-name">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Reservation <span class="d-req" aria-hidden="true">*</span></span>
+            <select class="d-select" required [value]="form().reservation" (change)="setField('reservation', $any($event.target).value)" [attr.aria-invalid]="!!error('reservation')" aria-describedby="vm-err-res">
+              <option value="" disabled>Select Reservation</option>
+              @for (r of reservations; track r) { <option [value]="r">{{ r }}</option> }
+            </select>
+            @if (error('reservation'); as e) { <p class="d-error" id="vm-err-res">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Group <span class="d-req" aria-hidden="true">*</span></span>
+            <select class="d-select" required [value]="form().group" (change)="setField('group', $any($event.target).value)" [attr.aria-invalid]="!!error('group')" aria-describedby="vm-err-group">
+              <option value="" disabled>Select Group</option>
+              @for (g of groups; track g) { <option [value]="g">{{ g }}</option> }
+            </select>
+            @if (error('group'); as e) { <p class="d-error" id="vm-err-group">{{ e }}</p> }
+          </label>
+          <label class="d-field d-span">
+            <span>OS blueprint <span class="d-req" aria-hidden="true">*</span></span>
+            <select class="d-select" required [value]="form().osBlueprint" (change)="setField('osBlueprint', $any($event.target).value)" [attr.aria-invalid]="!!error('osBlueprint')" aria-describedby="vm-err-os">
+              <option value="" disabled>Select from recent OSes...</option>
+              @for (os of osBlueprints; track os) { <option [value]="os">{{ os }}</option> }
+            </select>
+            @if (error('osBlueprint'); as e) { <p class="d-error" id="vm-err-os">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Host Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required placeholder="Enter virtual machine host name" [value]="form().hostName" (input)="setField('hostName', $any($event.target).value)" [attr.aria-invalid]="!!error('hostName')" aria-describedby="vm-err-host" />
+            @if (error('hostName'); as e) { <p class="d-error" id="vm-err-host">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>(Root &amp; Worldposta) password <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" type="password" required autocomplete="new-password" placeholder="Enter (Root & Worldposta) password" [value]="form().password" (input)="setField('password', $any($event.target).value)" [attr.aria-invalid]="!!error('password')" aria-describedby="vm-err-pw" />
+            @if (error('password'); as e) { <p class="d-error" id="vm-err-pw">{{ e }}</p> }
+          </label>
+          <label class="d-field d-span">
+            <span>Gateway <span class="d-req" aria-hidden="true">*</span></span>
+            <select class="d-select" required [value]="form().gateway" (change)="setField('gateway', $any($event.target).value)" [attr.aria-invalid]="!!error('gateway')" aria-describedby="vm-err-gw">
+              <option value="" disabled>Select Gateway</option>
+              @for (g of gateways; track g) { <option [value]="g">{{ g }}</option> }
+            </select>
+            @if (error('gateway'); as e) { <p class="d-error" id="vm-err-gw">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>CPU <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" type="number" min="1" required [value]="form().cpu" (input)="setField('cpu', $any($event.target).value)" [attr.aria-invalid]="!!error('cpu')" aria-describedby="vm-hint-cpu" />
+            <span class="d-hint" id="vm-hint-cpu"><fa-icon [icon]="i.info" aria-hidden="true" />Available CPU GHz (24), Reserved (76), Total (100)</span>
+            @if (error('cpu'); as e) { <p class="d-error">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Memory <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" type="number" min="1" required [value]="form().memory" (input)="setField('memory', $any($event.target).value)" [attr.aria-invalid]="!!error('memory')" aria-describedby="vm-hint-mem" />
+            <span class="d-hint" id="vm-hint-mem"><fa-icon [icon]="i.info" aria-hidden="true" />Available Memory (227) GB, Reserved (192) GB, Total (419) GB</span>
+            @if (error('memory'); as e) { <p class="d-error">{{ e }}</p> }
+          </label>
+        </div>
+
+        <fieldset class="vm-disks">
+          <legend class="d-label">Disks</legend>
+          @for (disk of disks(); track $index; let n = $index) {
+            <div class="vm-disk">
+              <label class="d-field">
+                <span>Disk Name <span class="d-req" aria-hidden="true">*</span></span>
+                <input class="d-input" required [value]="disk.name" (input)="setDisk(n, 'name', $any($event.target).value)" />
+              </label>
+              <label class="d-field">
+                <span>Select disk space (GB) <span class="d-req" aria-hidden="true">*</span></span>
+                <input class="d-input" type="number" min="1" required [value]="disk.size" (input)="setDisk(n, 'size', $any($event.target).value)" />
+              </label>
+              @if (disks().length > 1) {
+                <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-disk__remove" (click)="removeDisk(n)">Remove Disk<span class="sr-only"> {{ disk.name }}</span></button>
+              }
+            </div>
+          }
+          @if (error('disks'); as e) { <p class="d-error">{{ e }}</p> }
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-add-disk" (click)="addDisk()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add another disk</button>
+        </fieldset>
+
+        <label class="d-field">
+          <span>Description</span>
+          <textarea class="d-textarea" rows="3" placeholder="Enter an optional description for the virtual machine..." [value]="form().description" (input)="setField('description', $any($event.target).value)"></textarea>
+        </label>
+
+        @if (submitted() && hasErrors()) {
+          <p class="d-error" role="alert">Fix the highlighted fields to create the virtual machine.</p>
+        }
+        <div class="vm-form-actions">
+          <button type="button" class="d-btn" (click)="page.set('list')">Cancel</button>
+          <button type="submit" class="d-btn d-btn--primary">Create</button>
+        </div>
+      </form>
+    </section>
+  }
+
+  @case ('bin') {
+    <section class="d-page" aria-labelledby="vm-bin-title">
+      <div class="d-head">
+        <div>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-back" (click)="page.set('list')"><fa-icon [icon]="i.back" aria-hidden="true" />Virtual Machines</button>
+          <h3 id="vm-bin-title">Recycle Bin</h3>
+          <p>You could recover deleted virtual machine within 24 hour from recycle bin.</p>
+        </div>
+      </div>
+      @if (recycled().length) {
+        <div class="d-table-wrap" tabindex="0" role="region" aria-label="Deleted virtual machines table">
+          <table class="d-table">
+            <caption class="sr-only">Deleted virtual machines</caption>
+            <thead><tr><th scope="col">Name</th><th scope="col">Status</th><th scope="col">Deleted</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody>
+              @for (vm of recycled(); track vm.id) {
+                <tr>
+                  <th scope="row" class="vm-name"><fa-icon class="vm-os" [attr.data-os]="vm.os" [icon]="osIcon[vm.os]" aria-hidden="true" />{{ vm.name }}</th>
+                  <td><span [class]="'d-pill d-pill--' + statusTone[vm.status]">{{ vm.status }}</span></td>
+                  <td>{{ deletedAgo(vm) }}</td>
+                  <td class="vm-row-actions">
+                    <button type="button" class="d-btn d-btn--sm d-btn--outline" (click)="recover(vm)"><fa-icon [icon]="i.recover" aria-hidden="true" />Recover<span class="sr-only"> {{ vm.name }}</span></button>
+                    <button type="button" class="d-btn d-btn--sm vm-danger-text" (click)="purge(vm)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete permanently<span class="sr-only"> {{ vm.name }}</span></button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="d-empty"><strong>The Recycle Bin is empty</strong>Deleted virtual machines appear here for 24 hours.</div>
+      }
+    </section>
+  }
+}
+
+<!-- The row action menu, shared by both views. -->
+<ng-template #menu let-vm>
+  <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+    <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + vm.name" [attr.aria-expanded]="openMenu() === vm.id" aria-haspopup="true" (click)="toggleMenu($event, vm.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+    @if (openMenu() === vm.id) {
+      <div class="d-menu">
+        @if (vm.status === 'running') {
+          <button type="button" (click)="setStatus(vm, 'stopped', vm.name + ' shut down from the guest OS.')"><fa-icon class="vm-ic-amber" [icon]="i.off" aria-hidden="true" />Guest ShutDown</button>
+          <button type="button" (click)="ask('restart', vm)"><fa-icon class="vm-ic-amber" [icon]="i.restart" aria-hidden="true" />Guest Restart</button>
+          <hr />
+          <button type="button" (click)="ask('powerOff', vm)"><fa-icon class="vm-ic-red" [icon]="i.stop" aria-hidden="true" />Power Off</button>
+          <button type="button" (click)="ask('restart', vm)"><fa-icon class="vm-ic-red" [icon]="i.restart" aria-hidden="true" />Restart</button>
+          <button type="button" (click)="setStatus(vm, 'suspended', vm.name + ' is suspended.')"><fa-icon class="vm-ic-amber" [icon]="i.suspend" aria-hidden="true" />Suspend</button>
+        } @else {
+          <button type="button" (click)="setStatus(vm, 'running', vm.name + ' is powered on.')"><fa-icon class="vm-ic-green" [icon]="i.start" aria-hidden="true" />Power On</button>
+        }
+        <hr />
+        <button type="button" (click)="snapshot(vm)"><fa-icon [icon]="i.snapshot" aria-hidden="true" />Create Snapshot</button>
+        <button type="button" (click)="clone(vm)"><fa-icon [icon]="i.clone" aria-hidden="true" />Clone VM</button>
+        <hr />
+        <button type="button" class="is-danger" (click)="askDelete(vm)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete VM</button>
+      </div>
+    }
+  </div>
+</ng-template>
+
+@if (filterOpen()) {
+  <app-demo-dialog title="Filters" kind="panel" (closed)="filterOpen.set(false)">
+    <fieldset class="vm-filter">
+      <legend class="d-label">Status</legend>
+      @for (s of vmStatuses; track s) {
+        <label class="d-check"><input type="radio" name="vm-status" [checked]="tempFilters().status === s" (change)="setTempFilter('status', s)" /><span class="vm-cap">{{ s }}</span></label>
+      }
+    </fieldset>
+    <fieldset class="vm-filter">
+      <legend class="d-label">Operating System</legend>
+      @for (os of vmOses; track os) {
+        <label class="d-check"><input type="radio" name="vm-os" [checked]="tempFilters().os === os" (change)="setTempFilter('os', os)" /><span class="vm-cap">{{ os }}</span></label>
+      }
+    </fieldset>
+    <fieldset class="vm-filter">
+      <legend class="d-label">Properties</legend>
+      <label class="d-check"><input type="checkbox" [checked]="tempFilters().hasReservation" (change)="setTempFilter('hasReservation', $any($event.target).checked)" />Has Reservation</label>
+    </fieldset>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="clearFilters()">Clear</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="applyFilters()">Apply</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (confirmCopy(); as c) {
+  <app-demo-dialog [title]="c.title" (closed)="confirm.set(null)">
+    <p class="vm-dialog-text">{{ c.message }}</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="confirm.set(null)">Cancel</button>
+      <button type="button" class="d-btn" [class.d-btn--danger]="c.danger" [class.d-btn--primary]="!c.danger" (click)="confirmAction()">{{ c.button }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as vm) {
+  <app-demo-dialog title="Delete Virtual Machine" [wide]="true" (closed)="deleting.set(null)">
+    <div class="vm-dialog-text">
+      <p>If this VM is running, it will be powered off before being moved to the Recycle Bin.</p>
+      <p>You can't get your deleted virtual machine data (OS, hard disks,...) after 24 hour from now.</p>
+      <p>You could recover deleted virtual machine within 24 hour from recycle bin.</p>
+      <p>To proceed, please type the name of the Virtual Machine (<strong>{{ vm.name }}</strong>) below.</p>
+    </div>
+    <label class="d-field">
+      <span class="sr-only">Virtual Machine name</span>
+      <input class="d-input" autocomplete="off" [placeholder]="vm.name" [value]="deleteTyped()" (input)="deleteTyped.set($any($event.target).value)" (keydown.enter)="confirmDelete()" />
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" [disabled]="deleteTyped() !== vm.name" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (profile(); as vm) {
+  <app-demo-dialog [title]="vm.name" (closed)="profile.set(null)">
+    <p class="vm-dialog-text">{{ vm.description || 'No description.' }}</p>
+    <dl class="vm-facts vm-facts--profile">
+      <div><dt>Status</dt><dd><span [class]="'d-pill d-pill--' + statusTone[vm.status]">{{ vm.status }}</span></dd></div>
+      <div><dt>Specs</dt><dd>{{ vm.cores }} vCPU · {{ vm.memory }} GB RAM · {{ vm.storage }} GB</dd></div>
+      <div><dt>IP Address</dt><dd class="d-mono">{{ vm.ipAddress }}</dd></div>
+      <div><dt>NICs</dt><dd>{{ vm.nicCount }}</dd></div>
+      <div><dt>Reservation</dt><dd>{{ vm.reservationName ?? 'None' }}</dd></div>
+      <div><dt>Created</dt><dd>{{ vm.creationDate }}</dd></div>
+    </dl>
+    <div dialogActions><button type="button" class="d-btn" (click)="profile.set(null)">Close</button></div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

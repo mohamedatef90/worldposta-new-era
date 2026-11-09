@@ -1229,3 +1229,5 @@
 .tab-panel--visual-first .benefits-strip{order:7}
 @media (max-width:900px){.tab-panel--visual-first .vm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.tab-panel--visual-first .bullet-list{flex-direction:column}.tab-panel--visual-first .vm-stats{grid-template-columns:1fr}}
+.eco-demo-loading{display:grid;place-items:center;min-height:520px;background:#f4f6f9;color:#5b6577;font-size:14px}
+:host-context([data-theme='dark']) .eco-demo-loading{background:var(--color-bg-primary);color:var(--color-text-secondary)}

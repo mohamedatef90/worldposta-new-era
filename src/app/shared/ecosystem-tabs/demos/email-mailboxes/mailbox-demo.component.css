@@ -1,0 +1,42 @@
+/* Mailboxes: the Email Admin Suite's table, bulk bar and Add Mailbox panel. */
+.mbx-head{min-height:58px}
+.mbx-bulk{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:4px 6px 4px 12px;border-radius:9px;background:var(--d-blue-soft)}
+.mbx-bulk__count{margin-right:6px;padding-right:10px;border-right:1px solid color-mix(in srgb,var(--d-blue) 30%,transparent);font-size:12.5px;font-weight:700;color:var(--d-blue)}
+.mbx-danger{color:var(--d-red)}
+.mbx-check{width:32px;padding-right:0!important}
+.mbx-check input{width:15px;height:15px;accent-color:var(--d-green)}
+.mbx-right{text-align:right}
+th.mbx-right{text-align:right}
+.mbx-name{font-weight:600;color:var(--d-ink)}
+.mbx-name .d-pill{margin-left:6px}
+.mbx-edit{display:inline-flex;align-items:center;gap:7px;padding:3px 4px;border:0;border-radius:5px;background:transparent;cursor:pointer}
+.mbx-edit fa-icon{font-size:10px;color:var(--d-mut);opacity:0;transition:opacity .15s}
+.mbx-edit:hover fa-icon,.mbx-edit:focus-visible fa-icon{opacity:1}
+.mbx-edit:hover{background:var(--d-soft)}
+.mbx-edit--plan{color:var(--d-green-text);font-weight:600;text-decoration:underline dashed;text-underline-offset:3px}
+.mbx-inline{min-width:150px;min-height:30px;padding:4px 8px;font-size:12.5px}
+.mbx-quota{display:grid;gap:4px;min-width:110px}
+.mbx-quota__bar{display:block;height:7px;border-radius:999px;background:color-mix(in srgb,var(--d-mut) 22%,transparent);overflow:hidden}
+.mbx-quota__bar span{display:block;height:100%;border-radius:inherit;background:#3b82f6;transition:width .3s}
+.mbx-quota[data-level='mid'] .mbx-quota__bar span{background:#eab308}
+.mbx-quota[data-level='high'] .mbx-quota__bar span{background:#ef4444}
+.mbx-quota__text{font-size:11.5px;color:var(--d-mut)}
+.mbx-foot{margin:10px 2px 0;font-size:12px}
+.mbx-spin{animation:mbx-spin .8s linear infinite}
+@keyframes mbx-spin{to{transform:rotate(360deg)}}
+
+.mbx-email{display:flex;align-items:stretch}
+.mbx-email .d-input{border-radius:7px 0 0 7px}
+.mbx-email__at{display:grid;place-items:center;padding:0 10px;border:1px solid var(--d-line);border-width:1px 0;background:var(--d-soft);color:var(--d-mut)}
+.mbx-email .d-select{width:auto;max-width:48%;border-radius:0 7px 7px 0}
+.mbx-pw-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:-4px}
+.mbx-radios{display:flex;flex-wrap:wrap;gap:8px 18px}
+.mbx-gap{margin-bottom:12px}
+.mbx-switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:6px;font-size:12.5px;font-weight:600}
+.mbx-dialog-text{margin:0 0 12px}
+@container (max-width:460px){
+  .mbx-email{flex-wrap:wrap}
+  .mbx-email .d-input{flex:1 1 60%;min-width:0}
+  .mbx-email .d-select{flex:1 1 100%;max-width:none;margin-top:6px;border-radius:7px}
+  .mbx-email .d-input{border-radius:7px 0 0 7px}
+}

@@ -86,8 +86,13 @@
             </div>
             @if (liveMode(); as live) {
               <figure class="eco-shot__window eco-shot__window--live">
-                <div class="eco-shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>{{ live === 'vm' ? 'CloudEdge Console · Virtual Machines' : 'CloudEdge Console · Billing · Invoices' }}</span><em class="eco-live">Try it</em></div>
-                <app-live-console [mode]="live" (navigate)="setActiveTab($event)" />
+                <div class="eco-shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>{{ liveTitle[live] }}</span><em class="eco-live">Try it · demo data</em></div>
+                <!-- The product's own page, working on demo data. Each loads only when its tab opens. -->
+                @switch (live) {
+                  @case ('vms') { @defer (on immediate) { <app-vm-demo /> } @placeholder (minimum 200ms) { <div class="eco-demo-loading" role="status">Loading the CloudEdge console…</div> } }
+                  @case ('mailboxes') { @defer (on immediate) { <app-mailbox-demo /> } @placeholder (minimum 200ms) { <div class="eco-demo-loading" role="status">Loading the Email Admin Suite…</div> } }
+                  @default { <app-live-console /> }
+                }
               </figure>
             } @else {
             <figure class="eco-shot__window" [class.eco-shot__window--scene]="shot.scene">

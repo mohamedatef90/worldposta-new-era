@@ -1,0 +1,55 @@
+/* Virtual Machines: the console's card grid, table and create form. */
+.vm-market{border-color:#475569;background:#475569;color:#fff}
+.vm-market:hover{background:#334155}
+.vm-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+
+.vm-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.vm-card{display:flex;flex-direction:column;gap:10px;padding:14px;border:1px solid var(--d-line);border-radius:10px;background:var(--d-card);transition:box-shadow .2s}
+.vm-card:hover{box-shadow:0 10px 24px -16px rgb(15 23 42 / .35)}
+.vm-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+.vm-card__title{display:flex;align-items:center;gap:9px;min-width:0}
+.vm-card__title h4{margin:0;overflow:hidden;font-size:13.5px;font-weight:700;text-overflow:ellipsis;white-space:nowrap;color:var(--d-ink)}
+.vm-os{flex:none;font-size:18px}
+.vm-os[data-os='windows']{color:#2563eb}
+.vm-os[data-os='ubuntu']{color:#c2410c}
+.vm-os[data-os='linux']{color:var(--d-ink)}
+:host-context([data-theme='dark']) .vm-os[data-os='windows']{color:#7aa7ff}
+:host-context([data-theme='dark']) .vm-os[data-os='ubuntu']{color:#fb923c}
+.vm-card .d-pill{align-self:flex-start}
+.vm-specs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0}
+.vm-specs div{padding:6px;border-radius:6px;background:var(--d-soft);text-align:center}
+.vm-specs dt{color:var(--d-mut);font-size:11px}
+.vm-specs dd{margin:0;font-weight:700}
+.vm-facts{display:grid;gap:4px;margin:0;font-size:12px}
+.vm-facts div{display:flex;justify-content:space-between;gap:10px}
+.vm-facts dt{color:var(--d-mut)}
+.vm-facts dd{min-width:0;margin:0;overflow:hidden;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.vm-facts--profile{gap:8px;font-size:13px}
+.vm-card__foot{display:flex;justify-content:flex-end;gap:6px;margin-top:auto;padding-top:10px;border-top:1px solid var(--d-line)}
+
+.vm-name{font-weight:700;color:var(--d-ink)}
+.vm-name .vm-os{margin-right:8px;font-size:15px;vertical-align:-2px}
+.vm-row-actions{display:flex;justify-content:flex-end;align-items:center;gap:2px}
+td.vm-row-actions{display:table-cell;text-align:right}
+td.vm-row-actions > *{display:inline-flex;vertical-align:middle}
+.vm-ic-red{color:var(--d-red)}
+.vm-ic-amber{color:var(--d-amber)}
+.vm-ic-green{color:var(--d-green-text)}
+.vm-danger-text{color:var(--d-red)}
+.vm-empty-icon{display:block;margin-bottom:10px;font-size:30px}
+
+.vm-back{margin:0 0 6px -8px;color:var(--d-mut)}
+.vm-disks{margin:4px 0 14px;padding-top:14px;border-top:1px solid var(--d-line)}
+.vm-disk{display:grid;grid-template-columns:1fr 1fr auto;align-items:end;gap:0 14px}
+.vm-disk__remove{margin-bottom:12px;color:var(--d-red)}
+.vm-add-disk{color:var(--d-green-text)}
+.vm-form-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid var(--d-line)}
+.vm-filter{display:grid;gap:8px;margin-bottom:18px}
+.vm-cap{text-transform:capitalize}
+.vm-dialog-text{margin:0 0 12px;color:var(--d-ink)}
+.vm-dialog-text p{margin:0 0 8px}
+
+@container (max-width:620px){
+  .vm-disk{grid-template-columns:minmax(0,1fr)}
+  .vm-disk__remove{justify-self:start}
+}

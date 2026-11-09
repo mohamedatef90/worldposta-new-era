@@ -1,109 +1,5 @@
 <div class="lc">
-  <!-- Console chrome: the real CloudEdge sidebar and top bar -->
-  <aside class="lc-side">
-    <div class="lc-logo"><span class="lc-logo__mark" aria-hidden="true"></span><span>Cloud<b>Edge</b></span></div>
-    <nav aria-label="Console navigation">
-      @for (group of sidebar; track group.section) {
-        @if (group.section) { <p class="lc-side__sec">{{ group.section }}</p> }
-        @for (item of group.items; track item.label) {
-          @if ('tab' in item && item.tab) {
-            <button type="button" class="lc-side__item" [class.is-on]="item.label === currentPage()" [attr.aria-current]="item.label === currentPage() ? 'page' : null" (click)="navigate.emit(item.tab)">
-              <fa-icon [icon]="item.icon" aria-hidden="true" />{{ item.label }}
-            </button>
-          } @else {
-            <span class="lc-side__item lc-side__item--static"><fa-icon [icon]="item.icon" aria-hidden="true" />{{ item.label }}</span>
-          }
-        }
-      }
-    </nav>
-  </aside>
-
   <div class="lc-main">
-    <header class="lc-top">
-      <fa-icon class="lc-top__collapse" [icon]="i.collapse" aria-hidden="true" />
-      <span class="lc-top__search" aria-hidden="true"><fa-icon [icon]="i.search" />Search...</span>
-      <span class="lc-top__org" aria-hidden="true"><fa-icon [icon]="i.org" />Worldposta<fa-icon [icon]="i.down" /></span>
-      <span class="lc-top__bell" aria-hidden="true"><fa-icon [icon]="i.bell" /><i>1</i></span>
-      <span class="lc-top__user" aria-hidden="true"><span class="lc-avatar">A</span>Hello, Admin<fa-icon [icon]="i.down" /></span>
-    </header>
-    <p class="lc-crumb">Home <fa-icon [icon]="i.right" aria-hidden="true" /> {{ mode() === 'vm' ? 'Virtual Machines' : 'Billing' }}
-      @if (mode() === 'billing') { <fa-icon [icon]="i.right" aria-hidden="true" /> Invoices }</p>
-
-    @if (mode() === 'vm') {
-      <section class="lc-page" aria-label="Virtual Machines">
-        <div class="lc-page__head">
-          <div><h4>Virtual Machines</h4><p>Manage your virtual machines.</p></div>
-          <div class="lc-tools">
-            <button type="button" class="lc-btn lc-btn--green" (click)="openAdd()"><fa-icon [icon]="i.plus" aria-hidden="true" />ADD VM</button>
-            <span class="lc-btn lc-btn--slate" aria-hidden="true"><fa-icon [icon]="i.cart" />Marketplace</span>
-            <span class="lc-btn" aria-hidden="true"><fa-icon [icon]="i.export" />Export</span>
-            <span class="lc-btn lc-btn--outline" aria-hidden="true"><fa-icon [icon]="i.filter" />Filters</span>
-            <span class="lc-btn" aria-hidden="true"><fa-icon [icon]="i.bin" />Recycle Bin</span>
-          </div>
-        </div>
-        <div class="lc-bar">
-          <div class="lc-seg" role="group" aria-label="View">
-            <button type="button" [class.is-on]="view() === 'card'" [attr.aria-pressed]="view() === 'card'" (click)="view.set('card')"><fa-icon [icon]="i.cards" aria-hidden="true" />Card View</button>
-            <button type="button" [class.is-on]="view() === 'table'" [attr.aria-pressed]="view() === 'table'" (click)="view.set('table')"><fa-icon [icon]="i.list" aria-hidden="true" />Table View</button>
-          </div>
-          <span class="lc-sum">{{ totals().running }} running · {{ totals().cores }} cores · {{ totals().memory }} GB</span>
-          <label class="lc-find"><fa-icon [icon]="i.search" aria-hidden="true" /><span class="sr-only">Search virtual machines</span>
-            <input type="search" placeholder="Search virtual machines..." [value]="query()" (input)="query.set($any($event.target).value)" /></label>
-        </div>
-
-        @if (filtered().length === 0) {
-          <p class="lc-empty">No virtual machines match “{{ query() }}”.</p>
-        } @else if (view() === 'card') {
-          <ul class="lc-cards">
-            @for (vm of filtered(); track vm.name) {
-              <li class="lc-card" [class.is-new]="vm.state === 'Provisioning'">
-                <div class="lc-card__head">
-                  <fa-icon class="lc-os" [attr.data-os]="vm.os" [icon]="osIcon[vm.os]" [title]="osName[vm.os]" />
-                  <h5>{{ vm.name }}</h5>
-                  <button type="button" class="lc-kebab" [attr.aria-label]="'Actions for ' + vm.name" [attr.aria-expanded]="menuFor() === vm.name" (click)="menuFor.set(menuFor() === vm.name ? null : vm.name)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
-                  @if (menuFor() === vm.name) {
-                    <div class="lc-menu" role="menu">
-                      <button type="button" role="menuitem" [disabled]="vm.state === 'Provisioning'" (click)="power(vm)">{{ vm.state === 'Running' ? 'Stop' : 'Start' }}</button>
-                      <button type="button" role="menuitem" class="danger" (click)="remove(vm)">Delete</button>
-                    </div>
-                  }
-                </div>
-                <span class="lc-state" [attr.data-state]="vm.state">{{ vm.state }}</span>
-                <dl class="lc-specs">
-                  <div><dt>Cores</dt><dd>{{ vm.cores }}</dd></div><div><dt>Memory</dt><dd>{{ vm.memory }} GB</dd></div>
-                  <div><dt>Storage</dt><dd>{{ vm.storage }} GB</dd></div><div><dt>NICs</dt><dd>{{ vm.nics }}</dd></div>
-                </dl>
-                <dl class="lc-meta">
-                  <div><dt>IP Address:</dt><dd class="mono">{{ vm.ip }}</dd></div>
-                  <div><dt>Reservation:</dt><dd>{{ vm.reservation }}</dd></div>
-                  <div><dt>Created:</dt><dd>{{ vm.created }}</dd></div>
-                </dl>
-                <div class="lc-card__foot">
-                  <button type="button" class="lc-mini" (click)="power(vm)" [disabled]="vm.state === 'Provisioning'">{{ vm.state === 'Running' ? 'Stop' : 'Start' }}</button>
-                  <button type="button" class="lc-mini lc-mini--green" (click)="openConsole(vm)" [disabled]="vm.state !== 'Running'">Web Console</button>
-                </div>
-              </li>
-            }
-          </ul>
-        } @else {
-          <div class="lc-tablewrap">
-            <table class="lc-table">
-              <thead><tr><th scope="col">Name</th><th scope="col">Status</th><th scope="col">OS</th><th scope="col">Cores</th><th scope="col">Memory</th><th scope="col">Storage</th><th scope="col">IP Address</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
-              <tbody>
-                @for (vm of filtered(); track vm.name) {
-                  <tr>
-                    <th scope="row"><fa-icon class="lc-os" [attr.data-os]="vm.os" [icon]="osIcon[vm.os]" aria-hidden="true" /> {{ vm.name }}</th>
-                    <td><span class="lc-state" [attr.data-state]="vm.state">{{ vm.state }}</span></td>
-                    <td>{{ osName[vm.os] }}</td><td>{{ vm.cores }}</td><td>{{ vm.memory }} GB</td><td>{{ vm.storage }} GB</td><td class="mono">{{ vm.ip }}</td>
-                    <td><button type="button" class="lc-mini" (click)="power(vm)" [disabled]="vm.state === 'Provisioning'">{{ vm.state === 'Running' ? 'Stop' : 'Start' }}</button></td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        }
-      </section>
-    } @else {
       <section class="lc-page lc-bill" aria-label="Invoices">
         <div class="lc-page__head">
           <div><h4>Invoices</h4><p>View, download and pay your monthly CloudEdge invoices.</p></div>
@@ -148,37 +44,8 @@
           </article>
         </div>
       </section>
-    }
 
     @if (toast()) { <p class="lc-toast" role="status">{{ toast() }}</p> }
   </div>
 
-  @if (addOpen()) {
-    <div class="lc-modal" role="dialog" aria-modal="true" aria-labelledby="lc-add-title" (keydown.escape)="addOpen.set(false)">
-      <form class="lc-modal__box" (submit)="$event.preventDefault(); createVm()">
-        <div class="lc-modal__head"><h5 id="lc-add-title">Add Virtual Machine</h5>
-          <button type="button" class="lc-kebab" aria-label="Close" (click)="addOpen.set(false)"><fa-icon [icon]="i.close" aria-hidden="true" /></button></div>
-        <label class="lc-field">VM name
-          <input name="vmname" [value]="draft().name" (input)="setDraft('name', $any($event.target).value)" autocomplete="off" [attr.aria-invalid]="!!nameError()" />
-          @if (nameError()) { <small class="err">{{ nameError() }}</small> }
-        </label>
-        <fieldset class="lc-field"><legend>Operating system</legend>
-          <div class="lc-pick">
-            @for (os of osChoices; track os) {
-              <button type="button" [class.is-on]="draft().os === os" [attr.aria-pressed]="draft().os === os" (click)="setDraft('os', os)"><fa-icon class="lc-os" [attr.data-os]="os" [icon]="osIcon[os]" aria-hidden="true" />{{ osName[os] }}</button>
-            }
-          </div>
-        </fieldset>
-        <div class="lc-row3">
-          <label class="lc-field">Cores<select (change)="setDraft('cores', $any($event.target).value)">@for (c of options.cores; track c) {<option [value]="c" [selected]="c === draft().cores">{{ c }}</option>}</select></label>
-          <label class="lc-field">Memory<select (change)="setDraft('memory', $any($event.target).value)">@for (c of options.memory; track c) {<option [value]="c" [selected]="c === draft().memory">{{ c }} GB</option>}</select></label>
-          <label class="lc-field">Storage<select (change)="setDraft('storage', $any($event.target).value)">@for (c of options.storage; track c) {<option [value]="c" [selected]="c === draft().storage">{{ c }} GB</option>}</select></label>
-        </div>
-        <div class="lc-modal__foot">
-          <button type="button" class="lc-btn" (click)="addOpen.set(false)">Cancel</button>
-          <button type="submit" class="lc-btn lc-btn--green" [disabled]="!!nameError()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create VM</button>
-        </div>
-      </form>
-    </div>
-  }
 </div>

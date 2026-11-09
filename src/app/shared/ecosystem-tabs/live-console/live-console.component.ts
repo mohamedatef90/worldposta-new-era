@@ -1,28 +1,13 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faLinux, faUbuntu, faWindows } from '@fortawesome/free-brands-svg-icons';
-import {
-  faAnglesLeft, faBell, faBuilding, faCartShopping, faChevronDown, faChevronRight, faDatabase, faDesktop, faDownload,
-  faEllipsisVertical, faFileExport, faFileInvoiceDollar, faFilter, faGaugeHigh, faIdBadge, faLocationDot, faMagnifyingGlass,
-  faNetworkWired, faPlus, faRecycle, faTableCells, faList, faXmark, faTowerBroadcast, faShieldHalved, faCloudArrowUp, faCoins,
-} from '@fortawesome/free-solid-svg-icons';
-
-type VmState = 'Running' | 'Stopped' | 'Provisioning';
-interface Vm {
-  name: string; os: 'ubuntu' | 'windows' | 'linux'; state: VmState;
-  cores: number; memory: number; storage: number; nics: number;
-  ip: string; reservation: string; created: string;
-}
+import { faCloudArrowUp, faCoins, faDatabase, faDesktop, faDownload, faNetworkWired, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 interface Invoice { id: string; period: string; issued: string; due: string; total: number; status: 'Due' | 'Paid'; }
 
 /**
- * A working recreation of two CloudEdge console pages for the home-page
- * ecosystem preview: Virtual Machines (add, start/stop, delete, search,
- * card/table view) and Billing (monthly invoices). Everything happens in the
- * browser only; nothing is sent anywhere. Data mirrors the console's own
- * sample data.
+ * CloudEdge billing invoices for the ecosystem preview: the page content only,
+ * with no console sidebar or top bar. Everything happens in the browser.
+ * (Virtual Machines moved to demos/cloudedge-vms, ported from the console.)
  */
 @Component({
   selector: 'app-live-console',
@@ -31,96 +16,11 @@ interface Invoice { id: string; period: string; issued: string; due: string; tot
   styleUrl: './live-console.component.css',
 })
 export class LiveConsoleComponent {
-  readonly mode = input.required<'vm' | 'billing'>();
-  /** Sidebar rows that have a matching service on the home page. */
-  readonly navigate = output<string>();
 
-  protected readonly i = {
-    collapse: faAnglesLeft, bell: faBell, org: faBuilding, cart: faCartShopping, down: faChevronDown, right: faChevronRight,
-    storage: faDatabase, vm: faDesktop, download: faDownload, kebab: faEllipsisVertical, export: faFileExport, invoice: faFileInvoiceDollar,
-    filter: faFilter, dash: faGaugeHigh, profile: faIdBadge, ip: faLocationDot, search: faMagnifyingGlass, net: faNetworkWired,
-    plus: faPlus, bin: faRecycle, cards: faTableCells, list: faList, close: faXmark, nat: faTowerBroadcast,
-  };
-  protected readonly osIcon: Record<Vm['os'], IconDefinition> = { ubuntu: faUbuntu, windows: faWindows, linux: faLinux };
-  protected readonly osName: Record<Vm['os'], string> = { ubuntu: 'Ubuntu 22.04', windows: 'Windows Server 2022', linux: 'CentOS Stream 9' };
-  protected readonly osChoices: readonly Vm['os'][] = ['ubuntu', 'windows', 'linux'];
+  protected readonly i = { download: faDownload };
 
-  protected readonly sidebar = [
-    { section: '', items: [{ label: 'Dashboard', icon: faGaugeHigh, tab: 'cloud-infrastructure' }] },
-    { section: 'Administration', items: [{ label: 'Organizations', icon: faBuilding }, { label: 'Profiles', icon: faIdBadge }] },
-    { section: 'Resources', items: [{ label: 'Virtual Machines', icon: faDesktop, tab: 'virtual-machines' }, { label: 'Storage', icon: faDatabase, tab: 'storage' }] },
-    { section: 'Network', items: [{ label: 'Gateways', icon: faNetworkWired, tab: 'networking' }, { label: 'NATs', icon: faTowerBroadcast }, { label: 'Reserved IP', icon: faLocationDot }] },
-    { section: 'Billing', items: [{ label: 'Invoices', icon: faFileInvoiceDollar, tab: 'cost-management' }] },
-  ] as const;
 
-  protected readonly currentPage = computed(() => (this.mode() === 'vm' ? 'Virtual Machines' : 'Invoices'));
-
-  /* ---------------- Virtual machines ---------------- */
-  protected readonly vms = signal<Vm[]>([
-    { name: 'prod-web-server-01', os: 'ubuntu', state: 'Running', cores: 4, memory: 8, storage: 100, nics: 2, ip: '192.168.1.10', reservation: 'Web-Tier-Reservation', created: '2023-05-10' },
-    { name: 'sql-database-main', os: 'windows', state: 'Running', cores: 8, memory: 32, storage: 500, nics: 1, ip: '192.168.1.15', reservation: 'DB-Tier-Reservation', created: '2023-03-22' },
-    { name: 'dev-environment-centos', os: 'linux', state: 'Stopped', cores: 2, memory: 4, storage: 50, nics: 1, ip: '10.0.0.5', reservation: 'None', created: '2023-08-01' },
-  ]);
-  protected readonly view = signal<'card' | 'table'>('card');
-  protected readonly query = signal('');
-  protected readonly menuFor = signal<string | null>(null);
   protected readonly toast = signal('');
-  protected readonly filtered = computed(() => {
-    const q = this.query().trim().toLowerCase();
-    return q ? this.vms().filter((v) => v.name.includes(q) || v.ip.includes(q) || v.os.includes(q)) : this.vms();
-  });
-
-  protected readonly addOpen = signal(false);
-  protected readonly draft = signal({ name: 'web-server-02', os: 'ubuntu' as Vm['os'], cores: 4, memory: 8, storage: 100 });
-  protected readonly nameError = computed(() => {
-    const n = this.draft().name.trim();
-    if (!/^[a-z0-9][a-z0-9-]{1,30}$/.test(n)) return 'Use 2–31 lowercase letters, numbers or hyphens.';
-    if (this.vms().some((v) => v.name === n)) return 'A VM with this name already exists.';
-    return '';
-  });
-  protected readonly options = { cores: [2, 4, 8, 16], memory: [4, 8, 16, 32, 64], storage: [50, 100, 200, 500] };
-
-  protected openAdd(): void {
-    let n = 2;
-    while (this.vms().some((v) => v.name === `web-server-0${n}`)) n++;
-    this.draft.set({ name: `web-server-0${n}`, os: 'ubuntu', cores: 4, memory: 8, storage: 100 });
-    this.addOpen.set(true);
-  }
-  protected setDraft(key: 'name' | 'os' | 'cores' | 'memory' | 'storage', value: string | number): void {
-    this.draft.update((d) => ({ ...d, [key]: key === 'name' || key === 'os' ? String(value) : Number(value) }));
-  }
-  protected createVm(): void {
-    if (this.nameError()) return;
-    const d = this.draft();
-    const next = this.vms().length + 20;
-    const vm: Vm = { name: d.name.trim(), os: d.os, state: 'Provisioning', cores: d.cores, memory: d.memory, storage: d.storage, nics: 1, ip: `192.168.1.${next}`, reservation: 'None', created: new Date().toISOString().slice(0, 10) };
-    this.vms.update((list) => [vm, ...list]);
-    this.addOpen.set(false);
-    this.query.set('');
-    this.flash(`${vm.name} is being provisioned…`);
-    setTimeout(() => {
-      this.vms.update((list) => list.map((v) => (v.name === vm.name && v.state === 'Provisioning' ? { ...v, state: 'Running' } : v)));
-      this.flash(`${vm.name} is running.`);
-    }, 2200);
-  }
-  protected power(vm: Vm): void {
-    this.menuFor.set(null);
-    const state: VmState = vm.state === 'Running' ? 'Stopped' : 'Running';
-    this.vms.update((list) => list.map((v) => (v.name === vm.name ? { ...v, state } : v)));
-    this.flash(`${vm.name} ${state === 'Running' ? 'started' : 'stopped'}.`);
-  }
-  protected remove(vm: Vm): void {
-    this.menuFor.set(null);
-    this.vms.update((list) => list.filter((v) => v.name !== vm.name));
-    this.flash(`${vm.name} moved to the Recycle Bin.`);
-  }
-  protected readonly totals = computed(() => {
-    const on = this.vms().filter((v) => v.state === 'Running');
-    return { running: on.length, cores: on.reduce((s, v) => s + v.cores, 0), memory: on.reduce((s, v) => s + v.memory, 0) };
-  });
-  protected openConsole(vm: Vm): void {
-    this.flash(`Web Console for ${vm.name} opens in your CloudEdge console after you sign in.`);
-  }
   private flashTimer?: ReturnType<typeof setTimeout>;
   private flash(text: string): void {
     this.toast.set(text);

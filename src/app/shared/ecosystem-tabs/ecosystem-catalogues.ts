@@ -8,7 +8,7 @@ import { ECOSYSTEM_SCREENS, type EcosystemScreen } from './ecosystem-screens';
 import { TAB_CONTENT, TAB_GROUPS, type TabContent, type TabGroup } from './ecosystem-tabs.data';
 
 /** A tab whose preview is a working app rather than a capture. */
-export type LiveDemo = 'vm' | 'billing' | 'meeting';
+export type LiveDemo = 'vms' | 'mailboxes' | 'billing' | 'meeting';
 
 export interface EcosystemCatalogue {
   readonly groups: readonly TabGroup[];
@@ -18,7 +18,8 @@ export interface EcosystemCatalogue {
 }
 
 const LIVE: EcosystemCatalogue['live'] = {
-  'virtual-machines': 'vm',
+  'virtual-machines': 'vms',
+  'business-email': 'mailboxes',
   'cost-management': 'billing',
   conferencing: 'meeting',
 };

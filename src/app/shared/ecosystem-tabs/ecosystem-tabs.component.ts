@@ -26,7 +26,9 @@ import { LiveConsoleComponent } from './live-console/live-console.component';
 import { LinkMeetingComponent } from './link-meeting/link-meeting.component';
 import { CONSOLE_NAV, type EcosystemAction } from './ecosystem-screens';
 import type { TabContent, TabGroup } from './ecosystem-tabs.data';
-import { HOME_CATALOGUE, type EcosystemCatalogue } from './ecosystem-catalogues';
+import { HOME_CATALOGUE, type EcosystemCatalogue, type LiveDemo } from './ecosystem-catalogues';
+import { VmDemoComponent } from './demos/cloudedge-vms/vm-demo.component';
+import { MailboxDemoComponent } from './demos/email-mailboxes/mailbox-demo.component';
 
 
 /**
@@ -37,7 +39,7 @@ import { HOME_CATALOGUE, type EcosystemCatalogue } from './ecosystem-catalogues'
  */
 @Component({
   selector: 'app-ecosystem-tabs',
-  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent, ServicePickerComponent, ConsoleExtrasComponent, ConsoleCardsComponent, LiveConsoleComponent, LinkMeetingComponent],
+  imports: [DecimalPipe, FaIconComponent, NgOptimizedImage, PanelCardsComponent, NotesPanelComponent, ServicePickerComponent, ConsoleExtrasComponent, ConsoleCardsComponent, LiveConsoleComponent, LinkMeetingComponent, VmDemoComponent, MailboxDemoComponent],
   templateUrl: './ecosystem-tabs.component.html',
   styleUrl: './ecosystem-tabs.component.css',
 })
@@ -237,8 +239,15 @@ export class EcosystemTabsComponent {
   /** Services whose preview is the working console instead of a screenshot. */
   protected readonly liveMode = computed(() => {
     const live = this.catalogue().live[this.activeTabId()];
-    return live === 'vm' || live === 'billing' ? live : null;
+    return live && live !== 'meeting' ? live : null;
   });
+
+  /** The window title for each working app, as its own browser tab reads. */
+  protected readonly liveTitle: Record<Exclude<LiveDemo, 'meeting'>, string> = {
+    vms: 'CloudEdge Console · Virtual Machines',
+    mailboxes: 'Email Admin Suite · Mailboxes',
+    billing: 'CloudEdge Console · Billing · Invoices',
+  };
 
   /** Conferencing shows the live Posta Link meeting window from the Posta Link hero. */
   protected readonly meeting = computed(() => this.catalogue().live[this.activeTabId()] === 'meeting');

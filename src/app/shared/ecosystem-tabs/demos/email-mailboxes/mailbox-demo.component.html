@@ -1,0 +1,252 @@
+<section class="d-page" aria-labelledby="mbx-demo-title">
+  <div class="d-head mbx-head">
+    <h3 id="mbx-demo-title">Mailboxes</h3>
+    @if (selected().length) {
+      <div class="mbx-bulk" role="group" aria-label="Bulk actions">
+        <span class="mbx-bulk__count">{{ selected().length }} selected</span>
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="bulk.set('plan')"><fa-icon [icon]="i.edit" aria-hidden="true" />Change Plan</button>
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="bulk.set('activate')"><fa-icon [icon]="i.activate" aria-hidden="true" />Activate</button>
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="bulk.set('suspend')"><fa-icon [icon]="i.suspend" aria-hidden="true" />Suspend</button>
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm mbx-danger" (click)="bulk.set('delete')"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Clear selection" (click)="selected.set([])"><fa-icon [icon]="i.close" aria-hidden="true" /></button>
+      </div>
+    } @else {
+      <div class="d-actions">
+        <button type="button" class="d-btn d-btn--outline" (click)="openFilters()">
+          <fa-icon [icon]="i.filter" aria-hidden="true" />Filters &amp; Search
+          @if (activeFilterCount()) { <span class="d-count">{{ activeFilterCount() }}<span class="sr-only"> active</span></span> }
+        </button>
+        <button type="button" class="d-btn d-btn--outline" [disabled]="refreshing()" (click)="refresh()"><fa-icon [icon]="i.refresh" [class.mbx-spin]="refreshing()" aria-hidden="true" />Refresh</button>
+        <button type="button" class="d-btn d-btn--outline" (click)="exportAll()"><fa-icon [icon]="i.export" aria-hidden="true" />Export all mailboxes</button>
+        <button type="button" class="d-btn d-btn--primary" (click)="openAdd()"><fa-icon [icon]="i.add" aria-hidden="true" />Add Mailbox</button>
+      </div>
+    }
+  </div>
+
+  @if (mailboxes().length) {
+    <div class="d-table-wrap" tabindex="0" role="region" aria-label="Mailboxes table">
+      <table class="d-table">
+        <caption class="sr-only">Mailboxes</caption>
+        <thead>
+          <tr>
+            <th scope="col" class="mbx-check"><input type="checkbox" aria-label="Select all mailboxes" [checked]="allSelected()" (change)="toggleAll($any($event.target).checked)" /></th>
+            <th scope="col">Display Name</th>
+            <th scope="col">Login</th>
+            <th scope="col">Mailbox Plan</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Drive Quota</th>
+            <th scope="col">Level</th>
+            <th scope="col" class="mbx-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of mailboxes(); track m.id) {
+            <tr [class.is-selected]="selected().includes(m.id)">
+              <td class="mbx-check"><input type="checkbox" [attr.aria-label]="'Select ' + m.displayName" [checked]="selected().includes(m.id)" (change)="toggleOne(m.id, $any($event.target).checked)" /></td>
+              <th scope="row" class="mbx-name">
+                {{ m.displayName }}
+                @if (m.status !== 'active') { <span [class]="'d-pill d-pill--' + statusTone[m.status]">{{ m.status }}</span> }
+              </th>
+              <td class="d-muted">{{ m.login }}</td>
+              <td>
+                @if (editing()?.id === m.id && editing()?.column === 'plan') {
+                  <select class="d-select mbx-inline" [attr.aria-label]="'Mailbox Plan for ' + m.displayName" [value]="m.mailboxPlan" (change)="setPlan(m, $any($event.target).value)" (blur)="editing.set(null)" (keydown.escape)="editing.set(null)">
+                    @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
+                  </select>
+                } @else {
+                  <button type="button" class="mbx-edit mbx-edit--plan" [attr.aria-label]="'Change plan for ' + m.displayName + ', now ' + m.mailboxPlan" (click)="startEdit(m, 'plan')">{{ m.mailboxPlan }}<fa-icon [icon]="i.pencil" aria-hidden="true" /></button>
+                }
+              </td>
+              <td class="d-muted">{{ m.creationDate | date: 'M/d/yyyy' }}</td>
+              <td>
+                <div class="mbx-quota" [attr.data-level]="quotaPercent(m) > 90 ? 'high' : quotaPercent(m) > 75 ? 'mid' : 'low'">
+                  <span class="mbx-quota__bar" aria-hidden="true"><span [style.width.%]="quotaPercent(m)"></span></span>
+                  <span class="mbx-quota__text">{{ m.driveQuota.usedGB | number: '1.1-1' }} GB / {{ m.driveQuota.totalGB }} GB</span>
+                </div>
+              </td>
+              <td>
+                @if (editing()?.id === m.id && editing()?.column === 'level') {
+                  <select class="d-select mbx-inline" [attr.aria-label]="'Level for ' + m.displayName" [value]="m.level" (change)="setLevel(m, $any($event.target).value)" (blur)="editing.set(null)" (keydown.escape)="editing.set(null)">
+                    @for (l of levels; track l) { <option [value]="l">{{ l }}</option> }
+                  </select>
+                } @else {
+                  <button type="button" class="mbx-edit" [attr.aria-label]="'Change level for ' + m.displayName + ', now ' + m.level" (click)="startEdit(m, 'level')">{{ m.level }}<fa-icon [icon]="i.pencil" aria-hidden="true" /></button>
+                }
+              </td>
+              <td class="mbx-right">
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Edit ' + m.displayName" title="Edit Mailbox" (click)="openEdit(m)"><fa-icon [icon]="i.edit" aria-hidden="true" /></button>
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost mbx-danger" [attr.aria-label]="'Delete ' + m.displayName" title="Delete Mailbox" (click)="deleting.set(m)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mbx-foot d-muted">Showing 1-{{ mailboxes().length }} of {{ mailboxes().length }}</p>
+  } @else {
+    <div class="d-empty"><strong>No mailboxes found</strong>Change or clear the filters to see more mailboxes.</div>
+  }
+</section>
+
+@if (filterOpen()) {
+  <app-demo-dialog title="Filter Mailboxes" kind="panel" (closed)="filterOpen.set(false)">
+    <label class="d-field"><span>Display Name</span><input class="d-input" placeholder="Search by name..." [value]="draftFilters().displayName" (input)="setDraftFilter('displayName', $any($event.target).value)" /></label>
+    <div class="d-grid">
+      <label class="d-field"><span>Domain</span>
+        <select class="d-select" [value]="draftFilters().domain" (change)="setDraftFilter('domain', $any($event.target).value)">
+          <option value="ALL">All Domains</option>
+          @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
+        </select>
+      </label>
+      <label class="d-field"><span>Mailbox Plan</span>
+        <select class="d-select" [value]="draftFilters().plan" (change)="setDraftFilter('plan', $any($event.target).value)">
+          <option value="ALL">All Plans</option>
+          @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
+        </select>
+      </label>
+      <label class="d-field"><span>From</span><input class="d-input" type="date" [value]="draftFilters().dateFrom" (input)="setDraftFilter('dateFrom', $any($event.target).value)" /></label>
+      <label class="d-field"><span>To</span><input class="d-input" type="date" [value]="draftFilters().dateTo" (input)="setDraftFilter('dateTo', $any($event.target).value)" /></label>
+    </div>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="clearFilters()">Clear Filters</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="applyFilters()">Apply Filters</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (addOpen()) {
+  <app-demo-dialog title="Add New Mailbox" kind="panel" (closed)="addOpen.set(false)">
+    <form id="mbx-add-form" (submit)="$event.preventDefault(); save()" novalidate>
+      <section class="d-section">
+        <h5>Basic Information</h5>
+        <div>
+          <div class="d-grid d-grid--3">
+            <label class="d-field"><span>First Name</span><input class="d-input" autocomplete="off" placeholder="Enter first name" [value]="form().firstName" (input)="set('firstName', $any($event.target).value)" /></label>
+            <label class="d-field"><span>Initials</span><input class="d-input" autocomplete="off" placeholder="M." [value]="form().initials" (input)="set('initials', $any($event.target).value)" /></label>
+            <label class="d-field"><span>Last Name</span><input class="d-input" autocomplete="off" placeholder="Enter last name" [value]="form().lastName" (input)="set('lastName', $any($event.target).value)" /></label>
+          </div>
+          <label class="d-field">
+            <span>Display Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required autocomplete="off" [value]="form().displayName" (input)="set('displayName', $any($event.target).value)" [attr.aria-invalid]="!!err('displayName')" aria-describedby="mbx-err-dn" />
+            @if (err('displayName'); as e) { <p class="d-error" id="mbx-err-dn">{{ e }}</p> }
+          </label>
+          <div class="d-field">
+            <label class="d-label" for="mbx-email">Email <span class="d-req" aria-hidden="true">*</span></label>
+            <div class="mbx-email">
+              <input id="mbx-email" class="d-input" required autocomplete="off" [value]="form().emailUser" (input)="set('emailUser', $any($event.target).value)" [attr.aria-invalid]="!!err('emailUser')" aria-describedby="mbx-err-email" />
+              <span class="mbx-email__at" aria-hidden="true">&#64;</span>
+              <select class="d-select" aria-label="Email domain" [value]="form().emailDomain" (change)="set('emailDomain', $any($event.target).value)">
+                @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
+              </select>
+            </div>
+            @if (err('emailUser'); as e) { <p class="d-error" id="mbx-err-email">{{ e }}</p> }
+          </div>
+          <div class="d-grid">
+            <label class="d-field">
+              <span>Password <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required autocomplete="new-password" [type]="showPassword() ? 'text' : 'password'" [value]="form().password" (input)="set('password', $any($event.target).value)" [attr.aria-invalid]="!!err('password')" aria-describedby="mbx-err-pw" />
+              @if (err('password'); as e) { <p class="d-error" id="mbx-err-pw">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Confirm Password <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required autocomplete="new-password" [type]="showPassword() ? 'text' : 'password'" [value]="form().confirmPassword" (input)="set('confirmPassword', $any($event.target).value)" [attr.aria-invalid]="!!err('confirmPassword')" aria-describedby="mbx-err-cpw" />
+              @if (err('confirmPassword'); as e) { <p class="d-error" id="mbx-err-cpw">{{ e }}</p> }
+            </label>
+          </div>
+          <div class="mbx-pw-actions">
+            <button type="button" class="d-btn d-btn--sm d-btn--ghost" [attr.aria-pressed]="showPassword()" (click)="showPassword.set(!showPassword())"><fa-icon [icon]="showPassword() ? i.hide : i.show" aria-hidden="true" />{{ showPassword() ? 'Hide' : 'Show' }} password</button>
+            <button type="button" class="d-btn d-btn--sm d-btn--outline" (click)="generatePassword()">Generate Password</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="d-section">
+        <h5>Mailbox Configuration</h5>
+        <div>
+          <label class="d-field"><span>Mailbox Plan</span>
+            <select class="d-select" [value]="form().mailboxPlan" (change)="set('mailboxPlan', $any($event.target).value)">
+              @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
+            </select>
+          </label>
+          <fieldset class="d-field">
+            <legend class="d-label">Mailbox Type</legend>
+            <div class="mbx-radios">
+              @for (t of types; track t) {
+                <label class="d-check"><input type="radio" name="mbx-type" [checked]="form().mailboxType === t" (change)="set('mailboxType', t)" />{{ t }}</label>
+              }
+            </div>
+          </fieldset>
+          <label class="d-field"><span>Level</span>
+            <select class="d-select" [value]="form().level" (change)="set('level', $any($event.target).value)">
+              @for (l of levels; track l) { <option [value]="l">{{ l }}</option> }
+            </select>
+          </label>
+          <label class="d-check mbx-gap"><input type="checkbox" [checked]="form().sendInstructions" (change)="set('sendInstructions', $any($event.target).checked)" />Send Setup Instructions</label>
+          @if (form().sendInstructions) {
+            <label class="d-field"><span>Additional Setup Instructions Email</span><input class="d-input" type="email" autocomplete="off" placeholder="name@example.com" [value]="form().additionalEmail" (input)="set('additionalEmail', $any($event.target).value)" /></label>
+          }
+          <label class="mbx-switch-row"><span>Enable MFA</span><input class="d-switch" type="checkbox" role="switch" [checked]="form().mfaEnabled" (change)="set('mfaEnabled', $any($event.target).checked)" /></label>
+        </div>
+      </section>
+      @if (submitted() && hasErrors()) { <p class="d-error" role="alert">Fix the highlighted fields to add the mailbox.</p> }
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="addOpen.set(false)">Cancel</button>
+      <button type="submit" form="mbx-add-form" class="d-btn d-btn--primary">Save</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (editingMailbox(); as m) {
+  <app-demo-dialog [title]="'Edit ' + m.displayName" (closed)="editingMailbox.set(null)">
+    <p class="mbx-dialog-text d-muted">{{ m.login }}</p>
+    <label class="d-field"><span>Mailbox Plan</span>
+      <select class="d-select" [value]="editDraft().plan" (change)="editDraft.set({ ...editDraft(), plan: $any($event.target).value })">
+        @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
+      </select>
+    </label>
+    <label class="d-field"><span>Level</span>
+      <select class="d-select" [value]="editDraft().level" (change)="editDraft.set({ ...editDraft(), level: $any($event.target).value })">
+        @for (l of levels; track l) { <option [value]="l">{{ l }}</option> }
+      </select>
+    </label>
+    <label class="mbx-switch-row"><span>Mailbox active</span><input class="d-switch" type="checkbox" role="switch" [checked]="editDraft().active" (change)="editDraft.set({ ...editDraft(), active: $any($event.target).checked })" /></label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="editingMailbox.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="saveEdit()">Save</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as m) {
+  <app-demo-dialog title="Delete Mailbox" (closed)="deleting.set(null)">
+    <p class="mbx-dialog-text">Are you sure you want to delete <strong>{{ m.displayName }}</strong> ({{ m.login }})? This action cannot be undone.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (bulk(); as action) {
+  <app-demo-dialog [title]="action === 'plan' ? 'Change Mailbox Plan' : action === 'delete' ? 'Delete Mailboxes' : action === 'activate' ? 'Activate Mailboxes' : 'Suspend Mailboxes'" (closed)="bulk.set(null)">
+    @if (action === 'plan') {
+      <label class="d-field"><span>New plan for {{ selected().length }} selected {{ selected().length === 1 ? 'mailbox' : 'mailboxes' }}</span>
+        <select class="d-select" [value]="bulkPlan()" (change)="bulkPlan.set($any($event.target).value)">
+          @for (p of plans; track p) { <option [value]="p">{{ p }}</option> }
+        </select>
+      </label>
+    } @else {
+      <p class="mbx-dialog-text">Are you sure you want to {{ action }} {{ selected().length }} selected {{ selected().length === 1 ? 'mailbox' : 'mailboxes' }}?@if (action === 'delete') { This action cannot be undone.}</p>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="bulk.set(null)">Cancel</button>
+      <button type="button" class="d-btn" [class.d-btn--danger]="action === 'delete'" [class.d-btn--primary]="action !== 'delete'" (click)="confirmBulk()">{{ action === 'plan' ? 'Change Plan' : action === 'delete' ? 'Delete' : action === 'activate' ? 'Activate' : 'Suspend' }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}
