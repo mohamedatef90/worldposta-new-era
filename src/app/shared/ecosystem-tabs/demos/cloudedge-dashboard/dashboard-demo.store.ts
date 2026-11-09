@@ -30,7 +30,6 @@ export interface DashboardWidgetVisibility {
   readonly topVms: boolean;
   readonly auditTrail: boolean;
   readonly securityScore: boolean;
-  readonly networkStatus: boolean;
   readonly helpfulResources: boolean;
 }
 
@@ -45,17 +44,8 @@ export interface AuditTrailEntry {
   readonly status: 'Success' | 'Failure';
 }
 
-export interface NetworkStatus {
-  readonly gateways: number;
-  readonly activeNatRules: number;
-  readonly speedTestResult: string | null;
-  readonly latency: string;
-  readonly packetLoss: string;
-  readonly isTestingSpeed: boolean;
-}
-
 export const DEFAULT_VISIBILITY: DashboardWidgetVisibility = {
-  stats: true, topVms: true, auditTrail: true, securityScore: true, networkStatus: true, helpfulResources: true,
+  stats: true, topVms: true, auditTrail: true, securityScore: true, helpfulResources: true,
 };
 
 /** A small seeded generator, so the demo's charts are the same on every visit. */
@@ -95,9 +85,6 @@ const AUDIT_TRAIL: readonly AuditTrailEntry[] = [
   { id: 'evt-1', eventName: 'StartInstances', eventSource: 'Compute', eventTime: '5 minutes ago', user: 'Admin', resourceName: 'prod-web-server-01', ipAddress: '73.125.88.10', status: 'Success' },
   { id: 'evt-2', eventName: 'CreatePolicy', eventSource: 'Security', eventTime: '1 hour ago', user: 'Admin', resourceName: 'Allow-HTTP-External', ipAddress: '73.125.88.10', status: 'Success' },
   { id: 'evt-3', eventName: 'RunSecurityScan', eventSource: 'Security', eventTime: '3 hours ago', user: 'System', resourceName: 'All Production VMs', ipAddress: 'internal-system', status: 'Success' },
-  { id: 'evt-4', eventName: 'AttachVolume', eventSource: 'Compute', eventTime: '6 hours ago', user: 'Admin', resourceName: 'data-archive-01', ipAddress: '73.125.88.10', status: 'Success' },
-  { id: 'evt-5', eventName: 'ConsoleLogin', eventSource: 'Identity', eventTime: 'Yesterday', user: 'Jane Doe', resourceName: 'user/jane.doe', ipAddress: '104.28.71.118', status: 'Success' },
-  { id: 'evt-6', eventName: 'UpdateGateway', eventSource: 'Network', eventTime: '2 days ago', user: 'Admin', resourceName: 'main-gateway-01', ipAddress: '73.125.88.10', status: 'Failure' },
 ];
 
 @Service()
@@ -109,12 +96,6 @@ export class DashboardDemoStore {
   private readonly visibility = signal<DashboardWidgetVisibility>(DEFAULT_VISIBILITY);
   readonly widgetVisibility = this.visibility.asReadonly();
 
-  /** Four gateways and three enabled NAT rules, as in the console's gateway and NAT mock data. */
-  private readonly network = signal<NetworkStatus>({
-    gateways: 4, activeNatRules: 3, speedTestResult: null, latency: '12ms', packetLoss: '0.01%', isTestingSpeed: false,
-  });
-  readonly networkStatus = this.network.asReadonly();
-
   /** The bars grow in once per visit, as the console's DashboardAnimationService does. */
   readonly hasAnimated = signal(false);
 
@@ -122,18 +103,4 @@ export class DashboardDemoStore {
     this.visibility.set(next);
   }
 
-  /** The console's simulated test: 2.5 s, then a download speed between 50 and 500 Mbps. */
-  runSpeedTest(): void {
-    if (this.network().isTestingSpeed) return;
-    this.network.update((n) => ({ ...n, isTestingSpeed: true, speedTestResult: null }));
-    setTimeout(() => {
-      this.network.update((n) => ({
-        ...n,
-        isTestingSpeed: false,
-        speedTestResult: `${(Math.random() * 450 + 50).toFixed(2)} Mbps`,
-        latency: `${Math.round(Math.random() * 10 + 8)}ms`,
-        packetLoss: `${(Math.random() * 0.04).toFixed(2)}%`,
-      }));
-    }, 2500);
-  }
 }

@@ -110,8 +110,8 @@
     <section class="d-page" aria-labelledby="vm-create-title">
       <div class="d-head">
         <div>
-          <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-back" (click)="page.set('list')"><fa-icon [icon]="i.back" aria-hidden="true" />Virtual Machines</button>
-          <h3 id="vm-create-title">Create New Virtual Machine</h3>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm vm-back" (click)="leaveCreate()"><fa-icon [icon]="i.back" aria-hidden="true" />{{ backLabel() }}</button>
+          <h3 id="vm-create-title" tabindex="-1">Create New Virtual Machine</h3>
         </div>
       </div>
       <form (submit)="createVm($event)" novalidate>
@@ -207,7 +207,7 @@
           <p class="d-error" role="alert">Fix the highlighted fields to create the virtual machine.</p>
         }
         <div class="vm-form-actions">
-          <button type="button" class="d-btn" (click)="page.set('list')">Cancel</button>
+          <button type="button" class="d-btn" (click)="leaveCreate()">Cancel</button>
           <button type="submit" class="d-btn d-btn--primary">Create</button>
         </div>
       </form>

@@ -1,13 +1,14 @@
-import { Component, DestroyRef, afterNextRender, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, afterNextRender, computed, inject, signal } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faLinux, faUbuntu, faWindows } from '@fortawesome/free-brands-svg-icons';
 import {
-  faChartSimple, faCircleCheck, faCircleInfo, faCircleUser, faClock, faDatabase, faDesktop, faEllipsisVertical, faGaugeHigh,
-  faHeadset, faLayerGroup, faListCheck, faMagnifyingGlass, faMicrochip, faNetworkWired, faPlug, faPlus, faRocket, faShieldHalved,
-  faSpinner, faTableCellsLarge, faTrashCan, faUser, faUsers,
+  faChartSimple, faCircleCheck, faCircleInfo, faCircleUser, faClock, faDatabase, faDesktop, faEllipsisVertical,
+  faHeadset, faLayerGroup, faListCheck, faMicrochip, faNetworkWired, faPlug, faPlus, faRocket, faShieldHalved,
+  faTableCellsLarge, faTrashCan, faUser, faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { DemoDialogComponent } from '../demo-dialog.component';
+import { VmDemoComponent } from '../cloudedge-vms/vm-demo.component';
 import { VmDemoStore, type VmOs, type VirtualMachine } from '../cloudedge-vms/vm-demo.store';
 import { DashboardDemoStore, type AuditTrailEntry, type DashboardWidgetVisibility, type StatCard, type StatKey } from './dashboard-demo.store';
 
@@ -37,14 +38,14 @@ const usage = (id: string, salt: number, min: number, range: number) => {
 /**
  * CloudEdge › Dashboard, working: stat cards that open their historical chart
  * (1H / 24H / 7D), Top VMs by Resource Usage read from the Virtual Machines
- * demo, the Audit Trail search, Security Score, the Network Status speed test
- * and the Customize Dashboard dialog. Ported from
+ * demo, the latest Audit Trail events, Security Score, Create VM (the Virtual
+ * Machines demo's form, in place) and the Customize Dashboard dialog. Ported from
  * cloudedge/src/pages/dashboard (dashboard.component.ts, stat-chart-modal,
  * customize-dashboard-modal); only the page content is shown.
  */
 @Component({
   selector: 'app-cloudedge-dashboard-demo',
-  imports: [FaIconComponent, DemoDialogComponent],
+  imports: [FaIconComponent, DemoDialogComponent, VmDemoComponent],
   templateUrl: './dashboard-demo.component.html',
   styleUrls: ['../demo.css', './dashboard-demo.component.css'],
   host: { '(document:click)': 'onDocumentClick($event)' },
@@ -53,11 +54,11 @@ export class CloudedgeDashboardDemoComponent {
   private readonly store = inject(DashboardDemoStore);
   private readonly vmStore = inject(VmDemoStore);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly host = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
 
   protected readonly i = {
     plus: faPlus, layout: faTableCellsLarge, kebab: faEllipsisVertical, plug: faPlug, manage: faListCheck, info: faCircleInfo,
-    trash: faTrashCan, search: faMagnifyingGlass, user: faUser, net: faNetworkWired, clock: faClock, gauge: faGaugeHigh,
-    spin: faSpinner, ok: faCircleCheck, rocket: faRocket, users: faUsers, support: faHeadset,
+    trash: faTrashCan, user: faUser, net: faNetworkWired, clock: faClock, ok: faCircleCheck, rocket: faRocket, users: faUsers, support: faHeadset,
   };
   protected readonly statIcon: Record<StatKey, IconDefinition> = { cpu: faMicrochip, memory: faChartSimple, storage: faDatabase, vms: faLayerGroup };
   protected readonly osIcon: Record<VmOs, IconDefinition> = { windows: faWindows, ubuntu: faUbuntu, linux: faLinux };
@@ -67,7 +68,6 @@ export class CloudedgeDashboardDemoComponent {
 
   protected readonly stats = this.store.stats;
   protected readonly visibility = this.store.widgetVisibility;
-  protected readonly network = this.store.networkStatus;
   protected readonly security = this.store.securityScore;
   protected readonly toast = signal('');
   private toastTimer?: ReturnType<typeof setTimeout>;
@@ -138,24 +138,28 @@ export class CloudedgeDashboardDemoComponent {
     this.notify(`${vm.name} moved to the Recycle Bin.`);
   }
 
-  /* ---------- Audit Trail ---------- */
-  protected readonly auditSearch = signal('');
-  protected readonly filteredAudit = computed(() => {
-    const term = this.auditSearch().trim().toLowerCase();
-    if (!term) return this.store.auditTrail;
-    return this.store.auditTrail.filter((e) =>
-      [e.eventName, e.user, e.resourceName, e.ipAddress, e.eventSource].some((v) => v.toLowerCase().includes(term)),
-    );
-  });
+  /* ---------- Audit Trail: the latest events; the full log lives in Action Logs ---------- */
+  protected readonly audit = this.store.auditTrail;
+
+  /* ---------- Create VM: the Virtual Machines demo's form, in place ---------- */
+  protected readonly creating = signal(false);
+  private createTrigger: HTMLElement | null = null;
+
+  protected openCreate(event: Event): void {
+    this.createTrigger = event.currentTarget as HTMLElement;
+    this.creating.set(true);
+  }
+
+  protected onCreateClosed(name: string | null): void {
+    this.creating.set(false);
+    if (name) this.notify(`${name} created and running. It is listed on the Virtual Machines page.`);
+    // The trigger is re-rendered with the dashboard; focus its replacement.
+    setTimeout(() => (this.host.querySelector<HTMLElement>('.ced-create') ?? this.createTrigger)?.focus());
+  }
 
   /* ---------- Security Score ring ---------- */
   protected readonly circumference = 2 * Math.PI * 60;
   protected readonly scoreOffset = computed(() => this.circumference - ((this.ready() ? this.security.score : 5) / 100) * this.circumference);
-
-  /* ---------- Network Status ---------- */
-  protected runSpeedTest(): void {
-    this.store.runSpeedTest();
-  }
 
   /* ---------- Stat chart dialog ---------- */
   protected readonly chartStat = signal<StatCard | null>(null);
@@ -213,7 +217,6 @@ export class CloudedgeDashboardDemoComponent {
     { key: 'topVms', label: 'Top VMs by Resource Usage' },
     { key: 'auditTrail', label: 'Audit Trail' },
     { key: 'securityScore', label: 'Security Score' },
-    { key: 'networkStatus', label: 'Network Status' },
     { key: 'helpfulResources', label: 'Helpful Resources' },
   ];
   protected readonly customizing = signal<DashboardWidgetVisibility | null>(null);
@@ -237,7 +240,7 @@ export class CloudedgeDashboardDemoComponent {
 
   protected readonly nothingShown = computed(() => !Object.values(this.visibility()).some(Boolean));
   protected readonly mainShown = computed(() => this.visibility().topVms || this.visibility().auditTrail);
-  protected readonly sideShown = computed(() => this.visibility().securityScore || this.visibility().networkStatus || this.visibility().helpfulResources);
+  protected readonly sideShown = computed(() => this.visibility().securityScore || this.visibility().helpfulResources);
 
   /* ---------- Shared ---------- */
   protected notify(text: string): void {

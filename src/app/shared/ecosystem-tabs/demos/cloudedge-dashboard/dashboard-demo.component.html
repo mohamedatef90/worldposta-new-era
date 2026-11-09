@@ -1,8 +1,11 @@
+@if (creating()) {
+  <app-vm-demo class="ced-embed" [createOnly]="true" backLabel="Dashboard" (closed)="onCreateClosed($event)" />
+} @else {
 <section class="ced" aria-labelledby="ced-title">
   <div class="ced-head">
     <h3 id="ced-title">CloudEdge Console</h3>
     <div class="d-actions">
-      <button type="button" class="d-btn d-btn--primary" (click)="notify('Create VM opens the Create New Virtual Machine form in the CloudEdge console.')"><fa-icon [icon]="i.plus" aria-hidden="true" />Create VM</button>
+      <button type="button" class="d-btn d-btn--primary ced-create" (click)="openCreate($event)"><fa-icon [icon]="i.plus" aria-hidden="true" />Create VM</button>
       <button type="button" class="d-btn" (click)="openCustomize()"><fa-icon class="d-muted" [icon]="i.layout" aria-hidden="true" />Custom Dashboard</button>
     </div>
   </div>
@@ -89,34 +92,24 @@
               <h4 id="ced-audit-title">Audit Trail</h4>
               <button type="button" class="ced-link" (click)="notify('View All Logs opens Action Logs under Administration.')">View All Logs</button>
             </div>
-            <label class="d-search ced-search">
-              <span class="sr-only">Search the audit trail</span>
-              <fa-icon [icon]="i.search" aria-hidden="true" />
-              <input class="d-input" type="search" placeholder="Search user, event, resource..." [value]="auditSearch()" (input)="auditSearch.set($any($event.target).value)" />
-            </label>
-            <p class="sr-only" aria-live="polite">{{ filteredAudit().length }} audit trail entries shown</p>
-            @if (filteredAudit().length) {
-              <ul class="ced-audit">
-                @for (entry of filteredAudit(); track entry.id) {
-                  <li>
-                    <fa-icon class="ced-audit__icon" [attr.data-src]="entry.eventSource" [icon]="auditIcon[entry.eventSource]" aria-hidden="true" />
-                    <div class="ced-audit__body">
-                      <p class="ced-audit__name">{{ entry.eventName }} <span class="sr-only">({{ entry.eventSource }})</span>
-                        @if (entry.status === 'Failure') { <span class="d-pill d-pill--bad">Failed</span> }
-                      </p>
-                      <p class="d-muted">Resource: <strong class="ced-ink">{{ entry.resourceName }}</strong></p>
-                      <p class="ced-audit__meta d-muted">
-                        <span><fa-icon [icon]="i.user" aria-hidden="true" />{{ entry.user }}</span>
-                        <span class="d-mono"><fa-icon [icon]="i.net" aria-hidden="true" />{{ entry.ipAddress }}</span>
-                        <span><fa-icon [icon]="i.clock" aria-hidden="true" />{{ entry.eventTime }}</span>
-                      </p>
-                    </div>
-                  </li>
-                }
-              </ul>
-            } @else {
-              <p class="d-muted ced-none"><fa-icon [icon]="i.search" aria-hidden="true" /> No audit trail entries found for your search.</p>
-            }
+            <ul class="ced-audit">
+              @for (entry of audit; track entry.id) {
+                <li>
+                  <fa-icon class="ced-audit__icon" [attr.data-src]="entry.eventSource" [icon]="auditIcon[entry.eventSource]" aria-hidden="true" />
+                  <div class="ced-audit__body">
+                    <p class="ced-audit__name">{{ entry.eventName }} <span class="sr-only">({{ entry.eventSource }})</span>
+                      @if (entry.status === 'Failure') { <span class="d-pill d-pill--bad">Failed</span> }
+                    </p>
+                    <p class="d-muted">Resource: <strong class="ced-ink">{{ entry.resourceName }}</strong></p>
+                    <p class="ced-audit__meta d-muted">
+                      <span><fa-icon [icon]="i.user" aria-hidden="true" />{{ entry.user }}</span>
+                      <span class="d-mono"><fa-icon [icon]="i.net" aria-hidden="true" />{{ entry.ipAddress }}</span>
+                      <span><fa-icon [icon]="i.clock" aria-hidden="true" />{{ entry.eventTime }}</span>
+                    </p>
+                  </div>
+                </li>
+              }
+            </ul>
           </section>
         }
       </div>
@@ -145,34 +138,6 @@
           </section>
         }
 
-        @if (visibility().networkStatus) {
-          <section class="ced-card" aria-labelledby="ced-net-title">
-            <div class="ced-card__head ced-card__head--rule">
-              <h4 id="ced-net-title">Network Status</h4>
-              <span class="ced-tag">Healthy</span>
-            </div>
-            <dl class="ced-facts ced-facts--net" aria-live="polite">
-              <div><dt>Configured Gateways</dt><dd class="ced-big">{{ network().gateways }}</dd></div>
-              <div><dt>Active NAT Rules</dt><dd class="ced-big">{{ network().activeNatRules }}</dd></div>
-              <div>
-                <dt>Download Speed</dt>
-                @if (network().isTestingSpeed) {
-                  <dd class="d-muted ced-pulse">Testing...</dd>
-                } @else if (network().speedTestResult) {
-                  <dd class="ced-green">{{ network().speedTestResult }}</dd>
-                } @else {
-                  <dd class="d-muted">-</dd>
-                }
-              </div>
-              <div><dt>Latency</dt><dd [class]="network().isTestingSpeed ? 'd-muted ced-pulse' : 'ced-green'">{{ network().isTestingSpeed ? 'Testing...' : network().latency }}</dd></div>
-              <div><dt>Packet Loss</dt><dd [class]="network().isTestingSpeed ? 'd-muted ced-pulse' : 'ced-green'">{{ network().isTestingSpeed ? 'Testing...' : network().packetLoss }}</dd></div>
-            </dl>
-            <button type="button" class="d-btn d-btn--outline ced-wide" [disabled]="network().isTestingSpeed" (click)="runSpeedTest()">
-              <fa-icon [icon]="network().isTestingSpeed ? i.spin : i.gauge" [animation]="network().isTestingSpeed ? 'spin' : undefined" aria-hidden="true" />
-              {{ network().isTestingSpeed ? 'Testing...' : 'Run Speed Test' }}
-            </button>
-          </section>
-        }
 
         @if (visibility().helpfulResources) {
           <section class="ced-card" aria-labelledby="ced-help-title">
@@ -193,6 +158,7 @@
     }
   </div>
 </section>
+}
 
 @if (chartStat(); as stat) {
   @if (chart(); as c) {

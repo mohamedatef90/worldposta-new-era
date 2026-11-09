@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, afterNextRender, computed, inject, input, output, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -44,7 +44,32 @@ export class VmDemoComponent {
   protected readonly osIcon: Record<VmOs, IconDefinition> = { windows: faWindows, ubuntu: faUbuntu, linux: faLinux };
   protected readonly statusTone: Record<VmStatus, string> = { running: 'good', stopped: 'bad', suspended: 'warn' };
 
+  /**
+   * Set by a host page (the Dashboard's Create VM button) to show only the
+   * Create New Virtual Machine form; leaving it emits `closed` with the new
+   * VM's name, or null when cancelled, instead of returning to the list.
+   */
+  readonly createOnly = input(false);
+  readonly backLabel = input('Virtual Machines');
+  readonly closed = output<string | null>();
+
   protected readonly page = signal<'list' | 'create' | 'bin'>('list');
+
+  private readonly host = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
+
+  constructor() {
+    afterNextRender(() => {
+      if (!this.createOnly()) return;
+      this.openCreate();
+      // The button that opened the form is gone; start keyboard and reader focus at its heading.
+      setTimeout(() => this.host.querySelector<HTMLElement>('#vm-create-title')?.focus());
+    });
+  }
+
+  protected leaveCreate(): void {
+    if (this.createOnly()) this.closed.emit(null);
+    else this.page.set('list');
+  }
   protected readonly viewMode = signal<'card' | 'table'>('card');
   protected readonly searchTerm = signal('');
   protected readonly openMenu = signal<string | null>(null);
@@ -289,6 +314,10 @@ export class VmDemoComponent {
       storage: this.disks().reduce((sum, d) => sum + d.size, 0),
       description: f.description, reservationName: f.reservation,
     });
+    if (this.createOnly()) {
+      this.closed.emit(vm.name);
+      return;
+    }
     this.page.set('list');
     this.notify(`${vm.name} created and running.`);
   }

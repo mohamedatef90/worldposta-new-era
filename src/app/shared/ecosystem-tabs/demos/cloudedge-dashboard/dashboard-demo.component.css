@@ -59,7 +59,6 @@
 .ced-usage dd .ced-bar{order:-1}
 
 /* Audit trail */
-.ced-search{max-width:none;margin-bottom:12px}
 .ced-audit{margin:0;padding:0;list-style:none}
 .ced-audit li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--d-line)}
 .ced-audit p{margin:0}
@@ -86,11 +85,6 @@
 .ced-facts div{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:700}
 .ced-facts dt{color:var(--d-ink)}
 .ced-facts dd{margin:0}
-.ced-facts--net dt{font-weight:500}
-.ced-big{font-size:17px}
-.ced-pulse{animation:ced-pulse 1.4s ease-in-out infinite}
-@keyframes ced-pulse{50%{opacity:.5}}
-.ced-wide{width:100%;margin-top:16px}
 
 /* Helpful resources */
 .ced-help{margin:-4px -8px;padding:0;list-style:none}
@@ -132,3 +126,5 @@
   .ced-audit__meta{grid-template-columns:minmax(0,1fr)}
   .ced-audit__meta span:last-child{text-align:left}
 }
+/* The Virtual Machines demo's Create form, shown in place of the dashboard. */
+app-vm-demo.ced-embed{display:block;min-height:0;padding:0;background:none}
