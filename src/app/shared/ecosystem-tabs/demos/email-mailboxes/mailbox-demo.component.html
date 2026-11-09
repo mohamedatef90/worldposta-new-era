@@ -119,7 +119,7 @@
     <form id="mbx-add-form" (submit)="$event.preventDefault(); save()" novalidate>
       <label class="d-field">
         <span>Display Name <span class="d-req" aria-hidden="true">*</span></span>
-        <input class="d-input" required autocomplete="off" placeholder="e.g. Sara Ali" [value]="form().displayName" (input)="set('displayName', $any($event.target).value)" [attr.aria-invalid]="!!err('displayName')" aria-describedby="mbx-err-dn" />
+        <input class="d-input" required autocomplete="off" placeholder="e.g. Chloe Gagnon" [value]="form().displayName" (input)="set('displayName', $any($event.target).value)" [attr.aria-invalid]="!!err('displayName')" aria-describedby="mbx-err-dn" />
         @if (err('displayName'); as e) { <p class="d-error" id="mbx-err-dn">{{ e }}</p> }
       </label>
       <div class="d-field">

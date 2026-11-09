@@ -337,7 +337,7 @@ export class CalendarDemoComponent {
       this.store.update(f.id, data);
       this.notify(`"${data.subject}" saved.`);
     } else {
-      this.store.add({ ...data, organizer: 'omar.khaled@alpha-inc.com', description: '' });
+      this.store.add({ ...data, organizer: 'liam.morin@alpha-inc.com', description: '' });
       this.notify(`"${data.subject}" added on ${this.longDate(new Date(data.start))}.`);
     }
     this.current.set(startOfDay(new Date(data.start)));

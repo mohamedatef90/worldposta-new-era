@@ -30,7 +30,7 @@ export const DEMO_CALENDARS: readonly DemoCalendar[] = [
   { id: 'cal-team', name: 'Team events' },
 ];
 
-const ORGANIZER = 'omar.khaled@alpha-inc.com';
+const ORGANIZER = 'liam.morin@alpha-inc.com';
 
 function seed(): DemoEvent[] {
   const now = new Date();
@@ -51,18 +51,18 @@ function seed(): DemoEvent[] {
   // A weekday a few days from today, wrapping inside the month.
   const soon = (offset: number) => ((today - 1 + offset) % last) + 1;
   return [
-    ev(today, 10, 0, 30, { subject: 'Daily stand-up', location: 'Posta Link · #launch', attendees: ['sara.hassan@alpha-inc.com', 'youssef.nabil@alpha-inc.com'], calendarId: 'cal-team' }),
-    ev(today, 14, 30, 60, { subject: 'Design review: sign-in flow', location: 'Meeting Room A', attendees: ['laila.mansour@alpha-inc.com', 'sara.hassan@alpha-inc.com'], description: 'Walk through the new unified sign-in screens before handoff.' }),
-    ev(soon(1), 9, 0, 60, { subject: 'Weekly product sync', location: 'Posta Link meeting', attendees: ['youssef.nabil@alpha-inc.com', 'laila.mansour@alpha-inc.com', 'sara.hassan@alpha-inc.com'], calendarId: 'cal-team' }),
-    ev(4, 11, 0, 60, { subject: '1:1 with Sara Hassan', location: 'Office 3.2', attendees: ['sara.hassan@alpha-inc.com'] }),
-    ev(8, 13, 0, 60, { subject: 'Lunch with Beta Division', location: 'Downtown', attendees: ['karim@betadivision.net'] }),
-    ev(12, 10, 0, 120, { subject: 'Quarterly business review', location: 'Board room', attendees: ['finance@alpha-inc.com', 'sara.hassan@alpha-inc.com'], description: 'Q3 results, cloud spend and the renewal proposal.' }),
+    ev(today, 10, 0, 30, { subject: 'Daily stand-up', location: 'Posta Link · #launch', attendees: ['chloe.wilson@alpha-inc.com', 'owen.pelletier@alpha-inc.com'], calendarId: 'cal-team' }),
+    ev(today, 14, 30, 60, { subject: 'Design review: sign-in flow', location: 'Meeting Room A', attendees: ['sophie.macdonald@alpha-inc.com', 'chloe.wilson@alpha-inc.com'], description: 'Walk through the new unified sign-in screens before handoff.' }),
+    ev(soon(1), 9, 0, 60, { subject: 'Weekly product sync', location: 'Posta Link meeting', attendees: ['owen.pelletier@alpha-inc.com', 'sophie.macdonald@alpha-inc.com', 'chloe.wilson@alpha-inc.com'], calendarId: 'cal-team' }),
+    ev(4, 11, 0, 60, { subject: '1:1 with Chloe Wilson', location: 'Office 3.2', attendees: ['chloe.wilson@alpha-inc.com'] }),
+    ev(8, 13, 0, 60, { subject: 'Lunch with Beta Division', location: 'Downtown', attendees: ['lucas@betadivision.net'] }),
+    ev(12, 10, 0, 120, { subject: 'Quarterly business review', location: 'Board room', attendees: ['finance@alpha-inc.com', 'chloe.wilson@alpha-inc.com'], description: 'Q3 results, cloud spend and the renewal proposal.' }),
     {
-      id: `ev${++n}`, calendarId: 'cal-team', subject: 'Team offsite', location: 'Ain Sokhna', allDay: true, attendees: ['team@alpha-inc.com'],
-      organizer: 'sara.hassan@alpha-inc.com', reminderMinutes: null, description: 'Two days of planning for next year.',
+      id: `ev${++n}`, calendarId: 'cal-team', subject: 'Team offsite', location: 'Mont-Tremblant', allDay: true, attendees: ['team@alpha-inc.com'],
+      organizer: 'chloe.wilson@alpha-inc.com', reminderMinutes: null, description: 'Two days of planning for next year.',
       start: at(15, 0), end: new Date(new Date(at(16, 0)).getTime() + (24 * 60 - 1) * 60_000).toISOString(),
     },
-    ev(19, 16, 0, 60, { subject: 'Posta Link pilot kickoff', location: 'Posta Link meeting', attendees: ['youssef.nabil@alpha-inc.com'], calendarId: 'cal-team' }),
+    ev(19, 16, 0, 60, { subject: 'Posta Link pilot kickoff', location: 'Posta Link meeting', attendees: ['owen.pelletier@alpha-inc.com'], calendarId: 'cal-team' }),
     ev(22, 22, 0, 90, { subject: 'Security patch window', location: 'CloudEdge · Cairo region', reminderMinutes: 60 }),
     ev(26, 9, 30, 30, { subject: 'Budget sign-off', location: 'Finance office', attendees: ['finance@alpha-inc.com'] }),
   ];

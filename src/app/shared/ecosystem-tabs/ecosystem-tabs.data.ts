@@ -128,7 +128,7 @@ export interface ConsoleView {
   /** Column headers after the fixed Name column, in render order. */
   readonly columns: readonly string[];
   /**
-   * Whether the table carries a Status column. Defaults to true; Team Chat and
+   * Whether the table carries a Status column. Defaults to true; Link and
    * Drive & Files list conversations and files, which have no state to report.
    */
   readonly showStatus?: boolean;
@@ -299,7 +299,7 @@ export const TAB_GROUPS: readonly TabGroup[] = [
     label: 'Collaboration & Productivity',
     items: [
       { id: 'business-email', label: 'Business Email', icon: faEnvelope },
-      { id: 'team-chat', label: 'Team Chat', icon: faMessage },
+      { id: 'team-chat', label: 'Link', icon: faMessage },
       { id: 'conferencing', label: 'Conferencing', icon: faVideo },
       { id: 'calendar', label: 'Calendar', icon: faCalendarDays },
       { id: 'drive-files', label: 'Drive & Files', icon: faFolderOpen },
@@ -941,8 +941,8 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         { icon: faPeopleGroup, label: 'Active Users', value: '1,180', delta: '14%', tone: 'purple', trend: [1035, 1056, 1077, 1098, 1119, 1140, 1160, 1180] },
       ],
       rows: [
-        { name: 'Ahmed Hassan', icon: faUser, status: { label: 'Active', tone: 'good' }, cells: ['ahmed@yourcompany.com', 'Business Pro', '12 GB / 50 GB', 'Jan 12, 2024 10:24 AM'] },
-        { name: 'Sara Ali', icon: faUser, status: { label: 'Active', tone: 'good' }, cells: ['sara@yourcompany.com', 'Business Pro', '8 GB / 50 GB', 'Jan 12, 2024 09:18 AM'] },
+        { name: 'Ethan Tremblay', icon: faUser, status: { label: 'Active', tone: 'good' }, cells: ['ethan@yourcompany.com', 'Business Pro', '12 GB / 50 GB', 'Jan 12, 2024 10:24 AM'] },
+        { name: 'Chloe Gagnon', icon: faUser, status: { label: 'Active', tone: 'good' }, cells: ['chloe@yourcompany.com', 'Business Pro', '8 GB / 50 GB', 'Jan 12, 2024 09:18 AM'] },
         { name: 'Marketing Team', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['marketing@yourcompany.com', 'Business Standard', '24 GB / 100 GB', 'Jan 11, 2024 06:45 PM'] },
         { name: 'Sales Team', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['sales@yourcompany.com', 'Business Standard', '18 GB / 100 GB', 'Jan 11, 2024 04:12 PM'] },
         { name: 'Support', icon: faPeopleGroup, status: { label: 'Active', tone: 'good' }, cells: ['support@yourcompany.com', 'Business Pro', '32 GB / 100 GB', 'Jan 10, 2024 11:03 AM'] },
@@ -973,7 +973,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   'team-chat': {
     badge: 'Collaboration & Productivity',
-    heading: 'Team Chat',
+    heading: 'Link',
     description:
       'Connect your teams, streamline communication and get work done — all in one secure platform.',
     bullets: [
@@ -982,8 +982,8 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
       'Integrations with your favorite tools',
     ],
     image: '/worldposta-assets/hero/posta/suite-light-1680.avif',
-    imageAlt: 'Team chat application',
-    cta: 'Open Team Chat',
+    imageAlt: 'Posta Link chat',
+    cta: 'Open Link',
     console: {
       title: 'Recent Conversations',
       total: 24,
@@ -1003,10 +1003,10 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         { icon: faClock, label: 'Average Response Time', value: '2 min', delta: '40%', deltaDirection: 'down', tone: 'purple', trend: [3.3, 3.1, 2.9, 2.7, 2.5, 2.3, 2.1, 2] },
       ],
       rows: [
-        { name: 'Marketing Team', icon: faPeopleGroup, cells: ['Group', 'Sarah: Great work on the campaign! 🎉', '10:24 AM', '2'] },
-        { name: 'Ahmed Hassan', icon: faUser, cells: ['Direct', "Let's review the proposal today.", '09:18 AM', '1'] },
+        { name: 'Marketing Team', icon: faPeopleGroup, cells: ['Group', 'Chloe: Great work on the campaign! 🎉', '10:24 AM', '2'] },
+        { name: 'Ethan Tremblay', icon: faUser, cells: ['Direct', "Let's review the proposal today.", '09:18 AM', '1'] },
         { name: 'Product Updates', icon: faMessage, cells: ['Channel', 'System: New version deployed successfully.', '08:45 AM', '0'] },
-        { name: 'Sara Ali', icon: faUser, cells: ['Direct', 'Can you share the latest deck?', 'Yesterday', '0'] },
+        { name: 'Chloe Gagnon', icon: faUser, cells: ['Direct', 'Can you share the latest deck?', 'Yesterday', '0'] },
         { name: 'All Company', icon: faMessage, cells: ['Channel', 'HR: Team building event next week.', 'Yesterday', '5'] },
       ],
     },
@@ -1064,11 +1064,11 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         { icon: faShieldHalved, label: 'Meeting Success Rate', value: '99.8%', delta: '2%', tone: 'purple', trend: [97.8, 98.1, 98.4, 98.7, 99, 99.3, 99.6, 99.8] },
       ],
       rows: [
-        { name: 'Marketing Sync', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 12, 2024 10:00 AM', 'Sara Ali', '+8'] },
-        { name: 'Product Roadmap', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 12, 2024 02:00 PM', 'Ahmed Hassan', '+12'] },
-        { name: 'Client Presentation', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 13, 2024 11:00 AM', 'Mona Khaled', '+5'] },
-        { name: 'Team Weekly', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 14, 2024 09:00 AM', 'Omar Adel', '+10'] },
-        { name: 'HR Update', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 15, 2024 03:00 PM', 'Nour Ibrahim', '+6'] },
+        { name: 'Marketing Sync', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 12, 2024 10:00 AM', 'Chloe Gagnon', '+8'] },
+        { name: 'Product Roadmap', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 12, 2024 02:00 PM', 'Ethan Tremblay', '+12'] },
+        { name: 'Client Presentation', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 13, 2024 11:00 AM', 'Claire Morin', '+5'] },
+        { name: 'Team Weekly', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 14, 2024 09:00 AM', 'Liam Roy', '+10'] },
+        { name: 'HR Update', status: { label: 'Upcoming', tone: 'good' }, cells: ['Jan 15, 2024 03:00 PM', 'Olivia Fortin', '+6'] },
       ],
     },
     benefits: [
@@ -1218,11 +1218,11 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
       ],
       rows: [
         { name: 'Marketing Materials', icon: faFolderOpen, cells: ['Me', 'Jan 12, 2024 10:24 AM', '—'] },
-        { name: 'Sales Enablement', icon: faFolderOpen, cells: ['Ahmed Hassan', 'Jan 11, 2024 02:15 PM', '—'] },
-        { name: 'HR', icon: faFolderOpen, cells: ['Sara Ali', 'Jan 10, 2024 11:03 AM', '—'] },
+        { name: 'Sales Enablement', icon: faFolderOpen, cells: ['Ethan Tremblay', 'Jan 11, 2024 02:15 PM', '—'] },
+        { name: 'HR', icon: faFolderOpen, cells: ['Chloe Gagnon', 'Jan 10, 2024 11:03 AM', '—'] },
         { name: 'Project Phoenix', icon: faFolderOpen, cells: ['Me', 'Jan 09, 2024 04:20 PM', '—'] },
         { name: 'Product Brochure.pdf', icon: faFilePdf, cells: ['Marketing Team', 'Jan 08, 2024 01:12 PM', '4.2 MB'] },
-        { name: 'Q1 Strategy Deck.pptx', icon: faFilePowerpoint, cells: ['Omar Adel', 'Jan 07, 2024 03:45 PM', '12.8 MB'] },
+        { name: 'Q1 Strategy Deck.pptx', icon: faFilePowerpoint, cells: ['Liam Roy', 'Jan 07, 2024 03:45 PM', '12.8 MB'] },
         { name: 'Budget 2024.xlsx', icon: faFileExcel, cells: ['Finance Team', 'Jan 06, 2024 09:30 AM', '1.1 MB'] },
         { name: 'Meeting Notes.docx', icon: faFileWord, cells: ['Me', 'Jan 05, 2024 05:18 PM', '320 KB'] },
       ],
@@ -1292,12 +1292,12 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
       columns: ['Title', 'Last Modified', 'Owner'],
       rows: [
         { title: 'Q1 Marketing Plan', modified: 'Jan 12, 2024 10:24 AM', owner: 'Me', tone: 'blue', starred: true, active: true },
-        { title: 'Product Ideas', modified: 'Jan 11, 2024 02:15 PM', owner: 'Ahmed Hassan', tone: 'green' },
-        { title: 'Meeting Notes - Strategy', modified: 'Jan 10, 2024 11:03 AM', owner: 'Sara Ali', tone: 'blue' },
-        { title: 'Client Requirements', modified: 'Jan 09, 2024 04:20 PM', owner: 'Omar Adel', tone: 'blue' },
+        { title: 'Product Ideas', modified: 'Jan 11, 2024 02:15 PM', owner: 'Ethan Tremblay', tone: 'green' },
+        { title: 'Meeting Notes - Strategy', modified: 'Jan 10, 2024 11:03 AM', owner: 'Chloe Gagnon', tone: 'blue' },
+        { title: 'Client Requirements', modified: 'Jan 09, 2024 04:20 PM', owner: 'Liam Roy', tone: 'blue' },
         { title: 'Team Action Items', modified: 'Jan 08, 2024 01:12 PM', owner: 'Me', tone: 'amber' },
         { title: 'Budget Planning', modified: 'Jan 07, 2024 03:45 PM', owner: 'Finance Team', tone: 'purple' },
-        { title: 'HR Policies', modified: 'Jan 06, 2024 09:30 AM', owner: 'Nour Ibrahim', tone: 'blue' },
+        { title: 'HR Policies', modified: 'Jan 06, 2024 09:30 AM', owner: 'Olivia Fortin', tone: 'blue' },
         { title: 'Ideas - 2024', modified: 'Jan 05, 2024 05:18 PM', owner: 'Me', tone: 'amber' },
       ],
       footer: 'Showing 1 - 8 of 1,420 notes',
@@ -1365,10 +1365,10 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         title: 'Today\u2019s Schedule',
         link: 'View Calendar',
         items: [
-          { icon: faVideo, tone: 'blue', title: 'Marketing Sync', subtitle: 'Microsoft Teams', meta: '10:00 AM' },
+          { icon: faVideo, tone: 'blue', title: 'Marketing Sync', subtitle: 'Link meeting', meta: '10:00 AM' },
           { icon: faPeopleGroup, tone: 'green', title: 'Product Review', subtitle: 'Meeting Room 2', meta: '12:00 PM' },
           { icon: faVideo, tone: 'blue', title: 'Client Presentation', subtitle: 'Zoom', meta: '3:00 PM' },
-          { icon: faMessage, tone: 'purple', title: 'Team Check-in', subtitle: 'Team Chat', meta: '5:00 PM' },
+          { icon: faMessage, tone: 'purple', title: 'Team Check-in', subtitle: 'Link', meta: '5:00 PM' },
         ],
       },
       {
@@ -1386,11 +1386,11 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         title: 'Team Activity',
         link: 'View all',
         items: [
-          { initials: 'SA', tone: 'blue', title: 'Sara Ali', subtitle: 'updated Marketing Plan 2024.docx', note: '2 hours ago' },
-          { initials: 'AH', tone: 'green', title: 'Ahmed Hassan', subtitle: 'shared a folder with the team', note: '4 hours ago' },
-          { initials: 'MK', tone: 'purple', title: 'Mona Khaled', subtitle: 'added a comment on Client Brief.pdf', note: '6 hours ago' },
-          { initials: 'OA', tone: 'amber', title: 'Omar Adel', subtitle: 'created a new note', note: '1 day ago' },
-          { initials: 'NI', tone: 'blue', title: 'Nour Ibrahim', subtitle: 'uploaded Campaign Assets.zip', note: '1 day ago' },
+          { initials: 'CG', tone: 'blue', title: 'Chloe Gagnon', subtitle: 'updated Marketing Plan 2024.docx', note: '2 hours ago' },
+          { initials: 'ET', tone: 'green', title: 'Ethan Tremblay', subtitle: 'shared a folder with the team', note: '4 hours ago' },
+          { initials: 'CM', tone: 'purple', title: 'Claire Morin', subtitle: 'added a comment on Client Brief.pdf', note: '6 hours ago' },
+          { initials: 'LR', tone: 'amber', title: 'Liam Roy', subtitle: 'created a new note', note: '1 day ago' },
+          { initials: 'OF', tone: 'blue', title: 'Olivia Fortin', subtitle: 'uploaded Campaign Assets.zip', note: '1 day ago' },
         ],
       },
       {
@@ -1414,7 +1414,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
           figure: '48',
           delta: '14%',
           caption: 'out of 60 licensed users',
-          avatars: ['SA', 'AH', 'MK', 'OA', 'NI'],
+          avatars: ['CG', 'ET', 'CM', 'LR', 'OF'],
           more: '+43',
         },
       },
@@ -1478,10 +1478,10 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         title: 'Access Requests',
         link: 'View all',
         items: [
-          { icon: faUser, tone: 'blue', title: 'New user invitation', subtitle: 'Nour Ibrahim · 2 hours ago', badge: { label: 'Pending', tone: 'warning' } },
-          { icon: faFolderOpen, tone: 'amber', title: 'Access to Project Folder', subtitle: 'Ahmed Hassan · 4 hours ago', badge: { label: 'Approved', tone: 'good' } },
-          { icon: faShieldHalved, tone: 'purple', title: 'Admin role request', subtitle: 'Sara Ali · 1 day ago', badge: { label: 'Pending', tone: 'warning' } },
-          { icon: faDatabase, tone: 'green', title: 'Access to Production', subtitle: 'Omar Adel · 1 day ago', badge: { label: 'Denied', tone: 'critical' } },
+          { icon: faUser, tone: 'blue', title: 'New user invitation', subtitle: 'Olivia Fortin · 2 hours ago', badge: { label: 'Pending', tone: 'warning' } },
+          { icon: faFolderOpen, tone: 'amber', title: 'Access to Project Folder', subtitle: 'Ethan Tremblay · 4 hours ago', badge: { label: 'Approved', tone: 'good' } },
+          { icon: faShieldHalved, tone: 'purple', title: 'Admin role request', subtitle: 'Chloe Gagnon · 1 day ago', badge: { label: 'Pending', tone: 'warning' } },
+          { icon: faDatabase, tone: 'green', title: 'Access to Production', subtitle: 'Liam Roy · 1 day ago', badge: { label: 'Denied', tone: 'critical' } },
         ],
       },
       {
@@ -1510,11 +1510,11 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         { icon: faKey, label: 'Roles & Permissions', value: '12', delta: '20%', tone: 'purple', trend: [10, 10, 11, 11, 11, 12, 12, 12] },
       ],
       rows: [
-        { name: 'Sara Ali', initials: 'SA', status: { label: 'Active', tone: 'good' }, cells: ['sara.ali@worldposta.com', 'Administrator', 'Today, 10:24 AM'] },
-        { name: 'Ahmed Hassan', initials: 'AH', status: { label: 'Active', tone: 'good' }, cells: ['ahmed.hassan@worldposta.com', 'Manager', 'Today, 09:12 AM'] },
-        { name: 'Mona Khaled', initials: 'MK', status: { label: 'Active', tone: 'good' }, cells: ['mona.khaled@worldposta.com', 'Standard User', 'Yesterday, 04:30 PM'] },
-        { name: 'Omar Adel', initials: 'OA', status: { label: 'Inactive', tone: 'warning' }, cells: ['omar.adel@worldposta.com', 'Standard User', 'Jan 20, 2024'] },
-        { name: 'Nour Ibrahim', initials: 'NI', status: { label: 'Active', tone: 'good' }, cells: ['nour.ibrahim@worldposta.com', 'Guest', 'Today, 11:05 AM'] },
+        { name: 'Chloe Gagnon', initials: 'CG', status: { label: 'Active', tone: 'good' }, cells: ['chloe.gagnon@worldposta.com', 'Administrator', 'Today, 10:24 AM'] },
+        { name: 'Ethan Tremblay', initials: 'ET', status: { label: 'Active', tone: 'good' }, cells: ['ethan.tremblay@worldposta.com', 'Manager', 'Today, 09:12 AM'] },
+        { name: 'Claire Morin', initials: 'CM', status: { label: 'Active', tone: 'good' }, cells: ['claire.morin@worldposta.com', 'Standard User', 'Yesterday, 04:30 PM'] },
+        { name: 'Liam Roy', initials: 'LR', status: { label: 'Inactive', tone: 'warning' }, cells: ['liam.roy@worldposta.com', 'Standard User', 'Jan 20, 2024'] },
+        { name: 'Olivia Fortin', initials: 'OF', status: { label: 'Active', tone: 'good' }, cells: ['olivia.fortin@worldposta.com', 'Guest', 'Today, 11:05 AM'] },
       ],
     },
     benefits: [
@@ -1582,11 +1582,11 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         title: 'Recent Activity',
         link: 'View all',
         items: [
-          { icon: faUser, tone: 'blue', title: 'Sara Ali joined the Marketing team', subtitle: '2 hours ago' },
-          { icon: faArrowUp, tone: 'green', title: 'Ahmed Hassan was promoted to Manager', subtitle: '4 hours ago' },
-          { icon: faPeopleGroup, tone: 'purple', title: 'Mona Khaled joined the Product team', subtitle: '1 day ago' },
-          { icon: faEnvelope, tone: 'amber', title: 'Omar Adel invited a new member', subtitle: '1 day ago' },
-          { icon: faGears, tone: 'grey', title: 'Nour Ibrahim updated team settings', subtitle: '2 days ago' },
+          { icon: faUser, tone: 'blue', title: 'Chloe Gagnon joined the Marketing team', subtitle: '2 hours ago' },
+          { icon: faArrowUp, tone: 'green', title: 'Ethan Tremblay was promoted to Manager', subtitle: '4 hours ago' },
+          { icon: faPeopleGroup, tone: 'purple', title: 'Claire Morin joined the Product team', subtitle: '1 day ago' },
+          { icon: faEnvelope, tone: 'amber', title: 'Liam Roy invited a new member', subtitle: '1 day ago' },
+          { icon: faGears, tone: 'grey', title: 'Olivia Fortin updated team settings', subtitle: '2 days ago' },
         ],
       },
     ],
@@ -1609,11 +1609,11 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         { icon: faChartColumn, label: 'Teams', value: '8', delta: '33%', tone: 'purple', trend: [6, 6, 7, 7, 7, 8, 8, 8] },
       ],
       rows: [
-        { name: 'Sara Ali', initials: 'SA', status: { label: 'Active', tone: 'good' }, cells: ['sara.ali@worldposta.com', 'Marketing', 'Manager', 'Today, 10:24 AM'] },
-        { name: 'Ahmed Hassan', initials: 'AH', status: { label: 'Active', tone: 'good' }, cells: ['ahmed.hassan@worldposta.com', 'Sales', 'Standard User', 'Today, 09:12 AM'] },
-        { name: 'Mona Khaled', initials: 'MK', status: { label: 'Active', tone: 'good' }, cells: ['mona.khaled@worldposta.com', 'Product', 'Standard User', 'Yesterday, 04:30 PM'] },
-        { name: 'Omar Adel', initials: 'OA', status: { label: 'Active', tone: 'good' }, cells: ['omar.adel@worldposta.com', 'IT', 'Administrator', 'Jan 20, 2024'] },
-        { name: 'Nour Ibrahim', initials: 'NI', status: { label: 'Inactive', tone: 'warning' }, cells: ['nour.ibrahim@worldposta.com', 'HR', 'Standard User', 'Jan 18, 2024'] },
+        { name: 'Chloe Gagnon', initials: 'CG', status: { label: 'Active', tone: 'good' }, cells: ['chloe.gagnon@worldposta.com', 'Marketing', 'Manager', 'Today, 10:24 AM'] },
+        { name: 'Ethan Tremblay', initials: 'ET', status: { label: 'Active', tone: 'good' }, cells: ['ethan.tremblay@worldposta.com', 'Sales', 'Standard User', 'Today, 09:12 AM'] },
+        { name: 'Claire Morin', initials: 'CM', status: { label: 'Active', tone: 'good' }, cells: ['claire.morin@worldposta.com', 'Product', 'Standard User', 'Yesterday, 04:30 PM'] },
+        { name: 'Liam Roy', initials: 'LR', status: { label: 'Active', tone: 'good' }, cells: ['liam.roy@worldposta.com', 'IT', 'Administrator', 'Jan 20, 2024'] },
+        { name: 'Olivia Fortin', initials: 'OF', status: { label: 'Inactive', tone: 'warning' }, cells: ['olivia.fortin@worldposta.com', 'HR', 'Standard User', 'Jan 18, 2024'] },
       ],
     },
     benefits: [

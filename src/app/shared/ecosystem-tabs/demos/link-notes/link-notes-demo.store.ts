@@ -27,7 +27,7 @@ export const SAVE_DEBOUNCE_MS = 800;
 const SEED: readonly MeetingNote[] = [
   {
     id: 'n-launch', meeting: 'Weekly launch sync', context: 'Brand Launch · 45 min', when: 'Today · 2:00 PM', edited: 5,
-    body: 'Agenda\n- Campaign checklist v4: final review\n- Pricing table from Salma\n- Vendor review (Omar)\n\nDecisions\n- Visual direction approved by the client\n- Launch stays on the 14th\n\nAction items\n- Sara: share the final checklist in #brand-launch\n- Lina: confirm tone examples with the client',
+    body: 'Agenda\n- Campaign checklist v4: final review\n- Pricing table from Emma\n- Vendor review (Liam)\n\nDecisions\n- Visual direction approved by the client\n- Launch stays on the 14th\n\nAction items\n- Chloe: share the final checklist in #brand-launch\n- Maya: confirm tone examples with the client',
   },
   {
     id: 'n-client', meeting: 'Client review', context: 'Client Portal · 30 min', when: 'Today · 4:30 PM', edited: 4,
@@ -39,7 +39,7 @@ const SEED: readonly MeetingNote[] = [
   },
   {
     id: 'n-kickoff', meeting: 'Brand launch kickoff', context: 'Brand Launch · 60 min', when: 'Tuesday · 11:00 AM', edited: 2,
-    body: 'Kickoff moved to Thursday.\n\nTeam: Mona, Omar, Salma, Lina (guest), Sara.\nGoal: launch the new brand site and campaign in three weeks.\n\nNext: Mohamed adds owners and dates to the launch plan.',
+    body: 'Kickoff moved to Thursday.\n\nTeam: Claire, Liam, Emma, Maya (guest), Chloe.\nGoal: launch the new brand site and campaign in three weeks.\n\nNext: Noah adds owners and dates to the launch plan.',
   },
 ];
 

@@ -41,7 +41,7 @@ const item = (id: string, kind: DriveItem['kind'], name: string, parentId: strin
 });
 
 const seed = (): DriveItem[] => [
-  item('f-marketing', 'folder', 'Marketing Assets', null, 0, 5, { shares: [{ email: 'sara.hassan@alpha-inc.com', role: 'editor' }] }),
+  item('f-marketing', 'folder', 'Marketing Assets', null, 0, 5, { shares: [{ email: 'chloe.wilson@alpha-inc.com', role: 'editor' }] }),
   item('f-q1', 'folder', 'Q1 Reports', null, 0, 30),
   item('f-projects', 'folder', 'Projects', null, 0, 52, { starred: true }),
   item('f-finance', 'folder', 'Finance', null, 0, 200),

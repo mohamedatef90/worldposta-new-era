@@ -57,38 +57,38 @@ const msg = (sender: string, body: string, time: string, extra: Partial<ChatMess
 
 const SEED: readonly Omit<Conversation, 'rank'>[] = [
   {
-    id: 'c-brand', kind: 'group', name: 'Brand Launch team', members: ['Mona Adel', 'Omar Ali', 'Salma Hassan', 'Lina Kareem', 'Sara Khalil', 'Mohamed Hassan'], guest: 'Lina Kareem', unread: 3, when: '10:24',
+    id: 'c-brand', kind: 'group', name: 'Brand Launch team', members: ['Claire Roy', 'Nathan Fraser', 'Emma Clarke', 'Maya Bouchard', 'Hannah Lavoie', 'Noah Leblanc'], guest: 'Maya Bouchard', unread: 3, when: '10:24',
     messages: [
-      msg('Sara Khalil', 'Morning team — the final campaign checklist is ready.', '08:12', { file: { name: 'Campaign-checklist.xlsx', meta: 'v4 · 310 KB' }, reactions: { '👍': ['Omar Ali', 'Mona Adel'] } }),
-      msg('Mohamed Hassan', 'Confirmed. I added owners and dates to the launch plan.', '08:26', { file: { name: 'Launch-plan.docx', meta: 'v6 · 1.1 MB' } }),
-      msg('', 'Great — client approved the visual direction yesterday.', '08:40', { reactions: { '🎉': ['Sara Khalil', 'Salma Hassan', 'Omar Ali'] } }),
-      msg('Omar Ali', 'Sharing the latest brand guidelines on Drive — v3, workspace members only. Moodboard is here too: https://drive.worldposta.com/s/brand-launch-moodboard', '08:56', { file: { name: 'Brand-guidelines-v3.pdf', meta: 'v3 · 12.1 MB' } }),
-      msg('Lina Kareem', 'Reviewed the tone examples — clear and ready for client handoff.', '10:04', { file: { name: 'Tone-examples.pdf', meta: 'guest link · 2.4 MB' } }),
-      msg('', 'Thanks all. Salma, can you drop the pricing table before the sync?', '10:12'),
-      msg('Salma Hassan', 'On it — ready in an hour. Draft is up already.', '10:24', { file: { name: 'Pricing-table.xlsx', meta: 'v1 · 420 KB' } }),
+      msg('Hannah Lavoie', 'Morning team — the final campaign checklist is ready.', '08:12', { file: { name: 'Campaign-checklist.xlsx', meta: 'v4 · 310 KB' }, reactions: { '👍': ['Nathan Fraser', 'Claire Roy'] } }),
+      msg('Noah Leblanc', 'Confirmed. I added owners and dates to the launch plan.', '08:26', { file: { name: 'Launch-plan.docx', meta: 'v6 · 1.1 MB' } }),
+      msg('', 'Great — client approved the visual direction yesterday.', '08:40', { reactions: { '🎉': ['Hannah Lavoie', 'Emma Clarke', 'Nathan Fraser'] } }),
+      msg('Nathan Fraser', 'Sharing the latest brand guidelines on Drive — v3, workspace members only. Moodboard is here too: https://drive.worldposta.com/s/brand-launch-moodboard', '08:56', { file: { name: 'Brand-guidelines-v3.pdf', meta: 'v3 · 12.1 MB' } }),
+      msg('Maya Bouchard', 'Reviewed the tone examples — clear and ready for client handoff.', '10:04', { file: { name: 'Tone-examples.pdf', meta: 'guest link · 2.4 MB' } }),
+      msg('', 'Thanks all. Emma, can you drop the pricing table before the sync?', '10:12'),
+      msg('Emma Clarke', 'On it — ready in an hour. Draft is up already.', '10:24', { file: { name: 'Pricing-table.xlsx', meta: 'v1 · 420 KB' } }),
     ],
   },
   {
-    id: 'c-omar', kind: 'dm', name: 'Omar Nabil', members: ['Omar Nabil'], unread: 0, when: '10:42',
+    id: 'c-omar', kind: 'dm', name: 'Liam Pelletier', members: ['Liam Pelletier'], unread: 0, when: '10:42',
     messages: [
-      msg('Omar Nabil', 'Can we move the vendor review to the weekly launch sync?', '10:31'),
-      msg('Omar Nabil', 'Agenda so far: https://link.worldposta.com/m/weekly-launch-sync', '10:33'),
+      msg('Liam Pelletier', 'Can we move the vendor review to the weekly launch sync?', '10:31'),
+      msg('Liam Pelletier', 'Agenda so far: https://link.worldposta.com/m/weekly-launch-sync', '10:33'),
       msg('', "Perfect, I'll add it to the agenda", '10:42'),
     ],
   },
   {
-    id: 'c-salma', kind: 'dm', name: 'Salma Hassan', members: ['Salma Hassan'], unread: 0, when: '09:51',
+    id: 'c-salma', kind: 'dm', name: 'Emma Clarke', members: ['Emma Clarke'], unread: 0, when: '09:51',
     messages: [
       msg('', 'Do you have the last quarter numbers for the pricing table?', '09:40'),
-      msg('Salma Hassan', 'Yes — pulling them from the finance sheet now.', '09:51'),
+      msg('Emma Clarke', 'Yes — pulling them from the finance sheet now.', '09:51'),
     ],
   },
   {
-    id: 'c-ops', kind: 'group', name: 'Ops group (5)', members: ['Nour Rashid', 'Omar Ali', 'Mona Adel', 'Sara Khalil'], unread: 1, when: '09:26',
+    id: 'c-ops', kind: 'group', name: 'Ops group (5)', members: ['Ava Campbell', 'Nathan Fraser', 'Claire Roy', 'Hannah Lavoie'], unread: 1, when: '09:26',
     messages: [
-      msg('Mona Adel', 'Shift handover notes are in the ops folder.', '09:02', { file: { name: 'Handover-notes.docx', meta: 'v2 · 86 KB' } }),
-      msg('Omar Ali', 'The incident timeline should go in the monthly review.', '09:18'),
-      msg('Nour Rashid', 'Agreed — folding it into the deck.', '09:26'),
+      msg('Claire Roy', 'Shift handover notes are in the ops folder.', '09:02', { file: { name: 'Handover-notes.docx', meta: 'v2 · 86 KB' } }),
+      msg('Nathan Fraser', 'The incident timeline should go in the monthly review.', '09:18'),
+      msg('Ava Campbell', 'Agreed — folding it into the deck.', '09:26'),
     ],
   },
   {
@@ -98,14 +98,14 @@ const SEED: readonly Omit<Conversation, 'rank'>[] = [
     ],
   },
   {
-    id: 'c-lina', kind: 'dm', name: 'Lina Kareem', members: ['Lina Kareem'], guest: 'Lina Kareem', unread: 0, when: 'Yesterday',
-    messages: [msg('Lina Kareem', 'Reviewed — ready for handoff', 'Yesterday')],
+    id: 'c-lina', kind: 'dm', name: 'Maya Bouchard', members: ['Maya Bouchard'], guest: 'Maya Bouchard', unread: 0, when: 'Yesterday',
+    messages: [msg('Maya Bouchard', 'Reviewed — ready for handoff', 'Yesterday')],
   },
   {
-    id: 'c-general', kind: 'channel', name: 'general', members: ['Mona Adel', 'Omar Ali', 'Salma Hassan', 'Sara Khalil', 'Nour Rashid', 'Mohamed Hassan'], unread: 2, when: 'Tuesday',
+    id: 'c-general', kind: 'channel', name: 'general', members: ['Claire Roy', 'Nathan Fraser', 'Emma Clarke', 'Hannah Lavoie', 'Ava Campbell', 'Noah Leblanc'], unread: 2, when: 'Tuesday',
     messages: [
-      msg('Sara Khalil', 'Welcome to the new workspace, everyone 👋', 'Tuesday'),
-      msg('Mona Adel', 'Heads up: kickoff moved to Thursday. Updated invite: https://link.worldposta.com/m/kickoff-thursday', 'Tuesday', { reactions: { '👀': ['Omar Ali'] } }),
+      msg('Hannah Lavoie', 'Welcome to the new workspace, everyone 👋', 'Tuesday'),
+      msg('Claire Roy', 'Heads up: kickoff moved to Thursday. Updated invite: https://link.worldposta.com/m/kickoff-thursday', 'Tuesday', { reactions: { '👀': ['Nathan Fraser'] } }),
     ],
   },
 ];

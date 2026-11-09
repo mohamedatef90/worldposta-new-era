@@ -1,35 +1,30 @@
 import { Component, ElementRef, afterNextRender, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
-  faArrowLeft, faCircleCheck, faComment, faFaceSmile, faGlobe, faHashtag, faLink, faMagnifyingGlass,
-  faPaperPlane, faPaperclip, faPlus, faUsers, faVideo,
+  faArrowLeft, faCircleCheck, faFaceSmile, faMagnifyingGlass, faPaperPlane, faPlus, faVideo,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  COMPOSER_EMOJI, LinkChatDemoStore, QUICK_REACTIONS, linksIn,
-  type ChatMessage, type Conversation, type ConversationKind,
+  COMPOSER_EMOJI, LinkChatDemoStore, QUICK_REACTIONS,
+  type ChatMessage, type Conversation,
 } from './link-chat-demo.store';
 
-type StageTab = 'chat' | 'files' | 'links';
+type StageTab = 'chat' | 'files';
 type FileType = 'all' | 'doc' | 'sheet' | 'pdf' | 'other';
-
-const SECTIONS: readonly { kind: ConversationKind; label: string }[] = [
-  { kind: 'dm', label: 'Direct messages' },
-  { kind: 'group', label: 'Groups' },
-  { kind: 'channel', label: 'Channels' },
-];
 
 const EXT_TYPE: Record<string, FileType> = { docx: 'doc', doc: 'doc', txt: 'doc', xlsx: 'sheet', xls: 'sheet', csv: 'sheet', pdf: 'pdf' };
 
-/** Six AA-safe avatar tints, picked from the name so a person keeps one colour (ChatAll tintOf). */
-const TINTS = 6;
+/** The Link apps' ten avatar hues (iOS DS.avatarPalette), each deep enough for white initials at 4.5:1. */
+const TINTS = 10;
 
 /**
- * Posta Link › Chat, working: the conversation list (Direct messages, Groups,
- * Channels) beside the open conversation with its Chat / Files / Links tabs,
+ * Posta Link › Chat, working, in the Link apps' own look (team-ai-2 "Link —
+ * Desktop & Mobile" frames 07–07d, bubbles and tokens from apps/ios
+ * ConversationView.swift and DesignSystem.swift): the Recent list beside the
+ * open conversation with its Chat / Files tabs,
  * the composer (Enter sends, Shift+Enter is a new line), emoji, attachments,
  * reactions, a teammate who types and answers, unread badges and Start meeting.
  * Ported from team-ai-2 apps/web/src/pages/ChatAll.tsx and the ConversationStage
- * in WorkspaceDetail.tsx (with workspace/views.tsx Files and Links tabs and
+ * in WorkspaceDetail.tsx (with the workspace/views.tsx Files tab and
  * workspace/MessageAttachment.tsx); content area only, no app rail or top bar.
  */
 @Component({
@@ -45,8 +40,7 @@ export class LinkChatDemoComponent {
   private readonly thread = viewChild<ElementRef<HTMLElement>>('thread');
 
   protected readonly i = {
-    back: faArrowLeft, ok: faCircleCheck, chat: faComment, smile: faFaceSmile, globe: faGlobe, hash: faHashtag, link: faLink,
-    search: faMagnifyingGlass, send: faPaperPlane, clip: faPaperclip, plus: faPlus, group: faUsers, video: faVideo,
+    back: faArrowLeft, ok: faCircleCheck, smile: faFaceSmile, search: faMagnifyingGlass, send: faPaperPlane, plus: faPlus, video: faVideo,
   };
   protected readonly reactions = QUICK_REACTIONS;
   protected readonly emoji = COMPOSER_EMOJI;
@@ -54,12 +48,12 @@ export class LinkChatDemoComponent {
 
   /* ---------- Conversation list ---------- */
   protected readonly query = signal('');
-  protected readonly sections = computed(() => {
+  /** One Recent list, newest activity first, as the Link apps show it. */
+  protected readonly recent = computed(() => {
     const q = this.query().trim().toLowerCase();
-    const shown = [...this.store.conversations()]
+    return [...this.store.conversations()]
       .filter((c) => !q || c.name.toLowerCase().includes(q))
       .sort((a, b) => b.rank - a.rank);
-    return SECTIONS.map((s) => ({ ...s, rows: shown.filter((c) => c.kind === s.kind) })).filter((s) => s.rows.length);
   });
 
   protected readonly active = computed(() => this.store.conversations().find((c) => c.id === this.store.activeId()) ?? null);
@@ -96,16 +90,20 @@ export class LinkChatDemoComponent {
   protected title(c: Conversation): string {
     return c.kind === 'channel' ? `# ${c.name}` : c.name;
   }
+  /** People in a direct message show as online, as the frames do; groups and channels carry no dot. */
+  protected online(c: Conversation): boolean {
+    return c.kind === 'dm';
+  }
   protected status(c: Conversation): string {
-    if (c.kind === 'dm') return c.guest ? 'Direct message · guest' : 'Direct message';
+    if (c.kind === 'dm') return c.guest ? 'guest · online' : 'online';
     if (c.kind === 'channel') return `Public channel · ${c.members.length + 1} members`;
     return [...c.members.map((m) => m.split(' ')[0] + (m === c.guest ? ' (guest)' : '')), 'You'].join(', ');
   }
 
   protected initials(name: string): string {
-    const parts = name.replace('#', '').trim().split(/\s+/).filter(Boolean);
+    const parts = name.replace(/[^\p{L}\s]/gu, '').trim().split(/\s+/).filter(Boolean);
     if (!parts.length) return '?';
-    return (parts.length === 1 ? parts[0].slice(0, 2) : parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return (parts.length === 1 ? parts[0].slice(0, 2) : parts[0][0] + parts[1][0]).toUpperCase();
   }
   protected tint(id: string): string {
     let h = 0;
@@ -122,7 +120,15 @@ export class LinkChatDemoComponent {
     const c = this.active();
     const q = this.search().trim().toLowerCase();
     if (!c) return [];
-    return q ? c.messages.filter((m) => m.body.toLowerCase().includes(q) || m.file?.name.toLowerCase().includes(q)) : c.messages;
+    const shown = q ? c.messages.filter((m) => m.body.toLowerCase().includes(q) || m.file?.name.toLowerCase().includes(q)) : c.messages;
+    // A run of messages from one person reads as one block (iOS MessageBubble):
+    // the name and time head the first, the avatar sits beside the last.
+    const who = (m?: ChatMessage) => (m && !m.system ? m.sender || 'me' : null);
+    return shown.map((m, n) => ({
+      ...m,
+      continues: who(shown[n - 1]) === who(m),
+      endsBlock: who(shown[n + 1]) !== who(m),
+    }));
   });
 
   protected readonly typingHere = computed(() => {
@@ -224,7 +230,7 @@ export class LinkChatDemoComponent {
     this.notify(`Meeting started in ${c.kind === 'channel' ? '#' : ''}${c.name}. Open the Conferencing tab to see it live.`);
   }
 
-  /* ---------- Files and Links tabs ---------- */
+  /* ---------- Files tab ---------- */
   protected readonly fileType = signal<FileType>('all');
 
   protected readonly files = computed(() => {
@@ -237,14 +243,6 @@ export class LinkChatDemoComponent {
   });
   protected readonly fileCount = computed(() => this.active()?.messages.filter((m) => m.file).length ?? 0);
 
-  protected readonly links = computed(() => {
-    const c = this.active();
-    if (!c) return [];
-    return c.messages
-      .flatMap((m) => linksIn(m).map((url, n) => ({ id: `${m.id}-${n}`, url, sender: m.sender || 'You', when: m.time })))
-      .reverse();
-  });
-
   protected ext(name: string): string {
     return name.split('.').pop()?.toLowerCase() ?? '';
   }
@@ -252,19 +250,13 @@ export class LinkChatDemoComponent {
     return when.includes(':') ? `Today ${when}` : when;
   }
 
-  protected copyLink(url: string): void {
-    const done = () => this.notify('Link copied.');
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(done, () => this.notify('Copy is not available in this browser.'));
-    else this.notify('Copy is not available in this browser.');
-  }
-
   protected setTab(tab: StageTab): void {
     this.tab.set(tab);
     if (tab === 'chat') this.scrollToEnd();
   }
-  /** Arrow keys move between the three tabs, as a tablist does. */
+  /** Arrow keys move between the tabs, as a tablist does. */
   protected onTabKey(event: KeyboardEvent): void {
-    const order: StageTab[] = ['chat', 'files', 'links'];
+    const order: StageTab[] = ['chat', 'files'];
     const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
     if (!step) return;
     event.preventDefault();
