@@ -1,0 +1,331 @@
+<section class="d-page pd" aria-labelledby="pd-title">
+  <input id="pd-upload" type="file" multiple hidden (change)="onFilesPicked($any($event.target))" />
+
+  <div class="pd-top">
+    <div class="d-seg" role="group" aria-label="Drive sections">
+      <button type="button" [attr.aria-pressed]="section() === 'drive'" (click)="setSection('drive')"><fa-icon [icon]="i.folder" aria-hidden="true" />My Drive</button>
+      <button type="button" [attr.aria-pressed]="section() === 'starred'" (click)="setSection('starred')"><fa-icon [icon]="i.star" aria-hidden="true" />Starred</button>
+      <button type="button" [attr.aria-pressed]="section() === 'trash'" (click)="setSection('trash')"><fa-icon [icon]="i.trash" aria-hidden="true" />Trash</button>
+    </div>
+    @if (section() !== 'trash') {
+      <div class="d-seg" role="group" aria-label="View">
+        <button type="button" aria-label="List view" title="List view" [attr.aria-pressed]="view() === 'list'" (click)="view.set('list')"><fa-icon [icon]="i.list" aria-hidden="true" /></button>
+        <button type="button" aria-label="Grid view" title="Grid view" [attr.aria-pressed]="view() === 'grid'" (click)="view.set('grid')"><fa-icon [icon]="i.grid" aria-hidden="true" /></button>
+      </div>
+    }
+  </div>
+
+  <div class="pd-toolbar">
+    <nav class="pd-crumbs" aria-label="Breadcrumbs">
+      @if (section() === 'drive') {
+        <ol>
+          @for (c of crumbs(); track c.id; let last = $last) {
+            <li>
+              @if (last) {
+                <h3 id="pd-title" class="pd-crumb-current" aria-current="page">{{ c.name }}</h3>
+              } @else {
+                <button type="button" class="pd-crumb" [class.is-drop]="dropTarget() === (c.id ?? 'root')"
+                        (click)="openFolder(c.id)" (dragover)="onFolderDragOver($event, c.id)" (dragleave)="dropTarget.set(null)" (drop)="onFolderDrop($event, c.id)">{{ c.name }}</button>
+                <span class="pd-sep" aria-hidden="true">/</span>
+              }
+            </li>
+          }
+        </ol>
+      } @else {
+        <h3 id="pd-title" class="pd-crumb-current">{{ section() === 'starred' ? 'Starred' : 'Trash' }}</h3>
+      }
+    </nav>
+
+    <div class="pd-actions">
+      @if (selected().length && section() !== 'trash') {
+        <div class="pd-bulk" role="group" aria-label="Selected items">
+          <span class="pd-bulk__count">{{ selected().length }} selected</span>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="bulkStar(true)"><fa-icon [icon]="i.star" aria-hidden="true" />Star</button>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="bulkStar(false)">Unstar</button>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="openMove(selected())"><fa-icon [icon]="i.move" aria-hidden="true" />Move…</button>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm pd-danger" (click)="askTrash(selected())"><fa-icon [icon]="i.trash" aria-hidden="true" />Trash</button>
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Clear selection" (click)="selected.set([])"><fa-icon [icon]="i.close" aria-hidden="true" /></button>
+        </div>
+      } @else if (section() === 'drive') {
+        <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+          <button type="button" class="d-btn d-btn--primary" aria-haspopup="true" [attr.aria-expanded]="openMenu() === 'new'" (click)="toggleMenu($event, 'new')"><fa-icon [icon]="i.plus" aria-hidden="true" />New</button>
+          @if (openMenu() === 'new') {
+            <div class="d-menu">
+              <button type="button" (click)="newFile('docx')"><fa-icon class="pd-ic-doc" [icon]="i.doc" aria-hidden="true" />Document</button>
+              <button type="button" (click)="newFile('xlsx')"><fa-icon class="pd-ic-sheet" [icon]="i.sheet" aria-hidden="true" />Spreadsheet</button>
+              <button type="button" (click)="newFile('pptx')"><fa-icon class="pd-ic-slides" [icon]="i.slides" aria-hidden="true" />Presentation</button>
+              <hr />
+              <button type="button" (click)="newFolder()"><fa-icon [icon]="i.newFolder" aria-hidden="true" />New folder</button>
+              <button type="button" (click)="pickFiles()"><fa-icon [icon]="i.upload" aria-hidden="true" />Upload file</button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (section() === 'trash') {
+    <p class="pd-notice"><fa-icon [icon]="i.info" aria-hidden="true" />Items in trash are auto-purged 30 days after deletion.</p>
+  }
+
+  <div class="pd-list" [class.is-drop-files]="dropFiles()" (dragover)="onListDragOver($event)" (dragleave)="dropFiles.set(false)" (drop)="onListDrop($event)">
+    @if (dropFiles()) { <div class="pd-drop-overlay" aria-hidden="true"><fa-icon [icon]="i.upload" />Drop files here to upload</div> }
+
+    @if (!rows().length) {
+      <div class="d-empty">
+        @switch (section()) {
+          @case ('trash') { <strong>Trash is empty</strong>Items you move to trash show up here. }
+          @case ('starred') { <strong>No starred files</strong>Star files and folders to find them quickly here. }
+          @default { <strong>This folder is empty</strong>Drag files here or use <b>New › Upload file</b> to add some. }
+        }
+      </div>
+    } @else if (section() === 'trash') {
+      <div class="d-table-wrap">
+        <table class="d-table pd-table">
+          <caption class="sr-only">Items in Trash</caption>
+          <thead><tr><th scope="col">Name</th><th scope="col" class="pd-hide-sm">Size</th><th scope="col" class="pd-hide-sm">Deleted</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+          <tbody>
+            @for (it of rows(); track it.id) {
+              <tr>
+                <th scope="row"><span class="pd-name"><fa-icon class="pd-icon" [attr.data-kind]="iconKind(it)" [icon]="icon(it)" aria-hidden="true" /><span class="pd-name-text">{{ it.name }}</span></span></th>
+                <td class="pd-hide-sm d-muted">{{ sizeLabel(it) }}</td>
+                <td class="pd-hide-sm d-muted">{{ date(it.trashedAt) }}</td>
+                <td class="pd-row-end">
+                  <button type="button" class="d-btn d-btn--outline d-btn--sm" [attr.aria-label]="'Restore ' + it.name" (click)="restore(it)"><fa-icon [icon]="i.restore" aria-hidden="true" />Restore</button>
+                  <button type="button" class="d-btn d-btn--ghost d-btn--sm pd-danger" [attr.aria-label]="'Delete ' + it.name + ' forever'" (click)="purging.set(it)">Delete forever</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else if (view() === 'list') {
+      <div class="d-table-wrap">
+        <table class="d-table pd-table">
+          <caption class="sr-only">{{ section() === 'starred' ? 'Starred items' : 'Files in ' + crumbs()[crumbs().length - 1].name }}. Drag a row onto a folder to move it, or use Move to… in its actions.</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="pd-check"><input type="checkbox" aria-label="Select all" [checked]="allSelected()" (change)="toggleAll($any($event.target).checked)" /></th>
+              <th scope="col" [attr.aria-sort]="ariaSort('name')"><button type="button" class="pd-sort" (click)="toggleSort('name')">Name <fa-icon [icon]="sortIcon('name')" aria-hidden="true" /></button></th>
+              <th scope="col" class="pd-hide-sm" [attr.aria-sort]="ariaSort('size')"><button type="button" class="pd-sort" (click)="toggleSort('size')">Size <fa-icon [icon]="sortIcon('size')" aria-hidden="true" /></button></th>
+              <th scope="col" class="pd-hide-sm" [attr.aria-sort]="ariaSort('modified')"><button type="button" class="pd-sort" (click)="toggleSort('modified')">Modified <fa-icon [icon]="sortIcon('modified')" aria-hidden="true" /></button></th>
+              <th scope="col"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (it of rows(); track it.id) {
+              <tr draggable="true" [class.is-selected]="selected().includes(it.id)" [class.is-drop]="it.kind === 'folder' && dropTarget() === it.id"
+                  (dragstart)="onRowDragStart($event, it)" (dragend)="onRowDragEnd()"
+                  (dragover)="it.kind === 'folder' && onFolderDragOver($event, it.id)" (dragleave)="dropTarget.set(null)" (drop)="it.kind === 'folder' && onFolderDrop($event, it.id)">
+                <td class="pd-check"><input type="checkbox" [attr.aria-label]="'Select ' + it.name" [checked]="selected().includes(it.id)" (change)="toggleOne(it.id, $any($event.target).checked)" /></td>
+                <th scope="row">
+                  <span class="pd-name">
+                    <fa-icon class="pd-icon" [attr.data-kind]="iconKind(it)" [icon]="icon(it)" aria-hidden="true" />
+                    <button type="button" class="pd-name-btn" [title]="it.kind === 'folder' ? 'Open folder' : 'Preview'" (click)="openItem(it)">{{ it.name }}</button>
+                    @if (it.shares.length || it.link) { <fa-icon class="pd-shared" [icon]="it.link ? i.globe : i.share" [title]="it.link ? 'Anyone with the link' : 'Shared'" aria-hidden="true" /><span class="sr-only">, shared</span> }
+                  </span>
+                  @if (section() === 'starred') { <span class="pd-where">in {{ location(it) }}</span> }
+                </th>
+                <td class="pd-hide-sm d-muted">{{ sizeLabel(it) }}</td>
+                <td class="pd-hide-sm d-muted">{{ date(it.updatedAt) }}</td>
+                <td class="pd-row-end"><ng-container *ngTemplateOutlet="rowActions; context: { $implicit: it }" /></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      @for (group of [folderRows(), fileRows()]; track $index) {
+        @if (group.length) {
+          <h4 class="pd-grid-label">{{ $index === 0 ? 'Folders' : 'Files' }}</h4>
+          <ul class="pd-grid">
+            @for (it of group; track it.id) {
+              <li class="pd-tile" draggable="true" [class.is-selected]="selected().includes(it.id)" [class.is-drop]="it.kind === 'folder' && dropTarget() === it.id"
+                  (dragstart)="onRowDragStart($event, it)" (dragend)="onRowDragEnd()"
+                  (dragover)="it.kind === 'folder' && onFolderDragOver($event, it.id)" (dragleave)="dropTarget.set(null)" (drop)="it.kind === 'folder' && onFolderDrop($event, it.id)">
+                <input type="checkbox" class="pd-tile-check" [attr.aria-label]="'Select ' + it.name" [checked]="selected().includes(it.id)" (change)="toggleOne(it.id, $any($event.target).checked)" />
+                <fa-icon class="pd-icon pd-tile-icon" [attr.data-kind]="iconKind(it)" [icon]="icon(it)" aria-hidden="true" />
+                <button type="button" class="pd-name-btn pd-tile-name" [title]="it.name" (click)="openItem(it)">{{ it.name }}</button>
+                <span class="pd-tile-meta d-muted">{{ sizeLabel(it) }}</span>
+                <div class="pd-tile-actions"><ng-container *ngTemplateOutlet="rowActions; context: { $implicit: it }" /></div>
+              </li>
+            }
+          </ul>
+        }
+      }
+    }
+  </div>
+</section>
+
+<!-- Star stays visible; everything else is in the ⋯ menu, as the Drive row actions. -->
+<ng-template #rowActions let-it>
+  <button type="button" class="d-btn d-btn--icon d-btn--ghost pd-star" [class.is-on]="it.starred" [attr.aria-pressed]="it.starred" [attr.aria-label]="'Star ' + it.name" [title]="it.starred ? 'Unstar' : 'Star'" (click)="toggleStar(it)"><fa-icon [icon]="i.star" aria-hidden="true" /></button>
+  <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+    <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + it.name" aria-haspopup="true" [attr.aria-expanded]="openMenu() === it.id" (click)="toggleMenu($event, it.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+    @if (openMenu() === it.id) {
+      <div class="d-menu">
+        <button type="button" (click)="openMenu.set(null); openItem(it)"><fa-icon [icon]="it.kind === 'folder' ? i.folder : i.preview" aria-hidden="true" />{{ it.kind === 'folder' ? 'Open folder' : 'Preview' }}</button>
+        <button type="button" (click)="openShare(it)"><fa-icon [icon]="i.share" aria-hidden="true" />Share</button>
+        <button type="button" (click)="startRename(it)"><fa-icon [icon]="i.rename" aria-hidden="true" />Rename</button>
+        <button type="button" (click)="openMove([it.id])"><fa-icon [icon]="i.move" aria-hidden="true" />Move to…</button>
+        <hr />
+        <button type="button" class="is-danger" (click)="askTrash([it.id])"><fa-icon [icon]="i.trash" aria-hidden="true" />Move to trash</button>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- Upload tray, bottom right of the app (UploadTray) -->
+@if (uploads().length) {
+  <div class="pd-tray" role="region" aria-label="Uploads">
+    <header class="pd-tray-head">
+      <span>{{ inFlight() ? 'Uploading ' + inFlight() + ' file' + (inFlight() === 1 ? '' : 's') : (uploads().length - inFlight()) + ' upload' + (uploads().length - inFlight() === 1 ? '' : 's') + ' complete' }}</span>
+      <button type="button" class="d-btn d-btn--ghost d-btn--sm" title="Clear finished entries" (click)="clearFinished()">Clear</button>
+    </header>
+    <ul class="pd-tray-list">
+      @for (u of uploads(); track u.id) {
+        <li class="pd-up" [attr.data-status]="u.status">
+          <span class="pd-up-name" [title]="u.name">{{ u.name }}</span>
+          <span class="pd-up-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="pct(u)" [attr.aria-label]="'Uploading ' + u.name"><span [style.width.%]="pct(u)"></span></span>
+          <span class="pd-up-meta">
+            <span class="d-muted">
+              @switch (u.status) {
+                @case ('uploading') { {{ pct(u) }}% }
+                @case ('done') { ✓ {{ fmtBytes(u.size) }} }
+                @default { ✕ cancelled }
+              }
+            </span>
+            @if (u.status === 'uploading') {
+              <button type="button" class="pd-link" [attr.aria-label]="'Cancel ' + u.name" (click)="cancelUpload(u)">Cancel</button>
+            }
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+}
+
+@if (nameDialog(); as d) {
+  <app-demo-dialog [title]="d.mode === 'folder' ? 'New folder' : 'Rename'" (closed)="nameDialog.set(null)">
+    <form id="pd-name-form" novalidate (submit)="$event.preventDefault(); saveName()">
+      <label class="d-field"><span>{{ d.mode === 'folder' ? 'Folder name' : 'Rename to' }}</span>
+        <input class="d-input" type="text" maxlength="255" [value]="d.value" (input)="setName($any($event.target).value)"
+               [attr.aria-invalid]="d.submitted && nameError() ? 'true' : null" [attr.aria-describedby]="d.submitted && nameError() ? 'pd-name-err' : null" />
+        @if (d.submitted && nameError(); as e) { <p id="pd-name-err" class="d-error">{{ e }}</p> }
+      </label>
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="nameDialog.set(null)">Cancel</button>
+      <button type="submit" form="pd-name-form" class="d-btn d-btn--primary">{{ d.mode === 'folder' ? 'Create' : 'Rename' }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (moveIds(); as ids) {
+  <app-demo-dialog [title]="'Move ' + ids.length + ' item' + (ids.length === 1 ? '' : 's') + ' to…'" (closed)="moveIds.set(null)">
+    <ul class="pd-picker" aria-label="Folders">
+      <li><button type="button" class="pd-pick" [attr.aria-pressed]="movePick() === null" (click)="movePick.set(null)"><fa-icon [icon]="i.folder" aria-hidden="true" />My Drive</button></li>
+      @for (f of moveTree(); track f.id) {
+        <li><button type="button" class="pd-pick" [style.padding-left.px]="10 + f.depth * 16" [attr.aria-pressed]="movePick() === f.id" (click)="movePick.set(f.id)"><fa-icon [icon]="i.folder" aria-hidden="true" />{{ f.name }}</button></li>
+      }
+    </ul>
+    <p class="pd-target">Target: <strong>{{ pickName() }}</strong></p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="moveIds.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" [disabled]="movePick() === undefined" (click)="confirmMove()">Move here</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (trashIds(); as ids) {
+  <app-demo-dialog title="Move to trash?" (closed)="trashIds.set(null)">
+    <p class="pd-dialog-text">{{ trashMessage(ids) }}</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="trashIds.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmTrash()">Move to trash</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (purging(); as it) {
+  <app-demo-dialog title="Delete forever?" (closed)="purging.set(null)">
+    <p class="pd-dialog-text">"{{ it.name }}"{{ it.kind === 'folder' ? ' and everything in it' : '' }} will be deleted forever. This can't be undone.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="purging.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmPurge()">Delete forever</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (shareItem(); as it) {
+  <app-demo-dialog [title]="'Share “' + it.name + '”'" [wide]="true" (closed)="shareId.set(null)">
+    <fieldset class="pd-access">
+      <legend class="sr-only">Access</legend>
+      <label class="pd-access-option" [class.is-selected]="shareTab() === 'people'">
+        <input type="radio" class="sr-only" name="pd-access" value="people" [checked]="shareTab() === 'people'" (change)="shareTab.set('people')" />
+        <fa-icon [icon]="i.lock" aria-hidden="true" />
+        <span><strong>Restricted</strong><small>Only people you add can open</small></span>
+      </label>
+      <label class="pd-access-option" [class.is-selected]="shareTab() === 'link'">
+        <input type="radio" class="sr-only" name="pd-access" value="link" [checked]="shareTab() === 'link'" (change)="shareTab.set('link')" />
+        <fa-icon [icon]="i.globe" aria-hidden="true" />
+        <span><strong>Anyone with link</strong><small>Anyone on the internet who has the link</small></span>
+      </label>
+    </fieldset>
+
+    @if (shareTab() === 'people') {
+      <form class="pd-add" novalidate (submit)="$event.preventDefault(); addPerson(it)">
+        <label class="d-field pd-add-email"><span>Add people</span>
+          <input id="pd-share-email" class="d-input" type="email" autocomplete="off" placeholder="name@example.com" [value]="shareEmail()" (input)="shareEmail.set($any($event.target).value)"
+                 [attr.aria-invalid]="shareSubmitted() && shareError() ? 'true' : null" [attr.aria-describedby]="shareSubmitted() && shareError() ? 'pd-share-err' : null" />
+        </label>
+        <label class="d-field"><span>Access level</span>
+          <select class="d-select" [value]="shareRole()" (change)="shareRole.set($any($event.target).value)" aria-describedby="pd-role-hint">
+            @for (t of peopleTiers; track t) { <option [value]="t">{{ tiers[t].title }}</option> }
+          </select>
+        </label>
+        <button type="submit" class="d-btn d-btn--primary pd-add-btn">Add</button>
+      </form>
+      @if (shareSubmitted() && shareError(); as e) { <p id="pd-share-err" class="d-error pd-add-err">{{ e }}</p> }
+      <p id="pd-role-hint" class="d-hint pd-role-hint">{{ tiers[shareRole()].title }}: {{ tiers[shareRole()].sub }}. They will receive an email notification.</p>
+
+      <h5 class="pd-people-title">People with access</h5>
+      <ul class="pd-people">
+        <li><span class="pd-person"><strong>You</strong><span class="d-muted">omar.khaled&#64;alpha-inc.com</span></span><span class="d-pill d-pill--info">Owner</span></li>
+        @for (p of it.shares; track p.email) {
+          <li>
+            <span class="pd-person"><strong>{{ p.email }}</strong><span class="d-muted">{{ tiers[p.role].title }}</span></span>
+            <button type="button" class="d-btn d-btn--ghost d-btn--sm pd-danger" [attr.aria-label]="'Revoke access for ' + p.email" (click)="revoke(it, p.email)">Revoke</button>
+          </li>
+        }
+      </ul>
+    } @else if (it.link; as link) {
+      <p class="pd-link-text">Anyone with this link gets <strong>{{ tiers[link.permission].title }}</strong> access{{ link.allowDownload ? '' : ' (preview-only)' }}.</p>
+      <div class="pd-link-row">
+        <input id="pd-link-url" class="d-input d-mono" readonly aria-label="Share link URL" [value]="link.url" (focus)="$any($event.target).select()" />
+        <button type="button" class="d-btn d-btn--primary" (click)="copyLink(link)"><fa-icon [icon]="i.copy" aria-hidden="true" />Copy link</button>
+      </div>
+      <button type="button" class="d-btn d-btn--ghost d-btn--sm pd-danger pd-link-off" (click)="removeLink(it)">Turn off link sharing</button>
+    } @else {
+      <fieldset class="pd-tiers">
+        <legend>Anyone with this link can</legend>
+        @for (t of linkTiers; track t) {
+          <label class="pd-tier" [class.is-selected]="linkPermission() === t">
+            <input type="radio" name="pd-link-tier" [value]="t" [checked]="linkPermission() === t" (change)="linkPermission.set(t)" />
+            <span><strong>{{ tiers[t].title }}</strong><small>{{ tiers[t].sub }}</small></span>
+          </label>
+        }
+      </fieldset>
+      <label class="d-check pd-download"><input type="checkbox" [checked]="linkDownload()" (change)="linkDownload.set($any($event.target).checked)" />Allow downloading the original file</label>
+      <button type="button" class="d-btn d-btn--primary" (click)="createLink(it)"><fa-icon [icon]="i.globe" aria-hidden="true" />Create public link</button>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="shareId.set(null)">Done</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

@@ -1,0 +1,55 @@
+/* Posta Link notes: the meetings' notes beside the meeting notes panel (Meeting.tsx mc-panel). */
+:host{padding:0}
+.ln{display:grid;grid-template-columns:minmax(220px,290px) minmax(0,1fr);height:560px;background:var(--d-card);overflow:hidden}
+
+/* List */
+.ln-list{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--d-line)}
+.ln-list-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 14px 8px 16px}
+.ln-list-head h3{margin:0;font-size:19px;font-weight:700;color:var(--d-ink)}
+.ln-find{position:relative;margin:0 12px 8px}
+.ln-find fa-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--d-mut)}
+.ln-find input{width:100%;min-height:34px;padding:6px 12px 6px 32px;border:1px solid var(--d-line);border-radius:999px;background:var(--d-soft);font-size:12.5px}
+.ln-find input::placeholder{color:var(--d-mut)}
+.ln-rows{flex:1;min-height:0;overflow-y:auto;margin:0;padding:0 6px 10px;list-style:none}
+.ln-row{position:relative;display:grid;gap:2px;width:100%;padding:9px 12px;border:0;border-radius:8px;background:transparent;text-align:left;cursor:pointer}
+.ln-row:hover{background:var(--d-soft)}
+.ln-row.is-active{background:var(--d-green-soft)}
+.ln-row.is-active::before{content:'';position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--d-green)}
+.ln-row-top{display:flex;align-items:baseline;gap:8px;min-width:0}
+.ln-row-title{flex:1;min-width:0;overflow:hidden;font-size:13px;font-weight:700;color:var(--d-ink);white-space:nowrap;text-overflow:ellipsis}
+.ln-row-when{flex:none;font-size:11px;color:var(--d-mut)}
+.ln-row-ctx{font-size:11.5px;font-weight:600;color:var(--d-green-text)}
+.ln-row-preview{overflow:hidden;font-size:12px;color:var(--d-mut);white-space:nowrap;text-overflow:ellipsis}
+.ln-row-preview.is-empty{font-style:italic}
+.ln-none{padding:24px 12px;text-align:center;color:var(--d-mut)}
+
+/* Panel */
+.ln-panel{display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0;padding:12px 16px 14px;background:var(--d-bg)}
+.ln-panel-head{display:flex;align-items:center;gap:6px}
+.ln-panel-head h4{display:inline-flex;flex:1;align-items:center;gap:8px;margin:0;font-size:14px;font-weight:700;color:var(--d-ink)}
+.ln-panel-head h4 fa-icon{color:var(--d-green-text)}
+.ln-back{display:none}
+.ln-del{color:var(--d-red)}
+.ln-meeting{display:grid;gap:2px}
+.ln-title{width:100%;padding:4px 6px;margin-left:-6px;border:1px solid transparent;border-radius:6px;background:transparent;font-size:17px;font-weight:700;color:var(--d-ink)}
+.ln-title:hover{border-color:var(--d-line)}
+.ln-title:focus{border-color:var(--d-focus);background:var(--d-card)}
+.ln-ctx{display:flex;align-items:center;gap:6px;margin:0;font-size:12px;color:var(--d-mut)}
+.ln-status{display:flex;align-items:center;gap:6px;min-height:18px;margin:0;font-size:11.5px;color:var(--d-mut)}
+.ln-status fa-icon{color:var(--d-green-text)}
+.ln-status.is-saving{color:var(--d-ink);font-weight:600}
+.ln-body{flex:1;min-height:0;width:100%;padding:12px;border:1px solid var(--d-line);border-radius:8px;background:var(--d-card);color:var(--d-ink);font-size:13px;line-height:1.55;resize:none}
+.ln-body::placeholder{color:var(--d-mut)}
+.ln-actions{display:flex;justify-content:flex-end;gap:8px}
+.ln-empty{margin:auto 0}
+.ln-dialog-text{margin:0}
+
+@container (max-width:620px){
+  .ln{grid-template-columns:minmax(0,1fr)}
+  .ln-panel{display:none}
+  .ln--editor .ln-list{display:none}
+  .ln--editor .ln-panel{display:flex}
+  .ln-back{display:inline-flex}
+}
+/* Contrast: the open note's secondary text reads in ink on its green tint. */
+.ln-row.is-active .ln-row-when,.ln-row.is-active .ln-row-preview{color:var(--d-ink)}

@@ -1,0 +1,88 @@
+/* Posta calendar: the CalendarPage header, month grid, week lists and day time grid. */
+.pc{padding:14px}
+.pc-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--d-line)}
+.pc-head h3{margin:0;font-size:19px;font-weight:700;color:var(--d-ink)}
+.pc-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pc-nav{display:inline-flex;align-items:center;gap:2px}
+.pc-range{min-width:120px;margin:0;font-size:14px;font-weight:700;color:var(--d-ink)}
+.pc-view{width:auto;min-height:32px;padding:4px 8px}
+.pc-spin{animation:pc-spin .8s linear infinite}
+@keyframes pc-spin{to{transform:rotate(360deg)}}
+
+/* Event colours per calendar */
+[data-cal='cal-work']{--pc-bg:var(--d-blue-soft);--pc-fg:var(--d-blue)}
+[data-cal='cal-team']{--pc-bg:var(--d-green-soft);--pc-fg:var(--d-green-text)}
+
+/* Month grid */
+.pc-weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--d-line);border-bottom:0;border-radius:10px 10px 0 0;background:var(--d-soft)}
+.pc-weekdays div{padding:6px 8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--d-mut)}
+.pc-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin:0;padding:0;list-style:none;border-left:1px solid var(--d-line);border-top:1px solid var(--d-line);border-radius:0 0 10px 10px;overflow:hidden}
+.pc-day{display:flex;flex-direction:column;gap:2px;min-width:0;min-height:84px;padding:4px;border-right:1px solid var(--d-line);border-bottom:1px solid var(--d-line);cursor:pointer;transition:background .12s}
+.pc-day:hover{background:color-mix(in srgb,var(--d-soft) 70%,transparent)}
+.pc-day.is-other{background:var(--d-soft)}
+.pc-day.is-other .pc-daynum{color:var(--d-mut)}
+.pc-day.is-drop{background:var(--d-blue-soft);box-shadow:inset 0 0 0 2px var(--d-blue)}
+.pc-daynum{align-self:flex-start;display:grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border:0;border-radius:999px;background:transparent;color:var(--d-ink);font-size:12px;font-weight:600;cursor:pointer}
+.pc-daynum:hover{background:var(--d-line)}
+.pc-day.is-today .pc-daynum{background:var(--d-blue);color:#fff}
+:host-context([data-theme='dark']) .pc-day.is-today .pc-daynum{color:#0b1220}
+.pc-pills{display:grid;gap:2px;margin:0;padding:0;list-style:none;min-width:0}
+.pc-pill{display:flex;align-items:center;gap:4px;width:100%;min-width:0;min-height:20px;padding:1px 6px;border:0;border-radius:5px;background:var(--pc-bg);color:var(--pc-fg);font-size:11px;font-weight:600;text-align:left;white-space:nowrap;cursor:grab}
+.pc-pill:active{cursor:grabbing}
+.pc-pill[data-pos='start'],.pc-pill[data-pos='middle']{border-top-right-radius:0;border-bottom-right-radius:0}
+.pc-pill[data-pos='end'],.pc-pill[data-pos='middle']{border-top-left-radius:0;border-bottom-left-radius:0}
+.pc-pill-time{flex:none;font-weight:500}
+.pc-pill-title{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pc-more{align-self:flex-start;padding:1px 4px;border:0;border-radius:4px;background:transparent;color:var(--d-mut);font-size:11px;font-weight:600;cursor:pointer}
+.pc-more:hover{background:var(--d-line);color:var(--d-ink)}
+
+/* Week: one list per day (DayList) */
+.pc-week{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.pc-daylist{padding:10px;border:1px solid var(--d-line);border-radius:10px}
+.pc-daylist h4{margin:0 0 6px;font-size:13px}
+.pc-daylink{padding:0;border:0;background:transparent;color:var(--d-ink);font:inherit;font-weight:700;cursor:pointer}
+.pc-daylink:hover{text-decoration:underline}
+.pc-daylist ul{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.pc-row{display:grid;gap:1px;width:100%;padding:7px 9px;border:0;border-left:3px solid var(--pc-fg);border-radius:6px;background:var(--pc-bg);color:var(--d-ink);text-align:left;cursor:pointer}
+.pc-row-time{font-size:11px;font-weight:600;color:var(--pc-fg)}
+.pc-row-title{font-size:12.5px;font-weight:600}
+.pc-row-meta{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--d-mut)}
+.pc-hint{margin:0;font-size:12px;color:var(--d-mut)}
+.pc-hint--day{margin-top:8px}
+
+/* Day: 24 one-hour drop rows with the events laid over them (TimeGridDayView) */
+.pc-timegrid{height:430px;overflow-y:auto;border:1px solid var(--d-line);border-radius:10px}
+.pc-timegrid-body{position:relative}
+.pc-hour{position:relative;border-bottom:1px solid var(--d-line)}
+.pc-hour.is-drop{background:var(--d-blue-soft)}
+.pc-hour-label{position:absolute;top:4px;left:8px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--d-mut)}
+.pc-bar{position:absolute;left:62px;right:10px;display:flex;flex-direction:column;align-items:flex-start;gap:1px;overflow:hidden;padding:4px 8px;border:0;border-left:3px solid var(--pc-fg);border-radius:6px;background:var(--pc-bg);color:var(--d-ink);text-align:left;cursor:grab}
+.pc-bar-time{font-size:11px;font-weight:600;color:var(--pc-fg)}
+.pc-bar-title{font-size:12.5px;font-weight:600}
+.pc-bar-loc{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--d-mut)}
+
+/* Event details */
+.pc-details{display:grid;gap:10px;margin:0 0 14px}
+.pc-details div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px}
+.pc-details dt{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--d-mut)}
+.pc-details dd{margin:0;font-size:13px;overflow-wrap:anywhere}
+.pc-move{display:flex;align-items:flex-end;gap:8px;padding-top:12px;border-top:1px solid var(--d-line)}
+.pc-move .d-field{flex:1;margin:0}
+.pc-move-hint{margin:6px 0 0}
+.pc-danger{color:var(--d-red)}
+
+@container (max-width:640px){
+  .pc{padding:10px}
+  .pc-day{min-height:62px;padding:3px}
+  .pc-weekdays div{padding:5px 3px;font-size:10px;text-align:center}
+  .pc-pill{padding:1px 3px;font-size:10px}
+  .pc-pill-time{display:none}
+}
+@container (max-width:440px){
+  .pc-controls{gap:6px}
+  .pc-range{order:-1;flex-basis:100%}
+  .pc-pill{min-height:20px;padding:0 2px;font-size:9.5px}
+  .pc-pill span[aria-hidden]{display:none}
+  .pc-details div{grid-template-columns:minmax(0,1fr);gap:2px}
+}
+@media (prefers-reduced-motion:reduce){.pc-spin{animation:none}}

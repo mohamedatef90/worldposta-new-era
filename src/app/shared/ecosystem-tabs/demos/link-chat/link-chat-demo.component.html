@@ -1,0 +1,227 @@
+<div class="lc" [class.lc--thread]="showThread()">
+  <!-- The conversation list, as ChatAll's aside: filter, then labelled sections. -->
+  <div class="lc-list">
+    <header class="lc-list-head">
+      <h3 id="lc-list-title">Chat</h3>
+    </header>
+    <div class="lc-find">
+      <fa-icon [icon]="i.search" aria-hidden="true" />
+      <input id="lc-find" type="search" placeholder="Search people or filter chats" aria-label="Filter chats by name" autocomplete="off" [value]="query()" (input)="query.set($any($event.target).value)" />
+    </div>
+    <div class="lc-scroll">
+      @for (s of sections(); track s.kind; let first = $first) {
+        <h4 class="lc-label" [class.is-divided]="!first" [id]="'lc-sec-' + s.kind">{{ s.label }}</h4>
+        <ul class="lc-rows" [attr.aria-labelledby]="'lc-sec-' + s.kind">
+          @for (c of s.rows; track c.id) {
+            @let here = c.id === store.activeId();
+            <li>
+              <button type="button" class="lc-row" [class.is-active]="here" [class.is-unread]="!here && c.unread > 0" [attr.aria-current]="here ? 'true' : null" [attr.data-conv]="c.id" (click)="open(c)">
+                <span [class]="'lc-av ' + tint(c.id)" aria-hidden="true">
+                  @switch (c.kind) {
+                    @case ('group') { <fa-icon [icon]="i.group" /> }
+                    @case ('channel') { <fa-icon [icon]="i.hash" /> }
+                    @default { {{ initials(c.name) }} }
+                  }
+                </span>
+                <span class="lc-row-text">
+                  <span class="lc-row-top">
+                    <span class="lc-row-name">{{ title(c) }}</span>
+                    <span class="lc-row-when">{{ lastWhen(c) }}</span>
+                  </span>
+                  <span class="lc-row-bottom">
+                    <span class="lc-row-preview">{{ store.typing()?.conversationId === c.id ? store.typing()?.name + ' is typing…' : preview(c) }}</span>
+                    @if (!here && c.unread > 0) { <span class="lc-badge">{{ c.unread }}<span class="sr-only"> unread</span></span> }
+                  </span>
+                </span>
+              </button>
+            </li>
+          }
+        </ul>
+      } @empty {
+        <p class="lc-none">No chats match “{{ query() }}”.</p>
+      }
+    </div>
+  </div>
+
+  <!-- The open conversation: ConversationStage's header, tabs, thread and composer. -->
+  @if (active(); as c) {
+    <section class="lc-stage" aria-labelledby="lc-stage-title">
+      <header class="lc-stage-head">
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost lc-back" aria-label="Back to chats" (click)="back()"><fa-icon [icon]="i.back" aria-hidden="true" /></button>
+        <span [class]="'lc-av lc-av--lg ' + tint(c.id)" aria-hidden="true">
+          @switch (c.kind) {
+            @case ('channel') { <fa-icon [icon]="i.hash" /> }
+            @default { {{ initials(c.name) }} }
+          }
+        </span>
+        <div class="lc-stage-id">
+          <h4 id="lc-stage-title">{{ c.kind === 'channel' ? '# ' + c.name : c.name }}</h4>
+          <p>{{ status(c) }}</p>
+        </div>
+        <div class="lc-tools">
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Search this conversation" title="Search this conversation" [attr.aria-pressed]="searching()" (click)="searching.set(!searching()); search.set(''); setTab('chat')"><fa-icon [icon]="i.search" aria-hidden="true" /></button>
+          <button type="button" class="d-btn d-btn--primary d-btn--sm lc-meet" (click)="startMeeting()"><fa-icon [icon]="i.video" aria-hidden="true" /><span class="lc-meet-text">Start meeting</span></button>
+        </div>
+      </header>
+
+      <div class="lc-tabs" role="tablist" aria-label="Conversation views" (keydown)="onTabKey($event)">
+        <button type="button" role="tab" id="lc-tab-chat" class="lc-tab" aria-controls="lc-panel" [attr.aria-selected]="tab() === 'chat'" [attr.tabindex]="tab() === 'chat' ? 0 : -1" (click)="setTab('chat')"><fa-icon [icon]="i.chat" aria-hidden="true" />Chat</button>
+        <button type="button" role="tab" id="lc-tab-files" class="lc-tab" aria-controls="lc-panel" [attr.aria-selected]="tab() === 'files'" [attr.tabindex]="tab() === 'files' ? 0 : -1" (click)="setTab('files')"><fa-icon [icon]="i.clip" aria-hidden="true" />Files</button>
+        <button type="button" role="tab" id="lc-tab-links" class="lc-tab" aria-controls="lc-panel" [attr.aria-selected]="tab() === 'links'" [attr.tabindex]="tab() === 'links' ? 0 : -1" (click)="setTab('links')"><fa-icon [icon]="i.globe" aria-hidden="true" />Links</button>
+      </div>
+
+      <div id="lc-panel" class="lc-panel" role="tabpanel" [attr.aria-labelledby]="'lc-tab-' + tab()">
+        @switch (tab()) {
+          @case ('chat') {
+            @if (searching()) {
+              <div class="lc-search">
+                <fa-icon [icon]="i.search" aria-hidden="true" />
+                <input type="search" class="d-input" placeholder="Search this conversation" aria-label="Search this conversation" [value]="search()" (input)="search.set($any($event.target).value)" />
+                <span class="d-muted lc-search-n">{{ messages().length }} {{ messages().length === 1 ? 'result' : 'results' }}</span>
+              </div>
+            }
+            <div class="lc-thread" #thread>
+              <p class="lc-day"><span>Today</span></p>
+              <ol class="lc-msgs" aria-label="Messages">
+                @for (m of messages(); track m.id) {
+                  @if (m.system) {
+                    <li class="lc-system"><fa-icon [icon]="i.video" aria-hidden="true" />{{ m.body }} · {{ m.time }}</li>
+                  } @else {
+                    <li class="lc-msg" [class.lc-msg--mine]="!m.sender">
+                      @if (m.sender) { <span [class]="'lc-av lc-av--sm ' + tint(m.sender)" aria-hidden="true">{{ initials(m.sender) }}</span> }
+                      <div class="lc-msg-col">
+                        <div class="lc-bubble">
+                          @if (m.sender) {
+                            <p class="lc-who">{{ m.sender }}@if (m.sender === c.guest) { <span class="lc-guest"> · guest</span> }</p>
+                          } @else {
+                            <span class="sr-only">You: </span>
+                          }
+                          @if (m.body) { <p class="lc-body">{{ m.body }}</p> }
+                          @if (m.file; as f) {
+                            <div class="lc-file">
+                              <span class="lc-ext" aria-hidden="true">{{ ext(f.name) }}</span>
+                              <span class="lc-file-text"><span class="lc-file-name">{{ f.name }}</span><span class="lc-file-meta">{{ f.meta }}</span></span>
+                            </div>
+                          }
+                          <span class="lc-time"><span class="sr-only">Sent at </span>{{ m.time }}</span>
+                        </div>
+                        <div class="lc-reacts">
+                          @for (r of reactionList(m); track r.emoji) {
+                            <button type="button" class="lc-chip" [class.is-mine]="r.mine" [attr.aria-pressed]="r.mine" [attr.aria-label]="r.emoji + ' ' + r.count + (r.mine ? ', including you. Remove your reaction' : '. Add your reaction')" (click)="react(m, r.emoji)"><span aria-hidden="true">{{ r.emoji }} {{ r.count }}</span></button>
+                          }
+                          <div class="d-menu-wrap lc-react" (keydown.escape)="closeReactMenu()">
+                            <button type="button" class="lc-react-btn" aria-label="React to this message" title="React to this message" aria-haspopup="true" [attr.aria-expanded]="reactMenu() === m.id" (click)="toggleReactMenu($event, m.id)"><fa-icon [icon]="i.smile" aria-hidden="true" /><fa-icon class="lc-react-plus" [icon]="i.plus" aria-hidden="true" /></button>
+                            @if (reactMenu() === m.id) {
+                              <div class="d-menu lc-react-menu" role="group" aria-label="React">
+                                @for (e of reactions; track e) {
+                                  <button type="button" [attr.aria-label]="'React ' + e" [attr.aria-pressed]="!!m.reactions[e]?.includes('')" (click)="react(m, e)"><span aria-hidden="true">{{ e }}</span></button>
+                                }
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  }
+                } @empty {
+                  <li class="lc-none">{{ search() ? 'No messages match.' : 'No messages yet. Say something.' }}</li>
+                }
+              </ol>
+            </div>
+
+            <p class="lc-typing" aria-live="polite">
+              @if (typingHere()) {
+                @if (!reducedMotion) { <span class="lc-dots" aria-hidden="true"><i></i><i></i><i></i></span> }
+                {{ typingHere() }}
+              }
+            </p>
+
+            <form class="lc-composer" (submit)="$event.preventDefault(); send()">
+              <label class="sr-only" for="lc-composer">Message {{ c.kind === 'channel' ? '#' + c.name : c.name }}</label>
+              <textarea id="lc-composer" #composer rows="1" maxlength="4000" placeholder="Type a message…" [value]="draft()" (input)="draft.set($any($event.target).value)" (keydown)="onComposerKey($event)"></textarea>
+              <div class="lc-composer-bar">
+                <div class="d-menu-wrap" (keydown.escape)="closeEmoji()">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Emoji" title="Emoji" aria-haspopup="true" [attr.aria-expanded]="emojiOpen()" (click)="toggleEmoji($event)"><fa-icon [icon]="i.smile" aria-hidden="true" /></button>
+                  @if (emojiOpen()) {
+                    <div class="d-menu lc-emoji-menu" role="group" aria-label="Emoji">
+                      @for (e of emoji; track e) { <button type="button" [attr.aria-label]="'Insert ' + e" (click)="insertEmoji(e)"><span aria-hidden="true">{{ e }}</span></button> }
+                    </div>
+                  }
+                </div>
+                <label class="d-btn d-btn--icon d-btn--ghost lc-attach" title="Attach a file">
+                  <fa-icon [icon]="i.clip" aria-hidden="true" />
+                  <span class="sr-only">Attach a file</span>
+                  <input type="file" class="sr-only" (change)="attach($any($event.target))" />
+                </label>
+                <span class="lc-hint d-muted" aria-hidden="true">Enter to send · Shift+Enter for a new line</span>
+                <button type="submit" class="d-btn d-btn--primary d-btn--icon lc-send" aria-label="Send" [disabled]="!draft().trim()"><fa-icon [icon]="i.send" aria-hidden="true" /></button>
+              </div>
+            </form>
+          }
+          @case ('files') {
+            <div class="lc-pane">
+              <div class="lc-pane-bar">
+                <label class="d-btn d-btn--primary d-btn--sm lc-upload">
+                  <fa-icon [icon]="i.plus" aria-hidden="true" />Upload
+                  <input type="file" class="sr-only" (change)="attach($any($event.target))" />
+                </label>
+                <select class="d-select lc-type" aria-label="File type" [value]="fileType()" (change)="fileType.set($any($event.target).value)">
+                  <option value="all">All types</option>
+                  <option value="doc">Documents</option>
+                  <option value="sheet">Spreadsheets</option>
+                  <option value="pdf">PDFs</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="d-muted lc-count">{{ fileCount() }} {{ fileCount() === 1 ? 'file' : 'files' }} shared in this chat</span>
+              </div>
+              @if (files().length) {
+                <div class="d-table-wrap" tabindex="0" role="region" aria-label="Files shared in this chat">
+                  <table class="d-table lc-files">
+                    <thead><tr><th scope="col">Name</th><th scope="col">Shared on</th><th scope="col">Sent by</th></tr></thead>
+                    <tbody>
+                      @for (f of files(); track f.id) {
+                        <tr>
+                          <th scope="row"><span class="lc-file lc-file--row"><span class="lc-ext" aria-hidden="true">{{ f.ext }}</span><span class="lc-file-text"><span class="lc-file-name">{{ f.name }}</span><span class="lc-file-meta">{{ f.meta }}</span></span></span></th>
+                          <td>{{ sharedOn(f.when) }}</td>
+                          <td><span class="lc-sender"><span [class]="'lc-av lc-av--xs ' + tint(f.sender)" aria-hidden="true">{{ initials(f.sender) }}</span>{{ f.sender }}</span></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <p class="d-muted lc-pane-hint">Files shared in this conversation are stored in WorldPosta Drive.</p>
+              } @else {
+                <div class="d-empty"><strong>No files shared here yet.</strong>Attach one from the composer or press Upload.</div>
+              }
+            </div>
+          }
+          @case ('links') {
+            <div class="lc-pane">
+              <p class="d-muted lc-pane-hint">Every link posted in this conversation, newest first.</p>
+              @if (links().length) {
+                <ul class="lc-links">
+                  @for (l of links(); track l.id) {
+                    <li>
+                      <span class="lc-link-ic" aria-hidden="true"><fa-icon [icon]="i.globe" /></span>
+                      <span class="lc-link-text"><span class="lc-link-url">{{ l.url }}</span><span class="lc-file-meta">{{ l.sender }} · {{ sharedOn(l.when) }}</span></span>
+                      <button type="button" class="d-btn d-btn--sm d-btn--outline" [attr.aria-label]="'Copy link ' + l.url" (click)="copyLink(l.url)"><fa-icon [icon]="i.link" aria-hidden="true" />Copy</button>
+                    </li>
+                  }
+                </ul>
+              } @else {
+                <div class="d-empty"><strong>No links shared here yet.</strong>Post a message with a link and it appears here.</div>
+              }
+            </div>
+          }
+        }
+      </div>
+    </section>
+  }
+</div>
+
+<!-- New messages from teammates, read out between other speech. -->
+<p class="sr-only" aria-live="polite">{{ store.arrived()?.text ?? '' }}</p>
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

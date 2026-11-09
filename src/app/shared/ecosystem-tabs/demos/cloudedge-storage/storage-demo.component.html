@@ -1,0 +1,432 @@
+<div class="ces">
+  <div class="d-head ces-head">
+    <div>
+      <h3 id="ces-title">Storage</h3>
+      <p>Manage your virtual disks, object storage, and snapshots.</p>
+    </div>
+  </div>
+
+  <section class="d-page ces-capacity" aria-labelledby="ces-cap-title">
+    <h4 id="ces-cap-title">Capacity Overview</h4>
+    <p class="d-muted">Total provisioned storage across all services.</p>
+    <div class="ces-cap-row" aria-live="polite">
+      <span><strong>{{ store.provisioned() }} GB</strong> Used</span>
+      <span class="d-muted">{{ store.totalCapacity / 1024 }} TB Total</span>
+    </div>
+    <div class="ces-meter" role="meter" aria-label="Provisioned storage" aria-valuemin="0" [attr.aria-valuemax]="store.totalCapacity" [attr.aria-valuenow]="store.provisioned()" [attr.aria-valuetext]="store.provisioned() + ' GB of ' + store.totalCapacity / 1024 + ' TB used'">
+      <i [style.width.%]="usedPercent()"></i>
+    </div>
+    <p class="ces-cap-free d-muted">{{ store.available() }} GB available</p>
+  </section>
+
+  <section class="d-page ces-tabs-card" aria-labelledby="ces-title">
+    <div class="ces-tabs" role="tablist" aria-label="Storage" (keydown)="onTabKey($event)">
+      @for (t of tabs; track t.id) {
+        <button type="button" role="tab" [id]="'ces-tab-' + t.id" [attr.aria-controls]="activeTab() === t.id ? 'ces-panel-' + t.id : null" [attr.aria-selected]="activeTab() === t.id" [attr.tabindex]="activeTab() === t.id ? 0 : -1" (click)="selectTab(t.id)">{{ t.label }}</button>
+      }
+    </div>
+
+    <div class="ces-panel" role="tabpanel" [id]="'ces-panel-' + activeTab()" [attr.aria-labelledby]="'ces-tab-' + activeTab()">
+      @switch (activeTab()) {
+        @case ('disks') {
+          <div class="ces-bar">
+            <button type="button" class="d-btn d-btn--primary" (click)="createDisk()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Disk</button>
+            <label class="d-search">
+              <span class="sr-only">Search disks</span>
+              <fa-icon [icon]="i.search" aria-hidden="true" />
+              <input class="d-input" type="search" placeholder="Search disks..." [value]="diskSearch()" (input)="diskSearch.set($any($event.target).value)" />
+            </label>
+          </div>
+          <p class="sr-only" aria-live="polite">{{ filteredDisks().length }} disks shown</p>
+          <div class="d-table-wrap" tabindex="0" role="region" aria-label="Disks table">
+            <table class="d-table">
+              <caption class="sr-only">Disks, sorted by {{ diskSort().col }} {{ diskSort().dir === 'asc' ? 'ascending' : 'descending' }}</caption>
+              <thead>
+                <tr>
+                  @for (c of diskCols; track c.col) {
+                    <th scope="col" [attr.aria-sort]="diskSort().col === c.col ? (diskSort().dir === 'asc' ? 'ascending' : 'descending') : null">
+                      <button type="button" class="ces-sort" (click)="sortDisks(c.col)">{{ c.label }}<fa-icon [class.is-hidden]="diskSort().col !== c.col" [icon]="diskSort().dir === 'asc' ? i.up : i.down" aria-hidden="true" /></button>
+                    </th>
+                  }
+                  <th scope="col" class="ces-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (disk of filteredDisks(); track disk.id; let n = $index; let count = $count) {
+                  <tr>
+                    <th scope="row">{{ disk.name }}</th>
+                    <td>{{ disk.size }} GB</td>
+                    <td>{{ disk.type }}</td>
+                    <td>
+                      @if (disk.attachedTo) { <span class="ces-vm">{{ disk.attachedTo }}</span> } @else { <span class="d-muted ces-italic">Unattached</span> }
+                    </td>
+                    <td class="d-mono">{{ disk.diskNumber !== null ? disk.diskNumber : 'N/A' }}</td>
+                    <td>{{ disk.creationDate }}</td>
+                    <td class="ces-right">
+                      <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+                        <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + disk.name" [attr.aria-expanded]="openMenu() === disk.id" aria-haspopup="true" (click)="toggleMenu($event, disk.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                        @if (openMenu() === disk.id) {
+                          <div class="d-menu" [class.ces-menu-up]="menuUp(n, count)">
+                            @if (disk.attachedTo) {
+                              <button type="button" (click)="open({ kind: 'detach', disk })"><fa-icon [icon]="i.detach" aria-hidden="true" />Detach</button>
+                            } @else {
+                              <button type="button" (click)="open({ kind: 'attach', disk })"><fa-icon [icon]="i.attach" aria-hidden="true" />Attach</button>
+                            }
+                            <button type="button" (click)="snapshotOf(disk)"><fa-icon [icon]="i.snapshot" aria-hidden="true" />Create Snapshot</button>
+                            <button type="button" (click)="resize(disk)"><fa-icon [icon]="i.resize" aria-hidden="true" />Resize Disk</button>
+                            <hr />
+                            <button type="button" class="is-danger" (click)="open({ kind: 'deleteDisk', disk })"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                          </div>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr><td colspan="7" class="ces-none">No disks found.</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        @case ('objectStorage') {
+          <div class="ces-bar ces-bar--end">
+            <button type="button" class="d-btn d-btn--primary" (click)="open({ kind: 'bucket' })"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Bucket</button>
+          </div>
+          <div class="d-table-wrap" tabindex="0" role="region" aria-label="Buckets table">
+            <table class="d-table">
+              <caption class="sr-only">Buckets</caption>
+              <thead><tr><th scope="col">Bucket Name</th><th scope="col">Region</th><th scope="col">Access Level</th><th scope="col" class="ces-right">Actions</th></tr></thead>
+              <tbody>
+                @for (bucket of store.buckets(); track bucket.id; let n = $index; let count = $count) {
+                  <tr>
+                    <th scope="row">{{ bucket.name }}</th>
+                    <td class="d-mono">{{ bucket.region }}</td>
+                    <td><span class="d-pill" [class.d-pill--warn]="bucket.accessLevel === 'Public'" [class.ces-pill-private]="bucket.accessLevel === 'Private'">{{ bucket.accessLevel }}</span></td>
+                    <td class="ces-right">
+                      <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+                        <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + bucket.name" [attr.aria-expanded]="openMenu() === bucket.id" aria-haspopup="true" (click)="toggleMenu($event, bucket.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                        @if (openMenu() === bucket.id) {
+                          <div class="d-menu" [class.ces-menu-up]="menuUp(n, count)">
+                            <button type="button" (click)="bucketAction(bucket, 'Manage Files')"><fa-icon [icon]="i.files" aria-hidden="true" />Manage Files</button>
+                            <button type="button" (click)="bucketAction(bucket, 'Settings')"><fa-icon [icon]="i.settings" aria-hidden="true" />Settings</button>
+                            <hr />
+                            <button type="button" class="is-danger" (click)="open({ kind: 'deleteBucket', bucket })"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                          </div>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr><td colspan="4" class="ces-none">No buckets created.</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        @case ('snapshots') {
+          <div class="ces-bar">
+            <button type="button" class="d-btn d-btn--primary" (click)="open({ kind: 'snapshot', disk: null })"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Snapshot</button>
+            <label class="d-search">
+              <span class="sr-only">Search snapshots</span>
+              <fa-icon [icon]="i.search" aria-hidden="true" />
+              <input class="d-input" type="search" placeholder="Search snapshots..." [value]="snapSearch()" (input)="snapSearch.set($any($event.target).value)" />
+            </label>
+          </div>
+          <p class="ces-note"><fa-icon [icon]="i.warn" aria-hidden="true" /><span>For best performance, it is recommended to keep snapshots for no longer than 3 days. The perfect case is to delete the oldest snapshot and create a new one.</span></p>
+          <p class="sr-only" aria-live="polite">{{ filteredSnapshots().length }} snapshots shown</p>
+          <div class="d-table-wrap" tabindex="0" role="region" aria-label="Snapshots table">
+            <table class="d-table">
+              <caption class="sr-only">Snapshots; rows older than 3 days are highlighted</caption>
+              <thead>
+                <tr>
+                  @for (c of snapCols; track c.col) {
+                    <th scope="col" [attr.aria-sort]="snapSort().col === c.col ? (snapSort().dir === 'asc' ? 'ascending' : 'descending') : null">
+                      <button type="button" class="ces-sort" (click)="sortSnapshots(c.col)">{{ c.label }}<fa-icon [class.is-hidden]="snapSort().col !== c.col" [icon]="snapSort().dir === 'asc' ? i.up : i.down" aria-hidden="true" /></button>
+                    </th>
+                  }
+                  <th scope="col" class="ces-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (snap of filteredSnapshots(); track snap.id; let n = $index; let count = $count) {
+                  <tr [class.ces-old]="isOld(snap)">
+                    <th scope="row">{{ snap.name }}@if (isOld(snap)) {<span class="sr-only"> (older than 3 days)</span>}</th>
+                    <td>{{ snap.sourceDisk }}</td>
+                    <td>{{ snap.size }} GB</td>
+                    <td>{{ formatDate(snap.creationTime) }}</td>
+                    <td class="ces-right">
+                      <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+                        <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + snap.name" [attr.aria-expanded]="openMenu() === snap.id" aria-haspopup="true" (click)="toggleMenu($event, snap.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                        @if (openMenu() === snap.id) {
+                          <div class="d-menu ces-menu-wide" [class.ces-menu-up]="menuUp(n, count)">
+                            <button type="button" (click)="diskFrom(snap)"><fa-icon [icon]="i.disk" aria-hidden="true" />Create Disk from Snapshot</button>
+                            <button type="button" class="is-danger" (click)="open({ kind: 'deleteSnapshot', snap })"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete Snapshot</button>
+                          </div>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr><td colspan="5" class="ces-none">No snapshots found.</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      }
+    </div>
+  </section>
+</div>
+
+@if (dialog(); as d) {
+  @switch (d.kind) {
+    @case ('disk') {
+      @if (d.kind === 'disk') {
+        <app-demo-dialog [title]="d.edit ? 'Edit Disk' : 'Create New Disk'" (closed)="close()">
+          <form id="ces-form" (submit)="submit($event)" novalidate>
+            <label class="d-field">
+              <span>Disk Name <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required [disabled]="!!d.edit" [value]="f().name" (input)="set('name', $any($event.target).value)" [attr.aria-invalid]="!!err('name')" aria-describedby="ces-err-name" />
+              @if (err('name'); as e) { <p class="d-error" id="ces-err-name">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Size (GB) <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" type="number" min="1" required [value]="f().size" (input)="set('size', num($any($event.target).value))" [attr.aria-invalid]="!!err('size')" aria-describedby="ces-hint-size ces-err-size" />
+              <span class="d-hint" id="ces-hint-size">Available storage space: {{ store.available() }} GB</span>
+              @if (err('size'); as e) { <p class="d-error" id="ces-err-size">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Type <span class="d-req" aria-hidden="true">*</span></span>
+              <select class="d-select" [disabled]="!!d.edit" (change)="set('type', $any($event.target).value)">
+                @for (t of diskTypes; track t) { <option [value]="t" [selected]="f().type === t">{{ t }}</option> }
+              </select>
+            </label>
+            @if (!d.edit) {
+              <label class="d-field">
+                <span>Attach to VM (Optional)</span>
+                <select class="d-select" (change)="set('vm', $any($event.target).value)">
+                  <option value="" [selected]="!f().vm">Unattached</option>
+                  @for (vm of vms(); track vm.id) { <option [value]="vm.name" [selected]="f().vm === vm.name">{{ vm.name }}</option> }
+                </select>
+              </label>
+              @if (f().vm) {
+                <label class="d-field">
+                  <span>Disk # <span class="d-req" aria-hidden="true">*</span></span>
+                  <select class="d-select" required (change)="set('diskNumber', $any($event.target).value)" [attr.aria-invalid]="!!err('diskNumber')" aria-describedby="ces-err-num">
+                    <option value="" disabled [selected]="f().diskNumber === ''">Select disk number</option>
+                    @for (n of freeNumbers(); track n) { <option [value]="n" [selected]="f().diskNumber === '' + n">{{ n }}</option> }
+                  </select>
+                  @if (err('diskNumber'); as e) { <p class="d-error" id="ces-err-num">{{ e }}</p> }
+                </label>
+              }
+            }
+          </form>
+          <div dialogActions>
+            <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+            <button type="submit" form="ces-form" class="d-btn d-btn--primary">{{ d.edit ? 'Save Changes' : 'Create Disk' }}</button>
+          </div>
+        </app-demo-dialog>
+      }
+    }
+
+    @case ('attach') {
+      @if (d.kind === 'attach') {
+        <app-demo-dialog title="Attach Disk to VM" (closed)="close()">
+          <form id="ces-form" (submit)="submit($event)" novalidate>
+            <fieldset class="d-field" aria-describedby="ces-err-vm">
+              <legend class="ces-dialog-text">Select a Virtual Machine to attach the disk <strong>{{ d.disk.name }}</strong> to.</legend>
+              @if (vms().length) {
+                <ul class="ces-vms">
+                  @for (vm of vms(); track vm.id) {
+                    <li>
+                      <label>
+                        <input type="radio" name="ces-attach-vm" [value]="vm.name" [checked]="f().vm === vm.name" (change)="set('vm', vm.name)" />
+                        <span class="ces-vms__name">{{ vm.name }}</span>
+                        <span class="d-muted ces-vms__meta">{{ vm.os }} | {{ vm.ipAddress }}</span>
+                      </label>
+                    </li>
+                  }
+                </ul>
+              } @else {
+                <p class="d-muted">No available Virtual Machines found.</p>
+              }
+              @if (err('vm'); as e) { <p class="d-error" id="ces-err-vm">{{ e }}</p> }
+            </fieldset>
+            @if (f().vm) {
+              <label class="d-field">
+                <span>Disk # <span class="d-req" aria-hidden="true">*</span></span>
+                <select class="d-select" required (change)="set('diskNumber', $any($event.target).value)" [attr.aria-invalid]="!!err('diskNumber')" aria-describedby="ces-err-num">
+                  <option value="" disabled [selected]="f().diskNumber === ''">Select available disk number</option>
+                  @for (n of freeNumbers(); track n) { <option [value]="n" [selected]="f().diskNumber === '' + n">{{ n }}</option> }
+                </select>
+                @if (err('diskNumber'); as e) { <p class="d-error" id="ces-err-num">{{ e }}</p> }
+              </label>
+            }
+          </form>
+          <div dialogActions>
+            <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+            <button type="submit" form="ces-form" class="d-btn d-btn--primary">Attach Disk</button>
+          </div>
+        </app-demo-dialog>
+      }
+    }
+
+    @case ('detach') {
+      @if (d.kind === 'detach') {
+        <app-demo-dialog [title]="d.disk.diskNumber === 0 ? 'Detach OS Disk?' : 'Detach Disk'" (closed)="close()">
+          <div class="ces-confirm">
+            <fa-icon class="ces-confirm__icon" [class.is-warn]="d.disk.diskNumber === 0" [icon]="d.disk.diskNumber === 0 ? i.warn : i.detach" aria-hidden="true" />
+            @if (d.disk.diskNumber === 0) {
+              <p>You are about to detach the primary OS disk (Disk 0) from <strong>{{ d.disk.attachedTo }}</strong>. This will likely make the virtual machine unbootable. Are you sure you want to proceed?</p>
+            } @else {
+              <p>Are you sure you want to detach the disk <strong>{{ d.disk.name }}</strong> from <strong>{{ d.disk.attachedTo }}</strong>?</p>
+            }
+          </div>
+          <div dialogActions>
+            <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+            <button type="button" class="d-btn" [class.d-btn--danger]="d.disk.diskNumber !== 0" [class.ces-btn-warn]="d.disk.diskNumber === 0" (click)="submit()">{{ d.disk.diskNumber === 0 ? 'Detach Anyway' : 'Detach' }}</button>
+          </div>
+        </app-demo-dialog>
+      }
+    }
+
+    @case ('snapshot') {
+      @if (d.kind === 'snapshot') {
+        <app-demo-dialog title="Create Snapshot" (closed)="close()">
+          <form id="ces-form" (submit)="submit($event)" novalidate>
+            @if (d.disk) {
+              <p class="ces-dialog-text">Enter a name for the snapshot of <strong>{{ d.disk.name }}</strong> ({{ d.disk.size }} GB).</p>
+            } @else {
+              <label class="d-field">
+                <span>Select Virtual Machine</span>
+                <select class="d-select" (change)="set('vm', $any($event.target).value)" [attr.aria-invalid]="!!err('vm')" aria-describedby="ces-err-vm">
+                  <option value="" [selected]="!f().vm">-- Select a VM --</option>
+                  @for (vm of vms(); track vm.id) { <option [value]="vm.name" [selected]="f().vm === vm.name">{{ vm.name }}</option> }
+                </select>
+                @if (err('vm'); as e) { <p class="d-error" id="ces-err-vm">{{ e }}</p> }
+              </label>
+              @if (f().vm) {
+                <label class="d-field">
+                  <span>Select Disk</span>
+                  <select class="d-select" [disabled]="!disksOfVm().length" (change)="set('diskId', $any($event.target).value)" [attr.aria-invalid]="!!err('diskId')" aria-describedby="ces-err-disk">
+                    <option value="" [selected]="!f().diskId">-- Select a disk --</option>
+                    @for (disk of disksOfVm(); track disk.id) { <option [value]="disk.id" [selected]="f().diskId === disk.id">{{ disk.name }} ({{ disk.size }} GB)</option> }
+                  </select>
+                  @if (!disksOfVm().length) {
+                    <p class="d-error" id="ces-err-disk">This VM has no attachable disks.</p>
+                  } @else if (err('diskId'); as e) {
+                    <p class="d-error" id="ces-err-disk">{{ e }}</p>
+                  }
+                </label>
+              }
+            }
+            <label class="d-field">
+              <span>Snapshot Name</span>
+              <input class="d-input" required placeholder="e.g., my-snapshot-2024-07-31" [value]="f().name" (input)="set('name', $any($event.target).value)" [attr.aria-invalid]="!!err('name')" aria-describedby="ces-err-name" />
+              @if (err('name'); as e) { <p class="d-error" id="ces-err-name">{{ e }}</p> }
+            </label>
+          </form>
+          <div dialogActions>
+            <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+            <button type="submit" form="ces-form" class="d-btn d-btn--primary">Create</button>
+          </div>
+        </app-demo-dialog>
+      }
+    }
+
+    @case ('fromSnapshot') {
+      @if (d.kind === 'fromSnapshot') {
+        <app-demo-dialog title="Create Disk from Snapshot" (closed)="close()">
+          <form id="ces-form" (submit)="submit($event)" novalidate>
+            <p class="ces-dialog-text">A new unattached disk is restored from <strong>{{ d.snap.name }}</strong> ({{ d.snap.sourceDisk }}, {{ d.snap.size }} GB).</p>
+            <label class="d-field">
+              <span>Disk Name <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required [value]="f().name" (input)="set('name', $any($event.target).value)" [attr.aria-invalid]="!!err('name')" aria-describedby="ces-err-name" />
+              @if (err('name'); as e) { <p class="d-error" id="ces-err-name">{{ e }}</p> }
+            </label>
+            <div class="d-grid">
+              <label class="d-field">
+                <span>Size (GB) <span class="d-req" aria-hidden="true">*</span></span>
+                <input class="d-input" type="number" [min]="d.snap.size" required [value]="f().size" (input)="set('size', num($any($event.target).value))" [attr.aria-invalid]="!!err('size')" aria-describedby="ces-err-size" />
+                @if (err('size'); as e) { <p class="d-error" id="ces-err-size">{{ e }}</p> }
+              </label>
+              <label class="d-field">
+                <span>Type <span class="d-req" aria-hidden="true">*</span></span>
+                <select class="d-select" (change)="set('type', $any($event.target).value)">
+                  @for (t of diskTypes; track t) { <option [value]="t" [selected]="f().type === t">{{ t }}</option> }
+                </select>
+              </label>
+            </div>
+          </form>
+          <div dialogActions>
+            <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+            <button type="submit" form="ces-form" class="d-btn d-btn--primary">Create Disk</button>
+          </div>
+        </app-demo-dialog>
+      }
+    }
+
+    @case ('bucket') {
+      <app-demo-dialog title="Create Bucket" (closed)="close()">
+        <form id="ces-form" (submit)="submit($event)" novalidate>
+          <label class="d-field">
+            <span>Bucket Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required placeholder="e.g. media-uploads" [value]="f().name" (input)="set('name', $any($event.target).value)" [attr.aria-invalid]="!!err('name')" aria-describedby="ces-err-name" />
+            @if (err('name'); as e) { <p class="d-error" id="ces-err-name">{{ e }}</p> }
+          </label>
+          <div class="d-grid">
+            <label class="d-field">
+              <span>Region</span>
+              <select class="d-select" (change)="set('region', $any($event.target).value)">
+                @for (r of regions; track r) { <option [value]="r" [selected]="f().region === r">{{ r }}</option> }
+              </select>
+            </label>
+            <fieldset class="d-field">
+              <legend class="d-label">Access Level</legend>
+              <div class="ces-radios">
+                <label class="d-check"><input type="radio" name="ces-access" [checked]="f().access === 'Private'" (change)="set('access', 'Private')" />Private</label>
+                <label class="d-check"><input type="radio" name="ces-access" [checked]="f().access === 'Public'" (change)="set('access', 'Public')" />Public</label>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+        <div dialogActions>
+          <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+          <button type="submit" form="ces-form" class="d-btn d-btn--primary">Create Bucket</button>
+        </div>
+      </app-demo-dialog>
+    }
+
+    @default {
+      <!-- Delete a disk, snapshot or bucket: type its name, as the console's advanced delete modal asks. -->
+      @if (d.kind === 'deleteDisk' || d.kind === 'deleteSnapshot' || d.kind === 'deleteBucket') {
+        @let target = d.kind === 'deleteDisk' ? { type: 'Disk', name: d.disk.name } : d.kind === 'deleteSnapshot' ? { type: 'Snapshot', name: d.snap.name } : { type: 'Bucket', name: d.bucket.name };
+        <app-demo-dialog [title]="'Delete ' + target.type" (closed)="close()">
+          <div class="ces-confirm">
+            <fa-icon class="ces-confirm__icon" [icon]="i.warn" aria-hidden="true" />
+            <div>
+              <p>This action is irreversible and will permanently delete the {{ target.type }} <strong>{{ target.name }}</strong>.</p>
+              <p>To confirm, please type the name of the {{ target.type }} below.</p>
+            </div>
+          </div>
+          <label class="d-field">
+            <span class="sr-only">{{ target.type }} name</span>
+            <input class="d-input" autocomplete="off" [placeholder]="target.name" [value]="f().typed" (input)="set('typed', $any($event.target).value)" (keydown.enter)="submit()" />
+          </label>
+          <div dialogActions>
+            <button type="button" class="d-btn d-btn--ghost" (click)="close()">Cancel</button>
+            <button type="button" class="d-btn d-btn--danger" [disabled]="f().typed !== target.name" (click)="submit()">Delete</button>
+          </div>
+        </app-demo-dialog>
+      }
+    }
+  }
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

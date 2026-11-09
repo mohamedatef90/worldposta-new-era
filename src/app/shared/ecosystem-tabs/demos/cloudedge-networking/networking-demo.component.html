@@ -1,0 +1,180 @@
+@if (page() === 'list') {
+  <section class="d-page" aria-labelledby="net-demo-title">
+    <div class="d-head">
+      <div>
+        <h3 id="net-demo-title">NATs</h3>
+        <p>Manage your Network Address Translation rules here.</p>
+      </div>
+    </div>
+
+    <div class="net-bar">
+      <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add NAT Rule</button>
+      <label class="d-search">
+        <span class="sr-only">Search NAT rules</span>
+        <fa-icon [icon]="i.search" aria-hidden="true" />
+        <input class="d-input" type="search" placeholder="Search NAT rules..." [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
+      </label>
+    </div>
+
+    <p class="sr-only" aria-live="polite">{{ filtered().length }} NAT rules shown</p>
+
+    <div class="d-table-wrap net-wrap" tabindex="0" role="region" aria-label="NAT rules table">
+      <table class="d-table">
+        <caption class="sr-only">NAT rules, sortable by column</caption>
+        <thead>
+          <tr>
+            @for (col of columns; track col.key) {
+              <th scope="col" [attr.aria-sort]="ariaSort(col.key)">
+                <button type="button" class="net-sort" (click)="setSort(col.key)">
+                  {{ col.label }}
+                  @if (sortColumn() === col.key) { <fa-icon [icon]="sortDirection() === 'asc' ? i.up : i.down" aria-hidden="true" /> }
+                </button>
+              </th>
+            }
+            <th scope="col" class="net-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (rule of filtered(); track rule.id; let n = $index; let count = $count) {
+            <tr [class.net-off]="rule.status === 'Disabled'">
+              <th scope="row" class="net-name">{{ rule.name }}</th>
+              <td>{{ rule.reservation ?? 'N/A' }}</td>
+              <td><span class="net-type d-mono">{{ rule.actionType }}</span></td>
+              <td class="d-mono">{{ rule.source }}</td>
+              <td class="d-mono">{{ rule.destination }}</td>
+              <td class="d-mono">{{ rule.translated }}</td>
+              <td>{{ rule.service }}</td>
+              <td class="net-desc" [title]="rule.description">{{ rule.description }}</td>
+              <td><span class="d-pill" [class]="rule.status === 'Enabled' ? 'd-pill d-pill--good' : 'd-pill net-pill-off'">{{ rule.status }}</span></td>
+              <td class="net-right">
+                <div class="d-menu-wrap net-menu-wrap" (keydown.escape)="closeMenu()">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + rule.name" [attr.aria-expanded]="openMenu() === rule.id" aria-haspopup="true" (click)="toggleMenu($event, rule.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                  @if (openMenu() === rule.id) {
+                    <div class="d-menu net-menu" [class.net-menu--up]="n > 0 && n >= count - 2">
+                      <button type="button" (click)="openEdit(rule)"><fa-icon [icon]="i.edit" aria-hidden="true" />Edit</button>
+                      <button type="button" (click)="toggleStatus(rule)"><fa-icon [icon]="rule.status === 'Enabled' ? i.disable : i.enable" aria-hidden="true" />{{ rule.status === 'Enabled' ? 'Disable' : 'Enable' }}</button>
+                      <hr />
+                      <button type="button" class="is-danger" (click)="askDelete(rule)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                    </div>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="10" class="net-empty">
+                <fa-icon [icon]="i.net" aria-hidden="true" />
+                <strong>No NAT rules found</strong>
+                Click "Add NAT Rule" to create one.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+} @else {
+  <section class="d-page" aria-labelledby="net-form-title">
+    <div class="d-head">
+      <div>
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm net-back" (click)="page.set('list')"><fa-icon [icon]="i.back" aria-hidden="true" />NATs</button>
+        <h3 id="net-form-title">{{ editingId() ? 'Edit NAT Rule' : 'Create NAT Rule' }}</h3>
+      </div>
+    </div>
+    <form (submit)="save($event)" novalidate>
+      <div class="d-grid">
+        <div class="d-field d-span">
+          <div class="net-label-row">
+            <label class="d-label" for="net-f-name">Name <span class="d-req" aria-hidden="true">*</span></label>
+            <span class="d-muted net-counter" aria-hidden="true">{{ form().name.length }}/50</span>
+          </div>
+          <input id="net-f-name" class="d-input" required maxlength="50" placeholder="Name" [value]="form().name" (input)="setField('name', $any($event.target).value)" [attr.aria-invalid]="!!error('name')" [attr.aria-describedby]="error('name') ? 'net-err-name' : null" />
+          @if (error('name'); as e) { <p class="d-error" id="net-err-name">{{ e }}</p> }
+        </div>
+        <label class="d-field">
+          <span>Select Type</span>
+          <select class="d-select" [value]="form().type" (change)="setField('type', $any($event.target).value)">
+            @for (t of natTypes; track t) { <option [value]="t" [selected]="form().type === t">{{ t }}</option> }
+          </select>
+        </label>
+        <label class="d-field">
+          <span>Select Gateway <span class="d-req" aria-hidden="true">*</span></span>
+          <select class="d-select" required [value]="form().gateway" (change)="setField('gateway', $any($event.target).value)" [attr.aria-invalid]="!!error('gateway')" [attr.aria-describedby]="error('gateway') ? 'net-err-gw' : null">
+            <option value="" disabled [selected]="!form().gateway">Select a gateway</option>
+            @for (gw of gateways; track gw.id) { <option [value]="gw.name" [selected]="form().gateway === gw.name">{{ gw.name }}</option> }
+          </select>
+          @if (error('gateway'); as e) { <p class="d-error" id="net-err-gw">{{ e }}</p> }
+        </label>
+        <fieldset class="d-field d-span">
+          <legend class="d-label">Selected Gateway Address <span class="d-req" aria-hidden="true">*</span></legend>
+          <div class="net-octets">
+            @for (o of gatewayAddress().octets; track $index; let n = $index) {
+              @if (n) { <span aria-hidden="true">.</span> }
+              <input class="d-input" disabled [value]="o" [attr.aria-label]="'Gateway address octet ' + (n + 1)" />
+            }
+            <span aria-hidden="true">/</span>
+            <select class="d-select net-cidr" disabled aria-label="Gateway address prefix length">
+              @for (p of cidrPrefixes; track p) { <option [value]="p" [selected]="gatewayAddress().cidr === p">{{ p }}</option> }
+            </select>
+          </div>
+          <span class="d-hint">Filled in from the gateway you select.</span>
+        </fieldset>
+      </div>
+
+      <div class="d-grid net-section">
+        <label class="d-field">
+          <span>Elastic Ip <span class="d-req" aria-hidden="true">*</span></span>
+          <select class="d-select" required [value]="form().elasticIp" (change)="setField('elasticIp', $any($event.target).value)" [attr.aria-invalid]="!!error('elasticIp')" [attr.aria-describedby]="error('elasticIp') ? 'net-err-eip' : null">
+            <option value="" disabled [selected]="!form().elasticIp">Select an Elastic IP</option>
+            @for (ip of elasticIps; track ip) { <option [value]="ip" [selected]="form().elasticIp === ip">{{ ip }}</option> }
+          </select>
+          @if (error('elasticIp'); as e) { <p class="d-error" id="net-err-eip">{{ e }}</p> }
+        </label>
+        <label class="d-field">
+          <span>Port</span>
+          <input class="d-input" inputmode="numeric" placeholder="e.g. 80, 443" [value]="form().port" (input)="setField('port', $any($event.target).value)" [attr.aria-invalid]="!!error('port')" [attr.aria-describedby]="error('port') ? 'net-err-port' : null" />
+          @if (error('port'); as e) { <p class="d-error" id="net-err-port">{{ e }}</p> }
+        </label>
+      </div>
+
+      <label class="d-field net-section">
+        <span>Description</span>
+        <textarea class="d-textarea" rows="3" placeholder="Enter an optional description for the NAT rule..." [value]="form().description" (input)="setField('description', $any($event.target).value)"></textarea>
+      </label>
+
+      @if (submitted() && hasErrors()) {
+        <p class="d-error" role="alert">Fix the highlighted fields to {{ editingId() ? 'save the NAT rule' : 'create the NAT rule' }}.</p>
+      }
+      <div class="net-actions">
+        <button type="button" class="d-btn" (click)="page.set('list')">Cancel</button>
+        <button type="submit" class="d-btn d-btn--primary">{{ editingId() ? 'Save Changes' : 'Create' }}</button>
+      </div>
+    </form>
+  </section>
+}
+
+@if (deleting(); as rule) {
+  <app-demo-dialog title="Delete NAT Rule" (closed)="deleting.set(null)">
+    <div class="net-dialog">
+      <fa-icon class="net-dialog__icon" [icon]="i.warn" aria-hidden="true" />
+      <div>
+        <p>This action is irreversible and will permanently delete the NAT Rule <strong>{{ rule.name }}</strong>.</p>
+        <p>To confirm, please type the name of the NAT Rule below.</p>
+      </div>
+    </div>
+    <label class="d-field">
+      <span class="sr-only">NAT Rule name</span>
+      <input class="d-input" autocomplete="off" [placeholder]="rule.name" [value]="deleteTyped()" (input)="deleteTyped.set($any($event.target).value)" (keydown.enter)="confirmDelete()" />
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" [disabled]="deleteTyped() !== rule.name" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

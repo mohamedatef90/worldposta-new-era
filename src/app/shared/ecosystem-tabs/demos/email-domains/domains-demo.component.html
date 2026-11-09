@@ -1,0 +1,286 @@
+<section class="d-page" aria-labelledby="dom-demo-title">
+  <div class="d-head">
+    <h3 id="dom-demo-title">Organizations</h3>
+    <div class="d-actions">
+      <button type="button" class="d-btn d-btn--primary" (click)="startAdd()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Domain</button>
+      <button type="button" class="d-btn d-btn--outline" [disabled]="!activeOrg()" (click)="openOrgSettings()">View Organization</button>
+    </div>
+  </div>
+
+  @switch (view()) {
+    @case ('table') {
+      <div class="dom-layout">
+        <nav class="dom-orgs" aria-label="Organizations">
+          <ul>
+            @for (org of organizations(); track org.id) {
+              <li>
+                <button type="button" class="dom-org" [attr.aria-pressed]="org.id === activeOrgId()" (click)="activeOrgId.set(org.id)">
+                  <span>{{ org.name }}</span>
+                  @if (org.id === activeOrgId()) { <fa-icon [icon]="i.chevron" aria-hidden="true" /> }
+                </button>
+              </li>
+            } @empty {
+              <li class="dom-orgs__empty">No organizations found</li>
+            }
+          </ul>
+        </nav>
+
+        <div class="dom-main">
+          @if (activeOrg(); as org) {
+            @if (org.domains.length) {
+              <div class="d-table-wrap" tabindex="0" role="region" [attr.aria-label]="'Domains of ' + org.name">
+                <table class="d-table">
+                  <caption class="sr-only">Domains of {{ org.name }}</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Domain Name</th>
+                      <th scope="col">Creation Date</th>
+                      <th scope="col">Health check</th>
+                      <th scope="col"><span class="sr-only">Actions</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (d of org.domains; track d.id) {
+                      <tr>
+                        <th scope="row" class="dom-name">
+                          {{ d.domainName }}
+                          @if (d.domainName === org.primaryDomain) { <span class="d-pill d-pill--info">Primary</span> }
+                        </th>
+                        <td class="d-muted">{{ d.creationDate || '-' }}</td>
+                        <td>
+                          <button type="button" class="dom-health" [attr.data-health]="d.healthStatus" [attr.aria-label]="healthLabel(d) + ': view DNS records for ' + d.domainName" (click)="openDns(d)">
+                            <fa-icon [icon]="d.healthStatus === 'healthy' ? i.ok : d.healthStatus === 'warning' ? i.warn : i.bad" aria-hidden="true" />
+                            <span>{{ healthLabel(d) }}</span>
+                          </button>
+                        </td>
+                        <td class="dom-right">
+                          <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+                            <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + d.domainName" aria-haspopup="true" [attr.aria-expanded]="openMenu() === d.id" (click)="toggleMenu($event, d.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                            @if (openMenu() === d.id) {
+                              <div class="d-menu">
+                                <button type="button" [disabled]="d.domainName === org.primaryDomain" (click)="setPrimary(d)"><fa-icon [icon]="i.star" aria-hidden="true" />Set as Primary Domain</button>
+                                <button type="button" class="is-danger" (click)="askDelete(d)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete Domain</button>
+                              </div>
+                            }
+                          </div>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <div class="d-empty"><fa-icon class="dom-empty-ic" [icon]="i.globe" aria-hidden="true" /><strong>No domains found in this organization</strong>Use Add Domain to verify one.</div>
+            }
+          } @else {
+            <div class="d-empty"><fa-icon class="dom-empty-ic" [icon]="i.globe" aria-hidden="true" /><strong>Select an organization to view active domains</strong></div>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('stepper') {
+      <ol class="dom-steps" aria-label="Add domain progress">
+        @for (s of steps; track s; let n = $index) {
+          <li [class.is-current]="step() === n" [class.is-done]="step() > n" [attr.aria-current]="step() === n ? 'step' : null">
+            <span class="dom-steps__dot" aria-hidden="true">@if (step() > n) { <fa-icon [icon]="i.check" /> } @else { {{ n + 1 }} }</span>
+            <span>{{ s }}@if (step() > n) {<span class="sr-only"> (completed)</span>}</span>
+          </li>
+        }
+      </ol>
+
+      @if (step() === 0) {
+        <div class="dom-verify">
+          <h4 class="dom-h4">Verify Domain Ownership</h4>
+          <form class="dom-box" id="dom-own-form" (submit)="$event.preventDefault(); verifyOwnership()" novalidate>
+            <label class="d-field">
+              <span>Domain Name <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required autocomplete="off" placeholder="yourdomain.com" [value]="form().domain" (input)="setField('domain', $any($event.target).value)" [attr.aria-invalid]="!!err('domain')" aria-describedby="dom-err-domain" />
+              @if (err('domain'); as e) { <p class="d-error" id="dom-err-domain">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Organization Name <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" required autocomplete="off" list="dom-org-names" [value]="form().organization" (input)="setField('organization', $any($event.target).value)" [attr.aria-invalid]="!!err('organization')" aria-describedby="dom-err-org dom-org-hint" />
+              <datalist id="dom-org-names">@for (o of organizations(); track o.id) { <option [value]="o.name"></option> }</datalist>
+              <span class="d-hint" id="dom-org-hint">An existing organization gets the domain; a new name creates the organization.</span>
+              @if (err('organization'); as e) { <p class="d-error" id="dom-err-org">{{ e }}</p> }
+            </label>
+          </form>
+          <div class="dom-box">
+            <p class="dom-box__lead">Add this TXT record to your DNS settings:</p>
+            <div class="d-table-wrap" tabindex="0" role="region" aria-label="Verification TXT record">
+              <table class="d-table">
+                <caption class="sr-only">Verification TXT record</caption>
+                <thead><tr><th scope="col">Type</th><th scope="col">Name</th><th scope="col">Value</th><th scope="col" class="dom-center">Status</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong>TXT</strong></td>
+                    <td class="d-mono">&#64;</td>
+                    <td>
+                      <span class="dom-value">
+                        <span class="d-mono">{{ txtValue() }}</span>
+                        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Copy TXT record value" title="Copy value" (click)="copy('txt', txtValue())"><fa-icon [icon]="copied() === 'txt' ? i.check : i.copy" [class.dom-copied]="copied() === 'txt'" aria-hidden="true" /></button>
+                      </span>
+                    </td>
+                    <td class="dom-center">
+                      @let own = ownership() === 'success' ? 'success' : 'pending';
+                      <span class="dom-status" [attr.data-status]="own" [title]="statusText[own]"><fa-icon [icon]="statusIcon[own]" aria-hidden="true" /><span class="sr-only">{{ statusText[own] }}</span></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          @if (submitted() && (errors().domain || errors().organization)) { <p class="d-error dom-center" role="alert">Please enter a domain and organization name.</p> }
+          <div class="dom-buttons">
+            <button type="button" class="d-btn d-btn--ghost" (click)="view.set('table')">Cancel</button>
+            <button type="submit" form="dom-own-form" class="d-btn d-btn--primary" [disabled]="ownership() !== 'idle'">
+              @if (ownership() === 'verifying') { <fa-icon class="dom-spin" [icon]="i.spin" aria-hidden="true" />Verifying… } @else if (ownership() === 'success') { <fa-icon [icon]="i.check" aria-hidden="true" />Verified! } @else { Verify Now }
+            </button>
+          </div>
+        </div>
+      } @else {
+        <ng-container *ngTemplateOutlet="dns; context: { $implicit: form().domain.trim(), adding: true }" />
+      }
+    }
+
+    @case ('dns') {
+      @if (dnsDomain(); as d) {
+        <ng-container *ngTemplateOutlet="dns; context: { $implicit: d.domainName, adding: false }" />
+      } @else {
+        <div class="d-empty"><strong>This domain no longer exists.</strong><button type="button" class="d-btn d-btn--ghost" (click)="view.set('table')">Back to Domains</button></div>
+      }
+    }
+
+    @case ('org-settings') {
+      @if (activeOrg(); as org) {
+        <div class="dom-settings">
+          <div class="dom-settings__head">
+            <h4 class="dom-h4">Organization Settings</h4>
+            <button type="button" class="d-btn d-btn--ghost" (click)="view.set('table')"><fa-icon [icon]="i.back" aria-hidden="true" />Back</button>
+          </div>
+          <form id="dom-org-form" (submit)="$event.preventDefault(); saveOrg()" novalidate>
+            <section class="d-section">
+              <h5>Identification</h5>
+              <div>
+                <label class="d-field">
+                  <span>Organization Name <span class="d-req" aria-hidden="true">*</span></span>
+                  <input class="d-input" required [value]="orgDraft().name" (input)="orgDraft.set({ ...orgDraft(), name: $any($event.target).value })" [attr.aria-invalid]="orgSubmitted() && !!orgNameError()" aria-describedby="dom-err-orgname" />
+                  @if (orgSubmitted() && orgNameError(); as e) { <p class="d-error" id="dom-err-orgname">{{ e }}</p> }
+                </label>
+                <label class="d-field"><span>Description</span><textarea class="d-textarea" rows="3" [value]="orgDraft().description" (input)="orgDraft.set({ ...orgDraft(), description: $any($event.target).value })"></textarea></label>
+                <div class="d-grid">
+                  <label class="d-field"><span>Organization ID</span><input class="d-input" [value]="org.id" disabled /></label>
+                  <label class="d-field"><span>Primary Domain</span><input class="d-input" [value]="org.primaryDomain || 'None'" disabled /></label>
+                </div>
+              </div>
+            </section>
+          </form>
+          <section class="d-section dom-danger">
+            <h5>Danger Zone</h5>
+            <div class="dom-danger__row">
+              <div>
+                <p class="dom-danger__title">Delete Organization</p>
+                <p class="d-muted dom-danger__text">Permanently remove this organization and all its data. This cannot be undone.</p>
+              </div>
+              <button type="button" class="d-btn d-btn--danger d-btn--sm" (click)="deletingOrg.set(org)">Delete</button>
+            </div>
+          </section>
+          <div class="dom-settings__foot">
+            <button type="submit" form="dom-org-form" class="d-btn d-btn--primary">Save Organization Changes</button>
+          </div>
+        </div>
+      }
+    }
+  }
+</section>
+
+<!-- DNS Configuration: the stepper's second step, and an existing domain's health view. -->
+<ng-template #dns let-name let-adding="adding">
+  <div class="dom-dns">
+    <div class="dom-dns__intro">
+      <h4 class="dom-h4">DNS Configuration for {{ name || 'your domain' }}</h4>
+      <p class="d-muted">Update your domain's DNS records to authenticate your email and direct it to WorldPosta's servers.</p>
+    </div>
+    @for (s of sections; track s.id; let n = $index) {
+      <section class="dom-sec" [attr.aria-labelledby]="'dom-sec-' + s.id">
+        <div class="dom-sec__head">
+          <h5 [id]="'dom-sec-' + s.id"><span class="dom-sec__num" aria-hidden="true">{{ n + 1 }}</span>{{ s.title }}</h5>
+          <button type="button" class="d-btn d-btn--outline d-btn--sm" [disabled]="sectionDone(s.id) || checking()[s.id]" (click)="verifySection(s.id, s.title)">
+            <fa-icon [icon]="checking()[s.id] ? i.spin : sectionDone(s.id) ? i.check : i.checkAll" [class.dom-spin]="checking()[s.id]" aria-hidden="true" />{{ checking()[s.id] ? 'Verifying…' : sectionDone(s.id) ? 'Verified' : 'Verify' }}
+          </button>
+        </div>
+        <div class="d-table-wrap" tabindex="0" role="region" [attr.aria-label]="s.id.toUpperCase() + ' records'">
+          <table class="d-table">
+            <caption class="sr-only">{{ s.id.toUpperCase() }} records</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ s.id === 'spf' ? 'Host/Domain' : 'Name/Host/Alias' }}</th>
+                @if (s.id === 'mx') { <th scope="col">Time to Live (TTL*)</th> }
+                <th scope="col">Record Type</th>
+                @if (s.id === 'mx') { <th scope="col" class="dom-center">Priority</th> }
+                <th scope="col">{{ s.id === 'spf' ? 'SPF Value / TXT Value' : 'Value/Answer/Destination' }}</th>
+                <th scope="col" class="dom-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of s.records; track r.index) {
+                @let st = status(s.id, r.index);
+                <tr>
+                  <td class="d-mono">{{ r.host }}</td>
+                  @if (s.id === 'mx') { <td class="d-mono">{{ r.ttl }}</td> }
+                  <td><strong>{{ r.type }}</strong></td>
+                  @if (s.id === 'mx') { <td class="dom-center">{{ r.priority }}</td> }
+                  <td>
+                    <span class="dom-value">
+                      <span class="d-mono">{{ r.value }}</span>
+                      <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Copy ' + r.type + ' value ' + r.value" title="Copy value" (click)="copy(s.id + r.index, r.value)"><fa-icon [icon]="copied() === s.id + r.index ? i.check : i.copy" [class.dom-copied]="copied() === s.id + r.index" aria-hidden="true" /></button>
+                    </span>
+                  </td>
+                  <td class="dom-center"><span class="dom-status" [attr.data-status]="st" [title]="statusText[st]"><fa-icon [icon]="statusIcon[st]" aria-hidden="true" /><span class="sr-only">{{ statusText[st] }}</span></span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+    <div class="dom-dns__foot">
+      @let busy = adding ? records() === 'verifying' : !!checking().all;
+      <button type="button" class="d-btn d-btn--primary dom-big" [disabled]="allDone() || busy" (click)="verifyAll()">
+        @if (busy) { <fa-icon class="dom-spin" [icon]="i.spin" aria-hidden="true" />Verifying… } @else if (allDone()) { <fa-icon [icon]="i.check" aria-hidden="true" />Records Verified! } @else { Verify All DNS Records }
+      </button>
+      <div class="dom-buttons">
+        @if (adding) { <button type="button" class="d-btn d-btn--ghost" [disabled]="busy || allDone()" (click)="skipRecords()">Skip for now</button> }
+        <button type="button" class="d-btn d-btn--ghost" (click)="view.set('table')"><fa-icon [icon]="i.back" aria-hidden="true" />Back to Domains</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+@if (deleting(); as d) {
+  <app-demo-dialog title="Delete Domain" (closed)="deleting.set(null)">
+    <p class="dom-warning"><fa-icon [icon]="i.warn" aria-hidden="true" /><span><strong>Warning:</strong> Deleting a domain is permanent.</span></p>
+    <p class="dom-dialog-text">Are you sure you want to delete the domain <strong>{{ d.domainName }}</strong> from the organization <strong>{{ activeOrg()?.name }}</strong>? This will stop all email traffic for this domain immediately.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete Domain</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deletingOrg(); as org) {
+  <app-demo-dialog title="Delete Organization" (closed)="deletingOrg.set(null)">
+    <p class="dom-warning"><fa-icon [icon]="i.warn" aria-hidden="true" /><span><strong>Warning:</strong> This cannot be undone.</span></p>
+    <p class="dom-dialog-text">Delete <strong>{{ org.name }}</strong> and its {{ org.domains.length }} {{ org.domains.length === 1 ? 'domain' : 'domains' }}? All email traffic for these domains stops immediately.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deletingOrg.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDeleteOrg()">Delete Organization</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

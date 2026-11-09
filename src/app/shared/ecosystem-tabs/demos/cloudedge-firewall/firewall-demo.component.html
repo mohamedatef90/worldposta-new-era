@@ -1,0 +1,241 @@
+@if (page() === 'list') {
+  <section class="d-page" aria-labelledby="fw-demo-title">
+    <div class="d-head">
+      <div>
+        <h3 id="fw-demo-title">Gateway Firewall</h3>
+        <p>Manage gateway security policies and rules across your infrastructure.</p>
+      </div>
+      <div class="d-menu-wrap" (keydown.escape)="closeActions()">
+        <button type="button" class="d-btn d-btn--primary" aria-haspopup="true" [attr.aria-expanded]="actionsOpen()" (click)="toggleActions($event)">ACTIONS<fa-icon [icon]="i.chevron" aria-hidden="true" /></button>
+        @if (actionsOpen()) {
+          <div class="d-menu">
+            <button type="button" (click)="saveDraft()"><fa-icon [icon]="i.save" aria-hidden="true" />Save as a draft</button>
+            <button type="button" (click)="exportConfig()"><fa-icon [icon]="i.export" aria-hidden="true" />Export FW configuration</button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="fw-toolbar" role="toolbar" aria-label="Policies and rules">
+      <button type="button" class="d-btn d-btn--primary d-btn--sm" (click)="openAddPolicy()"><fa-icon [icon]="i.addPolicy" aria-hidden="true" />ADD POLICY</button>
+      <button type="button" class="d-btn d-btn--outline d-btn--sm" [disabled]="!selectedPolicy() || !!addingTo()" aria-describedby="fw-tip" (click)="startAddRule()"><fa-icon [icon]="i.plus" aria-hidden="true" />ADD RULE</button>
+      <span class="fw-sep" aria-hidden="true"></span>
+      <button type="button" class="d-btn d-btn--sm" [disabled]="selected().length !== 1" (click)="clone()"><fa-icon [icon]="i.clone" aria-hidden="true" />CLONE</button>
+      <button type="button" class="d-btn d-btn--sm" [disabled]="!canUndo()" (click)="undo()"><fa-icon [icon]="i.undo" aria-hidden="true" />UNDO</button>
+      <span class="fw-sep" aria-hidden="true"></span>
+      <button type="button" class="d-btn d-btn--sm fw-danger" [disabled]="!selected().length" (click)="askDeleteSelected()"><fa-icon [icon]="i.trash" aria-hidden="true" />DELETE</button>
+    </div>
+    <p class="fw-tip" id="fw-tip">
+      @if (selected().length) { {{ selected().length }} selected. }
+      Tick one policy to add a rule to it. Use the pencil to rename a policy or rule.
+    </p>
+
+    <div class="d-table-wrap fw-wrap" tabindex="0" role="region" aria-label="Gateway firewall policies and rules">
+      <table class="d-table fw-table">
+        <caption class="sr-only">Gateway firewall policies, each followed by its rules</caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th><th scope="col">ID</th><th scope="col">Sources</th><th scope="col">Destinations</th>
+            <th scope="col">Services</th><th scope="col">Profiles</th><th scope="col">Action</th><th scope="col">Status</th>
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        @for (policy of policies(); track policy.id) {
+          <tbody>
+            <tr class="fw-policy">
+              <th scope="rowgroup" colspan="6">
+                <div class="fw-cell">
+                  <button type="button" class="fw-icon-btn" [attr.aria-expanded]="policy.isExpanded" [attr.aria-label]="(policy.isExpanded ? 'Collapse ' : 'Expand ') + policy.name" (click)="togglePolicy(policy)"><fa-icon [icon]="policy.isExpanded ? i.open : i.closed" aria-hidden="true" /></button>
+                  <input type="checkbox" class="fw-check" [checked]="isSelected(policy.id)" (change)="select(policy.id, $any($event.target).checked)" [attr.aria-label]="'Select policy ' + policy.name" />
+                  <ng-container *ngTemplateOutlet="name; context: { $implicit: policy.name, policyId: policy.id, ruleId: null }" />
+                  <span class="d-muted">{{ policy.policyId }}</span>
+                  <span class="fw-chip">{{ policy.rules.length }} {{ policy.rules.length === 1 ? 'Rule' : 'Rules' }}</span>
+                </div>
+              </th>
+              <td colspan="2"><span class="fw-success"><fa-icon [icon]="i.ok" aria-hidden="true" />Success</span></td>
+              <td class="fw-row-actions">
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Edit policy ' + policy.name" (click)="openEditPolicy(policy)"><fa-icon [icon]="i.edit" aria-hidden="true" /></button>
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost fw-danger" [attr.aria-label]="'Delete policy ' + policy.name" (click)="askDeletePolicy(policy)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+              </td>
+            </tr>
+            @if (policy.isExpanded) {
+              @for (rule of policy.rules; track rule.id) {
+                <tr class="fw-rule" [attr.data-action]="rule.action" [class.fw-rule--off]="!rule.enabled">
+                  <th scope="row">
+                    <div class="fw-cell fw-indent">
+                      <input type="checkbox" class="fw-check" [checked]="isSelected(rule.id)" (change)="select(rule.id, $any($event.target).checked)" [attr.aria-label]="'Select rule ' + rule.name" />
+                      <ng-container *ngTemplateOutlet="name; context: { $implicit: rule.name, policyId: policy.id, ruleId: rule.id }" />
+                    </div>
+                  </th>
+                  <td class="d-mono">{{ rule.ruleId }}</td>
+                  <td>{{ rule.sources }}</td>
+                  <td>{{ rule.destinations }}</td>
+                  <td>{{ rule.services }}</td>
+                  <td>{{ rule.profiles }}</td>
+                  <td>
+                    <div class="fw-action-cell">
+                      <div class="d-menu-wrap" (keydown.escape)="closeActionMenu()">
+                        <button type="button" [class]="'fw-action fw-action--' + actionTone(rule.action)" aria-haspopup="true" [attr.aria-expanded]="actionMenu() === rule.id" [attr.aria-label]="'Action for ' + rule.name + ': ' + rule.action" (click)="toggleActionMenu($event, rule.id)">
+                          <span class="fw-dot" aria-hidden="true"></span>{{ rule.action }}<fa-icon [icon]="i.chevron" aria-hidden="true" />
+                        </button>
+                        @if (actionMenu() === rule.id) {
+                          <div class="d-menu fw-action-menu" [class.fw-menu--up]="opensUp().has(rule.id)">
+                            @for (a of actions; track a) {
+                              <button type="button" [class]="'fw-action-item fw-action--' + actionTone(a)" (click)="setAction(policy, rule, a)">
+                                <span class="fw-dot" aria-hidden="true"></span>{{ a }}
+                                @if (a === rule.action) { <fa-icon class="fw-current" [icon]="i.check" aria-hidden="true" /><span class="sr-only">(current)</span> }
+                              </button>
+                            }
+                          </div>
+                        }
+                      </div>
+                      <input type="checkbox" role="switch" class="d-switch" [checked]="rule.enabled" (change)="setEnabled(policy, rule, $any($event.target).checked)" [attr.aria-label]="'Enable ' + rule.name" />
+                    </div>
+                  </td>
+                  <td>
+                    @if (rule.enabled) { <fa-icon class="fw-ok" [icon]="i.ok" aria-hidden="true" /><span class="sr-only">Published</span> }
+                    @else { <span class="d-muted">Disabled</span> }
+                  </td>
+                  <td class="fw-row-actions">
+                    <button type="button" class="d-btn d-btn--icon d-btn--ghost fw-danger" [attr.aria-label]="'Delete rule ' + rule.name" (click)="askDeleteRule(rule)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+                  </td>
+                </tr>
+              }
+              @if (addingTo() === policy.id) {
+                <tr class="fw-new">
+                  <th scope="row">
+                    <div class="fw-cell fw-indent">
+                      <fa-icon class="fw-ok" [icon]="i.plus" aria-hidden="true" />
+                      <input id="fw-new-rule-name" class="d-input fw-inline" placeholder="Enter rule name" aria-label="New rule name" [value]="newRule().name" (input)="setNewRule('name', $any($event.target).value)" (keydown.enter)="saveNewRule()" (keydown.escape)="cancelNewRule()" [attr.aria-invalid]="newRuleError() && !newRule().name.trim()" [attr.aria-describedby]="newRuleError() && !newRule().name.trim() ? 'fw-new-err' : null" />
+                    </div>
+                    @if (newRuleError() && !newRule().name.trim()) { <p class="d-error" id="fw-new-err">Enter a rule name.</p> }
+                  </th>
+                  <td class="d-muted">(New)</td>
+                  <td><select class="d-select fw-inline" aria-label="New rule sources" (change)="setNewRule('sources', $any($event.target).value)">@for (g of groups; track g) { <option [selected]="newRule().sources === g">{{ g }}</option> }</select></td>
+                  <td><select class="d-select fw-inline" aria-label="New rule destinations" (change)="setNewRule('destinations', $any($event.target).value)">@for (g of groups; track g) { <option [selected]="newRule().destinations === g">{{ g }}</option> }</select></td>
+                  <td><select class="d-select fw-inline" aria-label="New rule services" (change)="setNewRule('services', $any($event.target).value)">@for (s of services; track s) { <option [selected]="newRule().services === s">{{ s }}</option> }</select></td>
+                  <td><select class="d-select fw-inline" aria-label="New rule profiles" (change)="setNewRule('profiles', $any($event.target).value)">@for (p of profiles; track p) { <option [selected]="newRule().profiles === p">{{ p }}</option> }</select></td>
+                  <td>
+                    <div class="fw-action-cell">
+                      <select [class]="'d-select fw-inline fw-action-select fw-action--' + actionTone(newRule().action)" aria-label="New rule action" (change)="setNewRule('action', $any($event.target).value)">@for (a of actions; track a) { <option [selected]="newRule().action === a">{{ a }}</option> }</select>
+                      <input type="checkbox" role="switch" class="d-switch" [checked]="newRule().enabled" (change)="setNewRule('enabled', $any($event.target).checked)" aria-label="Enable new rule" />
+                    </div>
+                  </td>
+                  <td></td>
+                  <td class="fw-row-actions">
+                    <button type="button" class="d-btn d-btn--icon d-btn--ghost fw-ok" aria-label="Save rule" (click)="saveNewRule()"><fa-icon [icon]="i.check" aria-hidden="true" /></button>
+                    <button type="button" class="d-btn d-btn--icon d-btn--ghost fw-danger" aria-label="Cancel new rule" (click)="cancelNewRule()"><fa-icon [icon]="i.cancel" aria-hidden="true" /></button>
+                  </td>
+                </tr>
+              } @else if (!policy.rules.length) {
+                <tr><td colspan="9" class="fw-none">No rules defined in this policy.</td></tr>
+              }
+            }
+          </tbody>
+        } @empty {
+          <tbody>
+            <tr>
+              <td colspan="9" class="fw-empty">
+                <fa-icon [icon]="i.shield" aria-hidden="true" />
+                <strong>No Gateway Policies</strong>
+                <span>You haven't created any gateway policies yet. Click "Add Policy" to get started.</span>
+                <button type="button" class="d-btn d-btn--primary" (click)="openAddPolicy()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create First Policy</button>
+              </td>
+            </tr>
+          </tbody>
+        }
+      </table>
+    </div>
+  </section>
+} @else {
+  <section class="d-page" aria-labelledby="fw-policy-title">
+    <div class="d-head">
+      <div>
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm fw-back" (click)="page.set('list')"><fa-icon [icon]="i.back" aria-hidden="true" />Gateway Firewall</button>
+        <h3 id="fw-policy-title">{{ editingPolicyId() ? 'Edit Gateway Firewall Policy' : 'Add Gateway Firewall Policy' }}</h3>
+      </div>
+    </div>
+    <form (submit)="savePolicy($event)" novalidate>
+      <div class="fw-policy-bar">
+        <label class="d-field fw-policy-name">
+          <span>Policy Name <span class="d-req" aria-hidden="true">*</span></span>
+          <input class="d-input" required [value]="policyName()" (input)="policyName.set($any($event.target).value)" [attr.aria-invalid]="pageSubmitted() && !!pageErrors().name" [attr.aria-describedby]="pageSubmitted() && pageErrors().name ? 'fw-err-pname' : null" />
+          @if (pageSubmitted() && pageErrors().name; as e) { <p class="d-error" id="fw-err-pname">{{ e }}</p> }
+        </label>
+        <button type="button" class="d-btn d-btn--outline" (click)="addPageRule()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Rule</button>
+      </div>
+
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Rules in this policy">
+        <table class="d-table fw-table">
+          <caption class="sr-only">Rules in this policy</caption>
+          <thead>
+            <tr>
+              <th scope="col">Name</th><th scope="col">Sources</th><th scope="col">Destinations</th><th scope="col">Services</th>
+              <th scope="col">Profiles</th><th scope="col">Applied To</th><th scope="col">Action</th><th scope="col">Status</th>
+              <th scope="col"><span class="sr-only">Remove</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (rule of pageRules(); track rule.key; let n = $index) {
+              <tr>
+                <td><input class="d-input fw-inline" [attr.aria-label]="'Name of rule ' + (n + 1)" [value]="rule.name" (input)="setPageRule(rule.key, 'name', $any($event.target).value)" [attr.aria-invalid]="pageSubmitted() && !rule.name.trim()" /></td>
+                <td><select class="d-select fw-inline" [attr.aria-label]="'Sources of rule ' + (n + 1)" (change)="setPageRule(rule.key, 'sources', $any($event.target).value)">@for (g of groups; track g) { <option [selected]="rule.sources === g">{{ g }}</option> }</select></td>
+                <td><select class="d-select fw-inline" [attr.aria-label]="'Destinations of rule ' + (n + 1)" (change)="setPageRule(rule.key, 'destinations', $any($event.target).value)">@for (g of groups; track g) { <option [selected]="rule.destinations === g">{{ g }}</option> }</select></td>
+                <td><select class="d-select fw-inline" [attr.aria-label]="'Services of rule ' + (n + 1)" (change)="setPageRule(rule.key, 'services', $any($event.target).value)">@for (s of services; track s) { <option [selected]="rule.services === s">{{ s }}</option> }</select></td>
+                <td><select class="d-select fw-inline" [attr.aria-label]="'Profiles of rule ' + (n + 1)" (change)="setPageRule(rule.key, 'profiles', $any($event.target).value)">@for (p of profiles; track p) { <option [selected]="rule.profiles === p">{{ p }}</option> }</select></td>
+                <td>{{ appliedTo }}</td>
+                <td><select [class]="'d-select fw-inline fw-action-select fw-action--' + actionTone(rule.action)" [attr.aria-label]="'Action of rule ' + (n + 1)" (change)="setPageRule(rule.key, 'action', $any($event.target).value)">@for (a of actions; track a) { <option [selected]="rule.action === a">{{ a }}</option> }</select></td>
+                <td><fa-icon class="fw-ok" [icon]="i.ok" aria-hidden="true" /><span class="sr-only">Valid</span></td>
+                <td class="fw-row-actions"><button type="button" class="d-btn d-btn--icon d-btn--ghost fw-danger" [attr.aria-label]="'Remove rule ' + (rule.name || n + 1)" (click)="removePageRule(rule.key)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button></td>
+              </tr>
+            } @empty {
+              <tr><td colspan="9" class="fw-none">No rules added yet. Click "Add Rule" to get started.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      @if (pageSubmitted() && pageErrors().rules; as e) { <p class="d-error" role="alert">{{ e }}</p> }
+
+      <div class="fw-form-actions">
+        <button type="button" class="d-btn" (click)="page.set('list')">Cancel</button>
+        <button type="submit" class="d-btn d-btn--primary">Save</button>
+      </div>
+    </form>
+  </section>
+}
+
+<!-- The editable-name control: the name, a pencil to rename it, and the inline field while renaming. -->
+<ng-template #name let-label let-policyId="policyId" let-ruleId="ruleId">
+  @if (isRenaming(policyId, ruleId)) {
+    <input id="fw-rename" class="d-input fw-inline" [attr.aria-label]="'Rename ' + label" [value]="renaming()?.value ?? ''" (input)="setRenameValue($any($event.target).value)" (keydown.enter)="$event.preventDefault(); saveRename()" (keydown.escape)="cancelRename()" (blur)="saveRename(true)" />
+  } @else {
+    <span class="fw-name" [class.fw-name--policy]="!ruleId" (dblclick)="startRename(policyId, ruleId, label)">{{ label }}</span>
+    <button type="button" class="fw-icon-btn fw-rename" [attr.data-rename]="ruleId ?? policyId" [attr.aria-label]="'Rename ' + label" (click)="startRename(policyId, ruleId, label)"><fa-icon [icon]="i.rename" aria-hidden="true" /></button>
+  }
+</ng-template>
+
+@if (deleting(); as d) {
+  <app-demo-dialog [title]="d.title" (closed)="deleting.set(null)">
+    <div class="fw-dialog">
+      <fa-icon class="fw-dialog__icon" [icon]="i.warn" aria-hidden="true" />
+      <div>
+        <p>This action will delete {{ d.label }}. You can bring it back with UNDO.</p>
+        <p>To confirm, please type <strong>{{ d.confirmText }}</strong> below.</p>
+      </div>
+    </div>
+    <label class="d-field">
+      <span class="sr-only">Confirmation</span>
+      <input class="d-input" autocomplete="off" [placeholder]="d.confirmText" [value]="deleteTyped()" (input)="deleteTyped.set($any($event.target).value)" (keydown.enter)="confirmDelete()" />
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" [disabled]="deleteTyped() !== d.confirmText" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

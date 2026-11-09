@@ -1,0 +1,65 @@
+/* Posta Link home: hero, quick actions, meeting lists and the week's stats (Dashboard.css). */
+.wd{display:grid;gap:18px}
+
+.wd-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.wd-hero-left{display:grid;gap:6px;min-width:0}
+.wd-greeting{margin:0;font-size:30px;font-weight:600;line-height:1.1;letter-spacing:-.02em;color:var(--d-ink)}
+.wd-greeting em{font-style:normal;font-weight:700;color:var(--d-green-text)}
+.wd-sub{margin:0;font-size:13.5px;color:var(--d-mut)}
+.wd-hero-right{display:grid;justify-items:end;gap:2px;flex:none;margin:0}
+.wd-date{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--d-mut)}
+.wd-clock{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:24px;font-weight:300;line-height:1.1;color:var(--d-mut);font-variant-numeric:tabular-nums}
+
+/* Quick actions: the three cards, the first one the accent. */
+.wd-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.wd-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:18px 16px;border:1px solid var(--d-line);border-radius:14px;background:var(--d-card);color:var(--d-ink);text-align:left;cursor:pointer;box-shadow:0 1px 2px rgb(15 23 42 / .05);transition:background .15s,border-color .15s}
+.wd-card:hover{background:var(--d-soft);border-color:color-mix(in srgb,var(--d-mut) 45%,transparent)}
+.wd-card--primary{border-color:var(--d-green);box-shadow:0 0 0 1px var(--d-green),0 0 20px -6px rgb(103 154 65 / .25)}
+.wd-card-icon{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--d-line);border-radius:10px;background:var(--d-soft);color:var(--d-green-text);font-size:16px}
+.wd-card--primary .wd-card-icon{border-color:var(--d-green);background:var(--d-green);color:var(--d-green-ink)}
+.wd-card-body{display:grid;gap:4px;flex:1}
+.wd-card-title{font-size:14.5px;font-weight:700}
+.wd-card-desc{font-size:12.5px;color:var(--d-mut);line-height:1.45}
+.wd-card-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--d-green-text)}
+.wd-card-link fa-icon{font-size:11px}
+
+/* Meeting lists */
+.wd-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start}
+.wd-section{padding:14px 16px;border:1px solid var(--d-line);border-radius:12px;background:var(--d-card)}
+.wd-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
+.wd-section-head h4{margin:0;font-size:15px;font-weight:700;color:var(--d-ink)}
+.wd-accent{color:var(--d-green-text)}
+.wd-count{font-size:11.5px;color:var(--d-mut);white-space:nowrap}
+.wd-rows{margin:0;padding:0;list-style:none}
+.wd-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--d-line)}
+.wd-row:first-child{border-top:0}
+.wd-row-time{display:grid;flex:none;width:64px}
+.wd-row-day{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--d-green-text)}
+.wd-row-hour{font-size:12.5px;font-weight:600;color:var(--d-ink);font-variant-numeric:tabular-nums}
+.wd-row-info{display:grid;flex:1;gap:2px;min-width:0}
+.wd-row-title{overflow:hidden;font-size:13px;font-weight:600;color:var(--d-ink);white-space:nowrap;text-overflow:ellipsis}
+.wd-row-sub{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:11.5px;color:var(--d-mut)}
+.wd-live{display:inline-flex;align-items:center;gap:5px;padding:1px 7px;border-radius:999px;background:var(--d-red-soft);color:var(--d-red);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.wd-live-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+@media (prefers-reduced-motion:no-preference){.wd-live-dot{animation:wd-pulse 1.6s ease-in-out infinite}}
+@keyframes wd-pulse{50%{opacity:.35}}
+.wd-ended{flex:none;padding:2px 8px;border-radius:999px;background:var(--d-soft);font-size:11px;font-weight:600;color:var(--d-mut)}
+.wd-more{margin:6px 0 0;font-size:12px}
+
+/* Stats */
+.wd-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.wd-stat{display:grid;gap:4px;margin:0;padding:14px 16px;border:1px solid var(--d-line);border-radius:12px;background:var(--d-card)}
+.wd-stat-value{font-size:22px;font-weight:700;color:var(--d-ink);font-variant-numeric:tabular-nums}
+.wd-stat-label{font-size:11.5px;line-height:1.35;color:var(--d-mut)}
+
+@container (max-width:760px){
+  .wd-actions{grid-template-columns:minmax(0,1fr)}
+  .wd-card{flex-direction:row;align-items:center}
+  .wd-card-link{display:none}
+  .wd-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@container (max-width:480px){
+  .wd-hero{flex-direction:column;gap:8px}
+  .wd-hero-right{justify-items:start}
+  .wd-greeting{font-size:24px}
+}

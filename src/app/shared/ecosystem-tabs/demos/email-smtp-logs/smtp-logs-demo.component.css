@@ -1,0 +1,62 @@
+/* SMTP Logs: Statistics / SMTP Logs tabs, the log explorer and the details panel. */
+.smtp-tabs{display:inline-flex;gap:2px;margin-bottom:14px;padding:3px;border-radius:8px;background:color-mix(in srgb,var(--d-mut) 14%,transparent)}
+.smtp-tabs button{min-height:32px;padding:5px 14px;border:0;border-radius:6px;background:transparent;color:var(--d-mut);font-size:12.5px;font-weight:600;cursor:pointer}
+.smtp-tabs button:hover{color:var(--d-ink)}
+.smtp-tabs button[aria-selected='true']{background:var(--d-card);color:var(--d-green-text);box-shadow:0 1px 2px rgb(15 23 42 / .08)}
+
+/* Statistics */
+.smtp-block{margin-bottom:16px}
+.smtp-block__head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.smtp-h3{margin:0;font-size:17px;font-weight:700;color:var(--d-ink)}
+.smtp-sub{font-size:12.5px;font-weight:400;color:var(--d-mut)}
+.smtp-h4{margin:0;font-size:14px;font-weight:700;color:var(--d-ink)}
+.smtp-note{margin:2px 0 12px;font-size:12px}
+.smtp-pick{flex:0 1 240px}
+.smtp-pick--sm{flex-basis:170px}
+.smtp-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px;margin:0;padding:0;list-style:none}
+.smtp-stat{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 9px;padding:10px 12px;border:1px solid var(--d-line);border-radius:10px;background:var(--d-card)}
+.smtp-stat__ic{grid-row:span 2;font-size:17px}
+.smtp-stat__title{font-size:11.5px;color:var(--d-mut)}
+.smtp-stat__value{font-size:18px;line-height:1.1;color:var(--d-ink)}
+[data-tone='blue']{color:var(--d-blue)}
+[data-tone='green']{color:var(--d-green-text)}
+[data-tone='amber']{color:var(--d-amber)}
+[data-tone='red']{color:var(--d-red)}
+.smtp-class{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.smtp-class li{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr) 64px;align-items:center;gap:10px;font-size:12.5px}
+.smtp-class li strong{text-align:right;color:var(--d-ink)}
+.smtp-class__label{display:flex;align-items:center;gap:8px;color:var(--d-mut)}
+.smtp-swatch{width:11px;height:11px;border-radius:3px;background:currentColor}
+.smtp-class__bar{height:8px;border-radius:999px;background:color-mix(in srgb,var(--d-mut) 16%,transparent);overflow:hidden}
+.smtp-class__bar span{display:block;height:100%;min-width:2px;border-radius:inherit;background:currentColor;transition:width .3s}
+.smtp-class li.smtp-class__total{grid-template-columns:1fr auto;padding-top:9px;border-top:1px solid var(--d-line);font-weight:700}
+
+/* Log explorer */
+.smtp-right{text-align:right}
+th.smtp-right{text-align:right}
+.d-table tbody th.smtp-subject{max-width:220px;overflow:hidden;font-weight:500;text-overflow:ellipsis;color:var(--d-ink)}
+.smtp-tag{margin-left:5px}
+.smtp-pill{text-transform:none}
+.d-pill--neutral{background:var(--d-soft);color:var(--d-mut)}
+.smtp-none{padding:32px 10px!important;color:var(--d-mut);text-align:center}
+.smtp-pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px 14px;margin-top:10px;font-size:12.5px}
+.smtp-pager__rows{display:inline-flex;align-items:center;gap:8px}
+.smtp-pager__rows .d-select{width:auto;min-height:30px;padding:4px 8px}
+.smtp-pager__nav{display:inline-flex;gap:2px}
+
+/* Filters and details */
+.smtp-statuses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px}
+.smtp-statuses legend{margin-bottom:8px}
+.smtp-details{display:grid;gap:12px;margin:0}
+.smtp-details div{display:grid;gap:3px}
+.smtp-details dt{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--d-mut)}
+.smtp-details dd{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0;overflow-wrap:anywhere}
+.smtp-held{margin:16px 0 0;padding:10px 12px;border-left:4px solid var(--d-amber);border-radius:0 7px 7px 0;background:var(--d-amber-soft);color:var(--d-amber);font-weight:600}
+.smtp-dialog-text{margin:0}
+
+@container (max-width:520px){
+  .smtp-class li{grid-template-columns:minmax(0,1fr) 56px}
+  .smtp-class__bar{grid-column:1 / -1;grid-row:2}
+  .smtp-statuses{grid-template-columns:minmax(0,1fr)}
+  .smtp-pick,.smtp-pick--sm{flex-basis:100%}
+}

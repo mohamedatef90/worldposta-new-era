@@ -1,0 +1,16 @@
+/* Kubernetes clusters: the portal stub's table in the CloudEdge console look. */
+.cek-right{text-align:right!important}
+td.cek-right > .d-menu-wrap{display:inline-block}
+.cek-menu-up{top:auto;bottom:calc(100% + 4px)}
+.cek-name{color:var(--d-ink)}
+.cek-name__icon{margin-right:8px;color:var(--d-mut)}
+.cek-pill--muted{background:var(--d-soft);color:var(--d-ink)}
+.cek-ic-green{color:var(--d-green-text)}
+.cek-ic-red{color:var(--d-red)}
+.cek-text{margin:0 0 12px;color:var(--d-ink)}
+.cek-stepper{display:flex;align-items:center;gap:8px}
+.cek-stepper .d-field{flex:0 1 110px;margin:0}
+.cek-stepper input{text-align:center}
+.cek-confirm{display:flex;gap:12px;margin-bottom:12px}
+.cek-confirm p{margin:0 0 8px}
+.cek-confirm__icon{display:grid;flex:none;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--d-red-soft);color:var(--d-red)}

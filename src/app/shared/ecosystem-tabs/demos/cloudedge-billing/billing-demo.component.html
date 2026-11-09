@@ -1,0 +1,261 @@
+<div class="d-seg bl-views" role="group" aria-label="Cost management">
+  @for (v of views; track v.id) {
+    <button type="button" [attr.aria-pressed]="view() === v.id" (click)="view.set(v.id)">{{ v.label }}</button>
+  }
+</div>
+
+@switch (view()) {
+  @case ('reservations') {
+    <section class="d-page" aria-labelledby="bl-res-title">
+      <div class="d-head">
+        <div>
+          <h3 id="bl-res-title">Reservations</h3>
+          <p>Manage your resource reservations to ensure capacity and receive discounts.</p>
+        </div>
+      </div>
+      <div class="bl-bar">
+        <button type="button" class="d-btn d-btn--primary" (click)="view.set('configure')"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Reservation</button>
+        <label class="d-search">
+          <span class="sr-only">Search reservations</span>
+          <fa-icon [icon]="i.search" aria-hidden="true" />
+          <input class="d-input" type="search" placeholder="Search reservations..." [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
+        </label>
+      </div>
+      <p class="sr-only" aria-live="polite">{{ filteredReservations().length }} reservations shown</p>
+
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Reservations table">
+        <table class="d-table">
+          <caption class="sr-only">Reservations</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="bl-narrow"><span class="sr-only">Add-ons</span></th>
+              @for (c of columns; track c.id) {
+                <th scope="col" [attr.aria-sort]="ariaSort(c.id)">
+                  <button type="button" class="bl-sort" (click)="setSort(c.id)">
+                    {{ c.label }}
+                    <fa-icon [icon]="sortDirection() === 'asc' ? i.up : i.down" [class.is-hidden]="sortColumn() !== c.id" aria-hidden="true" />
+                  </button>
+                </th>
+              }
+              <th scope="col" class="bl-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (res of filteredReservations(); track res.id) {
+              <tr>
+                <td>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost bl-expand" [attr.aria-expanded]="expandedId() === res.id" [attr.aria-controls]="'bl-addons-' + res.id" [attr.aria-label]="'Included add-ons for ' + res.name" (click)="toggleExpand(res.id)">
+                    <fa-icon [icon]="expandedId() === res.id ? i.open : i.closed" aria-hidden="true" />
+                  </button>
+                </td>
+                <th scope="row">{{ res.name }}</th>
+                <td><span class="bl-plan" [class.is-custom]="res.plan.type === 'Custom'">{{ res.plan.name }}</span></td>
+                <td><span [class]="'d-pill d-pill--' + statusTone[res.status]">{{ res.status }}</span></td>
+                <td>{{ formatDate(res.startDate) }}</td>
+                <td>{{ formatDate(res.endDate) }}</td>
+                <td class="bl-right">
+                  <button type="button" class="d-btn d-btn--sm d-btn--ghost bl-link" (click)="openDetails(res)">Details<span class="sr-only"> of {{ res.name }}</span></button>
+                </td>
+              </tr>
+              @if (expandedId() === res.id) {
+                <tr class="bl-addon-row" [id]="'bl-addons-' + res.id">
+                  <td></td>
+                  <td colspan="6">
+                    <h4 class="bl-addon-title">Included Add-ons:</h4>
+                    @if (includedAddons(res).length) {
+                      <ul class="bl-addons">
+                        @for (a of includedAddons(res); track a.name) {
+                          <li><fa-icon [icon]="addonIcon[a.name]" aria-hidden="true" />{{ a.name }} @if (a.quantity) { ({{ a.quantity }}) }</li>
+                        }
+                      </ul>
+                    } @else {
+                      <p class="d-muted bl-none">No add-ons included.</p>
+                    }
+                  </td>
+                </tr>
+              }
+            } @empty {
+              <tr>
+                <td colspan="7">
+                  <div class="bl-empty">
+                    <fa-icon [icon]="i.none" aria-hidden="true" />
+                    <strong>No reservations found</strong>
+                    Try adjusting your search or create a new reservation.
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  @case ('configure') {
+    <app-cloudedge-billing-configurator (saved)="onSaved($event)" (notice)="notify($event)" />
+  }
+
+  @case ('invoices') {
+    <section class="d-page" aria-labelledby="bl-inv-title">
+      <div class="d-head">
+        <div>
+          <h3 id="bl-inv-title">Invoice History</h3>
+          <p>Download, view and pay your WorldPosta invoices.</p>
+        </div>
+        <div class="d-seg" role="group" aria-label="Filter by status">
+          @for (f of invoiceFilters; track f.id) {
+            <button type="button" [attr.aria-pressed]="invoiceFilter() === f.id" (click)="invoiceFilter.set(f.id)">{{ f.label }} ({{ invoiceCount()[f.id] }})</button>
+          }
+        </div>
+      </div>
+      <p class="sr-only" aria-live="polite">{{ invoices().length }} invoices shown</p>
+      @if (invoices().length) {
+        <div class="d-table-wrap" tabindex="0" role="region" aria-label="Invoices table">
+          <table class="d-table">
+            <caption class="sr-only">Invoice history</caption>
+            <thead><tr><th scope="col">Invoice ID</th><th scope="col">Date</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col" class="bl-right">Actions</th></tr></thead>
+            <tbody>
+              @for (inv of invoices(); track inv.id) {
+                <tr>
+                  <th scope="row">{{ inv.id }}</th>
+                  <td>{{ formatDate(inv.date) }}</td>
+                  <td>${{ inv.amount | number: '1.2-2' }}</td>
+                  <td><span class="d-pill" [class.d-pill--good]="inv.status === 'Paid'" [class.d-pill--warn]="inv.status === 'Unpaid'">{{ inv.status }}</span></td>
+                  <td class="bl-right bl-row-actions">
+                    <button type="button" class="d-btn d-btn--sm d-btn--outline" (click)="downloadPdf(inv)"><fa-icon [icon]="i.download" aria-hidden="true" />Download PDF<span class="sr-only"> of {{ inv.id }}</span></button>
+                    <button type="button" class="d-btn d-btn--sm d-btn--primary" (click)="openInvoice(inv)">View Invoice<span class="sr-only"> {{ inv.id }}</span></button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="d-empty"><strong>No {{ invoiceFilter() === 'all' ? '' : invoiceFilter().toLowerCase() + ' ' }}invoices</strong>Invoices appear here once a billing period closes.</div>
+      }
+    </section>
+  }
+}
+
+@if (detail(); as res) {
+  <app-demo-dialog [title]="res.name" kind="panel" (closed)="closeDetails()">
+    <p class="bl-detail-status">
+      <span [class]="'d-pill d-pill--' + statusTone[res.status]">{{ res.status }}</span>
+      <span class="d-muted">Active from {{ formatDate(res.startDate) }} to {{ formatDate(res.endDate) }}</span>
+    </p>
+    <section class="d-section" aria-labelledby="bl-plan-h">
+      <h5 id="bl-plan-h">Plan Details</h5>
+      <div>
+        <dl class="bl-facts">
+          <div><dt>Plan Name</dt><dd>{{ res.plan.name }}</dd></div>
+          <div><dt>Plan Type</dt><dd>{{ res.plan.type }}</dd></div>
+          <div><dt>Cores</dt><dd>{{ res.plan.cores }} vCPU</dd></div>
+          <div><dt>RAM</dt><dd>{{ res.plan.ram }} GB</dd></div>
+          <div><dt>Storage</dt><dd>{{ res.plan.storage }} GB</dd></div>
+          @if (res.plan.price) { <div><dt>Monthly</dt><dd>${{ res.plan.price | number: '1.2-2' }}</dd></div> }
+        </dl>
+      </div>
+    </section>
+    <section class="d-section" aria-labelledby="bl-addons-h">
+      <h5 id="bl-addons-h">Included Add-ons</h5>
+      <div>
+        @if (includedAddons(res).length) {
+          <ul class="bl-addons">
+            @for (a of includedAddons(res); track a.name) {
+              <li><fa-icon [icon]="addonIcon[a.name]" aria-hidden="true" />{{ a.name }} @if (a.quantity) { ({{ a.quantity }}) }</li>
+            }
+          </ul>
+        } @else {
+          <p class="d-muted bl-none">No add-ons included.</p>
+        }
+      </div>
+    </section>
+    <div dialogActions>
+      @if (res.status === 'Active' || res.status === 'Pending') {
+        <button type="button" class="d-btn d-btn--outline" (click)="extend(res)"><fa-icon [icon]="i.extend" aria-hidden="true" />Extend Reservation</button>
+        <button type="button" class="d-btn bl-danger" (click)="confirm.set({ kind: 'cancel', reservation: res })"><fa-icon [icon]="i.ban" aria-hidden="true" />Cancel Reservation</button>
+      } @else {
+        @if (res.status === 'Expired') {
+          <button type="button" class="d-btn d-btn--outline" (click)="extend(res)"><fa-icon [icon]="i.extend" aria-hidden="true" />Extend Reservation</button>
+        }
+        <button type="button" class="d-btn bl-danger" (click)="confirm.set({ kind: 'delete', reservation: res })"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete Reservation</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+@if (confirm(); as c) {
+  <app-demo-dialog [title]="c.kind === 'cancel' ? 'Cancel Reservation' : 'Delete Reservation'" (closed)="confirm.set(null)">
+    @if (c.kind === 'cancel') {
+      <p class="bl-text">Are you sure you want to cancel <strong>{{ c.reservation.name }}</strong>? Reserved capacity is released and discounts stop at the end of the current billing period.</p>
+    } @else {
+      <p class="bl-text">Are you sure you want to delete <strong>{{ c.reservation.name }}</strong>? This action is permanent and cannot be undone.</p>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="confirm.set(null)">Keep it</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmAction()">{{ c.kind === 'cancel' ? 'Cancel Reservation' : 'Delete Reservation' }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (viewing(); as inv) {
+  <app-demo-dialog [title]="'Invoice ' + inv.id" [wide]="true" (closed)="closeInvoice()">
+    <div class="bl-invoice">
+      <div class="bl-inv-head">
+        <div class="d-muted">
+          <strong class="bl-ink">WorldPosta, Inc.</strong><br />789 Cloud Way, Suite 100<br />Internet City, 101010<br />Tax Reg #: WP123456789
+        </div>
+        <dl class="bl-inv-meta">
+          <div><dt>Invoice Date</dt><dd>{{ formatDate(inv.date) }}</dd></div>
+          <div><dt>Invoice Amount</dt><dd>${{ inv.amount | number: '1.2-2' }} (USD)</dd></div>
+          <div><dt>Customer ID</dt><dd>{{ billedTo.id }}</dd></div>
+          <div><dt>Status</dt><dd><span class="d-pill" [class.d-pill--good]="inv.status === 'Paid'" [class.d-pill--warn]="inv.status === 'Unpaid'">{{ inv.status }}</span></dd></div>
+        </dl>
+      </div>
+      <div class="bl-inv-parties">
+        <div>
+          <h5 class="bl-caps">Billed To</h5>
+          <p><strong>{{ billedTo.name }}</strong><br />@for (line of billedTo.address; track line) { {{ line }}<br /> }{{ billedTo.email }}</p>
+        </div>
+        <div>
+          <h5 class="bl-caps">Subscription</h5>
+          <p>ID {{ inv.subscriptionId }}<br />Billing Period {{ inv.billingPeriod }}<br />Next Billing Date {{ inv.nextBillingDate }}</p>
+        </div>
+      </div>
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Invoice line items">
+        <table class="d-table">
+          <caption class="sr-only">Line items of {{ inv.id }}</caption>
+          <thead><tr><th scope="col">Description</th><th scope="col" class="bl-right">Units</th><th scope="col" class="bl-right">Amount (USD)</th></tr></thead>
+          <tbody>
+            @for (line of inv.lineItems; track $index) {
+              <tr><th scope="row">{{ line.description }}</th><td class="bl-right">{{ line.units }}</td><td class="bl-right">${{ line.amount | number: '1.2-2' }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <dl class="bl-totals">
+        <div><dt>Sub Total</dt><dd>${{ inv.subTotal | number: '1.2-2' }}</dd></div>
+        <div><dt>{{ inv.tax.label }}</dt><dd>${{ inv.tax.amount | number: '1.2-2' }}</dd></div>
+        <div class="is-strong"><dt>Total</dt><dd>${{ inv.subTotal + inv.tax.amount | number: '1.2-2' }}</dd></div>
+        <div><dt>Payments</dt><dd>${{ inv.payments | number: '1.2-2' }}</dd></div>
+        <div class="is-due"><dt>Amount Due (USD)</dt><dd>${{ inv.amountDue | number: '1.2-2' }}</dd></div>
+      </dl>
+      <h5 class="bl-caps">Payments</h5>
+      <p class="d-muted">{{ inv.paymentDetails }}</p>
+    </div>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--outline" (click)="downloadPdf(inv)"><fa-icon [icon]="i.download" aria-hidden="true" />Download PDF</button>
+      @if (inv.status === 'Unpaid') {
+        <button type="button" class="d-btn d-btn--primary" (click)="pay(inv)">Pay ${{ inv.amountDue | number: '1.2-2' }}</button>
+      } @else {
+        <button type="button" class="d-btn" (click)="closeInvoice()">Close</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

@@ -1,0 +1,70 @@
+/* Gateway Firewall: policy groups, their rules and the add/edit policy page. */
+.fw-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.fw-sep{width:1px;height:22px;margin:0 4px;background:var(--d-line)}
+.fw-tip{margin:8px 0 12px;font-size:12px;color:var(--d-mut)}
+.fw-danger{color:var(--d-red)}
+.fw-ok{color:var(--d-green-text)}
+
+/* Room for the action menu to open without being clipped by the scrolling table. */
+.fw-wrap{min-height:240px}
+.fw-table td,.fw-table tbody th{vertical-align:middle}
+.fw-policy > *{background:var(--d-soft)}
+.fw-cell{display:flex;align-items:center;gap:8px;min-width:0}
+.fw-indent{padding-left:28px}
+.fw-check{flex:none;width:15px;height:15px;margin:0;accent-color:var(--d-green)}
+.fw-icon-btn{display:grid;place-items:center;flex:none;width:26px;height:26px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--d-mut);cursor:pointer}
+.fw-icon-btn:hover{background:color-mix(in srgb,var(--d-mut) 14%,transparent);color:var(--d-ink)}
+.fw-rename{width:22px;height:22px;font-size:10.5px;opacity:.6}
+.fw-cell:hover .fw-rename,.fw-rename:focus-visible{opacity:1}
+.fw-name{font-weight:500;color:var(--d-ink)}
+.fw-name--policy{font-weight:700}
+.fw-chip{padding:1px 8px;border-radius:999px;background:color-mix(in srgb,var(--d-mut) 16%,transparent);color:var(--d-ink);font-size:11px;font-weight:600}
+.fw-success{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--d-green-text)}
+.fw-row-actions{text-align:right}
+.fw-row-actions .d-btn{display:inline-flex;vertical-align:middle}
+
+/* Each rule is coloured by its action, on its leading edge and in its dropdown. */
+.fw-rule > :first-child{box-shadow:inset 3px 0 0 var(--fw-tone,transparent)}
+.fw-rule[data-action='Allow']{--fw-tone:var(--d-green)}
+.fw-rule[data-action='Drop']{--fw-tone:#b7791f}
+.fw-rule[data-action='Reject']{--fw-tone:var(--d-red)}
+.fw-rule--off > *{color:var(--d-mut)}
+.fw-rule--off .fw-name{color:var(--d-mut);text-decoration:line-through}
+.fw-action-cell{display:flex;align-items:center;gap:10px}
+.fw-action{display:inline-flex;align-items:center;gap:7px;min-width:96px;min-height:30px;padding:4px 9px;border:1px solid var(--d-line);border-radius:7px;background:var(--d-card);font-size:12.5px;font-weight:700;cursor:pointer}
+.fw-action fa-icon{margin-left:auto;font-size:10px;color:var(--d-mut)}
+.fw-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.fw-action--good{color:var(--d-green-text)}
+.fw-action--warn{color:var(--d-amber)}
+.fw-action--bad{color:var(--d-red)}
+.fw-action-menu{left:0;right:auto;min-width:140px}
+.fw-menu--up{top:auto;bottom:calc(100% + 4px)}
+.d-menu .fw-action-item{font-weight:700}
+.d-menu .fw-action--good{color:var(--d-green-text)}
+.d-menu .fw-action--warn{color:var(--d-amber)}
+.d-menu .fw-action--bad{color:var(--d-red)}
+.fw-current{margin-left:auto}
+.fw-action-select{width:auto;font-weight:700}
+
+.fw-new > *{background:var(--d-green-soft)}
+.fw-inline{min-width:130px;min-height:30px;padding:4px 8px;font-size:12.5px}
+.fw-none{padding:18px 10px!important;text-align:center;font-style:italic;color:var(--d-mut)}
+.fw-empty{padding:36px 10px!important;text-align:center;white-space:normal!important;color:var(--d-mut)}
+.fw-empty fa-icon{display:block;margin-bottom:8px;font-size:28px}
+.fw-empty strong{display:block;margin-bottom:2px;font-size:14px;color:var(--d-ink)}
+.fw-empty span{display:block;margin-bottom:12px}
+
+.fw-back{margin:0 0 6px -8px;color:var(--d-mut)}
+.fw-policy-bar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:14px}
+.fw-policy-bar .d-btn{margin-bottom:12px}
+.fw-policy-name{flex:1 1 240px;max-width:360px}
+.fw-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--d-line)}
+
+.fw-dialog{display:flex;gap:12px;margin-bottom:12px}
+.fw-dialog p{margin:0 0 8px}
+.fw-dialog__icon{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--d-red-soft);color:var(--d-red)}
+
+@container (max-width:620px){
+  .fw-sep{display:none}
+  .fw-policy-name{max-width:none}
+}

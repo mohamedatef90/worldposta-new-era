@@ -1,0 +1,310 @@
+<div class="d-seg tsk-switch" role="group" aria-label="Automation pages">
+  <button type="button" [attr.aria-pressed]="view() === 'scheduled'" (click)="view.set('scheduled')"><fa-icon [icon]="i.clock" aria-hidden="true" />Scheduled Tasks</button>
+  <button type="button" [attr.aria-pressed]="view() === 'running'" (click)="view.set('running')">
+    <fa-icon [icon]="i.running" aria-hidden="true" />Running Tasks
+    @if (runningCount()) { <span class="tsk-badge">{{ runningCount() }}<span class="sr-only"> running</span></span> }
+  </button>
+</div>
+
+@if (view() === 'scheduled') {
+  <section class="d-page" aria-labelledby="tsk-title">
+    <div class="d-head">
+      <div>
+        <h3 id="tsk-title">Scheduled Tasks</h3>
+        <p>Automate routine operations by scheduling tasks to run at specific times.</p>
+      </div>
+    </div>
+    <div class="tsk-bar">
+      <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Task</button>
+      <label class="d-search">
+        <span class="sr-only">Search tasks</span>
+        <fa-icon [icon]="i.search" aria-hidden="true" />
+        <input class="d-input" type="search" placeholder="Search tasks..." [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
+      </label>
+    </div>
+
+    <div class="d-table-wrap" tabindex="0" role="region" aria-label="Scheduled tasks table">
+      <table class="d-table">
+        <caption class="sr-only">Scheduled tasks, grouped</caption>
+        <thead>
+          <tr>
+            <th scope="col">Status</th><th scope="col">Action / Group</th><th scope="col">Recurring</th><th scope="col">Object</th>
+            <th scope="col">Type</th><th scope="col">Start / End Date</th><th scope="col">Recurring Time</th><th scope="col">Max Count</th>
+            <th scope="col" class="tsk-right">Actions</th>
+          </tr>
+        </thead>
+        @for (group of filteredGroups(); track group.id) {
+          <tbody>
+            <tr class="tsk-group">
+              <td><input type="checkbox" role="switch" class="d-switch" [checked]="group.status === 'Enabled'" (change)="setGroupStatus(group, $any($event.target).checked)" [attr.aria-label]="'Run tasks in ' + group.name" /></td>
+              <th scope="rowgroup" colspan="8">
+                <button type="button" class="tsk-group-btn" [attr.aria-expanded]="group.isExpanded" (click)="toggleGroup(group)">
+                  <fa-icon [icon]="group.isExpanded ? i.open : i.closed" aria-hidden="true" />
+                  <span class="tsk-group-name">{{ group.name }}</span>
+                  <span class="tsk-chip">{{ group.tasks.length }} Tasks</span>
+                  @if (group.status === 'Disabled') { <span class="d-pill d-pill--warn">Paused</span> }
+                </button>
+              </th>
+            </tr>
+            @if (group.isExpanded) {
+              @for (t of group.tasks; track t.id) {
+                <tr [class.tsk-off]="t.status === 'Disabled' || group.status === 'Disabled'">
+                  <td><input type="checkbox" role="switch" class="d-switch" [checked]="t.status === 'Enabled'" (change)="setTaskStatus(group, t, $any($event.target).checked)" [attr.aria-label]="'Enable ' + (t.name || t.action)" /></td>
+                  <th scope="row" class="tsk-action">
+                    {{ t.action }}
+                    @if (t.name && t.name !== t.action) { <span class="tsk-sub">{{ t.name }}</span> }
+                  </th>
+                  <td>{{ recurringLabel(t) }}</td>
+                  <td>{{ t.objectName }}</td>
+                  <td>{{ t.type }}</td>
+                  <td>{{ t.startDate }} / {{ t.endDate || 'Never' }}</td>
+                  <td>{{ t.recurringTime ? t.recurringTime + ' UTC' : 'N/A' }}</td>
+                  <td>{{ t.maxCount }}</td>
+                  <td class="tsk-right">
+                    <div class="d-menu-wrap tsk-menu-wrap" (keydown.escape)="closeMenu()">
+                      <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + (t.name || t.action)" [attr.aria-expanded]="openMenu() === t.id" aria-haspopup="true" (click)="toggleMenu($event, t.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                      @if (openMenu() === t.id) {
+                        <div class="d-menu tsk-menu" [style.top.px]="menuPos().top" [style.bottom.px]="menuPos().bottom" [style.right.px]="menuPos().right">
+                          <button type="button" (click)="runNow(t)"><fa-icon [icon]="i.play" aria-hidden="true" />Run now</button>
+                          <button type="button" (click)="openEdit(group, t)"><fa-icon [icon]="i.edit" aria-hidden="true" />Edit</button>
+                          <button type="button" (click)="setTaskStatus(group, t, t.status === 'Disabled', true)"><fa-icon [icon]="t.status === 'Enabled' ? i.ban : i.play" aria-hidden="true" />{{ t.status === 'Enabled' ? 'Disable' : 'Enable' }}</button>
+                          <button type="button" (click)="openLog(t)"><fa-icon [icon]="i.log" aria-hidden="true" />Log</button>
+                          <hr />
+                          <button type="button" class="is-danger" (click)="askDelete(group, t)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                        </div>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr><td colspan="9" class="tsk-none">No tasks found in this group.</td></tr>
+              }
+            }
+          </tbody>
+        } @empty {
+          <tbody>
+            <tr>
+              <td colspan="9" class="tsk-empty">
+                <fa-icon [icon]="i.clock" aria-hidden="true" />
+                <strong>No scheduled tasks found.</strong>
+                <span>You haven't set up any recurring or scheduled operations yet. Create a task to automate routine workflows.</span>
+                <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Task</button>
+              </td>
+            </tr>
+          </tbody>
+        }
+      </table>
+    </div>
+  </section>
+} @else {
+  <section class="d-page" aria-labelledby="tsk-run-title">
+    <div class="d-head">
+      <div>
+        <h3 id="tsk-run-title">Running Tasks</h3>
+        <p>Monitor all currently running and recently completed tasks.</p>
+      </div>
+    </div>
+    <div class="tsk-bar">
+      <button type="button" class="d-btn" [disabled]="refreshing()" (click)="refresh()"><fa-icon [class.tsk-spin]="refreshing()" [icon]="i.refresh" aria-hidden="true" />Refresh</button>
+      <label class="tsk-filter">
+        <span class="sr-only">Filter by status</span>
+        <select class="d-select" (change)="statusFilter.set($any($event.target).value)">
+          @for (s of statusOptions; track s) { <option [value]="s" [selected]="statusFilter() === s">{{ s === 'all' ? 'All Statuses' : s }}</option> }
+        </select>
+      </label>
+    </div>
+    <p class="sr-only" aria-live="polite">{{ filteredRuns().length }} tasks shown</p>
+
+    <div class="d-table-wrap" tabindex="0" role="region" aria-label="Running tasks table">
+      <table class="d-table">
+        <caption class="sr-only">Running and recently completed tasks</caption>
+        <thead>
+          <tr><th scope="col">Task</th><th scope="col">Target</th><th scope="col">Status</th><th scope="col">Progress</th><th scope="col">Start Time</th><th scope="col">End Time</th><th scope="col">Initiated By</th></tr>
+        </thead>
+        <tbody>
+          @for (run of filteredRuns(); track run.id) {
+            <tr>
+              <th scope="row"><span class="tsk-action">{{ run.taskName }}</span><span class="tsk-sub">{{ run.action }}</span></th>
+              <td>{{ run.targetResource }}</td>
+              <td>
+                <span [class]="'d-pill d-pill--' + runStyle[run.status].tone">
+                  <fa-icon [class.tsk-spin]="run.status === 'Running'" [icon]="runStyle[run.status].icon" aria-hidden="true" />{{ run.status }}
+                </span>
+              </td>
+              <td>
+                @if (run.status === 'Running') {
+                  <span class="tsk-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="run.progress" [attr.aria-label]="run.taskName + ' progress'"><span [style.width.%]="run.progress"></span></span>
+                  <span class="tsk-pct">{{ run.progress }}%</span>
+                } @else {
+                  <span class="d-muted">--</span>
+                }
+              </td>
+              <td>{{ run.startTime }}</td>
+              <td>{{ run.endTime ?? 'In Progress' }}</td>
+              <td>{{ run.initiatedBy }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="tsk-empty">
+                <fa-icon [icon]="i.running" aria-hidden="true" />
+                <strong>No running tasks found.</strong>
+                <span>Tasks in progress will appear here.</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+@if (taskDialog(); as dlg) {
+  <app-demo-dialog [title]="dlg.id ? 'Edit Task' : 'Create New Task'" (closed)="taskDialog.set(null)">
+    <label class="d-field">
+      <span>Name <span class="d-req" aria-hidden="true">*</span></span>
+      <input class="d-input" required placeholder="Enter task name" [value]="main().name" (input)="setMain('name', $any($event.target).value)" [attr.aria-invalid]="mainSubmitted() && !!mainErrors().name" [attr.aria-describedby]="mainSubmitted() && mainErrors().name ? 'tsk-err-name' : null" />
+      @if (mainSubmitted() && mainErrors().name; as e) { <p class="d-error" id="tsk-err-name">{{ e }}</p> }
+    </label>
+    <div class="d-grid">
+      <label class="d-field">
+        <span>Group</span>
+        <select class="d-select" (change)="setMain('groupId', $any($event.target).value)">
+          @for (g of groups(); track g.id) { <option [value]="g.id" [selected]="main().groupId === g.id">{{ g.name }}</option> }
+        </select>
+      </label>
+      <label class="d-field">
+        <span>Reservation</span>
+        <select class="d-select" (change)="setMain('reservation', $any($event.target).value)">
+          <option value="" disabled [selected]="!main().reservation">Select a reservation</option>
+          @for (r of reservations; track r) { <option [value]="r" [selected]="main().reservation === r">{{ r }}</option> }
+        </select>
+      </label>
+    </div>
+    <label class="d-field">
+      <span>Description</span>
+      <textarea class="d-textarea" rows="2" placeholder="Optional description" [value]="main().description" (input)="setMain('description', $any($event.target).value)"></textarea>
+    </label>
+    <div class="d-field">
+      <button type="button" class="d-btn d-btn--outline" [attr.aria-describedby]="mainSubmitted() && mainErrors().details ? 'tsk-err-details' : 'tsk-details-summary'" (click)="openDetails()"><fa-icon [icon]="i.details" aria-hidden="true" />{{ details() ? 'Edit Task Details' : 'Add Task Details' }}</button>
+      <p class="tsk-summary" id="tsk-details-summary">
+        @if (detailsSummary(); as s) { <fa-icon [icon]="i.ok" aria-hidden="true" />{{ s }} } @else { No task details yet. }
+      </p>
+      @if (mainSubmitted() && mainErrors().details; as e) { <p class="d-error" id="tsk-err-details">{{ e }}</p> }
+    </div>
+    <div class="tsk-status">
+      <span class="d-label" id="tsk-status-label">Status</span>
+      <input type="checkbox" role="switch" class="d-switch" [checked]="main().status" (change)="setMainStatus($any($event.target).checked)" aria-labelledby="tsk-status-label" />
+      <span class="tsk-status-text" [class.is-on]="main().status" aria-hidden="true">{{ main().status ? 'Enabled' : 'Disabled' }}</span>
+    </div>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="taskDialog.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="saveTask()">Save</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (detailOpen()) {
+  <app-demo-dialog title="Task Detail" [wide]="true" (closed)="detailOpen.set(false)">
+    <div class="d-grid">
+      <label class="d-field">
+        <span>Object Type</span>
+        <select class="d-select" (change)="setDraft('objectType', $any($event.target).value)">
+          @for (o of objectTypes; track o) { <option [value]="o" [selected]="draft().objectType === o">{{ o }}</option> }
+        </select>
+      </label>
+      <label class="d-field">
+        <span>Object <span class="d-req" aria-hidden="true">*</span></span>
+        <select class="d-select" required (change)="setDraft('objectName', $any($event.target).value)" [attr.aria-invalid]="!!draftError('objectName')" [attr.aria-describedby]="draftError('objectName') ? 'tsk-err-obj' : null">
+          <option value="" disabled [selected]="!draft().objectName">Select an object</option>
+          @for (o of objects(); track o) { <option [value]="o" [selected]="draft().objectName === o">{{ o }}</option> }
+        </select>
+        @if (draftError('objectName'); as e) { <p class="d-error" id="tsk-err-obj">{{ e }}</p> }
+      </label>
+    </div>
+    <fieldset class="d-field tsk-radios">
+      <legend class="sr-only">Action type</legend>
+      @for (a of actionTypes; track a) {
+        <label class="d-check"><input type="radio" name="tsk-action-type" [checked]="draft().actionType === a" (change)="setDraft('actionType', a)" />{{ a }}</label>
+      }
+    </fieldset>
+    <div class="d-grid">
+      <label class="d-field">
+        <span>{{ draft().actionType === 'One Action' ? 'Action' : 'Group' }}</span>
+        <select class="d-select" (change)="setDraft('action', $any($event.target).value)">
+          @for (a of actionOptions(); track a) { <option [value]="a" [selected]="draft().action === a">{{ a }}</option> }
+        </select>
+      </label>
+      <label class="d-field">
+        <span>Max Count <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" type="number" min="1" [value]="draft().maxCount" (input)="setDraft('maxCount', $any($event.target).value)" [attr.aria-invalid]="!!draftError('maxCount')" [attr.aria-describedby]="draftError('maxCount') ? 'tsk-err-max' : null" />
+        @if (draftError('maxCount'); as e) { <p class="d-error" id="tsk-err-max">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Recurring</span>
+        <select class="d-select" (change)="setDraft('recurring', $any($event.target).value)">
+          @for (r of recurrings; track r) { <option [value]="r" [selected]="draft().recurring === r">{{ r }}</option> }
+        </select>
+      </label>
+      <label class="d-field">
+        <span>Recurring Value <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" type="number" min="1" [value]="draft().recurringValue" (input)="setDraft('recurringValue', +$any($event.target).value)" [attr.aria-invalid]="!!draftError('recurringValue')" [attr.aria-describedby]="draftError('recurringValue') ? 'tsk-err-rv' : 'tsk-hint-rv'" />
+        <span class="d-hint" id="tsk-hint-rv">Run every this many {{ draft().recurring === 'Weekly' ? 'weeks' : draft().recurring === 'Monthly' ? 'months' : 'days' }}.</span>
+        @if (draftError('recurringValue'); as e) { <p class="d-error" id="tsk-err-rv">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Start Date <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" type="date" [value]="draft().startDate" (input)="setDraft('startDate', $any($event.target).value)" [attr.aria-invalid]="!!draftError('startDate')" [attr.aria-describedby]="draftError('startDate') ? 'tsk-err-sd' : null" />
+        @if (draftError('startDate'); as e) { <p class="d-error" id="tsk-err-sd">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>End Date</span>
+        <input class="d-input" type="date" [value]="draft().endDate" (input)="setDraft('endDate', $any($event.target).value)" [attr.aria-invalid]="!!draftError('endDate')" [attr.aria-describedby]="draftError('endDate') ? 'tsk-err-ed' : null" />
+        @if (draftError('endDate'); as e) { <p class="d-error" id="tsk-err-ed">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Recurring Time <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" type="time" [value]="draft().recurringTime" (input)="setDraft('recurringTime', $any($event.target).value)" [attr.aria-invalid]="!!draftError('recurringTime')" [attr.aria-describedby]="draftError('recurringTime') ? 'tsk-err-rt' : null" />
+        @if (draftError('recurringTime'); as e) { <p class="d-error" id="tsk-err-rt">{{ e }}</p> }
+      </label>
+    </div>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="detailOpen.set(false)">Close</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="saveDetails()">Save</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (logFor(); as t) {
+  <app-demo-dialog [title]="'Log · ' + (t.name || t.action)" (closed)="logFor.set(null)">
+    @if (logRuns().length) {
+      <ul class="tsk-log">
+        @for (run of logRuns(); track run.id) {
+          <li>
+            <span [class]="'d-pill d-pill--' + runStyle[run.status].tone">{{ run.status }}</span>
+            <span>{{ run.startTime }} → {{ run.endTime ?? 'In Progress' }}</span>
+            <span class="d-muted">by {{ run.initiatedBy }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="tsk-text">This task hasn't run yet. Use Run now to start it.</p>
+    }
+    <div dialogActions><button type="button" class="d-btn" (click)="logFor.set(null)">Close</button></div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as d) {
+  <app-demo-dialog title="Delete Scheduled Task" (closed)="deleting.set(null)">
+    <p class="tsk-text">This will permanently delete <strong>{{ d.task.name || d.task.action }}</strong> ({{ d.task.action }} on {{ d.task.objectName }}) from {{ d.group.name }}.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

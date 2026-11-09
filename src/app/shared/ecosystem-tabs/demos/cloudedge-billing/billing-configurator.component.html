@@ -1,0 +1,339 @@
+@if (step() === 'config') {
+  <form class="bc-layout" (submit)="save($event)" novalidate aria-labelledby="bc-title">
+    <div class="bc-main">
+      <div class="d-head">
+        <div>
+          <h3 id="bc-title">Deploy New Infrastructure</h3>
+          <p>Configure your mission-critical CloudEdge environment.</p>
+        </div>
+        <span class="bc-live"><span aria-hidden="true"></span>Live Estimator Active</span>
+      </div>
+
+      <!-- The billing method, chosen first as the portal's "Select Your Preferred Billing Method" step does. -->
+      <fieldset class="bc-step">
+        <legend class="bc-step__title"><span class="bc-step__n" aria-hidden="true">0</span>Billing Model</legend>
+        <div class="bc-cards bc-cards--2">
+          <label class="bc-card">
+            <input class="sr-only" type="radio" name="bc-billing" [checked]="config().billingMode === 'subscription'" (change)="set('billingMode', 'subscription')" />
+            <fa-icon class="bc-card__icon" [icon]="i.invoice" aria-hidden="true" />
+            <strong>Subscription</strong>
+            <small>Fixed monthly or yearly terms. Best for predictable production workloads and reserved capacity.</small>
+          </label>
+          <label class="bc-card">
+            <input class="sr-only" type="radio" name="bc-billing" [checked]="config().billingMode === 'payg_wallet'" (change)="set('billingMode', 'payg_wallet')" />
+            <fa-icon class="bc-card__icon" [icon]="i.wallet" aria-hidden="true" />
+            <strong>Pay-As-You-Go</strong>
+            <small>Hourly billing deducted from your wallet. Perfect for dev/test nodes and variable traffic demands.</small>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="bc-step">
+        <legend class="bc-step__title"><span class="bc-step__n" aria-hidden="true">1</span>Resource Architecture</legend>
+        <p class="bc-step__sub">Select the underlying model for your cloud resources.</p>
+        <div class="bc-cards">
+          @for (a of architectures; track a.id) {
+            @let locked = a.id !== 'instance' && config().billingMode === 'payg_wallet';
+            <label class="bc-card" [class.is-disabled]="locked">
+              <input class="sr-only" type="radio" name="bc-type" [checked]="config().type === a.id" [disabled]="locked" (change)="set('type', a.id)" />
+              @if (locked) { <span class="bc-badge">Subscription Only</span> }
+              <fa-icon class="bc-card__icon" [icon]="a.icon" aria-hidden="true" />
+              <strong>{{ a.title }}</strong>
+              <small>{{ a.description }}</small>
+            </label>
+          }
+        </div>
+      </fieldset>
+
+      <section class="bc-step" aria-labelledby="bc-core">
+        <h4 class="bc-step__title" id="bc-core"><span class="bc-step__n" aria-hidden="true">2</span>Core Configuration</h4>
+        <p class="bc-step__sub">Define your resource naming, location, and billing cycle.</p>
+        <div class="bc-panel d-grid">
+          <label class="d-field">
+            <span>Environment Label <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required placeholder="e.g. Production-Backend-Stack" [value]="config().name" (input)="set('name', $any($event.target).value)" [attr.aria-invalid]="!!error('name')" aria-describedby="bc-err-name" />
+            @if (error('name'); as e) { <p class="d-error" id="bc-err-name">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Primary Region</span>
+            <select class="d-select" [value]="config().region" (change)="set('region', $any($event.target).value)">
+              @for (r of regions; track r.id) { <option [value]="r.id">{{ r.name }}</option> }
+            </select>
+          </label>
+          @if (config().billingMode === 'subscription') {
+            <label class="d-field">
+              <span>Contract Duration</span>
+              <input class="d-input" type="number" min="1" max="36" [value]="config().termValue" (input)="num('termValue', $any($event.target).value, 0, 36)" [attr.aria-invalid]="!!error('term')" aria-describedby="bc-err-term" />
+              @if (error('term'); as e) { <p class="d-error" id="bc-err-term">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Unit</span>
+              <select class="d-select" [value]="config().termUnit" (change)="set('termUnit', $any($event.target).value)">
+                <option value="month">Month(s)</option>
+                <option value="year">Year(s)</option>
+              </select>
+            </label>
+          }
+          @if (config().billingMode === 'payg_wallet' && config().type === 'instance') {
+            <label class="d-field d-span">
+              <span>Estimated Monthly Runtime</span>
+              <input class="d-input" type="number" min="1" max="730" [value]="config().runtimeHours" (input)="num('runtimeHours', $any($event.target).value, 0, 730)" [attr.aria-invalid]="!!error('runtime')" aria-describedby="bc-hint-runtime" />
+              <span class="d-hint" id="bc-hint-runtime">Average month: 730 hours. Used for real-time cost estimation.</span>
+              @if (error('runtime'); as e) { <p class="d-error">{{ e }}</p> }
+            </label>
+          }
+        </div>
+
+        @switch (config().type) {
+          @case ('instance') {
+            <div class="bc-panel d-grid">
+              <label class="d-field">
+                <span>Service Tier</span>
+                <select class="d-select" [value]="config().machineType" (change)="set('machineType', $any($event.target).value)">
+                  <option value="Type I">Type I (Standard - Shared Resources)</option>
+                  <option value="Type II">Type II (Premium - Dedicated Resources)</option>
+                </select>
+              </label>
+              <label class="d-field">
+                <span>Instance Quantity</span>
+                <input class="d-input" type="number" min="1" max="20" [value]="config().quantity" (input)="num('quantity', $any($event.target).value, 1, 20)" />
+              </label>
+            </div>
+            <fieldset>
+              <legend class="d-label bc-caps">Select Hardware Blueprint</legend>
+              <div class="bc-cards">
+                @for (t of templates; track t.id) {
+                  <label class="bc-card">
+                    <input class="sr-only" type="radio" name="bc-template" [checked]="config().templateId === t.id" (change)="set('templateId', t.id)" />
+                    <span class="bc-card__top"><fa-icon class="bc-card__icon" [icon]="i.chip" aria-hidden="true" /><span class="bc-price">${{ t.priceMonthly }}<small> / month</small></span></span>
+                    <strong>{{ t.name }}</strong>
+                    <small>{{ t.description }}</small>
+                  </label>
+                }
+              </div>
+            </fieldset>
+          }
+          @case ('vdc') {
+            <div class="bc-panel">
+              <label class="bc-slider">
+                <span class="bc-slider__head"><span>Reserved CPU Capacity</span><strong>{{ config().vdcCPU }} Cores</strong></span>
+                <input type="range" min="2" max="64" step="1" [value]="config().vdcCPU" (input)="num('vdcCPU', $any($event.target).value)" />
+                <span class="d-hint">${{ prices.core }} per core / month</span>
+              </label>
+              <label class="bc-slider">
+                <span class="bc-slider__head"><span>Reserved System RAM</span><strong>{{ config().vdcRAM }} GB</strong></span>
+                <input type="range" min="4" max="256" step="4" [value]="config().vdcRAM" (input)="num('vdcRAM', $any($event.target).value)" />
+                <span class="d-hint">${{ prices.ram }} per GB / month</span>
+              </label>
+              <label class="bc-slider">
+                <span class="bc-slider__head"><span>High Performance Storage</span><strong>{{ config().vdcStorage }} GB</strong></span>
+                <input type="range" min="50" max="5000" step="50" [value]="config().vdcStorage" (input)="num('vdcStorage', $any($event.target).value)" />
+                <span class="d-hint">${{ prices.flash | number: '1.2-2' }} per GB / month</span>
+              </label>
+            </div>
+          }
+          @case ('ready-plan') {
+            <fieldset>
+              <legend class="sr-only">Ready-To-Run Plan</legend>
+              <div class="bc-cards">
+                @for (p of readyPlans; track p.id) {
+                  <label class="bc-card">
+                    <input class="sr-only" type="radio" name="bc-ready" [checked]="config().readyPlanId === p.id" (change)="set('readyPlanId', p.id)" />
+                    <span class="bc-card__top"><fa-icon class="bc-card__icon" [icon]="i.layers" aria-hidden="true" /><span class="bc-price">${{ p.priceMonthly }}<small> / month</small></span></span>
+                    <strong>{{ p.name }}</strong>
+                    <small>{{ p.description }}</small>
+                  </label>
+                }
+              </div>
+            </fieldset>
+            <label class="d-field bc-narrow">
+              <span>Cluster Nodes</span>
+              <input class="d-input" type="number" min="1" max="20" [value]="config().quantity" (input)="num('quantity', $any($event.target).value, 1, 20)" />
+            </label>
+          }
+        }
+      </section>
+
+      @if (config().type !== 'ready-plan') {
+        <section class="bc-step" aria-labelledby="bc-accel">
+          <h4 class="bc-step__title" id="bc-accel"><span class="bc-step__n" aria-hidden="true">3</span>Acceleration &amp; Network</h4>
+          <p class="bc-step__sub">Fine-tune your environment with GPU modules and networking interfaces.</p>
+
+          @if (config().type === 'instance') {
+            <div class="d-section">
+              <h5>High-Compute Acceleration (NVIDIA GPU)</h5>
+              <div>
+                <div class="bc-toggle">
+                  <span>
+                    <strong id="bc-gpu-label">Hardware Acceleration</strong>
+                    <small id="bc-gpu-hint">Requires Type II Infrastructure. Enable for AI, ML, or Rendering workloads.</small>
+                  </span>
+                  <input class="d-switch" type="checkbox" role="switch" aria-labelledby="bc-gpu-label" aria-describedby="bc-gpu-hint" [checked]="config().gpuEnabled" [disabled]="config().machineType === 'Type I'" (change)="set('gpuEnabled', $any($event.target).checked)" />
+                </div>
+                @if (config().gpuEnabled) {
+                  <div class="d-grid bc-sub">
+                    <label class="d-field">
+                      <span>GPU Processor Series</span>
+                      <select class="d-select" [value]="config().gpuFamily" (change)="set('gpuFamily', $any($event.target).value)">
+                        <option value="h100">NVIDIA H100 (High-End Slices)</option>
+                        <option value="tesla">NVIDIA Tesla (Mid-Range Bundles)</option>
+                      </select>
+                    </label>
+                    @if (config().gpuFamily === 'h100') {
+                      <label class="d-field">
+                        <span>Multi-Instance GPU (MIG) Slices</span>
+                        <select class="d-select" [value]="'' + config().h100Slices" (change)="num('h100Slices', $any($event.target).value, 1, 8)">
+                          @for (o of h100Options; track o) { <option [value]="'' + o">{{ o }} Slice ({{ o * 12 }}GB Dedicated VRAM)</option> }
+                        </select>
+                      </label>
+                    } @else {
+                      <label class="d-field">
+                        <span>Tesla Acceleration Bundle</span>
+                        <select class="d-select" [value]="config().teslaOptionId" (change)="set('teslaOptionId', $any($event.target).value)" [attr.aria-invalid]="!!error('tesla')" aria-describedby="bc-err-tesla">
+                          <option value="">Choose acceleration level...</option>
+                          @for (o of teslaOptions; track o.id) { <option [value]="o.id">{{ o.label }} - ${{ o.priceMonthly }}/mo</option> }
+                        </select>
+                        @if (error('tesla'); as e) { <p class="d-error" id="bc-err-tesla">{{ e }}</p> }
+                      </label>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <div class="d-section">
+            <h5>Storage Expansion &amp; Secondary Disks</h5>
+            <div>
+              <div class="bc-toggle">
+                <span>
+                  <strong id="bc-vol-label"><fa-icon [icon]="i.disk" aria-hidden="true" /> Attach Volume</strong>
+                  <small id="bc-vol-hint">Mount a separate high-speed block storage volume.</small>
+                </span>
+                <input class="d-switch" type="checkbox" role="switch" aria-labelledby="bc-vol-label" aria-describedby="bc-vol-hint" [checked]="config().flashDiskEnabled" (change)="set('flashDiskEnabled', $any($event.target).checked)" />
+              </div>
+              @if (config().flashDiskEnabled) {
+                <div class="bc-sub">
+                  <label class="d-field">
+                    <span>Block Storage Protocol</span>
+                    <select class="d-select" [value]="config().flashDiskType" (change)="set('flashDiskType', $any($event.target).value)">
+                      <option value="SSD">Standard Performance (SSD)</option>
+                      <option value="NVMe">Ultra Performance (NVMe)</option>
+                    </select>
+                  </label>
+                  <label class="bc-slider">
+                    <span class="bc-slider__head"><span>Volume Capacity</span><strong>{{ config().flashDiskGB }} GB</strong></span>
+                    <input type="range" min="0" max="2000" step="50" [value]="config().flashDiskGB" (input)="num('flashDiskGB', $any($event.target).value)" />
+                    <span class="d-hint">${{ (config().flashDiskType === 'NVMe' ? prices.nvme : prices.ssd) | number: '1.2-2' }} per GB / month</span>
+                  </label>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="d-section">
+            <h5>Enterprise Extensions (Managed Services)</h5>
+            <div>
+              <label class="bc-slider">
+                <span class="bc-slider__head"><span>Static Public IPv4 Addresses</span><strong>{{ config().staticPublicIPs }} IPs</strong></span>
+                <input type="range" min="0" max="64" step="1" [value]="config().staticPublicIPs" (input)="num('staticPublicIPs', $any($event.target).value)" />
+                <span class="d-hint">${{ prices.ip | number: '1.2-2' }} per IP / month</span>
+              </label>
+              <label class="bc-slider">
+                <span class="bc-slider__head"><span>Managed S3-Compatible Object Storage</span><strong>{{ config().objectStorageGB }} GB</strong></span>
+                <input type="range" min="0" max="10000" step="100" [value]="config().objectStorageGB" (input)="num('objectStorageGB', $any($event.target).value)" />
+                <span class="d-hint">${{ prices.object | number: '1.2-2' }} per GB / month</span>
+              </label>
+              <label class="bc-slider">
+                <span class="bc-slider__head"><span>WorldPosta Data Guard (Veeam Powered)</span><strong>{{ config().advancedBackupGB }} GB</strong></span>
+                <input type="range" min="0" max="5000" step="100" [value]="config().advancedBackupGB" (input)="num('advancedBackupGB', $any($event.target).value)" />
+                <span class="d-hint">${{ prices.backup | number: '1.2-2' }} per GB / month</span>
+              </label>
+            </div>
+          </div>
+        </section>
+      }
+    </div>
+
+    <!-- Deployment Summary: recalculates on every change. -->
+    <aside class="bc-summary" aria-labelledby="bc-summary-title">
+      <h4 id="bc-summary-title"><fa-icon [icon]="i.receipt" aria-hidden="true" />Deployment Summary</h4>
+      <dl class="bc-rows">
+        <div><dt>Resource Model</dt><dd>{{ modelLabel() }}</dd></div>
+        <div><dt>Deployment Target</dt><dd>{{ regionName() }}</dd></div>
+        <div>
+          <dt>Billing Model<small>{{ config().billingMode === 'payg_wallet' ? 'Charged hourly from balance' : 'Billed upfront recurringly' }}</small></dt>
+          <dd>{{ config().billingMode === 'payg_wallet' ? 'PAYG (Wallet)' : 'Subscription' }}</dd>
+        </div>
+        @if (config().billingMode === 'subscription') {
+          <div><dt>Commitment Term</dt><dd>{{ termLabel() }}</dd></div>
+        }
+        <div><dt>Infrastructure Tier</dt><dd>{{ config().type === 'instance' ? config().machineType : '-' }}</dd></div>
+      </dl>
+      <div class="bc-total" aria-live="polite">
+        <span class="bc-caps">Unit Base Total</span>
+        <span class="bc-total__value">${{ subtotal() | number: '1.2-2' }}<small>/ month</small></span>
+      </div>
+      @if (config().billingMode === 'payg_wallet') {
+        <p class="bc-note">~ ${{ subtotal() / 730 | number: '1.4-4' }} per hour</p>
+      }
+      @if (quantity() > 1) {
+        <p class="bc-deploy"><span>Total Deployment (x{{ quantity() }})</span><strong>${{ grandTotal() | number: '1.2-2' }}</strong></p>
+      }
+      @if (config().billingMode === 'subscription' && termMonths() > 1) {
+        <p class="bc-deploy"><span>Contract Total ({{ termLabel() }})</span><strong>${{ grandTotal() * termMonths() | number: '1.2-2' }}</strong></p>
+      }
+      @if (config().billingMode === 'payg_wallet') {
+        <div class="bc-wallet" [class.is-short]="overBudget()">
+          <span class="bc-caps">Available Funds</span>
+          <strong>${{ walletBalance() | number: '1.2-2' }}</strong>
+          @if (overBudget()) {
+            <button type="button" class="d-btn d-btn--sm" (click)="openTopUp()"><fa-icon [icon]="i.plus" aria-hidden="true" />Top Up Required</button>
+          }
+        </div>
+      }
+      @if (submitted() && overBudget()) {
+        <p class="d-error" role="alert">Your wallet balance doesn't cover this deployment. Top up to continue.</p>
+      } @else if (submitted() && error('name')) {
+        <p class="d-error" role="alert">Please name your configuration.</p>
+      }
+      <button type="submit" class="d-btn d-btn--primary bc-submit">{{ quantity() > 1 ? 'Configure Multi-Node' : 'Validate & Deploy' }}</button>
+      <p class="bc-fine">By deploying, you agree to WorldPosta's SLA and the selected billing model. Resource allocation begins immediately.</p>
+    </aside>
+  </form>
+} @else {
+  <section class="d-page bc-names" aria-labelledby="bc-names-title">
+    <div class="d-head">
+      <div>
+        <h3 id="bc-names-title">Identify Your Nodes</h3>
+        <p>Assign a unique hostname or label to each of your {{ quantity() }} nodes.</p>
+      </div>
+    </div>
+    @for (name of nodeNames(); track $index; let n = $index) {
+      <label class="d-field">
+        <span>Instance Node #{{ n + 1 }} <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" required [placeholder]="'e.g. cloud-node-0' + (n + 1)" [value]="name" (input)="setNodeName(n, $any($event.target).value)" [attr.aria-invalid]="!!nameErrors()[n]" [attr.aria-describedby]="'bc-err-node-' + n" />
+        @if (nameErrors()[n]; as e) { <p class="d-error" [id]="'bc-err-node-' + n">{{ e }}</p> }
+      </label>
+    }
+    <div class="bc-actions">
+      <button type="button" class="d-btn d-btn--ghost" (click)="step.set('config')">Return to Config</button>
+      <button type="button" class="d-btn d-btn--primary" [disabled]="namesInvalid()" (click)="confirmNames()">Confirm All &amp; Provision</button>
+    </div>
+  </section>
+}
+
+@if (topUpOpen()) {
+  <app-demo-dialog title="Account Balance Top Up" (closed)="topUpOpen.set(false)">
+    <p class="bc-info"><fa-icon [icon]="i.info" aria-hidden="true" />Funds are used immediately for Pay-As-You-Go resource consumption. Subscriptions are billed separately.</p>
+    <label class="d-field">
+      <span>Recharge Amount (USD)</span>
+      <input class="d-input" type="number" min="1" placeholder="50.00" [value]="topUpAmount()" (input)="topUpAmount.set($any($event.target).value)" (keydown.enter)="confirmTopUp()" [attr.aria-invalid]="!!topUpError()" aria-describedby="bc-err-topup" />
+      @if (topUpError(); as e) { <p class="d-error" id="bc-err-topup">{{ e }}</p> }
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="topUpOpen.set(false)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="confirmTopUp()">Add Credits to Wallet</button>
+    </div>
+  </app-demo-dialog>
+}

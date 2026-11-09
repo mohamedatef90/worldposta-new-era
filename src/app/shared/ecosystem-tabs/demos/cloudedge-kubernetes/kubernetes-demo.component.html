@@ -1,0 +1,147 @@
+<section class="d-page" aria-labelledby="cek-title">
+  <div class="d-head">
+    <div>
+      <h3 id="cek-title">Kubernetes Clusters</h3>
+      <p>{{ clusters().length }} {{ clusters().length === 1 ? 'cluster' : 'clusters' }} · {{ totalNodes() }} running {{ totalNodes() === 1 ? 'node' : 'nodes' }}</p>
+    </div>
+    <div class="d-actions">
+      <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Cluster</button>
+    </div>
+  </div>
+
+  @if (clusters().length) {
+    <div class="d-table-wrap" tabindex="0" role="region" aria-label="Kubernetes clusters table">
+      <table class="d-table">
+        <caption class="sr-only">Kubernetes clusters</caption>
+        <thead>
+          <tr>
+            <th scope="col">Cluster Name</th><th scope="col">Version</th><th scope="col">Status</th><th scope="col">Nodes</th>
+            <th scope="col">Region</th><th scope="col">Created</th><th scope="col" class="cek-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of clusters(); track c.id; let n = $index; let count = $count) {
+            <tr>
+              <th scope="row" class="cek-name"><fa-icon class="cek-name__icon" [icon]="i.server" aria-hidden="true" />{{ c.name }}</th>
+              <td class="d-mono">{{ c.version }}</td>
+              <td>
+                <span [class]="'d-pill cek-pill--' + statusTone[c.status] + (statusTone[c.status] !== 'muted' ? ' d-pill--' + statusTone[c.status] : '')">
+                  @if (c.status === 'Creating') { <fa-icon [icon]="i.spin" animation="spin" aria-hidden="true" /> }
+                  {{ c.status }}
+                </span>
+              </td>
+              <td>{{ c.nodeCount }}</td>
+              <td>{{ c.region }}</td>
+              <td>{{ formatDate(c.creationDate) }}</td>
+              <td class="cek-right">
+                <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + c.name" [attr.aria-expanded]="openMenu() === c.id" aria-haspopup="true" (click)="toggleMenu($event, c.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                  @if (openMenu() === c.id) {
+                    <div class="d-menu" [class.cek-menu-up]="menuUp(n, count)">
+                      <button type="button" [disabled]="c.status === 'Creating'" (click)="openScale(c)"><fa-icon [icon]="i.scale" aria-hidden="true" />Scale Nodes</button>
+                      @if (c.status === 'Stopped') {
+                        <button type="button" (click)="setPower(c, 'Running')"><fa-icon class="cek-ic-green" [icon]="i.start" aria-hidden="true" />Start Cluster</button>
+                      } @else {
+                        <button type="button" [disabled]="c.status === 'Creating'" (click)="setPower(c, 'Stopped')"><fa-icon class="cek-ic-red" [icon]="i.stop" aria-hidden="true" />Stop Cluster</button>
+                      }
+                      <hr />
+                      <button type="button" class="is-danger" (click)="askDelete(c)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete Cluster</button>
+                    </div>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="d-empty">
+      <strong>No Kubernetes clusters</strong>
+      Create a cluster to run your containerised workloads.
+    </div>
+  }
+</section>
+
+@if (creating(); as f) {
+  <app-demo-dialog title="Create Cluster" (closed)="creating.set(null)">
+    <form id="cek-create-form" (submit)="create($event)" novalidate>
+      <label class="d-field">
+        <span>Cluster Name <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" required autocomplete="off" placeholder="e.g. analytics-cluster" [value]="f.name" (input)="setField('name', $any($event.target).value)" [attr.aria-invalid]="!!err('name')" aria-describedby="cek-err-name" />
+        @if (err('name'); as e) { <p class="d-error" id="cek-err-name">{{ e }}</p> }
+      </label>
+      <div class="d-grid">
+        <label class="d-field">
+          <span>Kubernetes Version</span>
+          <select class="d-select" (change)="setField('version', $any($event.target).value)">
+            @for (v of versions; track v) { <option [value]="v" [selected]="f.version === v">{{ v }}</option> }
+          </select>
+        </label>
+        <label class="d-field">
+          <span>Nodes <span class="d-req" aria-hidden="true">*</span></span>
+          <input class="d-input" type="number" required [min]="limits.min" [max]="limits.max" [value]="f.nodeCount" (input)="setField('nodeCount', +$any($event.target).value)" [attr.aria-invalid]="!!err('nodeCount')" aria-describedby="cek-hint-nodes cek-err-nodes" />
+          <span class="d-hint" id="cek-hint-nodes">{{ limits.min }}–{{ limits.max }} worker nodes</span>
+          @if (err('nodeCount'); as e) { <p class="d-error" id="cek-err-nodes">{{ e }}</p> }
+        </label>
+      </div>
+      <label class="d-field">
+        <span>Region</span>
+        <select class="d-select" (change)="setField('region', $any($event.target).value)">
+          @for (r of regions; track r) { <option [value]="r" [selected]="f.region === r">{{ r }}</option> }
+        </select>
+      </label>
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="creating.set(null)">Cancel</button>
+      <button type="submit" form="cek-create-form" class="d-btn d-btn--primary">Create Cluster</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (scaling(); as s) {
+  <app-demo-dialog [title]="'Scale ' + s.cluster.name" (closed)="scaling.set(null)">
+    <form id="cek-scale-form" (submit)="applyScale($event)" novalidate>
+      <p class="cek-text">Currently {{ s.cluster.nodeCount }} {{ s.cluster.nodeCount === 1 ? 'node' : 'nodes' }}. Choose the new worker node count.</p>
+      <div class="cek-stepper">
+        <button type="button" class="d-btn d-btn--icon" aria-label="Remove a node" [disabled]="s.nodes <= limits.min" (click)="setNodes(s.nodes - 1)"><fa-icon [icon]="i.minus" aria-hidden="true" /></button>
+        <label class="d-field">
+          <span class="sr-only">Node count</span>
+          <input class="d-input" type="number" [min]="limits.min" [max]="limits.max" [value]="s.nodes" (input)="setNodes(+$any($event.target).value)" [attr.aria-invalid]="!!scaleError()" aria-describedby="cek-err-scale" />
+        </label>
+        <button type="button" class="d-btn d-btn--icon" aria-label="Add a node" [disabled]="s.nodes >= limits.max" (click)="setNodes(s.nodes + 1)"><fa-icon [icon]="i.plus" aria-hidden="true" /></button>
+      </div>
+      @if (scaleError(); as e) { <p class="d-error" id="cek-err-scale">{{ e }}</p> }
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="scaling.set(null)">Cancel</button>
+      <button type="submit" form="cek-scale-form" class="d-btn d-btn--primary" [disabled]="!!scaleError()">Apply</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as c) {
+  <app-demo-dialog title="Delete Cluster" (closed)="deleting.set(null)">
+    <div class="cek-confirm">
+      <fa-icon class="cek-confirm__icon" [icon]="i.warn" aria-hidden="true" />
+      <div>
+        <p>This action is irreversible and will permanently delete the Cluster <strong>{{ c.name }}</strong> and its {{ c.nodeCount }} {{ c.nodeCount === 1 ? 'node' : 'nodes' }}.</p>
+        <p>To confirm, please type the name of the Cluster below.</p>
+      </div>
+    </div>
+    <label class="d-field">
+      <span class="sr-only">Cluster name</span>
+      <input class="d-input" autocomplete="off" [placeholder]="c.name" [value]="deleteTyped()" (input)="deleteTyped.set($any($event.target).value)" (keydown.enter)="confirmDelete()" />
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" [disabled]="deleteTyped() !== c.name" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

@@ -1,0 +1,150 @@
+/* Posta Link chat: the conversation list beside the open conversation (ChatAll.css, Workspaces.css). */
+:host{padding:0}
+.lc{position:relative;display:grid;grid-template-columns:minmax(220px,272px) minmax(0,1fr);height:580px;background:var(--d-card);overflow:hidden}
+
+/* ---------- List ---------- */
+.lc-list{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--d-line);background:var(--d-card)}
+.lc-list-head{padding:14px 16px 8px}
+.lc-list-head h3{margin:0;font-size:19px;font-weight:700;color:var(--d-ink)}
+.lc-find{position:relative;margin:0 12px 8px}
+.lc-find fa-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--d-mut)}
+.lc-find input{width:100%;min-height:34px;padding:6px 12px 6px 32px;border:1px solid var(--d-line);border-radius:999px;background:var(--d-soft);font-size:12.5px}
+.lc-find input::placeholder{color:var(--d-mut)}
+.lc-scroll{flex:1;min-height:0;overflow-y:auto;padding:0 6px 10px}
+.lc-label{margin:8px 10px 4px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--d-mut)}
+.lc-label.is-divided{margin-top:10px;padding-top:10px;border-top:1px solid var(--d-line)}
+.lc-rows{margin:0;padding:0;list-style:none}
+.lc-row{position:relative;display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:transparent;text-align:left;cursor:pointer}
+.lc-row:hover{background:var(--d-soft)}
+.lc-row.is-active{background:var(--d-green-soft)}
+.lc-row.is-active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--d-green)}
+.lc-row-text{display:grid;gap:1px;flex:1;min-width:0}
+.lc-row-top,.lc-row-bottom{display:flex;align-items:center;gap:8px;min-width:0}
+.lc-row-name{flex:1;min-width:0;overflow:hidden;font-size:13px;font-weight:600;color:var(--d-ink);white-space:nowrap;text-overflow:ellipsis}
+.lc-row.is-unread .lc-row-name{font-weight:800}
+.lc-row-when{flex:none;font-size:11px;color:var(--d-mut)}
+.lc-row-preview{flex:1;min-width:0;overflow:hidden;font-size:12px;color:var(--d-mut);white-space:nowrap;text-overflow:ellipsis}
+.lc-row.is-unread .lc-row-preview{color:var(--d-ink)}
+.lc-badge{flex:none;display:grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--d-green);color:var(--d-green-ink);font-size:10.5px;font-weight:700}
+.lc-none{margin:0;padding:24px 12px;text-align:center;color:var(--d-mut)}
+
+/* Avatars: six tints with white initials, each AA on its own colour. */
+.lc-av{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.02em}
+.lc-av--lg{width:38px;height:38px;font-size:12.5px}
+.lc-av--sm{width:28px;height:28px;font-size:10.5px}
+.lc-av--xs{width:22px;height:22px;font-size:9px}
+.lc-av--t0{background:#3d6b22}.lc-av--t1{background:#1d4ed8}.lc-av--t2{background:#7e22ce}
+.lc-av--t3{background:#0f766e}.lc-av--t4{background:#a14b07}.lc-av--t5{background:#b42318}
+
+/* ---------- Stage ---------- */
+.lc-stage{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--d-bg)}
+.lc-stage-head{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--d-card)}
+.lc-back{display:none}
+.lc-stage-id{flex:1;min-width:0}
+.lc-stage-id h4{margin:0;overflow:hidden;font-size:15px;font-weight:700;color:var(--d-ink);white-space:nowrap;text-overflow:ellipsis}
+.lc-stage-id p{margin:1px 0 0;overflow:hidden;font-size:11.5px;color:var(--d-green-text);white-space:nowrap;text-overflow:ellipsis}
+.lc-tools{display:flex;align-items:center;gap:6px}
+.lc-tools [aria-pressed='true']{background:var(--d-soft);color:var(--d-green-text)}
+
+.lc-tabs{display:flex;gap:18px;padding:0 16px;border-bottom:1px solid var(--d-line);background:var(--d-card)}
+.lc-tab{display:inline-flex;align-items:center;gap:6px;padding:8px 2px 9px;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--d-mut);font-size:13px;font-weight:600;cursor:pointer}
+.lc-tab fa-icon{font-size:11px}
+.lc-tab[aria-selected='true']{border-bottom-color:var(--d-green);color:var(--d-ink)}
+.lc-panel{display:flex;flex:1;flex-direction:column;min-height:0}
+
+.lc-search{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--d-line);background:var(--d-card)}
+.lc-search fa-icon{color:var(--d-mut);font-size:12px}
+.lc-search .d-input{min-height:30px}
+.lc-search-n{flex:none;font-size:11.5px}
+
+/* Thread */
+.lc-thread{flex:1;min-height:0;overflow-y:auto;padding:10px 16px 6px}
+.lc-day{margin:2px 0 10px;text-align:center}
+.lc-day span{display:inline-block;padding:3px 10px;border:1px solid var(--d-line);border-radius:999px;background:var(--d-card);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--d-mut)}
+.lc-msgs{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.lc-msg{display:flex;align-items:flex-start;gap:9px;max-width:min(560px,88%)}
+.lc-msg--mine{margin-left:auto;flex-direction:row-reverse}
+.lc-msg-col{display:grid;gap:4px;min-width:0}
+.lc-msg--mine .lc-msg-col{justify-items:end}
+.lc-bubble{display:grid;gap:3px;min-width:0;padding:8px 12px 6px;border:1px solid var(--d-line);border-radius:10px;background:var(--d-card)}
+.lc-msg--mine .lc-bubble{border-color:var(--d-green);background:var(--d-green);color:var(--d-green-ink)}
+.lc-who{margin:0;font-size:12px;font-weight:700;color:var(--d-ink)}
+.lc-guest{font-weight:500;color:var(--d-mut)}
+.lc-body{margin:0;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.lc-time{justify-self:end;font-size:10.5px;color:var(--d-mut)}
+.lc-msg--mine .lc-time{color:inherit}
+.lc-system{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12px;font-weight:600;color:var(--d-green-text)}
+
+/* A file on a message, as MessageAttachment's card. */
+.lc-file{display:flex;align-items:center;gap:10px;margin-top:3px;padding:7px 10px;border:1px solid var(--d-line);border-radius:8px;background:var(--d-card);color:var(--d-ink)}
+.lc-file--row{margin:0;padding:0;border:0;background:transparent}
+.lc-ext{display:grid;place-items:center;flex:none;min-width:38px;height:30px;padding:0 4px;border-radius:5px;background:var(--d-soft);color:var(--d-ink);font-size:9.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.lc-file-text,.lc-link-text{display:grid;min-width:0}
+.lc-file-name{overflow:hidden;font-size:12.5px;font-weight:600;white-space:nowrap;text-overflow:ellipsis}
+.lc-file-meta{font-size:11px;font-weight:400;color:var(--d-mut)}
+
+/* Reactions under the bubble, and the React button beside them. */
+.lc-reacts{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.lc-chip{display:inline-flex;align-items:center;min-height:24px;padding:1px 8px;border:1px solid var(--d-line);border-radius:999px;background:var(--d-card);font-size:12px;cursor:pointer}
+.lc-chip.is-mine{border-color:var(--d-green);background:var(--d-green-soft);color:var(--d-green-text);font-weight:700}
+.lc-react-btn{display:inline-flex;align-items:center;gap:1px;min-height:24px;padding:1px 7px;border:1px dashed var(--d-line);border-radius:999px;background:transparent;color:var(--d-mut);font-size:12px;cursor:pointer}
+.lc-react-btn:hover,.lc-react-btn[aria-expanded='true']{border-style:solid;background:var(--d-card);color:var(--d-ink)}
+.lc-react-plus{font-size:8px}
+.lc-react-menu,.lc-emoji-menu{display:flex;flex-wrap:wrap;gap:2px;min-width:0;width:max-content;padding:4px}
+.lc-react-menu{left:0;right:auto;top:auto;bottom:calc(100% + 4px)}
+.lc-msg--mine .lc-react-menu{left:auto;right:0}
+.lc-react-menu button,.lc-emoji-menu button{justify-content:center;width:34px;height:34px;padding:0;font-size:17px}
+.lc-react-menu button[aria-pressed='true']{background:var(--d-green-soft)}
+.lc-emoji-menu{left:0;right:auto;top:auto;bottom:calc(100% + 4px);max-width:232px}
+
+.lc-typing{display:flex;align-items:center;gap:7px;min-height:22px;margin:0;padding:2px 18px;font-size:12px;color:var(--d-mut)}
+.lc-dots{display:inline-flex;gap:3px}
+.lc-dots i{width:5px;height:5px;border-radius:50%;background:currentColor;animation:lc-dot 1s ease-in-out infinite}
+.lc-dots i:nth-child(2){animation-delay:.15s}.lc-dots i:nth-child(3){animation-delay:.3s}
+@keyframes lc-dot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
+
+/* Composer */
+.lc-composer{margin:0 14px 12px;border:1px solid var(--d-line);border-radius:10px;background:var(--d-card)}
+.lc-composer:focus-within{border-color:var(--d-focus)}
+.lc-composer textarea{display:block;width:100%;min-height:40px;max-height:120px;padding:10px 12px 4px;border:0;border-radius:10px 10px 0 0;background:transparent;font-size:13px;resize:none;field-sizing:content}
+.lc-composer textarea:focus-visible{outline:none}
+.lc-composer textarea::placeholder{color:var(--d-mut)}
+.lc-composer-bar{display:flex;align-items:center;gap:2px;padding:2px 6px 6px}
+.lc-attach{cursor:pointer}
+.lc-attach:focus-within,.lc-upload:focus-within{outline:3px solid var(--d-focus);outline-offset:2px}
+.lc-hint{flex:1;padding-left:6px;overflow:hidden;font-size:11px;white-space:nowrap;text-overflow:ellipsis}
+.lc-send{border-radius:50%}
+
+/* Files and Links tabs */
+.lc-pane{flex:1;min-height:0;overflow-y:auto;padding:14px 16px}
+.lc-pane-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.lc-upload{cursor:pointer}
+.lc-type{width:auto;min-height:30px;padding:4px 8px;font-size:12.5px}
+.lc-count{margin-left:auto;font-size:12px}
+.lc-files{background:var(--d-card)}
+.lc-files tbody th{font-weight:400}
+.lc-sender{display:inline-flex;align-items:center;gap:7px}
+.lc-pane-hint{margin:10px 2px 12px;font-size:12px}
+.lc-links{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.lc-links li{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--d-line);border-radius:9px;background:var(--d-card)}
+.lc-link-ic{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:8px;background:var(--d-blue-soft);color:var(--d-blue)}
+.lc-link-text{flex:1}
+.lc-link-url{overflow:hidden;font-size:12.5px;font-weight:600;color:var(--d-blue);white-space:nowrap;text-overflow:ellipsis}
+
+/* A narrow window shows the list or the thread, with Back between them. */
+@container (max-width:640px){
+  .lc{grid-template-columns:minmax(0,1fr);height:560px}
+  .lc-stage{display:none}
+  .lc--thread .lc-list{display:none}
+  .lc--thread .lc-stage{display:flex}
+  .lc-back{display:inline-flex}
+  .lc-hint{visibility:hidden}
+  .lc-meet{width:32px;padding:0}
+  .lc-meet-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+  .lc-msg{max-width:94%}
+  .lc-count{margin-left:0;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){.lc-dots{display:none}}
+/* Contrast: own bubbles keep white text (the site's global paragraph colour would win otherwise); the open conversation's secondary text reads in ink on its green tint. */
+.lc-msg--mine .lc-body{color:#fff}
+.lc-row.is-active .lc-row-when,.lc-row.is-active .lc-row-preview{color:var(--d-ink)}

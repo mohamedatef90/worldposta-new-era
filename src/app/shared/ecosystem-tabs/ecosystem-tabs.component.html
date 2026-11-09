@@ -237,14 +237,14 @@
                 </li>
               }
             </ul>
-          } @else {
+          } @else if (panelImage(); as image) {
             <div class="panel-visual">
               <div class="mockup-shell">
                 <img
-                  [ngSrc]="panelImage()"
+                  [ngSrc]="image"
                   width="800"
                   height="450"
-                  [alt]="tabContent().imageAlt"
+                  [alt]="tabContent().imageAlt ?? ''"
                 />
               </div>
             </div>

@@ -1,0 +1,162 @@
+<div class="wd">
+  <section class="wd-hero" aria-labelledby="wd-greeting">
+    <div class="wd-hero-left">
+      <h3 id="wd-greeting" class="wd-greeting">{{ greeting() }}, <em>Mona</em>.</h3>
+      <p class="wd-sub">{{ summary() }}</p>
+    </div>
+    <p class="wd-hero-right">
+      <span class="wd-date">{{ dateLabel() }}</span>
+      <span class="wd-clock" aria-hidden="true">{{ clock() }}</span>
+    </p>
+  </section>
+
+  <section class="wd-actions" aria-label="Quick actions">
+    <button type="button" class="wd-card wd-card--primary" (click)="startInstant()">
+      <span class="wd-card-icon" aria-hidden="true"><fa-icon [icon]="i.video" /></span>
+      <span class="wd-card-body">
+        <span class="wd-card-title">Start an instant meeting</span>
+        <span class="wd-card-desc">Spin up a room in 10 seconds — invite anyone with the link.</span>
+      </span>
+      <span class="wd-card-link" aria-hidden="true">Start now <fa-icon [icon]="i.arrow" /></span>
+    </button>
+    <button type="button" class="wd-card" (click)="openSchedule()">
+      <span class="wd-card-icon" aria-hidden="true"><fa-icon [icon]="i.cal" /></span>
+      <span class="wd-card-body">
+        <span class="wd-card-title">Schedule for later</span>
+        <span class="wd-card-desc">Pick a time, set a duration, and share the link.</span>
+      </span>
+    </button>
+    <button type="button" class="wd-card" (click)="openJoin()">
+      <span class="wd-card-icon" aria-hidden="true"><fa-icon [icon]="i.code" /></span>
+      <span class="wd-card-body">
+        <span class="wd-card-title">Join with a code</span>
+        <span class="wd-card-desc">Got a meeting code or shared link? Paste it here.</span>
+      </span>
+    </button>
+  </section>
+
+  <div class="wd-cols">
+    @if (upcoming().length) {
+      <section class="wd-section" aria-labelledby="wd-upcoming">
+        <div class="wd-section-head">
+          <h4 id="wd-upcoming">Today &amp; <span class="wd-accent">upcoming</span></h4>
+          <span class="wd-count">{{ upcomingTotal() }} {{ upcomingTotal() === 1 ? 'meeting' : 'meetings' }}</span>
+        </div>
+        <ul class="wd-rows">
+          @for (m of upcoming(); track m.id) {
+            @let live = isLive(m);
+            @let soon = isSoon(m);
+            <li class="wd-row">
+              <span class="wd-row-time">
+                @if (live || m.at === null) {
+                  <span class="wd-row-day">Now</span>
+                } @else {
+                  <span class="wd-row-day">{{ dayLabel(m.at) }}</span>
+                  <span class="wd-row-hour">{{ time(m.at) }}</span>
+                }
+              </span>
+              <span class="wd-row-info">
+                <span class="wd-row-title">{{ m.title }}</span>
+                <span class="wd-row-sub">
+                  @if (live) { <span class="wd-live"><span class="wd-live-dot" aria-hidden="true"></span>live</span> }
+                  <span>{{ m.workspace }}</span>
+                  @if (m.minutes) { <span>· {{ duration(m.minutes) }}</span> }
+                  @if (m.recurring) { <span>· Recurring</span> }
+                </span>
+              </span>
+              @if (live) {
+                <button type="button" class="d-btn d-btn--sm d-btn--primary" [attr.aria-label]="'Rejoin ' + m.title" (click)="join(m)">Rejoin</button>
+              } @else if (soon) {
+                <button type="button" class="d-btn d-btn--sm d-btn--primary" [attr.aria-label]="'Join ' + m.title" (click)="join(m)">Join</button>
+              } @else {
+                <button type="button" class="d-btn d-btn--sm d-btn--outline" [attr.aria-label]="'Open ' + m.title" (click)="openMeeting(m)">Open</button>
+              }
+            </li>
+          }
+        </ul>
+        @if (upcomingTotal() > upcoming().length) {
+          <p class="wd-more d-muted">+{{ upcomingTotal() - upcoming().length }} more in Meetings</p>
+        }
+      </section>
+    }
+
+    @if (recent().length) {
+      <section class="wd-section" aria-labelledby="wd-recent">
+        <div class="wd-section-head">
+          <h4 id="wd-recent">Recent (last 7 days)</h4>
+          <span class="wd-count">{{ recent().length }} {{ recent().length === 1 ? 'meeting' : 'meetings' }}</span>
+        </div>
+        <ul class="wd-rows">
+          @for (m of recent(); track m.id) {
+            <li class="wd-row">
+              <span class="wd-row-time">
+                <span class="wd-row-day">{{ dayLabel(endOf(m)) }}</span>
+                <span class="wd-row-hour">{{ time(endOf(m)) }}</span>
+              </span>
+              <span class="wd-row-info">
+                <span class="wd-row-title">{{ m.title }}</span>
+                <span class="wd-row-sub"><span>{{ m.workspace }}</span><span>· {{ duration(m.minutes) }}</span>@if (m.recurring) { <span>· Recurring</span> }</span>
+              </span>
+              <span class="wd-ended">ended</span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+
+  <section class="wd-stats" aria-label="This week">
+    @for (s of stats(); track s.label) {
+      <p class="wd-stat"><span class="wd-stat-value">{{ s.value }}</span><span class="wd-stat-label">{{ s.label }}</span></p>
+    }
+  </section>
+</div>
+
+@if (scheduling()) {
+  <app-demo-dialog title="Schedule a meeting" (closed)="scheduling.set(false)">
+    <form id="wd-sched-form" novalidate (submit)="$event.preventDefault(); submitSchedule()">
+      <label class="d-field"><span>Title</span>
+        <input class="d-input" maxlength="120" placeholder="e.g. Weekly sync" [value]="sched().title" (input)="setSched('title', $any($event.target).value)" />
+      </label>
+      <div class="d-grid d-grid--3">
+        <label class="d-field"><span>Date</span>
+          <input class="d-input" type="date" [min]="minDate()" [value]="sched().date" (input)="setSched('date', $any($event.target).value)" />
+        </label>
+        <label class="d-field"><span>Time</span>
+          <input class="d-input" type="time" [value]="sched().time" (input)="setSched('time', $any($event.target).value)" />
+        </label>
+        <label class="d-field"><span>Duration</span>
+          <select class="d-select" [value]="sched().minutes" (change)="setSched('minutes', $any($event.target).value)">
+            @for (d of durations; track d.value) { <option [value]="d.value">{{ d.label }}</option> }
+          </select>
+        </label>
+      </div>
+      @if (schedTouched() && !schedComplete()) { <p class="d-error" role="alert">Fill in a title, date and time to schedule the meeting.</p> }
+      @if (schedError()) { <p class="d-error" role="alert">{{ schedError() }}</p> }
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="scheduling.set(false)">Cancel</button>
+      <button type="submit" form="wd-sched-form" class="d-btn d-btn--primary" [disabled]="!schedComplete()">Schedule</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (joining()) {
+  <app-demo-dialog title="Join with a code" (closed)="joining.set(false)">
+    <form id="wd-join-form" novalidate (submit)="$event.preventDefault(); submitJoin()">
+      <label class="d-field"><span>Meeting code or link</span>
+        <input class="d-input" placeholder="e.g. abc123 or full URL" autocomplete="off" [value]="joinCode()" (input)="joinCode.set($any($event.target).value)" [attr.aria-invalid]="joinCheck().error ? true : null" [attr.aria-describedby]="joinCheck().error ? 'wd-join-error' : null" />
+      </label>
+      @if (joinCheck().error; as error) { <p id="wd-join-error" class="d-error" role="alert">{{ error }}</p> }
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="joining.set(false)">Cancel</button>
+      <button type="submit" form="wd-join-form" class="d-btn d-btn--primary" [disabled]="!joinCheck().ok">Join</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

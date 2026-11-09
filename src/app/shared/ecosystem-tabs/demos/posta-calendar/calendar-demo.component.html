@@ -1,0 +1,182 @@
+<section class="d-page pc" aria-labelledby="pc-title">
+  <header class="pc-head">
+    <h3 id="pc-title">Calendar</h3>
+    <div class="pc-controls">
+      <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />New event</button>
+      <div class="pc-nav">
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Previous" (click)="navigatePeriod(-1)"><fa-icon [icon]="i.prev" aria-hidden="true" /></button>
+        <button type="button" class="d-btn d-btn--sm" (click)="goToday()">Today</button>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Next" (click)="navigatePeriod(1)"><fa-icon [icon]="i.next" aria-hidden="true" /></button>
+      </div>
+      <h4 class="pc-range" aria-live="polite">{{ headerLabel() }}</h4>
+      <select class="d-select pc-view" aria-label="View mode" [value]="view()" (change)="setView($any($event.target).value)">
+        <option value="month">Month</option>
+        <option value="week">Week</option>
+        <option value="day">Day</option>
+      </select>
+      <button type="button" class="d-btn d-btn--ghost d-btn--sm pc-sync" [disabled]="syncing()" (click)="sync()"><fa-icon [icon]="i.sync" [class.pc-spin]="syncing()" aria-hidden="true" />{{ syncing() ? 'Syncing…' : 'Sync' }}</button>
+    </div>
+  </header>
+
+  @switch (view()) {
+    @case ('month') {
+      <div class="pc-month">
+        <div class="pc-weekdays" aria-hidden="true">
+          @for (w of weekdayNames; track w) { <div>{{ w }}</div> }
+        </div>
+        <ol class="pc-days" [attr.aria-label]="headerLabel()">
+          @for (cell of monthCells(); track cell.key) {
+            <!-- Clicking the empty part of a day starts a New event there; the day number opens the Day view. -->
+            <li class="pc-day" [class.is-other]="cell.other" [class.is-today]="cell.today" [class.is-drop]="dropKey() === cell.key"
+                (click)="openCreate(cell.date)" (dragover)="onDragOver($event, cell.key)" (dragleave)="dropKey.set(null)" (drop)="onDropDay($event, cell.date)">
+              <button type="button" class="pc-daynum" [attr.aria-label]="dayLabel(cell)" [attr.aria-current]="cell.today ? 'date' : null" (click)="$event.stopPropagation(); openDay(cell.date)">{{ cell.date.getDate() }}</button>
+              @if (cell.events.length) {
+                <ul class="pc-pills">
+                  @for (e of cell.events.slice(0, 3); track e.id) {
+                    <li>
+                      <button type="button" class="pc-pill" draggable="true" [attr.data-pos]="position(e, cell.date)" [attr.data-cal]="e.calendarId"
+                              [attr.aria-label]="pillLabel(e, cell.date)" [title]="e.subject + ' · drag to move'"
+                              (dragstart)="onDragStart($event, e)" (dragend)="onDragEnd()" (click)="openDetails($event, e)">
+                        @if (position(e, cell.date) === 'middle' || position(e, cell.date) === 'end') { <span aria-hidden="true">←&nbsp;</span> }
+                        @if (position(e, cell.date) === 'single' || position(e, cell.date) === 'start') { <span class="pc-pill-time">{{ e.allDay ? '★' : fmtTime(e.start) }}</span> }
+                        <span class="pc-pill-title">{{ e.subject || '(no title)' }}</span>
+                        @if (position(e, cell.date) === 'start' || position(e, cell.date) === 'middle') { <span aria-hidden="true">&nbsp;→</span> }
+                      </button>
+                    </li>
+                  }
+                </ul>
+              }
+              @if (cell.events.length > 3) {
+                <button type="button" class="pc-more" [attr.aria-label]="'Show ' + (cell.events.length - 3) + ' more on ' + longDate(cell.date)" (click)="$event.stopPropagation(); openDay(cell.date)">+{{ cell.events.length - 3 }} more</button>
+              }
+            </li>
+          }
+        </ol>
+      </div>
+    }
+    @case ('week') {
+      <div class="pc-week">
+        @for (day of weekDays(); track day.key) {
+          <section class="pc-daylist" [attr.aria-labelledby]="'pc-wd-' + day.key">
+            <h4 [id]="'pc-wd-' + day.key"><button type="button" class="pc-daylink" (click)="openDay(day.date)">{{ longDate(day.date) }}</button></h4>
+            @if (day.events.length) {
+              <ul>
+                @for (e of day.events; track e.id) {
+                  <li>
+                    <button type="button" class="pc-row" [attr.data-cal]="e.calendarId" (click)="openDetails($event, e)">
+                      <span class="pc-row-time">{{ e.allDay ? 'All day' : fmtTime(e.start) + ' – ' + fmtTime(e.end) }}</span>
+                      <span class="pc-row-title">{{ e.subject || '(no title)' }}</span>
+                      @if (e.location) { <span class="pc-row-meta"><fa-icon [icon]="i.pin" aria-hidden="true" />{{ e.location }}</span> }
+                      @if (e.attendees.length) { <span class="pc-row-meta">{{ e.attendees.length }} attendee{{ e.attendees.length === 1 ? '' : 's' }}</span> }
+                    </button>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="pc-hint">No events.</p>
+            }
+          </section>
+        }
+      </div>
+    }
+    @case ('day') {
+      <div class="pc-timegrid" role="region" tabindex="0" [attr.aria-label]="'Events on ' + longDate(current())">
+        <div class="pc-timegrid-body" [style.height.px]="24 * hourPx">
+          @for (h of hours; track h) {
+            <div class="pc-hour" [class.is-drop]="dropKey() === 'h' + h" [style.height.px]="hourPx"
+                 (dragover)="onDragOver($event, 'h' + h)" (dragleave)="dropKey.set(null)" (drop)="onDropHour($event, h)">
+              <span class="pc-hour-label">{{ hourLabel(h) }}</span>
+            </div>
+          }
+          @for (bar of dayBars(); track bar.e.id) {
+            <button type="button" class="pc-bar" draggable="true" [attr.data-cal]="bar.e.calendarId" [style.top.px]="bar.top" [style.height.px]="bar.height"
+                    [title]="bar.e.subject + ' · drag to a different hour'" (dragstart)="onDragStart($event, bar.e)" (dragend)="onDragEnd()" (click)="openDetails($event, bar.e)">
+              <span class="pc-bar-time">{{ fmtTime(bar.e.start) }}{{ bar.e.allDay ? ' · all day' : ' – ' + fmtTime(bar.e.end) }}</span>
+              <span class="pc-bar-title">{{ bar.e.subject || '(no title)' }}</span>
+              @if (bar.e.location) { <span class="pc-bar-loc"><fa-icon [icon]="i.pin" aria-hidden="true" />{{ bar.e.location }}</span> }
+            </button>
+          }
+        </div>
+      </div>
+      @if (!dayBars().length) { <p class="pc-hint pc-hint--day">No events. Use New event to add one.</p> }
+    }
+  }
+</section>
+
+@if (details(); as e) {
+  <app-demo-dialog [title]="e.subject || '(no title)'" (closed)="closeDetails()">
+    <dl class="pc-details">
+      <div><dt><fa-icon [icon]="i.clock" aria-hidden="true" />When</dt><dd>{{ when(e) }}</dd></div>
+      @if (e.location) { <div><dt><fa-icon [icon]="i.pin" aria-hidden="true" />Location</dt><dd>{{ e.location }}</dd></div> }
+      <div><dt><fa-icon [icon]="i.cal" aria-hidden="true" />Calendar</dt><dd>{{ calendarName(e.calendarId) }}</dd></div>
+      <div><dt>Organizer</dt><dd>{{ e.organizer }}</dd></div>
+      @if (e.attendees.length) { <div><dt><fa-icon [icon]="i.people" aria-hidden="true" />Attendees</dt><dd>{{ e.attendees.join(', ') }}</dd></div> }
+      @if (e.description) { <div><dt>Description</dt><dd>{{ e.description }}</dd></div> }
+    </dl>
+    <div class="pc-move">
+      <label class="d-field"><span>Move to date</span>
+        <input type="date" class="d-input" [value]="moveDate()" (input)="moveDate.set($any($event.target).value)" aria-describedby="pc-move-hint" />
+      </label>
+      <button type="button" class="d-btn d-btn--outline" (click)="moveFromDetails(e)">Move</button>
+    </div>
+    <p id="pc-move-hint" class="d-hint pc-move-hint">Keeps the same time and length. You can also drag the event onto another day.</p>
+    <div dialogActions>
+      @if (!confirming()) {
+        <button type="button" class="d-btn" (click)="closeDetails()">Close</button>
+        <button type="button" class="d-btn d-btn--ghost pc-danger" (click)="confirming.set(true)">Delete event</button>
+        <button type="button" class="d-btn d-btn--primary" (click)="openEdit(e)">Edit</button>
+      } @else {
+        <button type="button" class="d-btn" (click)="confirming.set(false)">Cancel</button>
+        <button type="button" class="d-btn d-btn--danger" (click)="deleteEvent(e)">Confirm delete</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+@if (form(); as f) {
+  <app-demo-dialog [title]="f.id ? 'Edit event' : 'New event'" [wide]="true" (closed)="form.set(null)">
+    <form id="pc-form" novalidate (submit)="$event.preventDefault(); save()">
+      <div class="d-grid">
+        <label class="d-field"><span>Calendar</span>
+          <select id="pc-calendar" class="d-select" [disabled]="!!f.id" (change)="setField('calendarId', $any($event.target).value)"
+                  [attr.aria-invalid]="err('calendarId') ? 'true' : null" [attr.aria-describedby]="err('calendarId') ? 'pc-cal-err' : null">
+            <option value="" [selected]="!f.calendarId">— pick —</option>
+            @for (c of calendars; track c.id) { <option [value]="c.id" [selected]="f.calendarId === c.id">{{ c.name }}</option> }
+          </select>
+          @if (err('calendarId'); as m) { <p id="pc-cal-err" class="d-error">{{ m }}</p> }
+        </label>
+        <label class="d-field"><span>Subject <span class="d-req" aria-hidden="true">*</span></span>
+          <input id="pc-subject" class="d-input" type="text" maxlength="300" required [value]="f.subject" (input)="setField('subject', $any($event.target).value)"
+                 [attr.aria-invalid]="err('subject') ? 'true' : null" [attr.aria-describedby]="err('subject') ? 'pc-subject-err' : null" />
+          @if (err('subject'); as m) { <p id="pc-subject-err" class="d-error">{{ m }}</p> }
+        </label>
+        <label class="d-field d-span"><span>Location</span>
+          <input class="d-input" type="text" maxlength="300" [value]="f.location" (input)="setField('location', $any($event.target).value)" />
+        </label>
+        <label class="d-field"><span>Start</span>
+          <input class="d-input" type="datetime-local" [value]="f.start" (input)="setField('start', $any($event.target).value)" />
+        </label>
+        <label class="d-field"><span>End</span>
+          <input id="pc-end" class="d-input" type="datetime-local" [value]="f.end" (input)="setField('end', $any($event.target).value)"
+                 [attr.aria-invalid]="err('end') ? 'true' : null" [attr.aria-describedby]="err('end') ? 'pc-end-err' : null" />
+          @if (err('end'); as m) { <p id="pc-end-err" class="d-error">{{ m }}</p> }
+        </label>
+        <label class="d-field d-span"><span>Attendees (comma-separated emails)</span>
+          <input class="d-input" type="text" inputmode="email" [value]="f.attendees" (input)="setField('attendees', $any($event.target).value)" />
+        </label>
+        <label class="d-field"><span>Reminder (minutes before, blank for none)</span>
+          <input class="d-input" type="number" min="0" max="1440" [value]="f.reminder" (input)="setField('reminder', $any($event.target).value)" />
+        </label>
+      </div>
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="form.set(null)">Cancel</button>
+      <button type="submit" form="pc-form" class="d-btn d-btn--primary">{{ f.id ? 'Save' : 'Create' }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

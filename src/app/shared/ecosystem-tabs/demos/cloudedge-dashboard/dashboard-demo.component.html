@@ -1,0 +1,261 @@
+<section class="ced" aria-labelledby="ced-title">
+  <div class="ced-head">
+    <h3 id="ced-title">CloudEdge Console</h3>
+    <div class="d-actions">
+      <button type="button" class="d-btn d-btn--primary" (click)="notify('Create VM opens the Create New Virtual Machine form in the CloudEdge console.')"><fa-icon [icon]="i.plus" aria-hidden="true" />Create VM</button>
+      <button type="button" class="d-btn" (click)="openCustomize()"><fa-icon class="d-muted" [icon]="i.layout" aria-hidden="true" />Custom Dashboard</button>
+    </div>
+  </div>
+
+  @if (visibility().stats) {
+    <ul class="ced-stats" aria-label="Resource usage">
+      @for (stat of stats; track stat.key) {
+        <li>
+          <button type="button" class="ced-stat" (click)="openChart(stat)">
+            <span class="ced-stat__top">
+              <span class="ced-stat__title">{{ stat.title }}</span>
+              <fa-icon class="ced-stat__icon" [icon]="statIcon[stat.key]" aria-hidden="true" />
+            </span>
+            <span class="ced-stat__value"><strong>{{ stat.value }}</strong> / {{ stat.total }} {{ stat.unit }}</span>
+            <span class="ced-bar" aria-hidden="true"><i [attr.data-k]="stat.key" [style.width.%]="ready() ? stat.percentage : 0"></i></span>
+            @if (stat.uptime) {
+              <span class="ced-stat__note d-muted">{{ stat.uptime }}</span>
+            } @else {
+              <span class="ced-stat__note ced-green">{{ stat.percentage }}% {{ stat.label }}</span>
+            }
+            <span class="sr-only">. Show historical data</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (nothingShown()) {
+    <div class="d-empty">
+      <strong>All widgets are hidden</strong>
+      Use Custom Dashboard to choose what this page shows.
+    </div>
+  }
+
+  <div class="ced-grid" [class.ced-grid--one]="!mainShown() || !sideShown()">
+    @if (mainShown()) {
+      <div class="ced-col">
+        @if (visibility().topVms) {
+          <section class="ced-card" aria-labelledby="ced-top-title">
+            <div class="ced-card__head">
+              <h4 id="ced-top-title">Top VMs by Resource Usage</h4>
+              <button type="button" class="ced-link" (click)="notify('View All VMs opens the Virtual Machines page.')">View All VMs</button>
+            </div>
+            @if (topVms().length) {
+              <ul class="ced-vms">
+                @for (row of topVms(); track row.vm.id) {
+                  <li class="ced-vm">
+                    <span class="ced-dot" [class.is-on]="row.vm.status === 'running'" aria-hidden="true"></span>
+                    <div class="ced-vm__body">
+                      <p class="ced-vm__name">
+                        <fa-icon class="ced-os" [attr.data-os]="row.vm.os" [icon]="osIcon[row.vm.os]" aria-hidden="true" />
+                        <span>{{ row.vm.name }}</span><span class="sr-only">, {{ row.vm.status }}</span>
+                      </p>
+                      <dl class="ced-usage">
+                        <div><dt>CPU</dt><dd><span class="ced-bar ced-bar--thin" aria-hidden="true"><i data-k="cpu" [style.width.%]="ready() ? row.cpu : 0"></i></span>{{ row.cpu }}%</dd></div>
+                        <div><dt>Memory</dt><dd><span class="ced-bar ced-bar--thin" aria-hidden="true"><i data-k="memory" [style.width.%]="ready() ? row.memory : 0"></i></span>{{ row.memory }}%</dd></div>
+                        <div><dt>Storage</dt><dd><span class="ced-bar ced-bar--thin" aria-hidden="true"><i data-k="storage" [style.width.%]="ready() ? row.storage : 0"></i></span>{{ row.storage }}%</dd></div>
+                      </dl>
+                    </div>
+                    <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+                      <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + row.vm.name" [attr.aria-expanded]="openMenu() === row.vm.id" aria-haspopup="true" (click)="toggleMenu($event, row.vm.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                      @if (openMenu() === row.vm.id) {
+                        <div class="d-menu">
+                          <button type="button" [disabled]="row.vm.status !== 'running'" (click)="vmAction('Web console session opened for ' + row.vm.name + '.')"><fa-icon [icon]="i.plug" aria-hidden="true" />Connect</button>
+                          <button type="button" (click)="vmAction('Manage opens ' + row.vm.name + ' on the Virtual Machines page.')"><fa-icon [icon]="i.manage" aria-hidden="true" />Manage</button>
+                          <button type="button" (click)="vmAction(row.vm.name + ': ' + row.vm.cores + ' vCPU, ' + row.vm.memory + ' GB RAM, ' + row.vm.ipAddress + '.')"><fa-icon [icon]="i.info" aria-hidden="true" />View Details</button>
+                          <hr />
+                          <button type="button" class="is-danger" (click)="askDelete(row.vm)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                        </div>
+                      }
+                    </div>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="d-muted ced-none">No virtual machines yet.</p>
+            }
+          </section>
+        }
+
+        @if (visibility().auditTrail) {
+          <section class="ced-card" aria-labelledby="ced-audit-title">
+            <div class="ced-card__head">
+              <h4 id="ced-audit-title">Audit Trail</h4>
+              <button type="button" class="ced-link" (click)="notify('View All Logs opens Action Logs under Administration.')">View All Logs</button>
+            </div>
+            <label class="d-search ced-search">
+              <span class="sr-only">Search the audit trail</span>
+              <fa-icon [icon]="i.search" aria-hidden="true" />
+              <input class="d-input" type="search" placeholder="Search user, event, resource..." [value]="auditSearch()" (input)="auditSearch.set($any($event.target).value)" />
+            </label>
+            <p class="sr-only" aria-live="polite">{{ filteredAudit().length }} audit trail entries shown</p>
+            @if (filteredAudit().length) {
+              <ul class="ced-audit">
+                @for (entry of filteredAudit(); track entry.id) {
+                  <li>
+                    <fa-icon class="ced-audit__icon" [attr.data-src]="entry.eventSource" [icon]="auditIcon[entry.eventSource]" aria-hidden="true" />
+                    <div class="ced-audit__body">
+                      <p class="ced-audit__name">{{ entry.eventName }} <span class="sr-only">({{ entry.eventSource }})</span>
+                        @if (entry.status === 'Failure') { <span class="d-pill d-pill--bad">Failed</span> }
+                      </p>
+                      <p class="d-muted">Resource: <strong class="ced-ink">{{ entry.resourceName }}</strong></p>
+                      <p class="ced-audit__meta d-muted">
+                        <span><fa-icon [icon]="i.user" aria-hidden="true" />{{ entry.user }}</span>
+                        <span class="d-mono"><fa-icon [icon]="i.net" aria-hidden="true" />{{ entry.ipAddress }}</span>
+                        <span><fa-icon [icon]="i.clock" aria-hidden="true" />{{ entry.eventTime }}</span>
+                      </p>
+                    </div>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="d-muted ced-none"><fa-icon [icon]="i.search" aria-hidden="true" /> No audit trail entries found for your search.</p>
+            }
+          </section>
+        }
+      </div>
+    }
+
+    @if (sideShown()) {
+      <div class="ced-col">
+        @if (visibility().securityScore) {
+          <section class="ced-card" aria-labelledby="ced-sec-title">
+            <div class="ced-card__head">
+              <h4 id="ced-sec-title">Security Score</h4>
+              <span class="ced-tag">Active</span>
+            </div>
+            <div class="ced-ring">
+              <svg viewBox="0 0 140 140" aria-hidden="true">
+                <circle class="ced-ring__track" r="60" cx="70" cy="70" />
+                <circle class="ced-ring__value" r="60" cx="70" cy="70" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="scoreOffset()" />
+              </svg>
+              <span class="ced-ring__label"><span class="sr-only">Security score </span>{{ security.score }}%</span>
+            </div>
+            <dl class="ced-facts">
+              <div><dt>Active Threats</dt><dd class="ced-red">{{ security.activeThreats }}</dd></div>
+              <div><dt>Blocked Attempts</dt><dd>{{ security.blockedAttempts }}</dd></div>
+              <div><dt>SSL Certificates</dt><dd class="ced-green">{{ security.sslCertificates }}</dd></div>
+            </dl>
+          </section>
+        }
+
+        @if (visibility().networkStatus) {
+          <section class="ced-card" aria-labelledby="ced-net-title">
+            <div class="ced-card__head ced-card__head--rule">
+              <h4 id="ced-net-title">Network Status</h4>
+              <span class="ced-tag">Healthy</span>
+            </div>
+            <dl class="ced-facts ced-facts--net" aria-live="polite">
+              <div><dt>Configured Gateways</dt><dd class="ced-big">{{ network().gateways }}</dd></div>
+              <div><dt>Active NAT Rules</dt><dd class="ced-big">{{ network().activeNatRules }}</dd></div>
+              <div>
+                <dt>Download Speed</dt>
+                @if (network().isTestingSpeed) {
+                  <dd class="d-muted ced-pulse">Testing...</dd>
+                } @else if (network().speedTestResult) {
+                  <dd class="ced-green">{{ network().speedTestResult }}</dd>
+                } @else {
+                  <dd class="d-muted">-</dd>
+                }
+              </div>
+              <div><dt>Latency</dt><dd [class]="network().isTestingSpeed ? 'd-muted ced-pulse' : 'ced-green'">{{ network().isTestingSpeed ? 'Testing...' : network().latency }}</dd></div>
+              <div><dt>Packet Loss</dt><dd [class]="network().isTestingSpeed ? 'd-muted ced-pulse' : 'ced-green'">{{ network().isTestingSpeed ? 'Testing...' : network().packetLoss }}</dd></div>
+            </dl>
+            <button type="button" class="d-btn d-btn--outline ced-wide" [disabled]="network().isTestingSpeed" (click)="runSpeedTest()">
+              <fa-icon [icon]="network().isTestingSpeed ? i.spin : i.gauge" [animation]="network().isTestingSpeed ? 'spin' : undefined" aria-hidden="true" />
+              {{ network().isTestingSpeed ? 'Testing...' : 'Run Speed Test' }}
+            </button>
+          </section>
+        }
+
+        @if (visibility().helpfulResources) {
+          <section class="ced-card" aria-labelledby="ced-help-title">
+            <div class="ced-card__head"><h4 id="ced-help-title">Helpful Resources</h4></div>
+            <ul class="ced-help">
+              @for (r of helpfulResources; track r.title) {
+                <li>
+                  <button type="button" (click)="notify(r.title + ' opens in the CloudEdge console.')">
+                    <span class="ced-help__icon" aria-hidden="true"><fa-icon [icon]="r.icon" /></span>
+                    <span><strong>{{ r.title }}</strong><span class="d-muted">{{ r.description }}</span></span>
+                  </button>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+@if (chartStat(); as stat) {
+  @if (chart(); as c) {
+    <app-demo-dialog [title]="'Historical Data: ' + stat.title" [wide]="true" (closed)="chartStat.set(null)">
+      <div class="ced-chart-bar">
+        <div class="d-seg" role="group" aria-label="Timeframe">
+          @for (tf of timeframes; track tf) {
+            <button type="button" [attr.aria-pressed]="timeframe() === tf" (click)="timeframe.set(tf)">{{ tf }}</button>
+          }
+        </div>
+      </div>
+      <svg class="ced-chart" [attr.viewBox]="'0 0 ' + frame.w + ' ' + frame.h" role="img" aria-labelledby="ced-chart-desc">
+        <desc id="ced-chart-desc">{{ c.description }}</desc>
+        @for (t of c.yTicks; track t.label) {
+          <line class="ced-chart__grid" [attr.x1]="frame.pad.left" [attr.x2]="frame.w - frame.pad.right" [attr.y1]="t.y" [attr.y2]="t.y" />
+          <text class="ced-chart__tick" [attr.x]="frame.pad.left - 8" [attr.y]="t.y + 4" text-anchor="end">{{ t.label }}</text>
+        }
+        @for (t of c.xTicks; track $index; let first = $first; let last = $last) {
+          <text class="ced-chart__tick" [attr.x]="t.x" [attr.y]="frame.h - 12" [attr.text-anchor]="first ? 'start' : last ? 'end' : 'middle'">{{ t.label }}</text>
+        }
+        <text class="ced-chart__tick" [attr.transform]="'translate(12 ' + (frame.h - frame.pad.bottom) / 2 + ') rotate(-90)'" text-anchor="middle">{{ c.axis }}</text>
+        <path class="ced-chart__area" [attr.d]="c.area" />
+        <path class="ced-chart__line" [attr.d]="c.line" />
+      </svg>
+      <dl class="ced-chart-sum">
+        <div><dt>Average</dt><dd>{{ c.summary.average }}</dd></div>
+        <div><dt>Peak</dt><dd>{{ c.summary.peak }}</dd></div>
+        <div><dt>Low</dt><dd>{{ c.summary.low }}</dd></div>
+      </dl>
+    </app-demo-dialog>
+  }
+}
+
+@if (customizing(); as v) {
+  <app-demo-dialog title="Customize Dashboard" (closed)="customizing.set(null)">
+    <p class="ced-dialog-text d-muted">Select the widgets you want to display on your dashboard.</p>
+    <ul class="ced-widgets">
+      @for (w of widgetConfig; track w.key) {
+        <li>
+          <label [for]="'ced-toggle-' + w.key">{{ w.label }}</label>
+          <input class="d-switch" type="checkbox" role="switch" [id]="'ced-toggle-' + w.key" [checked]="v[w.key]" (change)="toggleWidget(w.key, $any($event.target).checked)" />
+        </li>
+      }
+    </ul>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="customizing.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="saveLayout()">Save Changes</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as vm) {
+  <app-demo-dialog title="Delete Virtual Machine" (closed)="deleting.set(null)">
+    <p class="ced-dialog-text">Delete <strong>{{ vm.name }}</strong>? If it is running, it will be powered off and moved to the Recycle Bin, where it can be recovered within 24 hours.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

@@ -1,0 +1,234 @@
+<div class="d-seg ia-views" role="group" aria-label="Security and access">
+  @for (v of views; track v.id) {
+    <button type="button" [attr.aria-pressed]="view() === v.id" (click)="view.set(v.id)">{{ v.label }}</button>
+  }
+</div>
+
+@switch (view()) {
+  @case ('security') {
+    <div class="ia-stack">
+      <section class="d-page" aria-labelledby="ia-mfa-title">
+        <h3 class="ia-card-title" id="ia-mfa-title">Multi-Factor Authentication (MFA)</h3>
+        <div class="ia-mfa">
+          <div>
+            <p class="ia-text">Add an extra layer of security to protect your account from unauthorized access.</p>
+            @if (mfa().enabled) {
+              <p class="ia-state is-on"><fa-icon [icon]="i.ok" aria-hidden="true" />MFA is enabled.</p>
+            } @else {
+              <p class="ia-state is-off"><fa-icon [icon]="i.off" aria-hidden="true" />MFA is currently disabled.</p>
+            }
+          </div>
+          <button type="button" class="d-btn d-btn--primary" (click)="openMfa()"><fa-icon [icon]="i.shield" aria-hidden="true" />{{ mfa().enabled ? 'Manage MFA' : 'Enable MFA' }}</button>
+        </div>
+      </section>
+
+      <section class="d-page" aria-labelledby="ia-pw-title">
+        <h3 class="ia-card-title" id="ia-pw-title">Change Password</h3>
+        <form class="ia-pw" (submit)="changePassword($event)" novalidate>
+          <label class="d-field">
+            <span>Old Password</span>
+            <input class="d-input" [type]="showPasswords() ? 'text' : 'password'" autocomplete="current-password" [value]="passwords().oldPassword" (input)="setPassword('oldPassword', $any($event.target).value)" [attr.aria-invalid]="!!passwordError('oldPassword')" aria-describedby="ia-err-old" />
+            @if (passwordError('oldPassword'); as e) { <p class="d-error" id="ia-err-old">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>New Password</span>
+            <input class="d-input" [type]="showPasswords() ? 'text' : 'password'" autocomplete="new-password" [value]="passwords().newPassword" (input)="setPassword('newPassword', $any($event.target).value)" [attr.aria-invalid]="!!passwordError('newPassword')" aria-describedby="ia-hint-new ia-err-new" />
+            <span class="d-hint" id="ia-hint-new">At least 8 characters.</span>
+            @if (passwordError('newPassword'); as e) { <p class="d-error" id="ia-err-new">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Confirm New Password</span>
+            <input class="d-input" [type]="showPasswords() ? 'text' : 'password'" autocomplete="new-password" [value]="passwords().confirmNewPassword" (input)="setPassword('confirmNewPassword', $any($event.target).value)" [attr.aria-invalid]="!!passwordError('confirmNewPassword')" aria-describedby="ia-err-confirm" />
+            @if (passwordError('confirmNewPassword'); as e) { <p class="d-error" id="ia-err-confirm">{{ e }}</p> }
+          </label>
+          <div class="ia-pw-actions">
+            <button type="button" class="d-btn d-btn--ghost d-btn--sm" [attr.aria-pressed]="showPasswords()" (click)="showPasswords.set(!showPasswords())"><fa-icon [icon]="showPasswords() ? i.hide : i.show" aria-hidden="true" />{{ showPasswords() ? 'Hide passwords' : 'Show passwords' }}</button>
+            <button type="submit" class="d-btn d-btn--primary">Change Password</button>
+          </div>
+          @if (passwordChangedAt(); as at) { <p class="d-hint">Last changed {{ formatDate(at) }}.</p> }
+        </form>
+      </section>
+
+      <section class="d-page" aria-labelledby="ia-log-title">
+        <h3 class="ia-card-title" id="ia-log-title">Recent Login Activity</h3>
+        <div class="d-table-wrap" tabindex="0" role="region" aria-label="Recent login activity table">
+          <table class="d-table">
+            <caption class="sr-only">Recent login activity</caption>
+            <thead><tr><th scope="col">Date</th><th scope="col">IP Address</th><th scope="col">Location</th><th scope="col">Device/Browser</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              @for (log of logs; track log.id) {
+                <tr>
+                  <th scope="row" class="ia-normal">{{ formatDate(log.date) }}</th>
+                  <td class="d-mono">{{ log.ip }}</td>
+                  <td>{{ log.location }}</td>
+                  <td>{{ log.device }}</td>
+                  <td><span class="d-pill" [class.d-pill--good]="log.status === 'Success'" [class.d-pill--bad]="log.status === 'Failed'">{{ log.status }}</span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  }
+
+  @case ('keys') {
+    <section class="d-page" aria-labelledby="ia-keys-title">
+      <div class="d-head">
+        <div>
+          <h3 id="ia-keys-title">Access keys</h3>
+          <p>S3-compatible credentials for WorldPosta IO object storage.</p>
+        </div>
+        <button type="button" class="d-btn d-btn--primary" (click)="openCreate()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create access key</button>
+      </div>
+      @if (keys().length) {
+        <div class="d-table-wrap" tabindex="0" role="region" aria-label="Access keys table">
+          <table class="d-table">
+            <caption class="sr-only">Access keys</caption>
+            <thead><tr><th scope="col">Label</th><th scope="col">Access key ID</th><th scope="col">Last used</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody>
+              @for (k of keys(); track k.id) {
+                <tr>
+                  <th scope="row" class="ia-normal">@if (k.label) { {{ k.label }} } @else { <em class="d-muted">no label</em> }</th>
+                  <td>
+                    <span class="d-mono">{{ k.accessKeyId }}</span>
+                    <button type="button" class="d-btn d-btn--icon d-btn--ghost ia-copy" [attr.aria-label]="'Copy ' + k.accessKeyId" (click)="copy(k.accessKeyId, 'Access key ID')"><fa-icon [icon]="i.copy" aria-hidden="true" /></button>
+                  </td>
+                  <td>@if (k.lastUsedAt) { {{ formatDate(k.lastUsedAt) }} } @else { <em class="d-muted">never</em> }</td>
+                  <td class="ia-right">
+                    <button type="button" class="d-btn d-btn--sm d-btn--ghost ia-revoke" [attr.aria-label]="'Revoke ' + k.accessKeyId" (click)="revoking.set(k)">Revoke</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="d-empty">
+          <p class="ia-empty-text">No access keys yet.</p>
+          <button type="button" class="d-btn d-btn--ghost ia-first" (click)="openCreate()">Create your first access key <fa-icon [icon]="i.arrow" aria-hidden="true" /></button>
+        </div>
+      }
+    </section>
+  }
+}
+
+@if (mfaOpen()) {
+  <app-demo-dialog [title]="mfaStep() === 3 ? 'Setup Multi-Factor Authentication' : mfa().enabled ? 'Manage MFA' : 'Setup Multi-Factor Authentication'" [wide]="true" (closed)="mfaOpen.set(false)">
+    @if (mfaStep() === 3) {
+      <div class="ia-done">
+        <fa-icon class="ia-big is-on" [icon]="i.ok" aria-hidden="true" />
+        <h5>MFA Enabled!</h5>
+        <p>You have successfully secured your account with Multi-Factor Authentication.</p>
+      </div>
+    } @else if (mfa().enabled) {
+      <div class="ia-done">
+        <fa-icon class="ia-big is-on" [icon]="i.shield" aria-hidden="true" />
+        @if (confirmDisable()) {
+          <p role="alert">Are you sure you want to disable Multi-Factor Authentication?</p>
+        } @else {
+          <p>Multi-Factor Authentication is currently active on your account{{ mfa().method === 'email' ? ' (Email Authentication)' : ' (Authenticator App)' }}.</p>
+        }
+      </div>
+    } @else if (mfaStep() === 1) {
+      <fieldset>
+        <legend class="ia-text ia-legend">Choose your preferred method to receive security codes when you sign in.</legend>
+        <label class="ia-method">
+          <input type="radio" name="ia-mfa-method" [checked]="mfaMethod() === 'app'" (change)="mfaMethod.set('app')" />
+          <fa-icon class="ia-method__icon" [icon]="i.qr" aria-hidden="true" />
+          <span><strong>Authenticator App</strong><small>Use an app like Google Authenticator, Authy, or 1Password.</small></span>
+        </label>
+        <label class="ia-method">
+          <input type="radio" name="ia-mfa-method" [checked]="mfaMethod() === 'email'" (change)="mfaMethod.set('email')" />
+          <fa-icon class="ia-method__icon" [icon]="i.mail" aria-hidden="true" />
+          <span><strong>Email Authentication</strong><small>Receive a code to your registered email address upon login.</small></span>
+        </label>
+      </fieldset>
+    } @else {
+      @if (mfaMethod() === 'app') {
+        <div class="ia-center">
+          <p class="ia-text">Scan the image below with your authenticator app, then enter the 6-digit code to verify.</p>
+          <svg class="ia-qr" viewBox="-2 -2 29 29" role="img" aria-label="QR code for MFA setup">
+            <rect x="-2" y="-2" width="29" height="29" fill="#fff" />
+            @for (c of qrCells; track $index) { <rect [attr.x]="c.x" [attr.y]="c.y" width="1" height="1" fill="#111827" /> }
+          </svg>
+          <p class="d-hint ia-hint-center">Can't scan? Enter this code manually:</p>
+          <p class="d-mono ia-secret">{{ secret }}</p>
+        </div>
+      } @else {
+        <p class="ia-text">We've sent a 6-digit verification code to <strong>{{ email }}</strong>. Please enter it below.</p>
+      }
+      <label class="d-field">
+        <span>Verification Code</span>
+        <input class="d-input ia-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter 6-digit code" [value]="mfaCode()" (input)="setCode($any($event.target).value); $any($event.target).value = mfaCode()" (keydown.enter)="verify()" [attr.aria-invalid]="!!mfaError()" aria-describedby="ia-hint-code ia-err-code" />
+        <span class="d-hint" id="ia-hint-code">Demo: any 6 digits verify.</span>
+        @if (mfaError(); as e) { <p class="d-error" id="ia-err-code">{{ e }}</p> }
+      </label>
+    }
+    <div dialogActions>
+      @if (mfaStep() === 3) {
+        <button type="button" class="d-btn d-btn--primary" (click)="mfaOpen.set(false)">Done</button>
+      } @else if (mfa().enabled) {
+        @if (confirmDisable()) {
+          <button type="button" class="d-btn" (click)="confirmDisable.set(false)">Cancel</button>
+          <button type="button" class="d-btn d-btn--danger" (click)="disableMfa()">Yes, disable MFA</button>
+        } @else {
+          <button type="button" class="d-btn d-btn--outline" (click)="mfaOpen.set(false)">Close</button>
+          <button type="button" class="d-btn d-btn--danger" (click)="confirmDisable.set(true)">Disable MFA</button>
+        }
+      } @else if (mfaStep() === 1) {
+        <button type="button" class="d-btn d-btn--outline" (click)="mfaOpen.set(false)">Cancel</button>
+        <button type="button" class="d-btn d-btn--primary" (click)="mfaContinue()">Continue</button>
+      } @else {
+        <button type="button" class="d-btn d-btn--outline ia-back" (click)="mfaStep.set(1)">Back</button>
+        <button type="button" class="d-btn d-btn--primary" (click)="verify()">Verify &amp; Enable</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+@if (createOpen()) {
+  <app-demo-dialog [title]="minted() ? 'Access key created' : 'Create access key'" (closed)="closeCreate()">
+    @if (minted(); as k) {
+      <p class="ia-warn" role="alert"><fa-icon [icon]="i.warn" aria-hidden="true" /><span><strong>Save the secret now.</strong> We will never show it again. Once you close this dialog the secret is gone forever.</span></p>
+      <dl class="ia-minted">
+        <div><dt>Label</dt><dd class="d-mono">{{ k.label || '(none)' }}</dd></div>
+        <div><dt>Access key ID</dt><dd class="d-mono">{{ k.accessKeyId }}</dd></div>
+        <div><dt>Secret key</dt><dd class="d-mono ia-secret-value">{{ k.secretKey }}</dd></div>
+      </dl>
+    } @else {
+      <form id="ia-create-form" (submit)="createKey($event)">
+        <p class="ia-text">Use the optional label to identify where this key is used (e.g. "Veeam backup").</p>
+        <label class="d-field">
+          <span>Label</span>
+          <input class="d-input" maxlength="200" placeholder="Veeam backup" [value]="keyLabel()" (input)="keyLabel.set($any($event.target).value)" />
+        </label>
+      </form>
+    }
+    <div dialogActions>
+      @if (minted(); as k) {
+        <button type="button" class="d-btn" (click)="copy(k.secretKey, 'Secret')"><fa-icon [icon]="i.copy" aria-hidden="true" />Copy secret</button>
+        <button type="button" class="d-btn d-btn--primary" (click)="closeCreate()">I have saved it</button>
+      } @else {
+        <button type="button" class="d-btn" (click)="closeCreate()">Cancel</button>
+        <button type="submit" form="ia-create-form" class="d-btn d-btn--primary">Create</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+@if (revoking(); as k) {
+  <app-demo-dialog title="Revoke access key" (closed)="revoking.set(null)">
+    <p class="ia-text">Revoke access key "<span class="d-mono">{{ k.accessKeyId }}</span>"? This cannot be undone.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="revoking.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmRevoke()">Revoke</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

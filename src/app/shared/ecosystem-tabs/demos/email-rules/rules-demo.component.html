@@ -1,0 +1,178 @@
+@if (editing(); as target) {
+  <!-- New Rule / Edit Rule: the suite's rule details page, opened in place of the table. -->
+  <div class="rule-back">
+    <button type="button" class="d-btn d-btn--outline" (click)="closeRule()"><fa-icon [icon]="i.back" aria-hidden="true" />Back to Rules List</button>
+  </div>
+  <section class="d-page" aria-labelledby="rule-demo-title">
+    <form id="rule-form" class="rule-form" (submit)="$event.preventDefault(); save()" novalidate>
+      <h3 id="rule-demo-title" class="rule-title" tabindex="-1">{{ target === 'new' ? 'New Rule' : 'Edit Rule' }}</h3>
+      <label class="d-field">
+        <span>Rule Name <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" required autocomplete="off" [value]="draft().name" (input)="draft.set({ ...draft(), name: $any($event.target).value })" [attr.aria-invalid]="!!err('name')" aria-describedby="rule-err-name" />
+        @if (err('name'); as e) { <p class="d-error" id="rule-err-name">{{ e }}</p> }
+      </label>
+      <label class="d-field">
+        <span>Description</span>
+        <textarea class="d-textarea" rows="2" placeholder="Leave blank to describe the rule from its conditions and actions" [value]="draft().description" (input)="draft.set({ ...draft(), description: $any($event.target).value })"></textarea>
+      </label>
+
+      @for (s of sections; track s.id) {
+        <fieldset class="rule-sec" [attr.aria-describedby]="err(s.id) ? 'rule-err-' + s.id : null">
+          <legend class="rule-sec__title">{{ s.title }}</legend>
+          @for (it of draft()[key[s.id]]; track it.id) {
+            <div class="rule-item">
+              <div class="rule-item__text">
+                <p class="rule-item__type">{{ it.type }}</p>
+                <p class="rule-item__value">{{ it.value.length ? it.value.join(', ') : 'No value needed' }}</p>
+              </div>
+              @if (it.value.length) {
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Edit ' + it.type.replace('...', '')" title="Edit" (click)="openItem(s.id, it)"><fa-icon [icon]="i.pencil" aria-hidden="true" /></button>
+              }
+              <button type="button" class="d-btn d-btn--icon d-btn--ghost rule-danger" [attr.aria-label]="'Delete ' + it.type.replace('...', '')" title="Delete" (click)="removeItem(s.id, it)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+            </div>
+          }
+          <div class="d-menu-wrap" (keydown.escape)="closeMenu()">
+            <button type="button" class="d-btn d-btn--outline rule-add" [id]="'rule-add-' + s.id" aria-haspopup="true" [attr.aria-expanded]="openMenu() === s.id" (click)="toggleMenu($event, s.id)"><fa-icon [icon]="i.plus" aria-hidden="true" />{{ s.button }}</button>
+            @if (openMenu() === s.id) {
+              <div class="d-menu rule-menu" [class.rule-menu--up]="s.id === 'exception'">
+                @for (o of s.options; track o) { <button type="button" (click)="pickType(s.id, o)">{{ o }}</button> }
+              </div>
+            }
+          </div>
+          @if (err(s.id); as e) { <p class="d-error" [id]="'rule-err-' + s.id">{{ e }}</p> }
+        </fieldset>
+      }
+    </form>
+    <div class="rule-foot">
+      <button type="button" class="d-btn d-btn--ghost" (click)="closeRule()">Cancel</button>
+      <button type="submit" form="rule-form" class="d-btn d-btn--primary">{{ target === 'new' ? 'Create Rule' : 'Save Changes' }}</button>
+    </div>
+  </section>
+} @else {
+  <section class="d-page" aria-labelledby="rule-demo-title">
+    <div class="d-head">
+      <h3 id="rule-demo-title" class="rule-h3" tabindex="-1">Rules</h3>
+      <button type="button" class="d-btn d-btn--primary" (click)="openRule('new')"><fa-icon [icon]="i.add" aria-hidden="true" />Add Rule</button>
+    </div>
+
+    @if (rules().length) {
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Rules table">
+        <table class="d-table rule-table">
+          <caption class="sr-only">Rules</caption>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col" class="rule-center">Enabled</th>
+              <th scope="col" class="rule-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of rules(); track r.id) {
+              <tr>
+                <th scope="row">{{ r.name }}</th>
+                <td class="d-muted rule-desc">{{ r.description }}</td>
+                <td class="rule-center">
+                  <input class="d-switch" type="checkbox" role="switch" [attr.aria-label]="'Enabled: ' + r.name" [checked]="r.status === 'enabled'" (click)="askStatus($event, r)" />
+                </td>
+                <td class="rule-right">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Info for ' + r.name" title="Info" (click)="info.set(r)"><fa-icon [icon]="i.info" aria-hidden="true" /></button>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Edit ' + r.name" title="Edit" (click)="openRule(r)"><fa-icon [icon]="i.pencil" aria-hidden="true" /></button>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost rule-danger" [attr.aria-label]="'Delete ' + r.name" title="Delete" (click)="deleting.set(r)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="d-empty"><strong>No rules yet</strong>Use Add Rule to route, reject or copy mail by condition.</div>
+    }
+    <div class="rule-pager">
+      <label for="rule-rows" class="d-muted">View of</label>
+      <select id="rule-rows" class="d-select rule-rows" [value]="rowsPerPage()" (change)="setRows($any($event.target).value)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+  </section>
+}
+
+@if (info(); as r) {
+  <app-demo-dialog title="Rule Information" (closed)="info.set(null)">
+    <dl class="rule-info">
+      <div><dt>Name:</dt><dd>{{ r.name }}</dd></div>
+      <div><dt>Description:</dt><dd>{{ r.description }}</dd></div>
+      <div><dt>Status:</dt><dd><span class="d-pill" [class.d-pill--good]="r.status === 'enabled'" [class.d-pill--bad]="r.status !== 'enabled'">{{ r.status }}</span></dd></div>
+      <div><dt>Created:</dt><dd>{{ r.creationDate | date: 'medium' }}</dd></div>
+      <div><dt>Last Modified:</dt><dd>{{ r.lastModified | date: 'medium' }}</dd></div>
+    </dl>
+    <div dialogActions><button type="button" class="d-btn d-btn--primary" (click)="info.set(null)">Close</button></div>
+  </app-demo-dialog>
+}
+
+@if (statusChange(); as c) {
+  <app-demo-dialog title="Confirm Status Change" (closed)="statusChange.set(null)">
+    <p class="rule-dialog-text">Are you sure you want to <strong>{{ c.next === 'enabled' ? 'enable' : 'disable' }}</strong> the rule "{{ c.rule.name }}"?</p>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="statusChange.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="confirmStatus()">Confirm</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as r) {
+  <app-demo-dialog title="Delete Rule" (closed)="deleting.set(null)">
+    <p class="rule-dialog-text">Are you sure you want to delete the rule <strong>{{ r.name }}</strong>? Mail will no longer be checked against it. This action cannot be undone.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (modal(); as m) {
+  <app-demo-dialog [title]="'Select: ' + m.item.type" (closed)="modal.set(null)">
+    @if (isMemberItem()) {
+      <label class="d-field"><span>Search</span><input class="d-input" autocomplete="off" [value]="modalSearch()" (input)="modalSearch.set($any($event.target).value)" /></label>
+      <fieldset class="rule-picks" [attr.aria-describedby]="modalError() ? 'rule-err-modal' : null">
+        <legend class="sr-only">Recipients</legend>
+        @for (member of filteredMembers(); track member) {
+          <label class="rule-pick"><input type="checkbox" [checked]="modalValue().includes(member)" (change)="toggleMember(member, $any($event.target).checked)" />{{ member }}</label>
+        } @empty {
+          <p class="rule-none">No matches.</p>
+        }
+      </fieldset>
+    } @else {
+      <div class="d-field">
+        <label class="d-label" for="rule-text">Words, phrases or addresses</label>
+        <div class="rule-text">
+          <input id="rule-text" class="d-input" autocomplete="off" placeholder="Separate several with commas" [value]="modalText()" (input)="modalText.set($any($event.target).value)" (keydown.enter)="$event.preventDefault(); addText()" [attr.aria-invalid]="!!modalError()" [attr.aria-describedby]="modalError() ? 'rule-err-modal' : null" />
+          <button type="button" class="d-btn d-btn--outline" (click)="addText()">Add</button>
+        </div>
+      </div>
+      @if (modalValue().length) {
+        <ul class="rule-chips" aria-label="Values">
+          @for (w of modalValue(); track w) {
+            <li>{{ w }}<button type="button" [attr.aria-label]="'Remove ' + w" (click)="removeText(w)"><fa-icon [icon]="i.close" aria-hidden="true" /></button></li>
+          }
+        </ul>
+      }
+    }
+    @if (modalError(); as e) { <p class="d-error" id="rule-err-modal" role="alert">{{ e }}</p> }
+    <div class="rule-selected">
+      <p>Selected:</p>
+      <p class="d-muted">{{ modalValue().join(', ') || 'None' }}</p>
+    </div>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="modal.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="saveItem()">Save</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

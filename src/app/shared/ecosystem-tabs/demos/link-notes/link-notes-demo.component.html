@@ -1,0 +1,71 @@
+<div class="ln" [class.ln--editor]="showEditor()">
+  <!-- One private note per meeting; the list is the meetings that have one. -->
+  <div class="ln-list">
+    <header class="ln-list-head">
+      <h3 id="ln-list-title">My notes</h3>
+      <button type="button" class="d-btn d-btn--primary d-btn--sm" (click)="create()"><fa-icon [icon]="i.plus" aria-hidden="true" />New note</button>
+    </header>
+    <div class="ln-find">
+      <fa-icon [icon]="i.search" aria-hidden="true" />
+      <input type="search" placeholder="Search notes" aria-label="Search notes" autocomplete="off" [value]="query()" (input)="query.set($any($event.target).value)" />
+    </div>
+    <ul class="ln-rows" aria-label="Meeting notes">
+      @for (n of list(); track n.id) {
+        @let here = n.id === store.activeId();
+        <li>
+          <button type="button" class="ln-row" [class.is-active]="here" [attr.aria-current]="here ? 'true' : null" [attr.data-note]="n.id" (click)="open(n)">
+            <span class="ln-row-top"><span class="ln-row-title">{{ n.meeting }}</span><span class="ln-row-when">{{ n.when }}</span></span>
+            <span class="ln-row-ctx">{{ n.context }}</span>
+            <span class="ln-row-preview" [class.is-empty]="!n.body.trim()">{{ preview(n) }}</span>
+          </button>
+        </li>
+      } @empty {
+        <li class="ln-none">{{ query() ? 'No notes match “' + query() + '”.' : 'No notes yet.' }}</li>
+      }
+    </ul>
+  </div>
+
+  <!-- The meeting notes panel: title, save status, the textarea, Copy and Download. -->
+  <section class="ln-panel" aria-labelledby="ln-panel-title">
+    @if (active(); as n) {
+      <header class="ln-panel-head">
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost ln-back" aria-label="Back to notes" (click)="back()"><fa-icon [icon]="i.back" aria-hidden="true" /></button>
+        <h4 id="ln-panel-title"><fa-icon [icon]="i.pen" aria-hidden="true" />My notes</h4>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost ln-del" [attr.aria-label]="'Delete notes for ' + n.meeting" title="Delete note" (click)="deleting.set(n)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+      </header>
+      <div class="ln-meeting">
+        <label class="sr-only" for="ln-title">Meeting</label>
+        <input id="ln-title" class="ln-title" maxlength="80" [value]="n.meeting" (input)="store.rename(n.id, $any($event.target).value)" />
+        <p class="ln-ctx"><fa-icon [icon]="i.cal" aria-hidden="true" />{{ n.when }} · {{ n.context }}</p>
+      </div>
+      <p class="ln-status" [class.is-saving]="store.saveState() === 'saving'" role="status">
+        @if (store.saveState() === 'saved') { <fa-icon [icon]="i.ok" aria-hidden="true" /> }
+        {{ status() }}
+      </p>
+      <label class="sr-only" for="ln-body">Notes for {{ n.meeting }}</label>
+      <textarea id="ln-body" class="ln-body" placeholder="Take notes for this meeting…" [value]="n.body" (input)="store.write(n.id, $any($event.target).value)"></textarea>
+      <div class="ln-actions">
+        <button type="button" class="d-btn d-btn--outline" [disabled]="!n.body.trim()" (click)="copy(n)"><fa-icon [icon]="i.copy" aria-hidden="true" />Copy</button>
+        <button type="button" class="d-btn d-btn--outline" [disabled]="!n.body.trim()" (click)="download(n)"><fa-icon [icon]="i.download" aria-hidden="true" />Download</button>
+      </div>
+    } @else {
+      <h4 id="ln-panel-title" class="sr-only">My notes</h4>
+      <div class="d-empty ln-empty"><strong>No note open</strong>Pick a meeting on the left, or press New note.</div>
+    }
+  </section>
+</div>
+
+@if (deleting(); as n) {
+  <app-demo-dialog title="Delete note" (closed)="deleting.set(null)">
+    <p class="ln-dialog-text">Delete your notes for <strong>{{ n.meeting }}</strong>? This can’t be undone.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

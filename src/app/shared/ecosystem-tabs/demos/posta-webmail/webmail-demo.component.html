@@ -1,0 +1,235 @@
+<div class="wm" [attr.data-view]="open() || compose() ? 'reader' : 'list'">
+  <!-- Message list -->
+  <section class="wm-list" aria-labelledby="wm-list-title">
+    <header class="wm-list-head">
+      <div class="wm-list-head__main">
+        <div>
+          <p class="wm-eyebrow">Mailbox</p>
+          <h3 id="wm-list-title" class="wm-title">{{ folderLabels[folder()] }}</h3>
+        </div>
+        <div class="wm-head-actions">
+          <label class="sr-only" for="wm-folder">Folder</label>
+          <select id="wm-folder" class="d-select wm-folder" [value]="folder()" (change)="setFolder($any($event.target).value)">
+            @for (f of folders; track f) {
+              <option [value]="f">{{ folderLabels[f] }}@if (unreadCounts()[f]) { ({{ unreadCounts()[f] }} unread)}</option>
+            }
+          </select>
+          <button type="button" id="wm-new" class="d-btn d-btn--primary d-btn--sm" (click)="newMessage()"><fa-icon [icon]="i.compose" aria-hidden="true" />New message</button>
+        </div>
+      </div>
+      <div class="d-search wm-search">
+        <fa-icon [icon]="i.search" aria-hidden="true" />
+        <input type="search" class="d-input" aria-label="Search mail" placeholder="Search mail" [value]="search()" (input)="search.set($any($event.target).value)" />
+      </div>
+      @if (folder() === 'inbox') {
+        <div class="wm-focus-row">
+          <div class="wm-focus-tabs" role="tablist" aria-label="Focused Inbox" (keydown)="onTabKey($event)">
+            @for (t of focusTabs; track t.key) {
+              <button type="button" role="tab" [id]="'wm-tab-' + t.key" aria-controls="wm-msg-list" [attr.aria-selected]="focusTab() === t.key" [attr.tabindex]="focusTab() === t.key ? 0 : -1" (click)="focusTab.set(t.key)">{{ t.label }}</button>
+            }
+          </div>
+          <div class="wm-focus-info">
+            <button type="button" class="d-btn d-btn--icon d-btn--ghost wm-icon-btn" aria-label="What is Focused Inbox?" [attr.aria-expanded]="focusInfoOpen()" aria-controls="wm-focus-note" (click)="focusInfoOpen.set(!focusInfoOpen())"><fa-icon [icon]="i.info" aria-hidden="true" /></button>
+            @if (focusInfoOpen()) {
+              <p id="wm-focus-note" class="wm-focus-note">Focused shows mail from people you usually reply to; Other holds the rest. Moving a message between them updates future mail from that sender too.</p>
+            }
+          </div>
+        </div>
+      }
+      <div class="wm-chips" role="toolbar" aria-label="Filter messages">
+        <button type="button" class="wm-chip" [attr.aria-pressed]="filters().unread" (click)="toggleFilter('unread')">Unread</button>
+        <button type="button" class="wm-chip" [attr.aria-pressed]="filters().flagged" (click)="toggleFilter('flagged')"><fa-icon [icon]="i.star" aria-hidden="true" />Flagged</button>
+        <button type="button" class="wm-chip" [attr.aria-pressed]="filters().attachment" (click)="toggleFilter('attachment')"><fa-icon [icon]="i.attach" aria-hidden="true" />Attachment</button>
+        @if (isFiltered()) {
+          <button type="button" class="wm-chip wm-chip--clear" aria-label="Clear all filters" (click)="clearFilters()">Clear</button>
+        }
+        <span class="wm-count">{{ items().length }} {{ items().length === 1 ? 'message' : 'messages' }}</span>
+      </div>
+    </header>
+
+    <div id="wm-msg-list" class="wm-list-body" [attr.role]="folder() === 'inbox' ? 'tabpanel' : null" [attr.aria-labelledby]="folder() === 'inbox' ? 'wm-tab-' + focusTab() : null">
+      @if (items().length) {
+        <ul class="wm-msgs" aria-label="Messages">
+          @for (m of items(); track m.id) {
+            <li class="wm-row-wrap">
+              <button type="button" class="wm-row" [class.is-unread]="!m.isRead" [class.is-selected]="openId() === m.id" [attr.data-msg-id]="m.id"
+                      [attr.aria-current]="openId() === m.id ? 'true' : null" [attr.aria-label]="rowLabel(m)" (click)="openMessage(m)">
+                <span class="wm-bullet" aria-hidden="true"></span>
+                <span class="wm-avatar" [attr.data-tone]="tone(folder() === 'sent' || folder() === 'drafts' ? m.to[0] : m.from)" aria-hidden="true">{{ initials(folder() === 'sent' || folder() === 'drafts' ? m.to[0] : m.from) }}</span>
+                <span class="wm-row-body">
+                  <span class="wm-line1">
+                    <span class="wm-from">{{ folder() === 'sent' || folder() === 'drafts' ? 'To: ' + names(m.to) : m.from.name }}</span>
+                    @if (m.isFlagged) { <fa-icon class="wm-flagged" [icon]="i.star" aria-hidden="true" /> }
+                    <span class="wm-date">{{ listDate(m.receivedAt) }}</span>
+                  </span>
+                  <span class="wm-line2">
+                    <span class="wm-subject">{{ m.subject || '(no subject)' }}</span>
+                    @if (m.attachments.length) { <fa-icon class="wm-attach" [icon]="i.attach" aria-hidden="true" /> }
+                  </span>
+                  <span class="wm-snippet">{{ snippet(m) }}</span>
+                </span>
+              </button>
+              <!-- Mouse quick actions, as MessageRowActions: out of the tab order; the reader toolbar has every verb. -->
+              <div class="wm-row-actions" aria-hidden="true">
+                @if (m.folder !== 'archive') {
+                  <button type="button" tabindex="-1" title="Archive" (click)="archive(m)"><fa-icon [icon]="i.archive" /></button>
+                }
+                @if (m.folder !== 'deleted') {
+                  <button type="button" tabindex="-1" title="Delete" (click)="remove(m)"><fa-icon [icon]="i.trash" /></button>
+                }
+                <button type="button" tabindex="-1" [class.is-on]="m.isFlagged" [title]="m.isFlagged ? 'Remove flag' : 'Flag'" (click)="toggleFlag(m)"><fa-icon [icon]="i.star" /></button>
+                <button type="button" tabindex="-1" [title]="m.isRead ? 'Mark as unread' : 'Mark as read'" (click)="toggleRead(m)"><fa-icon [icon]="m.isRead ? i.unread : i.read" /></button>
+                @if (folder() === 'inbox' && focusTab() !== 'all') {
+                  <button type="button" tabindex="-1" [title]="focusTab() === 'focused' ? 'Move to Other' : 'Move to Focused'" (click)="moveFocus(m)"><fa-icon [icon]="focusTab() === 'focused' ? i.down : i.up" /></button>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="wm-empty">
+          <fa-icon [icon]="isFiltered() ? i.filter : i.inbox" aria-hidden="true" />
+          <strong>{{ isFiltered() ? 'No matches in this folder' : 'Folder is empty' }}</strong>
+          <span>{{ isFiltered() ? 'Clear filters or switch inbox tabs to widen the list.' : 'New messages will appear here after the next sync.' }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Reading pane, or the compose pane in its place -->
+  @if (compose(); as d) {
+    <section class="wm-reader wm-compose" aria-labelledby="wm-compose-title">
+      <h3 id="wm-compose-title" class="wm-compose-title">{{ d.kind === 'reply' ? 'Reply' : d.kind === 'reply-all' ? 'Reply all' : d.kind === 'forward' ? 'Forward' : 'New message' }}</h3>
+      <form class="wm-compose-form" novalidate (submit)="$event.preventDefault(); send()">
+        <div class="wm-compose-row">
+          <label for="wm-compose-to" class="wm-compose-label">To<span class="d-req" aria-hidden="true">*</span></label>
+          <div class="wm-compose-field">
+            <input id="wm-compose-to" class="d-input" type="text" inputmode="email" autocomplete="off" placeholder="name@example.com" required
+                   [value]="d.to" (input)="setDraft('to', $any($event.target).value)"
+                   [attr.aria-invalid]="err('to') ? 'true' : null" [attr.aria-describedby]="err('to') ? 'wm-to-err' : 'wm-to-hint'" />
+            @if (err('to'); as e) { <p id="wm-to-err" class="d-error">{{ e }}</p> } @else { <p id="wm-to-hint" class="sr-only">Separate addresses with commas.</p> }
+          </div>
+          @if (!d.showCc) {
+            <button type="button" class="d-btn d-btn--ghost d-btn--sm wm-cc-btn" (click)="setDraft('showCc', true)">Cc</button>
+          }
+        </div>
+        @if (d.showCc) {
+          <div class="wm-compose-row">
+            <label for="wm-compose-cc" class="wm-compose-label">Cc</label>
+            <div class="wm-compose-field">
+              <input id="wm-compose-cc" class="d-input" type="text" inputmode="email" autocomplete="off" [value]="d.cc" (input)="setDraft('cc', $any($event.target).value)"
+                     [attr.aria-invalid]="err('cc') ? 'true' : null" [attr.aria-describedby]="err('cc') ? 'wm-cc-err' : null" />
+              @if (err('cc'); as e) { <p id="wm-cc-err" class="d-error">{{ e }}</p> }
+            </div>
+            <button type="button" class="d-btn d-btn--ghost d-btn--sm wm-cc-btn" aria-label="Hide Cc" (click)="setDraft('showCc', false); setDraft('cc', '')">Hide</button>
+          </div>
+        }
+        <div class="wm-compose-row">
+          <label for="wm-compose-subject" class="wm-compose-label">Subject</label>
+          <div class="wm-compose-field"><input id="wm-compose-subject" class="d-input" type="text" maxlength="300" [value]="d.subject" (input)="setDraft('subject', $any($event.target).value)" /></div>
+        </div>
+        <label class="sr-only" for="wm-compose-body">Message body</label>
+        <textarea id="wm-compose-body" class="d-textarea wm-compose-body" [value]="d.body" (input)="setDraft('body', $any($event.target).value)"></textarea>
+        <div class="wm-compose-actions">
+          <button type="submit" class="d-btn d-btn--primary"><fa-icon [icon]="i.send" aria-hidden="true" />Send</button>
+          <button type="button" class="d-btn d-btn--ghost" (click)="cancelCompose()"><fa-icon [icon]="i.trash" aria-hidden="true" />Discard</button>
+        </div>
+      </form>
+    </section>
+  } @else if (open(); as m) {
+    <section class="wm-reader" aria-label="Message reader">
+      <button type="button" class="d-btn d-btn--ghost d-btn--sm wm-back" (click)="closeReader()"><fa-icon [icon]="i.back" aria-hidden="true" />Back to list</button>
+      <div class="wm-reader-toolbar" role="toolbar" aria-label="Message actions">
+        <button type="button" class="d-btn d-btn--ghost d-btn--sm" (click)="replyTo(m, 'reply')"><fa-icon [icon]="i.reply" aria-hidden="true" />Reply</button>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Reply to all recipients" title="Reply to all recipients" (click)="replyTo(m, 'reply-all')"><fa-icon [icon]="i.replyAll" aria-hidden="true" /></button>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Forward" title="Forward to another address" (click)="replyTo(m, 'forward')"><fa-icon [icon]="i.forward" aria-hidden="true" /></button>
+        <span class="wm-spacer"></span>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" [class.is-on]="m.isFlagged" [attr.aria-pressed]="m.isFlagged" [attr.aria-label]="m.isFlagged ? 'Unstar' : 'Star'" [title]="m.isFlagged ? 'Starred: click to unstar' : 'Star this message'" (click)="toggleFlag(m)"><fa-icon [icon]="i.star" aria-hidden="true" /></button>
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Archive" title="Archive" [disabled]="m.folder === 'archive'" (click)="archive(m)"><fa-icon [icon]="i.archive" aria-hidden="true" /></button>
+        @if (m.folder === 'deleted') {
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Restore to Inbox" title="Move this message back to the Inbox" (click)="restore(m)"><fa-icon [icon]="i.restore" aria-hidden="true" /></button>
+        } @else {
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Delete" title="Delete" (click)="remove(m)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+        }
+        <div class="d-menu-wrap" (keydown.escape)="closeMore()">
+          <button type="button" id="wm-more-trigger" class="d-btn d-btn--icon d-btn--ghost" aria-label="More actions" aria-haspopup="true" [attr.aria-expanded]="moreOpen()" (click)="toggleMore()"><fa-icon [icon]="i.more" aria-hidden="true" /></button>
+          @if (moreOpen()) {
+            <div class="d-menu">
+              <button type="button" (click)="toggleRead(m); closeMore()"><fa-icon [icon]="m.isRead ? i.unread : i.read" aria-hidden="true" />{{ m.isRead ? 'Mark as unread' : 'Mark as read' }}</button>
+              <button type="button" (click)="openMove(m)"><fa-icon [icon]="i.inbox" aria-hidden="true" />Move to folder…</button>
+              @if (m.folder === 'inbox') {
+                <button type="button" (click)="moveFocus(m); closeMore()"><fa-icon [icon]="m.focus === 'focused' ? i.down : i.up" aria-hidden="true" />{{ m.focus === 'focused' ? 'Move to Other' : 'Move to Focused' }}</button>
+              }
+              @if (m.folder !== 'junk') {
+                <hr />
+                <button type="button" class="is-danger" (click)="moveToJunk(m)"><fa-icon [icon]="i.filter" aria-hidden="true" />Move to Junk</button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <article class="wm-message" aria-labelledby="wm-subject">
+        <h4 id="wm-subject" class="wm-message-subject">{{ m.subject || '(no subject)' }}</h4>
+        <div class="wm-headers">
+          <span class="wm-avatar wm-avatar--lg" [attr.data-tone]="tone(m.from)" aria-hidden="true">{{ initials(m.from) }}</span>
+          <div class="wm-headers__text">
+            <p class="wm-sender">{{ m.from.name }} <span class="d-muted">&lt;{{ m.from.email }}&gt;</span></p>
+            <p class="wm-recipients"><span class="d-muted">To</span> {{ names(m.to) }}</p>
+            @if (m.cc.length) { <p class="wm-recipients"><span class="d-muted">Cc</span> {{ names(m.cc) }}</p> }
+            <p class="wm-when"><time [attr.datetime]="m.receivedAt">{{ fullDate(m.receivedAt) }}</time></p>
+          </div>
+        </div>
+        <div class="wm-body">
+          @for (p of m.body; track $index) { <p>{{ p }}</p> }
+        </div>
+        @if (m.attachments.length) {
+          <ul class="wm-attachments" aria-label="Attachments">
+            @for (a of m.attachments; track a.name) {
+              <li><fa-icon [icon]="i.attach" aria-hidden="true" /><span>{{ a.name }}</span><span class="d-muted">{{ a.size }}</span></li>
+            }
+          </ul>
+        }
+      </article>
+    </section>
+  } @else {
+    <section class="wm-reader wm-reader--empty" aria-label="Message reader">
+      <div class="wm-empty">
+        <fa-icon [icon]="i.inbox" aria-hidden="true" />
+        <strong>Nothing open</strong>
+        <span>Pick a message from the list to read it here.</span>
+      </div>
+    </section>
+  }
+</div>
+
+@if (moving(); as m) {
+  <app-demo-dialog title="Move to folder" (closed)="moving.set(null)">
+    <label class="d-field"><span>Move "{{ m.subject }}" to</span>
+      <select class="d-select" [value]="moveTarget()" (change)="moveTarget.set($any($event.target).value)">
+        @for (f of folders; track f) {
+          @if (f !== m.folder) { <option [value]="f">{{ folderLabels[f] }}</option> }
+        }
+      </select>
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="moving.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="confirmMove()">Move</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (discardOpen()) {
+  <app-demo-dialog title="Discard this message?" (closed)="discardOpen.set(false)">
+    <p class="wm-dialog-text">The text and recipients you've typed will be lost.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="discardOpen.set(false)">Keep editing</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="endCompose()">Discard</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

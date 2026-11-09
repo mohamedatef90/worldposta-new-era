@@ -1,0 +1,247 @@
+@if (editing(); as list) {
+  <!-- Edit Distribution List: the suite's own page, opened in place of the table. -->
+  <div class="dl-back">
+    <button type="button" class="d-btn d-btn--outline" (click)="closeEdit()"><fa-icon [icon]="i.back" aria-hidden="true" />Back to Distribution Lists</button>
+  </div>
+  <section class="d-page" aria-labelledby="dl-demo-title">
+    <h3 id="dl-demo-title" class="dl-title" tabindex="-1">Edit Distribution List</h3>
+    <p class="d-muted dl-sub">{{ list.primaryEmail }}</p>
+
+    <div class="dl-tabs" role="tablist" aria-label="Distribution list settings" (keydown)="onTabKey($event)">
+      @for (t of tabs; track t.id) {
+        <button type="button" role="tab" [id]="'dl-tab-' + t.id" [attr.aria-selected]="tab() === t.id" [attr.aria-controls]="tab() === t.id ? 'dl-panel-' + t.id : null" [tabindex]="tab() === t.id ? 0 : -1" (click)="tab.set(t.id)">
+          {{ t.label }}
+          @if (t.id === 'members') { <span class="dl-badge">{{ form().members.length }}</span> }
+        </button>
+      }
+    </div>
+
+    <div class="dl-panel" role="tabpanel" [id]="'dl-panel-' + tab()" [attr.aria-labelledby]="'dl-tab-' + tab()">
+    <form id="dl-edit-form" (submit)="$event.preventDefault(); saveEdit()" novalidate>
+      @switch (tab()) {
+        @case ('general') {
+          <h4 class="dl-h4">General Information</h4>
+          <ng-container *ngTemplateOutlet="general" />
+        }
+        @case ('settings') {
+          <label class="d-check"><input type="checkbox" [checked]="form().hideFromAddressBook" (change)="set('hideFromAddressBook', $any($event.target).checked)" />Hide from Address Book</label>
+          <p class="d-hint">Hidden lists still receive mail but don't appear in the Global Address List.</p>
+        }
+        @case ('members') {
+          <div class="dl-members-head">
+            <h4 class="dl-h4">Members</h4>
+            <button type="button" id="dl-add-members" class="d-btn d-btn--outline d-btn--sm" (click)="openMembers()"><fa-icon [icon]="i.addUser" aria-hidden="true" />Add Members</button>
+          </div>
+          @if (form().members.length) {
+            <div class="d-table-wrap" tabindex="0" role="region" aria-label="Members table">
+              <table class="d-table">
+                <caption class="sr-only">Members of {{ list.displayName }}</caption>
+                <thead><tr><th scope="col">Display Name</th><th scope="col">Email</th><th scope="col" class="dl-right">Actions</th></tr></thead>
+                <tbody>
+                  @for (m of form().members; track m.email) {
+                    <tr>
+                      <th scope="row">{{ m.displayName }}</th>
+                      <td class="d-muted">{{ m.email }}</td>
+                      <td class="dl-right"><button type="button" class="d-btn d-btn--icon d-btn--ghost dl-danger" [attr.aria-label]="'Remove ' + m.displayName" title="Remove member" (click)="removeMember(m)"><fa-icon [icon]="i.removeUser" aria-hidden="true" /></button></td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="d-empty"><strong>No members yet</strong>Add mailboxes to deliver this list's mail to them.</div>
+          }
+        }
+      }
+    </form>
+    </div>
+    @if (submitted() && hasErrors()) { <p class="d-error" role="alert">Display Name and Email Address are required and must be valid.</p> }
+    <div class="dl-foot">
+      <button type="button" class="d-btn d-btn--ghost" (click)="closeEdit()">Cancel</button>
+      <button type="submit" form="dl-edit-form" class="d-btn d-btn--primary">Save Changes</button>
+    </div>
+  </section>
+} @else {
+  <section class="d-page" aria-labelledby="dl-demo-title">
+    <div class="d-head dl-head">
+      <h3 id="dl-demo-title" tabindex="-1">Distribution Lists</h3>
+      @if (selected().length) {
+        <div class="dl-bulk" role="group" aria-label="Bulk actions">
+          <span class="dl-bulk__count">{{ selected().length }} selected</span>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm dl-danger" (click)="askBulkDelete()"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Clear selection" (click)="selected.set([])"><fa-icon [icon]="i.close" aria-hidden="true" /></button>
+        </div>
+      } @else {
+        <div class="d-actions">
+          <button type="button" class="d-btn d-btn--outline" (click)="openFilters()">
+            <fa-icon [icon]="i.filter" aria-hidden="true" />Filters &amp; Search
+            @if (activeFilterCount()) { <span class="d-count">{{ activeFilterCount() }}<span class="sr-only"> active</span></span> }
+          </button>
+          <button type="button" class="d-btn d-btn--primary" (click)="openAdd()"><fa-icon [icon]="i.add" aria-hidden="true" />Add Distribution List</button>
+        </div>
+      }
+    </div>
+
+    @if (lists().length) {
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Distribution lists table">
+        <table class="d-table">
+          <caption class="sr-only">Distribution Lists</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="dl-check"><input type="checkbox" aria-label="Select all distribution lists" [checked]="allSelected()" (change)="toggleAll($any($event.target).checked)" /></th>
+              <th scope="col">Display Name</th>
+              <th scope="col">Primary Email Address</th>
+              <th scope="col">Manager Email</th>
+              <th scope="col">Creation Date</th>
+              <th scope="col" class="dl-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (l of lists(); track l.id) {
+              <tr [class.is-selected]="selected().includes(l.id)">
+                <td class="dl-check"><input type="checkbox" [attr.aria-label]="'Select ' + l.displayName" [checked]="selected().includes(l.id)" (change)="toggleOne(l.id, $any($event.target).checked)" /></td>
+                <th scope="row" class="dl-name">{{ l.displayName }}</th>
+                <td>{{ l.primaryEmail }}</td>
+                <td class="d-muted">{{ l.managerEmail || 'N/A' }}</td>
+                <td class="d-muted">{{ l.creationDate | date: 'M/d/yyyy' }}</td>
+                <td class="dl-right">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Edit ' + l.displayName" title="Edit" (click)="openEdit(l)"><fa-icon [icon]="i.pencil" aria-hidden="true" /></button>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost dl-danger" [attr.aria-label]="'Delete ' + l.displayName" title="Delete" (click)="deleting.set([l])"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="dl-count d-muted">Showing 1-{{ lists().length }} of {{ lists().length }}</p>
+    } @else {
+      <div class="d-empty"><strong>No distribution lists found</strong>Change or clear the filters, or add a distribution list.</div>
+    }
+  </section>
+}
+
+<!-- The General fields, used by the Add panel and the Edit page's General tab. -->
+<ng-template #general>
+  <label class="d-field">
+    <span>Display Name <span class="d-req" aria-hidden="true">*</span></span>
+    <input class="d-input" required autocomplete="off" placeholder="e.g. Marketing Team" [value]="form().displayName" (input)="set('displayName', $any($event.target).value)" [attr.aria-invalid]="!!err('displayName')" aria-describedby="dl-err-name" />
+    @if (err('displayName'); as e) { <p class="d-error" id="dl-err-name">{{ e }}</p> }
+  </label>
+  <div class="d-field">
+    <label class="d-label" for="dl-email-user">Primary Email Address <span class="d-req" aria-hidden="true">*</span></label>
+    <div class="dl-email">
+      <input id="dl-email-user" class="d-input" required autocomplete="off" placeholder="marketing" [value]="form().emailUser" (input)="set('emailUser', $any($event.target).value)" [attr.aria-invalid]="!!err('emailUser')" aria-describedby="dl-err-email" />
+      <span class="dl-email__at" aria-hidden="true">&#64;</span>
+      <select class="d-select" aria-label="Email domain" [value]="form().emailDomain" (change)="set('emailDomain', $any($event.target).value)">
+        @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
+      </select>
+    </div>
+    @if (err('emailUser'); as e) { <p class="d-error" id="dl-err-email">{{ e }}</p> }
+  </div>
+  <div class="d-field">
+    <label class="d-label" for="dl-manager">Manager Email</label>
+    <div class="dl-manager">
+      <input id="dl-manager" class="d-input" readonly placeholder="Select a manager..." [value]="form().managerEmail" />
+      @if (form().managerEmail) {
+        <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Clear manager" title="Clear manager" (click)="set('managerEmail', '')"><fa-icon [icon]="i.close" aria-hidden="true" /></button>
+      }
+      <button type="button" class="d-btn d-btn--outline d-btn--icon" aria-label="Select Manager" title="Select Manager" (click)="openManager()"><fa-icon [icon]="i.search" aria-hidden="true" /></button>
+    </div>
+  </div>
+  <label class="d-field"><span>Note</span><textarea class="d-textarea" rows="3" placeholder="Optional notes about this list..." [value]="form().note" (input)="set('note', $any($event.target).value)"></textarea></label>
+</ng-template>
+
+@if (addOpen()) {
+  <app-demo-dialog title="Add Distribution List" kind="panel" (closed)="addOpen.set(false)">
+    <form id="dl-add-form" (submit)="$event.preventDefault(); create()" novalidate>
+      <ng-container *ngTemplateOutlet="general" />
+      <label class="d-check"><input type="checkbox" [checked]="form().hideFromAddressBook" (change)="set('hideFromAddressBook', $any($event.target).checked)" />Hide from Address Book</label>
+      @if (submitted() && hasErrors()) { <p class="d-error" role="alert">Display Name and Email Address are required and must be valid.</p> }
+    </form>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="addOpen.set(false)">Cancel</button>
+      <button type="submit" form="dl-add-form" class="d-btn d-btn--primary">Create List</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (managerOpen()) {
+  <app-demo-dialog title="Select Manager Email" [wide]="true" (closed)="managerOpen.set(false)">
+    <label class="d-search dl-search"><fa-icon [icon]="i.search" aria-hidden="true" /><span class="sr-only">Search mailboxes</span><input class="d-input" placeholder="Search mailboxes..." [value]="managerSearch()" (input)="managerSearch.set($any($event.target).value)" /></label>
+    <div class="d-table-wrap dl-pick" tabindex="0" role="region" aria-label="Mailboxes">
+      <table class="d-table">
+        <caption class="sr-only">Mailboxes to pick a manager from</caption>
+        <thead><tr><th scope="col">Display Name</th><th scope="col">Email</th><th scope="col" class="dl-right">Action</th></tr></thead>
+        <tbody>
+          @for (m of managerOptions(); track m.id) {
+            <tr>
+              <th scope="row">{{ m.displayName }}</th>
+              <td class="d-muted">{{ m.login }}</td>
+              <td class="dl-right"><button type="button" class="d-btn d-btn--ghost d-btn--sm dl-select" [attr.aria-label]="'Select ' + m.login" (click)="pickManager(m.login)">Select</button></td>
+            </tr>
+          } @empty {
+            <tr><td colspan="3" class="dl-none">No mailboxes found matching your search.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div dialogActions><button type="button" class="d-btn d-btn--ghost" (click)="managerOpen.set(false)">Close</button></div>
+  </app-demo-dialog>
+}
+
+@if (memberOpen()) {
+  <app-demo-dialog title="Add Members" (closed)="memberOpen.set(false)">
+    <label class="d-search dl-search"><fa-icon [icon]="i.search" aria-hidden="true" /><span class="sr-only">Search mailboxes</span><input class="d-input" placeholder="Search mailboxes..." [value]="memberSearch()" (input)="memberSearch.set($any($event.target).value)" /></label>
+    <fieldset class="dl-picks">
+      <legend class="sr-only">Mailboxes to add</legend>
+      @for (m of memberOptions(); track m.id) {
+        <label class="dl-pick-row"><input type="checkbox" [checked]="memberPicks().includes(m.login)" (change)="togglePick(m.login, $any($event.target).checked)" /><span><strong>{{ m.displayName }}</strong><span class="d-muted">{{ m.login }}</span></span></label>
+      } @empty {
+        <p class="dl-none">No mailboxes found matching your search.</p>
+      }
+    </fieldset>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="memberOpen.set(false)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" [disabled]="!memberPicks().length" (click)="addMembers()">Add{{ memberPicks().length ? ' (' + memberPicks().length + ')' : '' }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deleting(); as lists) {
+  <app-demo-dialog [title]="lists.length === 1 ? 'Delete Distribution List' : 'Delete Distribution Lists'" (closed)="deleting.set(null)">
+    <p class="dl-dialog-text">
+      @if (lists.length === 1) { Are you sure you want to delete <strong>{{ lists[0].displayName }}</strong> ({{ lists[0].primaryEmail }})? }
+      @else { Are you sure you want to delete {{ lists.length }} selected list(s)? }
+      This action cannot be undone.
+    </p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deleting.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDelete()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (filterOpen()) {
+  <app-demo-dialog title="Filter Distribution Lists" kind="panel" (closed)="filterOpen.set(false)">
+    <label class="d-field"><span>Display Name</span><input class="d-input" placeholder="Search by name..." [value]="draftFilters().displayName" (input)="setDraftFilter('displayName', $any($event.target).value)" /></label>
+    <label class="d-field"><span>Domain</span>
+      <select class="d-select" [value]="draftFilters().domain" (change)="setDraftFilter('domain', $any($event.target).value)">
+        <option value="ALL">All Domains</option>
+        @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
+      </select>
+    </label>
+    <div class="d-grid">
+      <label class="d-field"><span>From</span><input class="d-input" type="date" [value]="draftFilters().dateFrom" (input)="setDraftFilter('dateFrom', $any($event.target).value)" /></label>
+      <label class="d-field"><span>To</span><input class="d-input" type="date" [value]="draftFilters().dateTo" (input)="setDraftFilter('dateTo', $any($event.target).value)" /></label>
+    </div>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="clearFilters()">Clear</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="applyFilters()">Apply</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

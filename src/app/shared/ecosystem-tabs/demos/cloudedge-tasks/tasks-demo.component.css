@@ -1,0 +1,46 @@
+/* Scheduled Tasks and Running Tasks, with the Create Task and Task Detail modals. */
+.tsk-switch{margin-bottom:12px}
+.tsk-badge{display:grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--d-blue);color:var(--d-card);font-size:10.5px;font-weight:700}
+.tsk-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.tsk-filter{flex:0 1 200px}
+.tsk-right{text-align:right!important}
+
+.tsk-group > *{background:var(--d-soft)}
+.tsk-group-btn{display:inline-flex;align-items:center;gap:9px;padding:2px 4px;border:0;border-radius:6px;background:transparent;color:var(--d-ink);font-size:12.5px;cursor:pointer}
+.tsk-group-btn:hover{background:color-mix(in srgb,var(--d-mut) 12%,transparent)}
+.tsk-group-btn fa-icon{width:12px;font-size:11px;color:var(--d-mut)}
+.tsk-group-name{font-weight:700}
+.tsk-chip{padding:1px 8px;border-radius:999px;background:color-mix(in srgb,var(--d-mut) 16%,transparent);color:var(--d-ink);font-size:11px;font-weight:600}
+.tsk-action{font-weight:600;color:var(--d-ink)}
+.tsk-sub{display:block;margin-top:2px;font-size:11.5px;font-weight:400;color:var(--d-mut)}
+.tsk-off > *:not(:first-child){color:var(--d-mut)}
+.tsk-menu-wrap{display:inline-block}
+/* Placed by the component against the app window, so the table's scroll box can't clip it. */
+.tsk-menu{position:fixed;top:auto;min-width:150px}
+.tsk-none{padding:16px 10px!important;text-align:center;font-style:italic;color:var(--d-mut)}
+.tsk-empty{padding:36px 10px!important;text-align:center;white-space:normal!important;color:var(--d-mut)}
+.tsk-empty fa-icon{display:block;margin-bottom:8px;font-size:28px}
+.tsk-empty strong{display:block;margin-bottom:2px;font-size:14px;color:var(--d-ink)}
+.tsk-empty span{display:block;margin-bottom:12px}
+
+.tsk-progress{display:inline-block;width:110px;height:8px;border-radius:999px;background:color-mix(in srgb,var(--d-mut) 22%,transparent);overflow:hidden;vertical-align:middle}
+.tsk-progress span{display:block;height:100%;border-radius:inherit;background:var(--d-blue);transition:width .5s ease}
+.tsk-pct{margin-left:8px;font-size:11.5px;font-weight:600;color:var(--d-mut)}
+@media (prefers-reduced-motion:no-preference){.tsk-spin{display:inline-block;animation:tsk-spin 1s linear infinite}}
+@keyframes tsk-spin{to{transform:rotate(360deg)}}
+
+.tsk-summary{display:flex;align-items:flex-start;gap:7px;margin:8px 0 0;font-size:12px;color:var(--d-mut)}
+.tsk-summary fa-icon{margin-top:2px;color:var(--d-green-text)}
+.tsk-status{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid var(--d-line)}
+.tsk-status .d-label{margin:0}
+.tsk-status-text{font-size:12.5px;font-weight:600;color:var(--d-mut)}
+.tsk-status-text.is-on{color:var(--d-green-text)}
+.tsk-radios{display:flex;flex-wrap:wrap;gap:18px;padding:10px 12px;border:1px solid var(--d-line);border-radius:8px}
+.tsk-log{display:grid;gap:8px;margin:0;padding:0;list-style:none;font-size:12.5px}
+.tsk-log li{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--d-soft)}
+.tsk-text{margin:0}
+
+@container (max-width:620px){
+  .tsk-bar{flex-direction:column;align-items:stretch}
+  .tsk-filter{flex:none}
+}

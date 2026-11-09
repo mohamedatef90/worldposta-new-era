@@ -1,0 +1,329 @@
+<div class="d-seg tm-views" role="group" aria-label="Team management">
+  <button type="button" [attr.aria-pressed]="tab() === 'users'" (click)="page.set('users')">Team Users</button>
+  <button type="button" [attr.aria-pressed]="tab() === 'groups'" (click)="page.set('groups')">Permission Groups</button>
+</div>
+
+@switch (page()) {
+  @case ('users') {
+    <section class="d-page" aria-labelledby="tm-users-title">
+      <div class="d-head">
+        <h3 id="tm-users-title">Team Users for {{ company }}</h3>
+        <button type="button" class="d-btn d-btn--primary" (click)="openAddUser()"><fa-icon [icon]="i.userPlus" aria-hidden="true" />Add User</button>
+      </div>
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Team users table">
+        <table class="d-table">
+          <caption class="sr-only">Team users</caption>
+          <thead><tr><th scope="col">Full Name</th><th scope="col">Email</th><th scope="col">Group</th><th scope="col" class="tm-right">Actions</th></tr></thead>
+          <tbody>
+            @for (u of users(); track u.id) {
+              <tr>
+                <th scope="row">{{ u.fullName }}</th>
+                <td>{{ u.email }}</td>
+                <td>{{ groupName(u.assignedGroupId) }}</td>
+                <td class="tm-right tm-row-actions">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Change Password for ' + u.fullName" (click)="openPassword(u)"><fa-icon [icon]="i.key" aria-hidden="true" /></button>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Edit ' + u.fullName" (click)="openEditUser(u)"><fa-icon [icon]="i.edit" aria-hidden="true" /></button>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost tm-danger" [attr.aria-label]="'Delete ' + u.fullName" (click)="askDeleteUser(u)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td colspan="4" class="tm-empty">No team users found for this customer.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  @case ('user-form') {
+    <section class="d-page" aria-labelledby="tm-user-form-title">
+      <div class="d-head">
+        <div>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm tm-back" (click)="page.set('users')"><fa-icon [icon]="i.back" aria-hidden="true" />Team Users</button>
+          <h3 id="tm-user-form-title">{{ editingUser() ? 'Edit Team User' : 'Add New Team User' }}</h3>
+          @if (!editingUser()) {
+            <p>Create a new user account for a member of your team. You can assign them to a permissions group and allocate specific product resources directly to their account.</p>
+          }
+        </div>
+      </div>
+      <form class="tm-form" (submit)="saveUser($event)" novalidate>
+        <div class="d-grid">
+          <label class="d-field">
+            <span>Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required placeholder="e.g. John Doe" autocomplete="off" [value]="userForm().fullName" (input)="setUserField('fullName', $any($event.target).value)" [attr.aria-invalid]="!!userError('fullName')" aria-describedby="tm-err-name" />
+            @if (userError('fullName'); as e) { <p class="d-error" id="tm-err-name">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>User Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required placeholder="e.g. johndoe" autocomplete="off" [value]="userForm().displayName" (input)="setUserField('displayName', $any($event.target).value)" [attr.aria-invalid]="!!userError('displayName')" aria-describedby="tm-err-user" />
+            @if (userError('displayName'); as e) { <p class="d-error" id="tm-err-user">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Email <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" type="email" required placeholder="e.g. user@company.com" autocomplete="off" [value]="userForm().email" (input)="setUserField('email', $any($event.target).value)" [attr.aria-invalid]="!!userError('email')" aria-describedby="tm-err-email" />
+            @if (userError('email'); as e) { <p class="d-error" id="tm-err-email">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>{{ editingUser() ? 'New Password' : 'Password' }} @if (!editingUser()) { <span class="d-req" aria-hidden="true">*</span> }</span>
+            <input class="d-input" type="password" autocomplete="new-password" [required]="!editingUser()" [placeholder]="editingUser() ? 'Leave blank to keep the current password' : ''" [value]="userForm().password" (input)="setUserField('password', $any($event.target).value)" [attr.aria-invalid]="!!userError('password')" aria-describedby="tm-err-pw" />
+            @if (userError('password'); as e) { <p class="d-error" id="tm-err-pw">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Phone Number</span>
+            <input class="d-input" type="tel" autocomplete="off" [value]="userForm().phoneNumber" (input)="setUserField('phoneNumber', $any($event.target).value)" [attr.aria-invalid]="!!userError('phoneNumber')" aria-describedby="tm-err-phone" />
+            @if (userError('phoneNumber'); as e) { <p class="d-error" id="tm-err-phone">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Permissions Group <span class="d-req" aria-hidden="true">*</span></span>
+            <select class="d-select" required [value]="userForm().assignedGroupId" (change)="setUserField('assignedGroupId', $any($event.target).value)" [attr.aria-invalid]="!!userError('assignedGroupId')" aria-describedby="tm-err-group">
+              <option value="">Select a group</option>
+              @for (g of groups(); track g.id) { <option [value]="g.id">{{ g.name }}</option> }
+            </select>
+            @if (userError('assignedGroupId'); as e) { <p class="d-error" id="tm-err-group">{{ e }}</p> }
+          </label>
+        </div>
+        <div class="tm-checks">
+          @if (!editingUser()) {
+            <label class="d-check"><input type="checkbox" [checked]="userForm().requirePasswordChange" (change)="setUserField('requirePasswordChange', $any($event.target).checked)" />Require user to change password on first login</label>
+          }
+          <label class="d-check"><input type="checkbox" [checked]="userForm().enableMfa" (change)="setUserField('enableMfa', $any($event.target).checked)" />Enable Multi-Factor Authentication (MFA) for this user</label>
+        </div>
+
+        <div class="tm-resources">
+          <div class="tm-resources__head">
+            <h4 id="tm-res-title">Assigned Resources</h4>
+            <button type="button" class="d-btn d-btn--outline d-btn--sm" (click)="openResource()"><fa-icon [icon]="i.plus" aria-hidden="true" />Add Resource</button>
+          </div>
+          @if (resources().length) {
+            <div class="d-table-wrap" tabindex="0" role="region" aria-labelledby="tm-res-title">
+              <table class="d-table">
+                <caption class="sr-only">Assigned resources</caption>
+                <thead><tr><th scope="col">Product</th><th scope="col">Package</th><th scope="col">Organization</th><th scope="col">Domains</th><th scope="col" class="tm-right">Actions</th></tr></thead>
+                <tbody>
+                  @for (r of resources(); track r.id) {
+                    <tr>
+                      <th scope="row">{{ r.productId === 'posta' ? 'Posta' : 'CloudEdge' }}</th>
+                      <td>{{ packageName(r) }}</td>
+                      <td>{{ orgName(r.organizationId) }}</td>
+                      <td>{{ domainNames(r) }}</td>
+                      <td class="tm-right"><button type="button" class="d-btn d-btn--icon d-btn--ghost tm-danger" [attr.aria-label]="'Remove ' + packageName(r)" (click)="removeResource(r.id)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button></td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <p class="d-muted tm-none">No resources assigned yet.</p>
+          }
+        </div>
+
+        @if (userSubmitted() && hasUserErrors()) {
+          <p class="d-error" role="alert">Fix the highlighted fields to {{ editingUser() ? 'save the user' : 'add the user' }}.</p>
+        }
+        <div class="tm-form-actions">
+          <button type="button" class="d-btn d-btn--ghost" (click)="page.set('users')">Cancel</button>
+          <button type="submit" class="d-btn d-btn--primary">{{ editingUser() ? 'Save Changes' : 'Add User' }}</button>
+        </div>
+      </form>
+    </section>
+  }
+
+  @case ('groups') {
+    <section class="d-page" aria-labelledby="tm-groups-title">
+      <div class="d-head">
+        <h3 id="tm-groups-title">Permission Groups</h3>
+        <button type="button" class="d-btn d-btn--primary" (click)="openCreateGroup()"><fa-icon [icon]="i.add" aria-hidden="true" />Create Group</button>
+      </div>
+      <label class="d-search tm-search">
+        <span class="sr-only">Search groups</span>
+        <fa-icon [icon]="i.search" aria-hidden="true" />
+        <input class="d-input" type="search" placeholder="Search groups..." [value]="groupSearch()" (input)="groupSearch.set($any($event.target).value)" />
+      </label>
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="Permission groups table">
+        <table class="d-table">
+          <caption class="sr-only">Permission groups</caption>
+          <thead><tr><th scope="col">Group Name</th><th scope="col">Assigned Users</th><th scope="col">Roles Count</th><th scope="col" class="tm-right">Actions</th></tr></thead>
+          <tbody>
+            @for (g of filteredGroups(); track g.id) {
+              <tr>
+                <th scope="row">{{ g.name }}</th>
+                <td>{{ memberCount(g) }}</td>
+                <td>{{ g.permissions.length }}</td>
+                <td class="tm-right tm-row-actions">
+                  <button type="button" class="d-btn d-btn--sm d-btn--outline" (click)="openEditGroup(g)">Edit Group<span class="sr-only"> {{ g.name }}</span></button>
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost tm-danger" [attr.aria-label]="'Delete Group ' + g.name" (click)="deletingGroup.set(g)"><fa-icon [icon]="i.trash" aria-hidden="true" /></button>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td colspan="4" class="tm-empty">{{ groupSearch() ? 'No groups match your search.' : 'No groups have been created.' }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  @case ('group-form') {
+    <section class="d-page" aria-labelledby="tm-group-form-title">
+      <div class="d-head">
+        <div>
+          <button type="button" class="d-btn d-btn--ghost d-btn--sm tm-back" (click)="page.set('groups')"><fa-icon [icon]="i.back" aria-hidden="true" />Permission Groups</button>
+          <h3 id="tm-group-form-title">{{ editingGroup() ? 'Edit Permission Group' : 'Create New Permission Group' }}</h3>
+        </div>
+      </div>
+      <label class="d-field tm-group-name">
+        <span>Group Name <span class="d-req" aria-hidden="true">*</span></span>
+        <input class="d-input" required maxlength="50" placeholder="e.g., Marketing Team, Project Managers" [value]="groupFormName()" (input)="groupFormName.set($any($event.target).value)" [attr.aria-invalid]="groupSubmitted() && !!groupNameError()" aria-describedby="tm-hint-gname tm-err-gname" />
+        <span class="d-hint" id="tm-hint-gname">Maximum 50 characters.</span>
+        @if (groupSubmitted() && groupNameError(); as e) { <p class="d-error" id="tm-err-gname">{{ e }}</p> }
+      </label>
+
+      <div class="tm-role-cols">
+        <div>
+          <h4 class="tm-col-title" id="tm-avail-title">Available Roles</h4>
+          <label class="d-search tm-role-search">
+            <span class="sr-only">Search roles</span>
+            <fa-icon [icon]="i.search" aria-hidden="true" />
+            <input class="d-input" type="search" placeholder="Search roles..." [value]="roleSearch()" (input)="roleSearch.set($any($event.target).value)" />
+          </label>
+          <ul class="tm-roles" tabindex="-1" aria-labelledby="tm-avail-title">
+            @for (r of availableRoles(); track r.id) {
+              <li>
+                <span><strong>{{ r.label }}</strong><small>{{ r.description }}</small></span>
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost tm-add" [attr.aria-label]="'Add ' + r.label" (click)="setRole(r.id, true, $event)"><fa-icon [icon]="i.add" aria-hidden="true" /></button>
+              </li>
+            } @empty {
+              <li class="tm-roles__empty">{{ roleSearch() ? 'No matching roles found.' : 'All roles have been selected.' }}</li>
+            }
+          </ul>
+        </div>
+        <div>
+          <h4 class="tm-col-title" id="tm-sel-title">Selected Roles ({{ selectedRoles().length }})</h4>
+          <ul class="tm-roles tm-roles--selected" tabindex="-1" aria-labelledby="tm-sel-title">
+            @for (r of selectedRoles(); track r.id) {
+              <li>
+                <span><strong>{{ r.label }}</strong></span>
+                <button type="button" class="d-btn d-btn--icon d-btn--ghost tm-danger" [attr.aria-label]="'Remove ' + r.label" (click)="setRole(r.id, false, $event)"><fa-icon [icon]="i.remove" aria-hidden="true" /></button>
+              </li>
+            } @empty {
+              <li class="tm-roles__empty">Select roles from the left to add them here.</li>
+            }
+          </ul>
+        </div>
+      </div>
+      <p class="sr-only" aria-live="polite">{{ roleNote() }}</p>
+
+      <fieldset class="tm-members">
+        <legend class="d-label">Assigned Users</legend>
+        <p class="d-hint">A user belongs to one group: ticking a user moves them here from their current group.</p>
+        @for (u of users(); track u.id) {
+          <label class="d-check">
+            <input type="checkbox" [checked]="groupMembers().includes(u.id)" (change)="toggleMember(u.id, $any($event.target).checked)" />
+            {{ u.fullName }}
+            @if (u.assignedGroupId && u.assignedGroupId !== editingGroup()?.id && !groupMembers().includes(u.id)) { <span class="d-muted">({{ groupName(u.assignedGroupId) }})</span> }
+          </label>
+        }
+      </fieldset>
+
+      <div class="tm-form-actions">
+        <button type="button" class="d-btn d-btn--ghost" (click)="page.set('groups')">Cancel</button>
+        <button type="button" class="d-btn d-btn--primary" (click)="saveGroup()">{{ editingGroup() ? 'Save Changes' : 'Save Group' }}</button>
+      </div>
+    </section>
+  }
+}
+
+@if (resourceOpen()) {
+  <app-demo-dialog title="Add Resources to User" (closed)="resourceOpen.set(false)">
+    <label class="d-field">
+      <span>Product</span>
+      <select class="d-select" [value]="resourceForm().productId" (change)="setProduct($any($event.target).value)">
+        <option value="posta">Posta</option>
+        <option value="cloudedge">CloudEdge</option>
+      </select>
+    </label>
+    <label class="d-field">
+      <span>Package</span>
+      <select class="d-select" [value]="resourceForm().packageId" (change)="resourceForm.update(f => ({ ...f, packageId: $any($event.target).value }))">
+        <option value="">Select a package</option>
+        @for (p of packages[resourceForm().productId]; track p.id) { <option [value]="p.id">{{ p.name }}</option> }
+      </select>
+    </label>
+    <label class="d-field">
+      <span>Organization</span>
+      <select class="d-select" [value]="resourceForm().organizationId" (change)="resourceForm.update(f => ({ ...f, organizationId: $any($event.target).value }))">
+        <option value="">Select an organization</option>
+        @for (o of organizations; track o.id) { <option [value]="o.id">{{ o.name }}</option> }
+      </select>
+    </label>
+    @if (resourceForm().productId === 'posta') {
+      <fieldset class="tm-domains">
+        <legend class="d-label">Domains (optional)</legend>
+        @for (d of domains; track d.id) {
+          <label class="d-check"><input type="checkbox" [checked]="resourceForm().domainIds.includes(d.id)" (change)="toggleDomain(d.id, $any($event.target).checked)" />{{ d.name }}</label>
+        }
+      </fieldset>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="resourceOpen.set(false)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" [disabled]="!resourceForm().packageId" (click)="addResource()">Add</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deletingUser(); as u) {
+  <app-demo-dialog [title]="'Delete Team User: ' + u.fullName" (closed)="deletingUser.set(null)">
+    <p class="tm-text">This action is permanent and cannot be undone. You are about to delete the team user account for <strong class="tm-danger">{{ u.fullName }} ({{ u.email }})</strong>.</p>
+    <p class="tm-text">To confirm, please type <strong class="d-mono">DELETE</strong> in the box below.</p>
+    <label class="d-field">
+      <span class="sr-only">Type DELETE to confirm</span>
+      <input class="d-input tm-confirm" autocomplete="off" placeholder="Type DELETE to confirm" [value]="deleteText()" (input)="deleteText.set($any($event.target).value)" (keydown.enter)="confirmDeleteUser()" />
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="deletingUser.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" [disabled]="deleteText() !== 'DELETE'" (click)="confirmDeleteUser()">Delete User</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (passwordUser(); as u) {
+  <app-demo-dialog [title]="'Change Password for ' + u.fullName" (closed)="passwordUser.set(null)">
+    <p class="tm-warn"><fa-icon [icon]="i.warn" aria-hidden="true" /><span>You are about to reset the password for this user. They will be required to use the new password to log in. This action cannot be undone.</span></p>
+    <label class="d-field">
+      <span>New Password</span>
+      <input class="d-input" type="password" autocomplete="new-password" [value]="newPassword().newPassword" (input)="newPassword.update(p => ({ ...p, newPassword: $any($event.target).value })); passwordError.set('')" [attr.aria-invalid]="!!passwordError()" aria-describedby="tm-err-reset" />
+    </label>
+    <label class="d-field">
+      <span>Confirm New Password</span>
+      <input class="d-input" type="password" autocomplete="new-password" [value]="newPassword().confirmNewPassword" (input)="newPassword.update(p => ({ ...p, confirmNewPassword: $any($event.target).value })); passwordError.set('')" (keydown.enter)="savePassword()" [attr.aria-invalid]="!!passwordError()" aria-describedby="tm-err-reset" />
+    </label>
+    @if (passwordError(); as e) { <p class="d-error" id="tm-err-reset" role="alert">{{ e }}</p> }
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="passwordUser.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="savePassword()">Save New Password</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deletingGroup(); as g) {
+  <app-demo-dialog [title]="'Delete Permission Group: ' + g.name" (closed)="deletingGroup.set(null)">
+    @if (deleteGroupBlocked(); as n) {
+      <p class="tm-text" role="alert">Cannot delete group "{{ g.name }}" because it is assigned to {{ n }} user(s). Please reassign them first.</p>
+    } @else {
+      <p class="tm-text">Are you sure you want to delete the permission group <strong class="tm-danger">{{ g.name }}</strong>?</p>
+      <p class="tm-text">This action is permanent and cannot be undone.</p>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="deletingGroup.set(null)">{{ deleteGroupBlocked() ? 'Close' : 'Cancel' }}</button>
+      @if (!deleteGroupBlocked()) {
+        <button type="button" class="d-btn d-btn--danger" (click)="confirmDeleteGroup()">Yes, Delete Group</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

@@ -1,0 +1,39 @@
+/* NATs: the console's rules table and its create/edit page. */
+.net-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+/* Room for a row menu to open without being clipped by the scrolling table. */
+.net-wrap{min-height:230px}
+.net-sort{display:inline-flex;align-items:center;gap:6px;padding:0;border:0;background:transparent;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
+.net-sort fa-icon{font-size:10px}
+.net-name{color:var(--d-ink)}
+.net-type{padding:2px 7px;border-radius:5px;background:var(--d-soft);font-size:11.5px}
+.net-desc{max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.net-pill-off{background:var(--d-soft);color:var(--d-mut)}
+.net-off .net-name{color:var(--d-mut)}
+.net-right{text-align:right!important}
+.net-menu-wrap{display:inline-block}
+.net-menu{min-width:160px}
+.net-menu--up{top:auto;bottom:calc(100% + 4px)}
+.net-empty{padding:36px 10px!important;text-align:center;white-space:normal!important;color:var(--d-mut)}
+.net-empty fa-icon{display:block;margin-bottom:8px;font-size:28px}
+.net-empty strong{display:block;margin-bottom:2px;color:var(--d-ink)}
+
+.net-back{margin:0 0 6px -8px;color:var(--d-mut)}
+.net-label-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.net-counter{font-size:11.5px}
+.net-octets{display:flex;align-items:center;gap:6px}
+.net-octets .d-input{min-width:0;text-align:center}
+.net-octets .d-input:disabled,.net-octets .d-select:disabled{background:var(--d-soft);color:var(--d-ink);opacity:1}
+.net-octets span{color:var(--d-mut)}
+.net-cidr{flex:none;width:72px}
+.net-section{padding-top:14px;border-top:1px solid var(--d-line)}
+.net-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid var(--d-line)}
+
+.net-dialog{display:flex;gap:12px;margin-bottom:12px}
+.net-dialog p{margin:0 0 8px}
+.net-dialog__icon{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--d-red-soft);color:var(--d-red)}
+
+@container (max-width:620px){
+  .net-bar{flex-direction:column;align-items:stretch}
+  .net-octets{flex-wrap:wrap}
+  .net-octets .d-input{flex:1 1 44px}
+}

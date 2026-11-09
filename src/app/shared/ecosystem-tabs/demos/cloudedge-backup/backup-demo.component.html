@@ -1,0 +1,337 @@
+<div class="d-seg bk-switch" role="group" aria-label="Backup pages">
+  <button type="button" [attr.aria-pressed]="view() === 'jobs'" (click)="view.set('jobs')"><fa-icon [icon]="i.db" aria-hidden="true" />Backup Jobs</button>
+  <button type="button" [attr.aria-pressed]="view() === 'requests'" (click)="view.set('requests')"><fa-icon [icon]="i.restore" aria-hidden="true" />Restore Requests</button>
+</div>
+
+@if (view() === 'jobs') {
+  <section class="d-page" aria-labelledby="bk-jobs-title">
+    <div class="d-head">
+      <div>
+        <h3 id="bk-jobs-title">Backup Jobs</h3>
+        <p>Manage and monitor your backup jobs.</p>
+      </div>
+    </div>
+    <div class="bk-bar">
+      <button type="button" class="d-btn d-btn--primary" (click)="openCreateJob()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Job</button>
+      <label class="d-search">
+        <span class="sr-only">Search jobs</span>
+        <fa-icon [icon]="i.search" aria-hidden="true" />
+        <input class="d-input" type="search" placeholder="Search jobs..." [value]="jobSearch()" (input)="jobSearch.set($any($event.target).value)" />
+      </label>
+    </div>
+
+    <div class="d-table-wrap" tabindex="0" role="region" aria-label="Backup jobs table">
+      <table class="d-table">
+        <caption class="sr-only">Backup jobs</caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th><th scope="col">Description</th><th scope="col" class="bk-center">Is High Priority</th>
+            <th scope="col">Reservation</th><th scope="col" class="bk-center">Status</th><th scope="col" class="bk-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (job of filteredJobs(); track job.id) {
+            <tr [class.bk-off]="!job.status">
+              <th scope="row">
+                <span class="bk-name">{{ job.name }}</span>
+                <span class="bk-sub">
+                  @if (job.running) {
+                    <span class="d-pill d-pill--info"><fa-icon class="bk-spin" [icon]="i.spin" aria-hidden="true" />Running</span>
+                  } @else {
+                    {{ job.frequency }} at {{ job.time }} · {{ job.selectedVmIds.length }} {{ job.selectedVmIds.length === 1 ? 'VM' : 'VMs' }}@if (job.lastRun) { · Last run {{ job.lastRun }} }
+                  }
+                </span>
+              </th>
+              <td class="bk-desc">{{ job.description || '—' }}</td>
+              <td class="bk-center"><input type="checkbox" role="switch" class="d-switch" [checked]="job.isHighPriority" (change)="setPriority(job, $any($event.target).checked)" [attr.aria-label]="job.name + ' is high priority'" /></td>
+              <td>{{ job.reservation }}</td>
+              <td class="bk-center">
+                <span class="bk-status">
+                  <input type="checkbox" role="switch" class="d-switch" [checked]="job.status" (change)="setStatus(job, $any($event.target).checked)" [attr.aria-label]="'Enable ' + job.name" />
+                  <span aria-hidden="true">{{ job.status ? 'Enabled' : 'Disabled' }}</span>
+                </span>
+              </td>
+              <td class="bk-right">
+                <div class="d-menu-wrap bk-menu-wrap" (keydown.escape)="closeMenu()">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + job.name" [attr.aria-expanded]="openMenu() === job.id" aria-haspopup="true" (click)="toggleMenu($event, job.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                  @if (openMenu() === job.id) {
+                    <div class="d-menu bk-menu" [style.top.px]="menuPos().top" [style.bottom.px]="menuPos().bottom" [style.right.px]="menuPos().right">
+                      <button type="button" [disabled]="job.running" (click)="runNow(job)"><fa-icon [icon]="i.run" aria-hidden="true" />Run now</button>
+                      <button type="button" (click)="openCreateRequest(job)"><fa-icon [icon]="i.restore" aria-hidden="true" />Restore</button>
+                      <button type="button" (click)="openEditJob(job)"><fa-icon [icon]="i.edit" aria-hidden="true" />Edit</button>
+                      <hr />
+                      <button type="button" class="is-danger" (click)="askDeleteJob(job)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                    </div>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="bk-empty">
+                <fa-icon [icon]="i.db" aria-hidden="true" />
+                <strong>No backup jobs found</strong>
+                <span>You haven't setup any backup jobs. Create your first job to start protecting your data.</span>
+                <button type="button" class="d-btn d-btn--primary" (click)="openCreateJob()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Job</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+} @else {
+  <section class="d-page" aria-labelledby="bk-req-title">
+    <div class="d-head">
+      <div>
+        <h3 id="bk-req-title">Restore Requests</h3>
+        <p>Manage and monitor your backup restore requests.</p>
+      </div>
+    </div>
+    <div class="bk-bar">
+      <button type="button" class="d-btn d-btn--primary" (click)="openCreateRequest()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Request</button>
+      <label class="d-search">
+        <span class="sr-only">Search requests</span>
+        <fa-icon [icon]="i.search" aria-hidden="true" />
+        <input class="d-input" type="search" placeholder="Search requests..." [value]="requestSearch()" (input)="requestSearch.set($any($event.target).value)" />
+      </label>
+    </div>
+
+    <div class="d-table-wrap" tabindex="0" role="region" aria-label="Restore requests table">
+      <table class="d-table">
+        <caption class="sr-only">Restore requests</caption>
+        <thead>
+          <tr><th scope="col">Name</th><th scope="col">Backup Job</th><th scope="col">Requested At</th><th scope="col">Status</th><th scope="col" class="bk-right">Actions</th></tr>
+        </thead>
+        <tbody>
+          @for (req of filteredRequests(); track req.id) {
+            <tr>
+              <th scope="row" class="bk-name">{{ req.name }}</th>
+              <td>{{ req.backupJobName }}</td>
+              <td>{{ req.requestedAt }}</td>
+              <td>
+                <span [class]="'d-pill d-pill--' + statusTone[req.status]">
+                  @if (req.status === 'In Progress') { <fa-icon class="bk-spin" [icon]="i.spin" aria-hidden="true" /> }
+                  {{ req.status }}
+                </span>
+              </td>
+              <td class="bk-right">
+                <div class="d-menu-wrap bk-menu-wrap" (keydown.escape)="closeMenu()">
+                  <button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Actions for ' + req.name" [attr.aria-expanded]="openMenu() === req.id" aria-haspopup="true" (click)="toggleMenu($event, req.id)"><fa-icon [icon]="i.kebab" aria-hidden="true" /></button>
+                  @if (openMenu() === req.id) {
+                    <div class="d-menu bk-menu" [style.top.px]="menuPos().top" [style.bottom.px]="menuPos().bottom" [style.right.px]="menuPos().right">
+                      <button type="button" (click)="openView(req)"><fa-icon [icon]="i.view" aria-hidden="true" />View</button>
+                      <hr />
+                      <button type="button" class="is-danger" (click)="askDeleteRequest(req)"><fa-icon [icon]="i.trash" aria-hidden="true" />Delete</button>
+                    </div>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="bk-empty">
+                <fa-icon [icon]="i.restore" aria-hidden="true" />
+                <strong>No restore requests found</strong>
+                <span>You don't have any active or past restore requests.</span>
+                <button type="button" class="d-btn d-btn--primary" (click)="openCreateRequest()"><fa-icon [icon]="i.plus" aria-hidden="true" />Create Request</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+@if (jobDialog(); as dlg) {
+  <app-demo-dialog [title]="dlg.id ? 'Edit Backup Job' : 'Create Backup Job'" [wide]="true" (closed)="jobDialog.set(null)">
+    <div class="bk-tabs" role="tablist" aria-label="Backup job settings">
+      @for (tab of tabs; track tab; let n = $index) {
+        <button type="button" role="tab" [id]="'bk-tab-' + n" aria-controls="bk-tabpanel" [attr.aria-selected]="activeTab() === tab" [attr.tabindex]="activeTab() === tab ? 0 : -1" (click)="activeTab.set(tab)" (keydown)="onTabKey($event, n)">
+          {{ tab }}@if (tabHasError(tab)) { <span class="bk-tab-err" aria-hidden="true">!</span><span class="sr-only"> (has errors)</span> }
+        </button>
+      }
+    </div>
+    <div id="bk-tabpanel" class="bk-panel" role="tabpanel" [attr.aria-labelledby]="'bk-tab-' + tabs.indexOf(activeTab())">
+      @switch (activeTab()) {
+        @case ('Details') {
+          <label class="d-field">
+            <span>Name <span class="d-req" aria-hidden="true">*</span></span>
+            <input class="d-input" required [value]="jobForm().name" (input)="setJob('name', $any($event.target).value)" [attr.aria-invalid]="!!jobError('name')" [attr.aria-describedby]="jobError('name') ? 'bk-err-name' : null" />
+            @if (jobError('name'); as e) { <p class="d-error" id="bk-err-name">{{ e }}</p> }
+          </label>
+          <label class="d-field">
+            <span>Reservation Name</span>
+            <select class="d-select" (change)="setJob('reservation', $any($event.target).value)">
+              @for (r of reservations; track r) { <option [selected]="jobForm().reservation === r">{{ r }}</option> }
+            </select>
+          </label>
+          <label class="d-field">
+            <span>Description</span>
+            <textarea class="d-textarea" rows="3" [value]="jobForm().description" (input)="setJob('description', $any($event.target).value)"></textarea>
+          </label>
+          <div class="bk-switch-row">
+            <div>
+              <span class="d-label" id="bk-status-label">Status</span>
+              <span class="d-hint" id="bk-status-hint">Enable or disable this job</span>
+            </div>
+            <input type="checkbox" role="switch" class="d-switch" [checked]="jobForm().status" (change)="setJob('status', $any($event.target).checked)" aria-labelledby="bk-status-label" aria-describedby="bk-status-hint" />
+          </div>
+        }
+        @case ('VM') {
+          <h5 class="bk-h5">Virtual Machines Selection</h5>
+          <div class="bk-transfer">
+            <div class="bk-list">
+              <div class="bk-list__head"><span id="bk-avail-label">Available VMs</span><span class="bk-count">{{ availableCount() }}</span></div>
+              <label class="bk-list__search"><span class="sr-only">Search available VMs</span><input class="d-input" type="search" placeholder="Search..." [value]="vmSearchAvailable()" (input)="vmSearchAvailable.set($any($event.target).value)" /></label>
+              <ul aria-labelledby="bk-avail-label">
+                @for (vm of availableVms(); track vm.id) {
+                  <li><button type="button" class="bk-vm" [attr.aria-pressed]="pickAvailable().includes(vm.id)" (click)="togglePick('available', vm.id)"><fa-icon [icon]="i.server" aria-hidden="true" />{{ vm.name }}</button></li>
+                } @empty { <li class="bk-list__none">No VMs</li> }
+              </ul>
+            </div>
+            <div class="bk-moves">
+              <button type="button" class="d-btn d-btn--icon" [disabled]="!pickAvailable().length" aria-label="Move picked VMs to Selected VMs" (click)="moveToSelected()"><fa-icon class="bk-arrow" [icon]="i.right" aria-hidden="true" /></button>
+              <button type="button" class="d-btn d-btn--icon" [disabled]="!pickSelected().length" aria-label="Move picked VMs back to Available VMs" (click)="moveToAvailable()"><fa-icon class="bk-arrow" [icon]="i.left" aria-hidden="true" /></button>
+            </div>
+            <div class="bk-list bk-list--chosen">
+              <div class="bk-list__head"><span id="bk-chosen-label">Selected VMs</span><span class="bk-count bk-count--on">{{ jobForm().selectedVmIds.length }}</span></div>
+              <label class="bk-list__search"><span class="sr-only">Search selected VMs</span><input class="d-input" type="search" placeholder="Search..." [value]="vmSearchSelected()" (input)="vmSearchSelected.set($any($event.target).value)" /></label>
+              <ul aria-labelledby="bk-chosen-label">
+                @for (vm of chosenVms(); track vm.id) {
+                  <li><button type="button" class="bk-vm" [attr.aria-pressed]="pickSelected().includes(vm.id)" (click)="togglePick('selected', vm.id)"><fa-icon [icon]="i.server" aria-hidden="true" />{{ vm.name }}</button></li>
+                } @empty { <li class="bk-list__none">Select VMs to include</li> }
+              </ul>
+            </div>
+          </div>
+          <p class="d-hint">Pick VMs in a list, then use the arrows to move them across.</p>
+          @if (jobError('vms'); as e) { <p class="d-error" role="alert">{{ e }}</p> }
+        }
+        @case ('Storage') {
+          <div class="d-grid">
+            <label class="d-field">
+              <span>Retention (days) <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" type="number" min="1" max="365" [value]="jobForm().retentionDays" (input)="setJob('retentionDays', +$any($event.target).value)" [attr.aria-invalid]="!!jobError('retention')" [attr.aria-describedby]="jobError('retention') ? 'bk-err-ret' : 'bk-hint-ret'" />
+              <span class="d-hint" id="bk-hint-ret">Restore points older than this are removed.</span>
+              @if (jobError('retention'); as e) { <p class="d-error" id="bk-err-ret">{{ e }}</p> }
+            </label>
+            <label class="d-field">
+              <span>Storage Policy</span>
+              <select class="d-select" (change)="setJob('storagePolicy', $any($event.target).value)">
+                @for (s of storagePolicies; track s) { <option [selected]="jobForm().storagePolicy === s">{{ s }}</option> }
+              </select>
+            </label>
+          </div>
+        }
+        @case ('Schedule') {
+          <div class="d-grid">
+            <label class="d-field">
+              <span>Recurring</span>
+              <select class="d-select" (change)="setJob('frequency', $any($event.target).value)">
+                @for (f of frequencies; track f) { <option [selected]="jobForm().frequency === f">{{ f }}</option> }
+              </select>
+            </label>
+            <label class="d-field">
+              <span>Start Time <span class="d-req" aria-hidden="true">*</span></span>
+              <input class="d-input" type="time" [value]="jobForm().time" (input)="setJob('time', $any($event.target).value)" [attr.aria-invalid]="!!jobError('time')" [attr.aria-describedby]="jobError('time') ? 'bk-err-time' : null" />
+              @if (jobError('time'); as e) { <p class="d-error" id="bk-err-time">{{ e }}</p> }
+            </label>
+          </div>
+          <p class="bk-summary">Runs {{ jobForm().frequency.toLowerCase() }} at {{ jobForm().time || '—' }} and keeps {{ jobForm().retentionDays }} days of restore points.</p>
+        }
+      }
+    </div>
+    @if (jobError('name') || jobError('vms') || jobError('retention') || jobError('time')) {
+      <p class="d-error" role="alert">Fix the fields on the tabs marked with ! to save the job.</p>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="jobDialog.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="saveJob()">{{ dlg.id ? 'Save Changes' : 'Create Job' }}</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (requestDialog()) {
+  <app-demo-dialog title="Create Restore Request" (closed)="requestDialog.set(false)">
+    <label class="d-field">
+      <span>Name <span class="d-req" aria-hidden="true">*</span></span>
+      <input class="d-input" required placeholder="e.g. Restore DB to yesterday" [value]="reqForm().name" (input)="setReq('name', $any($event.target).value)" [attr.aria-invalid]="!!reqError('name')" [attr.aria-describedby]="reqError('name') ? 'bk-err-rname' : null" />
+      @if (reqError('name'); as e) { <p class="d-error" id="bk-err-rname">{{ e }}</p> }
+    </label>
+    <label class="d-field">
+      <span>Backup Job <span class="d-req" aria-hidden="true">*</span></span>
+      <select class="d-select" required (change)="setReq('jobId', $any($event.target).value)" [attr.aria-invalid]="!!reqError('job')" [attr.aria-describedby]="reqError('job') ? 'bk-err-rjob' : null">
+        <option value="" disabled [selected]="!reqForm().jobId">Select a backup job</option>
+        @for (job of jobs(); track job.id) { <option [value]="job.id" [selected]="reqForm().jobId === job.id">{{ job.name }}</option> }
+      </select>
+      @if (reqError('job'); as e) { <p class="d-error" id="bk-err-rjob">{{ e }}</p> }
+    </label>
+    <label class="d-field">
+      <span>Restore Point <span class="d-req" aria-hidden="true">*</span></span>
+      <select class="d-select" required [disabled]="!reqJob()" (change)="setReq('point', $any($event.target).value)" [attr.aria-invalid]="!!reqError('point')" [attr.aria-describedby]="reqError('point') ? 'bk-err-rpoint' : null">
+        <option value="" disabled [selected]="!reqForm().point">{{ reqJob() ? 'Select a restore point' : 'Select a backup job first' }}</option>
+        @for (p of reqPoints(); track p) { <option [value]="p" [selected]="reqForm().point === p">{{ p }}</option> }
+      </select>
+      @if (reqError('point'); as e) { <p class="d-error" id="bk-err-rpoint">{{ e }}</p> }
+    </label>
+    @if (reqJob(); as job) { <p class="d-hint">Restores {{ vmNames(job) }} to their original location.</p> }
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="requestDialog.set(false)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="submitRequest()">Create Request</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (viewed(); as req) {
+  <app-demo-dialog [title]="req.name" (closed)="viewing.set(null)">
+    <dl class="bk-facts">
+      <div><dt>Backup Job</dt><dd>{{ req.backupJobName }}</dd></div>
+      <div><dt>Restore Point</dt><dd>{{ req.restorePoint }}</dd></div>
+      <div><dt>Requested At</dt><dd>{{ req.requestedAt }}</dd></div>
+      <div><dt>Status</dt><dd><span [class]="'d-pill d-pill--' + statusTone[req.status]">{{ req.status }}</span></dd></div>
+    </dl>
+    <ol class="bk-steps" aria-label="Progress">
+      @for (step of steps; track step) {
+        <li [class.is-done]="stepDone(req, step)"><span class="bk-steps__dot" aria-hidden="true"></span>{{ step }}<span class="sr-only">{{ stepDone(req, step) ? ' (done)' : ' (not yet)' }}</span></li>
+      }
+    </ol>
+    <div dialogActions><button type="button" class="d-btn" (click)="viewing.set(null)">Close</button></div>
+  </app-demo-dialog>
+}
+
+@if (deletingJob(); as job) {
+  <app-demo-dialog title="Delete Backup Job" (closed)="deletingJob.set(null)">
+    <div class="bk-dialog">
+      <fa-icon class="bk-dialog__icon" [icon]="i.warn" aria-hidden="true" />
+      <div>
+        <p>This action is irreversible and will permanently delete the Backup Job <strong>{{ job.name }}</strong>.</p>
+        <p>To confirm, please type the name of the Backup Job below.</p>
+      </div>
+    </div>
+    <label class="d-field">
+      <span class="sr-only">Backup Job name</span>
+      <input class="d-input" autocomplete="off" [placeholder]="job.name" [value]="deleteTyped()" (input)="deleteTyped.set($any($event.target).value)" (keydown.enter)="confirmDeleteJob()" />
+    </label>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deletingJob.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" [disabled]="deleteTyped() !== job.name" (click)="confirmDeleteJob()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (deletingRequest(); as req) {
+  <app-demo-dialog title="Delete Restore Request" (closed)="deletingRequest.set(null)">
+    <p class="bk-text">Delete the restore request <strong>{{ req.name }}</strong>? This doesn't undo a restore that has already run.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn" (click)="deletingRequest.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--danger" (click)="confirmDeleteRequest()">Delete</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<!-- Always present, so screen readers announce each confirmation; the toast is its visual twin. -->
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

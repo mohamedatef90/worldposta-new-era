@@ -1,0 +1,191 @@
+<div class="smtp-tabs" role="tablist" aria-label="SMTP logs views" (keydown)="onTabKey($event)">
+  <button type="button" role="tab" id="smtp-tab-statistics" aria-controls="smtp-panel" [attr.aria-selected]="tab() === 'statistics'" [tabindex]="tab() === 'statistics' ? 0 : -1" (click)="tab.set('statistics')">Statistics</button>
+  <button type="button" role="tab" id="smtp-tab-logs" aria-controls="smtp-panel" [attr.aria-selected]="tab() === 'logs'" [tabindex]="tab() === 'logs' ? 0 : -1" (click)="tab.set('logs')">SMTP Logs</button>
+</div>
+
+<div id="smtp-panel" role="tabpanel" [attr.aria-labelledby]="'smtp-tab-' + tab()">
+  @if (tab() === 'statistics') {
+    <section class="smtp-block" aria-labelledby="smtp-today">
+      <div class="smtp-block__head">
+        <h3 id="smtp-today" class="smtp-h3">Today's Summary</h3>
+        <label class="smtp-pick"><span class="sr-only">Domain</span>
+          <select class="d-select" [value]="domain()" (change)="domain.set($any($event.target).value)">
+            <option value="ALL">All emails in current domain</option>
+            @for (d of domains; track d) { <option [value]="d">{{ d }}</option> }
+          </select>
+        </label>
+      </div>
+      <ul class="smtp-stats">
+        @for (s of summary(); track s.title) {
+          <li class="smtp-stat">
+            <fa-icon class="smtp-stat__ic" [attr.data-tone]="s.tone" [icon]="s.icon" aria-hidden="true" />
+            <span class="smtp-stat__title">{{ s.title }}</span>
+            <strong class="smtp-stat__value">{{ s.value | number }}</strong>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="d-page smtp-period" aria-labelledby="smtp-period-title">
+      <div class="smtp-block__head">
+        <div>
+          <h3 id="smtp-period-title" class="smtp-h3">Periodical Analysis @if (domain() !== 'ALL') { <span class="smtp-sub">- Filtered by {{ domain() }}</span> }</h3>
+          <p class="d-muted smtp-note">Reviewing metrics across the selected time period</p>
+        </div>
+        <label class="smtp-pick smtp-pick--sm"><span class="sr-only">Time period</span>
+          <select class="d-select" [value]="period()" (change)="period.set($any($event.target).value)">
+            <option value="1w">Last 1 Week</option>
+            <option value="2w">Last 2 Weeks</option>
+            <option value="3w">Last 3 Weeks</option>
+            <option value="4w">Last 4 Weeks</option>
+          </select>
+        </label>
+      </div>
+      <h4 class="smtp-h4">Email Classification</h4>
+      <p class="d-muted smtp-note">Distribution of email types</p>
+      <ul class="smtp-class">
+        @for (c of classification().rows; track c.label) {
+          <li>
+            <span class="smtp-class__label"><span class="smtp-swatch" [attr.data-tone]="c.tone" aria-hidden="true"></span>{{ c.label }}</span>
+            <span class="smtp-class__bar" aria-hidden="true"><span [attr.data-tone]="c.tone" [style.width.%]="c.percent"></span></span>
+            <strong>{{ c.value | number }}</strong>
+          </li>
+        }
+        <li class="smtp-class__total"><span>Total Mails</span><strong>{{ classification().total | number }}</strong></li>
+      </ul>
+    </section>
+  } @else {
+    <section class="d-page" aria-labelledby="smtp-demo-title">
+      <div class="d-head">
+        <h3 id="smtp-demo-title">SMTP Log Explorer</h3>
+        <button type="button" class="d-btn d-btn--outline" (click)="openFilters()">
+          <fa-icon [icon]="i.filter" aria-hidden="true" />Filter Logs
+          @if (activeFilterCount()) { <span class="d-count">{{ activeFilterCount() }}<span class="sr-only"> active</span></span> }
+        </button>
+      </div>
+
+      <div class="d-table-wrap" tabindex="0" role="region" aria-label="SMTP logs table">
+        <table class="d-table">
+          <caption class="sr-only">SMTP logs, newest first</caption>
+          <thead>
+            <tr>
+              <th scope="col">Timestamp</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Action</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="smtp-right"><span class="sr-only">Details</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (l of paged(); track l.id) {
+              <tr>
+                <td class="d-muted">{{ l.timestamp | date: 'M/d/yyyy, h:mm a' }}</td>
+                <td>
+                  {{ l.from }}
+                  @if (blocked().includes(l.from)) { <span class="d-pill d-pill--bad smtp-tag">Blocked</span> }
+                </td>
+                <td>{{ l.to }}</td>
+                <th scope="row" class="smtp-subject" [title]="l.subject">{{ l.subject }}</th>
+                <td><strong>{{ l.action }}</strong></td>
+                <td>
+                  <span [class]="'d-pill smtp-pill d-pill--' + tone(l.status)">{{ l.status }}</span>
+                  @if (l.released) { <span class="d-pill d-pill--info smtp-tag">Released</span> }
+                </td>
+                <td class="smtp-right"><button type="button" class="d-btn d-btn--icon d-btn--ghost" [attr.aria-label]="'Details for ' + l.subject" title="Log details" (click)="viewingId.set(l.id)"><fa-icon [icon]="i.view" aria-hidden="true" /></button></td>
+              </tr>
+            } @empty {
+              <tr><td colspan="7" class="smtp-none">No logs match your filter criteria.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="smtp-pager">
+        <label class="smtp-pager__rows"><span class="d-muted">Rows per page</span>
+          <select class="d-select" [value]="perPage()" (change)="setPerPage($any($event.target).value)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </label>
+        <span class="d-muted">{{ range().from }}-{{ range().to }} of {{ range().total }}</span>
+        <span class="smtp-pager__nav">
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Previous page" [disabled]="page() <= 1" (click)="page.set(page() - 1)"><fa-icon [icon]="i.prev" aria-hidden="true" /></button>
+          <button type="button" class="d-btn d-btn--icon d-btn--ghost" aria-label="Next page" [disabled]="page() >= pageCount()" (click)="page.set(page() + 1)"><fa-icon [icon]="i.next" aria-hidden="true" /></button>
+        </span>
+      </div>
+    </section>
+  }
+</div>
+
+@if (filterOpen()) {
+  <app-demo-dialog title="Filter SMTP Logs" kind="panel" (closed)="filterOpen.set(false)">
+    <div class="d-grid">
+      <label class="d-field"><span>Email From</span><input class="d-input" placeholder="user@example.com" [value]="draft().from" (input)="setDraft('from', $any($event.target).value)" /></label>
+      <label class="d-field"><span>Email To</span><input class="d-input" placeholder="recipient@example.com" [value]="draft().to" (input)="setDraft('to', $any($event.target).value)" /></label>
+    </div>
+    <label class="d-field"><span>Subject</span><input class="d-input" placeholder="e.g., Invoice, Report" [value]="draft().subject" (input)="setDraft('subject', $any($event.target).value)" /></label>
+    <label class="d-field"><span>Action</span>
+      <select class="d-select" [value]="draft().action" (change)="setDraft('action', $any($event.target).value)">
+        <option value="ALL">All Actions</option>
+        @for (a of actions; track a) { <option [value]="a">{{ a }}</option> }
+      </select>
+    </label>
+    <div class="d-grid">
+      <label class="d-field"><span>Date From</span><input class="d-input" type="date" [value]="draft().dateFrom" (input)="setDraft('dateFrom', $any($event.target).value)" /></label>
+      <label class="d-field"><span>Date To</span><input class="d-input" type="date" [value]="draft().dateTo" (input)="setDraft('dateTo', $any($event.target).value)" /></label>
+    </div>
+    <fieldset class="smtp-statuses">
+      <legend class="d-label">Filter by Status</legend>
+      @for (s of statuses; track s) {
+        <label class="d-check"><input type="checkbox" [checked]="draft().statuses.includes(s)" (change)="toggleStatus(s, $any($event.target).checked)" />{{ s }}</label>
+      }
+    </fieldset>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--outline" (click)="clearFilters()">Clear Filters</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="applyFilters()">Apply Filters</button>
+    </div>
+  </app-demo-dialog>
+}
+
+@if (viewing(); as l) {
+  <app-demo-dialog title="Log Details" kind="panel" (closed)="viewingId.set(null)">
+    <dl class="smtp-details">
+      <div><dt>Timestamp</dt><dd>{{ l.timestamp | date: 'medium' }}</dd></div>
+      <div><dt>From</dt><dd>{{ l.from }} @if (blocked().includes(l.from)) { <span class="d-pill d-pill--bad">Blocked</span> }</dd></div>
+      <div><dt>To</dt><dd>{{ l.to }}</dd></div>
+      <div><dt>Subject</dt><dd>{{ l.subject }}</dd></div>
+      <div><dt>Action</dt><dd><strong>{{ l.action }}</strong></dd></div>
+      <div><dt>Status</dt><dd><span [class]="'d-pill smtp-pill d-pill--' + tone(l.status)">{{ l.status }}</span> @if (l.released) { <span class="d-pill d-pill--info">Released</span> }</dd></div>
+      <div><dt>Details</dt><dd class="d-mono">{{ l.details }}</dd></div>
+    </dl>
+    @if (l.action === 'QUARANTINE') {
+      <p class="smtp-held">This message is held in quarantine. Release it to deliver it to {{ l.to }}.</p>
+    }
+    <div dialogActions>
+      <button type="button" class="d-btn smtp-block-btn" [class.d-btn--outline]="!blocked().includes(l.from)" (click)="toggleBlock(l)">
+        <fa-icon [icon]="blocked().includes(l.from) ? i.unblock : i.block" aria-hidden="true" />{{ blocked().includes(l.from) ? 'Unblock Sender' : 'Block Sender' }}
+      </button>
+      @if (l.action === 'QUARANTINE') {
+        <button type="button" class="d-btn d-btn--primary" (click)="releasing.set(l)"><fa-icon [icon]="i.release" aria-hidden="true" />Release</button>
+      }
+    </div>
+  </app-demo-dialog>
+}
+
+@if (releasing(); as l) {
+  <app-demo-dialog title="Release Message" (closed)="releasing.set(null)">
+    <p class="smtp-dialog-text">Release <strong>{{ l.subject }}</strong> from {{ l.from }}? It was held as <strong>{{ l.status }}</strong> and will be delivered to {{ l.to }}.</p>
+    <div dialogActions>
+      <button type="button" class="d-btn d-btn--ghost" (click)="releasing.set(null)">Cancel</button>
+      <button type="button" class="d-btn d-btn--primary" (click)="confirmRelease()">Release</button>
+    </div>
+  </app-demo-dialog>
+}
+
+<p class="sr-only" role="status">{{ toast() }}</p>
+@if (toast()) {
+  <p class="d-toast" aria-hidden="true"><fa-icon [icon]="i.ok" />{{ toast() }}</p>
+}

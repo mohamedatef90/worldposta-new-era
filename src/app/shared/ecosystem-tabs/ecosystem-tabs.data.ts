@@ -244,13 +244,14 @@ export interface TabContent {
   readonly heading: string;
   readonly description: string;
   readonly bullets: readonly string[];
-  readonly image: string;
+  /** Panel picture for tabs shown as a mock-up; tabs with a working demo don't need one. */
+  readonly image?: string;
   /**
    * Dark-theme variant of `image`. Only product screenshots that were captured
    * twice have one; everything else falls back to `image`.
    */
   readonly imageDark?: string;
-  readonly imageAlt: string;
+  readonly imageAlt?: string;
   /** Label for the primary CTA; defaults to "Get started". */
   readonly cta?: string;
   /** When present, replaces the screenshot with a live-rendered console preview. */
