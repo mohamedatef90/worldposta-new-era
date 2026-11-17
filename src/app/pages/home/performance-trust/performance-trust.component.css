@@ -73,3 +73,5 @@ h2 { margin:0; font-family:var(--font-heading); font-weight:var(--fw-bold); line
 .certifications-card { align-items:center; }
 .certification { padding:var(--space-md) var(--space-xs); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:color-mix(in srgb, var(--wp-panel) 70%, transparent); }
 .certification-list { align-items:stretch; }
+
+.company-logos .company-logos__note { padding:12px 8px; border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:var(--wp-panel-wash); color:var(--wp-body); line-height:1.4; font-weight:var(--fw-semibold); }
