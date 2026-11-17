@@ -53,25 +53,14 @@
                     <fa-icon class="compare-yes" [icon]="check" aria-hidden="true" />
                     <span class="sr-only">Included</span>
                   } @else {
-                    <span class="compare-no" aria-hidden="true">—</span>
+                    <span class="compare-no" aria-hidden="true">&minus;</span>
                     <span class="sr-only">Not included</span>
                   }
                 </td>
               }
             </tr>
           }
-          <tr class="compare-actions">
-            <td></td>
-            @for (provider of providers; track provider.name) {
-              <td [class.compare-col--us]="provider.us">
-                <a class="compare-link" href="/cloudedge">
-                  Learn more
-                  <fa-icon [icon]="arrowRight" aria-hidden="true" />
-                  <span class="sr-only">about {{ provider.name }}</span>
-                </a>
-              </td>
-            }
-          </tr>
+
         </tbody>
       </table>
     </div>
