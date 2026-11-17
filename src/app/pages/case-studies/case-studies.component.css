@@ -56,3 +56,5 @@
 @media(max-width:1200px){.cs-filters{grid-template-columns:repeat(3,minmax(0,1fr))}.cs-filter-meta{grid-column:1/-1;border:0;padding:0;justify-content:space-between}.cs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:850px){.cs-hero-grid{grid-template-columns:1fr}.cs-hero-art{justify-content:flex-start}.cs-filters{grid-template-columns:1fr}.cs-grid{grid-template-columns:1fr}.cs-grid.is-list .cs-card{flex-direction:column}.cs-grid.is-list .cs-card-photo{aspect-ratio:651/164;min-height:0}}
 @media(max-width:520px){.cs-hero-tagline{position:static;transform:none;padding:0;background:none}.cs-hero-art{align-items:flex-start}.cs-hero h1{letter-spacing:-1px}.cs-filter-meta{flex-wrap:wrap;gap:var(--space-sm)}}
+
+.cs-region-option{font-weight:700}
