@@ -39,7 +39,7 @@
           <span class="text-green hero-palette-green">Business.</span>
         </h1>
         <p class="hero-copy__description">
-          Secure, scalable and cost-efficient cloud solutions to power your growth — from communication to infrastructure.
+          Cloud infrastructure and communication services to support your business.
         </p>
 
         <div class="hero-copy__actions">
@@ -95,7 +95,7 @@
     <div ecosystemHeader>
       <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Cloud Computing</p>
       <h2 id="cloud-computing-heading" class="section-heading">Flexible, Secure <span class="text-green block">Cloud Computing</span> for Your Business.</h2>
-      <p class="section-subtitle">Build, deploy and scale with a global cloud platform designed for performance, security and simplicity. Cloud Computing gives you the infrastructure you need — on your terms.</p>
+      <p class="section-subtitle">Build, deploy and manage workloads with CloudEdge, WorldPosta’s reserved-capacity cloud infrastructure.</p>
     </div>
     <ul ecosystemFooter class="cc-trust-row">
       @for (t of cloudComputingTrust; track t.label) {
@@ -114,7 +114,7 @@
       <div class="split-section__copy">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Private Cloud</p>
         <h2 id="private-cloud-heading" class="section-heading">Your Own <span class="text-green block">Private Cloud.</span></h2>
-        <p class="section-subtitle">A dedicated, secure and high-performance cloud environment — fully yours, exactly as it is, with complete control and no shared resources.</p>
+        <p class="section-subtitle">Use reserved cloud capacity and configure resources for your workloads.</p>
 
         <ul class="feature-grid">
           @for (f of privateCloudFeatures; track f.title) {
@@ -213,7 +213,7 @@
       <div class="split-section__copy">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Global Infrastructure</p>
         <h2 id="global-business-heading" class="section-heading">Built for <span class="text-green">Global Business.</span></h2>
-        <p class="section-subtitle">Deploy your applications closer to your customers with our worldwide infrastructure, ensuring high performance, availability and compliance.</p>
+        <p class="section-subtitle">Deploy applications on CloudEdge infrastructure and choose an environment that fits your workload requirements.</p>
 
         <ul class="stat-grid">
           @for (s of globalStats; track s.label) {
@@ -243,7 +243,7 @@
       <div class="split-section__copy">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Zero Downtime Migration</p>
         <h2 id="migration-heading" class="section-heading">Migrate to the Cloud<br />with <span class="text-green">Zero Downtime.</span></h2>
-        <p class="section-subtitle">Move to WorldPosta Cloud with confidence. Our proven migration methodology ensures a seamless transition with zero downtime, so your business stays up and running.</p>
+        <p class="section-subtitle">Plan your move to CloudEdge with guidance from our cloud team.</p>
 
         <ul class="feature-grid">
           @for (f of migrationFeatures; track f.title) {
@@ -263,12 +263,12 @@
           <div class="migration-flow__row">
             <div class="migration-flow__card">
               <span>From</span>
-              <strong><fa-icon [icon]="icons.server" aria-hidden="true" /> On-Premise</strong>
+              <strong><fa-icon [icon]="icons.server" aria-hidden="true" /> On-Premises</strong>
             </div>
             <span class="migration-flow__center"><fa-icon [icon]="icons.cloud" aria-hidden="true" /></span>
             <div class="migration-flow__card migration-flow__card--done">
               <span>To</span>
-              <strong><fa-icon [icon]="icons.cloud" aria-hidden="true" /> WorldEdge Cloud</strong>
+              <strong><fa-icon [icon]="icons.cloud" aria-hidden="true" /> CloudEdge</strong>
               <fa-icon class="migration-flow__badge" [icon]="icons.circleCheck" aria-hidden="true" />
             </div>
           </div>
@@ -297,7 +297,7 @@
         <div>
           <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Real Businesses. Real Results</p>
           <h2 id="stories-heading" class="section-heading">Success Stories<br />Across <span class="text-green">Industries.</span></h2>
-          <p class="section-subtitle">See how organizations are leveraging WorldPosta Cloud to modernize their infrastructure, enhance security and achieve greater efficiency.</p>
+          <p class="section-subtitle">See how organizations use WorldPosta cloud services to support their infrastructure.</p>
         </div>
         <div class="stories-head__actions">
           <a class="btn btn--outline" href="/case-studies">View All Case Studies <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
@@ -317,8 +317,6 @@
             </div>
             <img class="story__logo" [ngSrc]="story.logo" [width]="story.logoWidth" [height]="story.logoHeight" [alt]="story.logoAlt" />
             <p class="story__quote">&ldquo;{{ story.quote }}&rdquo;</p>
-            <p class="story__cite">{{ story.cite }}</p>
-            <details class="story__read-more"><summary><span class="story__read-label">Read<br />More</span><span class="story__less-label">Read<br />Less</span><span class="story__read-arrow"><fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></span></summary><span class="sr-only">Full customer quote displayed.</span></details>
           </li>
         }
       </ul>
@@ -376,13 +374,15 @@
     </div>
   </section>
 
+  <app-provider-comparison />
+
   <!-- ================= EXPERT SUPPORT ================= -->
   <section class="alt-section" id="expert-support" aria-labelledby="expert-support-heading">
     <div class="ds-container split-section">
       <div class="split-section__copy">
         <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Expert Support</p>
         <h2 id="expert-support-heading" class="section-heading">More Than a Cloud. <span class="text-green block">A Partner at Every Step.</span></h2>
-        <p class="section-subtitle">Our cloud experts are with you from design to deployment and beyond, helping you get the most from your infrastructure — securely and efficiently.</p>
+        <p class="section-subtitle">Our cloud experts can help you plan, deploy and manage your infrastructure.</p>
         <a class="btn btn--primary" href="https://www.worldposta.com/contact-us">Talk to a Cloud Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
 
@@ -399,7 +399,7 @@
         <div>
           <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>CloudEdge Pricing</p>
           <h2 id="pricing-heading" class="section-heading">Choose the Right Plan for <span class="text-green">Your Cloud</span></h2>
-          <p class="section-subtitle">High-performance, secure and flexible cloud — starting from <strong>$224/month</strong>.</p>
+          <p class="section-subtitle">Explore CloudEdge plans starting from <strong>$224/month</strong>.</p>
         </div>
         <ul class="pricing-trust">
           @for (t of pricingTrust; track t.title) {
