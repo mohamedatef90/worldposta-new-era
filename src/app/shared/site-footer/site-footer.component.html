@@ -5,14 +5,17 @@
         <img ngSrc="/worldposta-assets/WP-Logo.avif" width="180" height="46" alt="WorldPosta" loading="lazy" />
       </a>
       <p class="site-footer__tagline">
-        Smarter cloud, stronger business. Enterprise infrastructure, collaboration and security from
-        one connected platform.
+        {{ homeMode() ? 'Cloud infrastructure and collaboration tools for the work your business depends on.' : 'Smarter cloud, stronger business. Enterprise infrastructure, collaboration and security from one connected platform.' }}
       </p>
       <ul class="site-footer__contact">
         @for (line of contact; track line.label) {
           <li>
             <fa-icon [icon]="line.icon" aria-hidden="true" />
-            {{ line.label }}
+            @if (line.label === 'support@worldposta.com') {
+              <a href="mailto:support@worldposta.com" style="color: inherit">{{ line.label }}</a>
+            } @else {
+              {{ line.label }}
+            }
           </li>
         }
       </ul>

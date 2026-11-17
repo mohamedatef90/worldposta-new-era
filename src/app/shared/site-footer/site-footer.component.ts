@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
@@ -34,6 +34,7 @@ interface ContactLine {
   styleUrl: './site-footer.component.css',
 })
 export class SiteFooterComponent {
+  readonly homeMode = input(false);
   protected readonly arrowRight = faArrowRight;
 
   protected readonly columns: readonly FooterColumn[] = [
@@ -46,8 +47,7 @@ export class SiteFooterComponent {
       { label: 'IT Automation', href: '/it-software-automation-tools' },
     ] },
     { title: 'Email & Collaboration', links: [
-      { label: 'Posta Business Email', href: '/posta' },
-      { label: 'CloudSpace', href: '/cloudspace' },
+      { label: 'Posta Mail', href: '/posta' },
       { label: 'Posta Link', href: '/link' },
       { label: 'Posta Drive', href: '/drive' },
       { label: 'Posta Portal', href: '/posta-portal' },
@@ -64,7 +64,7 @@ export class SiteFooterComponent {
 
   protected readonly contact: readonly ContactLine[] = [
     { icon: faHeadset, label: '24/7 expert support' },
-    { icon: faEnvelope, label: 'hello@worldposta.com' },
+    { icon: faEnvelope, label: 'support@worldposta.com' },
     { icon: faLocationDot, label: '35+ global regions' },
     { icon: faGlobe, label: 'worldposta.com' },
   ];
