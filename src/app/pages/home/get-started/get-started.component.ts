@@ -6,6 +6,8 @@ import {
   faClock,
   faCloud,
   faGlobe,
+  faPeopleGroup,
+  faStar,
   faMessage,
   faServer,
   faShieldHalved,
@@ -69,6 +71,13 @@ export class GetStartedComponent {
       title: 'Tailored Solutions',
       description: 'Built around your goals',
     },
+  ];
+
+  protected readonly proof = [
+    { icon: faGlobe, tone: 'blue', title: '35+ Global Regions', description: 'Local presence. Global reach.' },
+    { icon: faPeopleGroup, tone: 'green', title: '1M Enterprise Customers', description: 'Across industries worldwide.' },
+    { icon: faShieldHalved, tone: 'purple', title: '99.99% Service Uptime', description: "Because your business can't wait." },
+    { icon: faStar, tone: 'green', title: 'Trusted Partner', description: 'For a Smarter Cloud Future. More than a provider, a partner in your success.' },
   ];
 
   protected readonly chips: readonly OrbitChip[] = [

@@ -29,31 +29,17 @@
             </div>
           </li>
         }
+        @for (item of proof; track item.title) {
+          <li [attr.data-tone]="item.tone">
+            <span class="start-assurances__icon"><fa-icon [icon]="item.icon" aria-hidden="true" /></span>
+            <div><strong>{{ item.title }}</strong><span>{{ item.description }}</span></div>
+          </li>
+        }
       </ul>
     </div>
 
-    <!-- Decorative: every capability named here is already a link elsewhere on
-         the page, so the whole arrangement is hidden from assistive tech. -->
     <div class="start-visual" aria-hidden="true">
-      <div class="start-mark">
-        <span class="start-mark__halo"></span>
-        <img
-          class="start-mark__symbol"
-          [ngSrc]="symbol()"
-          width="184"
-          height="153"
-          alt=""
-          loading="lazy"
-        />
-        <span class="start-mark__tagline">Smarter Cloud. Stronger Business.</span>
-      </div>
-
-      @for (chip of chips; track chip.label) {
-        <span class="start-chip" [attr.data-place]="chip.place" [attr.data-tone]="chip.tone">
-          <span class="start-chip__icon"><fa-icon [icon]="chip.icon" /></span>
-          {{ chip.label }}
-        </span>
-      }
+      <img class="start-visual__image" ngSrc="/worldposta-assets/our-story-closing-consultant.avif" width="1600" height="1200" alt="" loading="lazy" />
     </div>
   </div>
 
