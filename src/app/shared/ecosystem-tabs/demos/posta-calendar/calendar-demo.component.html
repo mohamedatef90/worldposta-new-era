@@ -155,7 +155,7 @@
           <label class="d-field"><span>Calendar</span>
             <select id="pc-calendar" class="d-select" [disabled]="!!f.id" (change)="setField('calendarId', $any($event.target).value)"
                     [attr.aria-invalid]="err('calendarId') ? 'true' : null" [attr.aria-describedby]="err('calendarId') ? 'pc-cal-err' : null">
-              <option value="" [selected]="!f.calendarId">— pick —</option>
+              <option value="" [selected]="!f.calendarId">Select a calendar</option>
               @for (c of calendars; track c.id) { <option [value]="c.id" [selected]="f.calendarId === c.id">{{ c.name }}</option> }
             </select>
             @if (err('calendarId'); as m) { <p id="pc-cal-err" class="d-error">{{ m }}</p> }

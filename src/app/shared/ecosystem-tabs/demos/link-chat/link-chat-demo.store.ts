@@ -20,7 +20,7 @@ export interface ChatMessage {
   /** Empty for me; a system line has `system: true` instead. */
   readonly sender: string;
   readonly body: string;
-  /** "08:12" — the thread only spans today. */
+  /** "08:12", the thread only spans today. */
   readonly time: string;
   readonly file?: ChatFile;
   readonly system?: boolean;
@@ -59,13 +59,13 @@ const SEED: readonly Omit<Conversation, 'rank'>[] = [
   {
     id: 'c-brand', kind: 'group', name: 'Brand Launch team', members: ['Claire Roy', 'Nathan Fraser', 'Emma Clarke', 'Maya Bouchard', 'Hannah Lavoie', 'Noah Leblanc'], guest: 'Maya Bouchard', unread: 3, when: '10:24',
     messages: [
-      msg('Hannah Lavoie', 'Morning team — the final campaign checklist is ready.', '08:12', { file: { name: 'Campaign-checklist.xlsx', meta: 'v4 · 310 KB' }, reactions: { '👍': ['Nathan Fraser', 'Claire Roy'] } }),
+      msg('Hannah Lavoie', 'Morning team, the final campaign checklist is ready.', '08:12', { file: { name: 'Campaign-checklist.xlsx', meta: 'v4 · 310 KB' }, reactions: { '👍': ['Nathan Fraser', 'Claire Roy'] } }),
       msg('Noah Leblanc', 'Confirmed. I added owners and dates to the launch plan.', '08:26', { file: { name: 'Launch-plan.docx', meta: 'v6 · 1.1 MB' } }),
-      msg('', 'Great — client approved the visual direction yesterday.', '08:40', { reactions: { '🎉': ['Hannah Lavoie', 'Emma Clarke', 'Nathan Fraser'] } }),
-      msg('Nathan Fraser', 'Sharing the latest brand guidelines on Drive — v3, workspace members only. Moodboard is here too: https://drive.worldposta.com/s/brand-launch-moodboard', '08:56', { file: { name: 'Brand-guidelines-v3.pdf', meta: 'v3 · 12.1 MB' } }),
-      msg('Maya Bouchard', 'Reviewed the tone examples — clear and ready for client handoff.', '10:04', { file: { name: 'Tone-examples.pdf', meta: 'guest link · 2.4 MB' } }),
+      msg('', 'Great, client approved the visual direction yesterday.', '08:40', { reactions: { '🎉': ['Hannah Lavoie', 'Emma Clarke', 'Nathan Fraser'] } }),
+      msg('Nathan Fraser', 'Sharing the latest brand guidelines on Drive, v3, workspace members only. Moodboard is here too: https://drive.worldposta.com/s/brand-launch-moodboard', '08:56', { file: { name: 'Brand-guidelines-v3.pdf', meta: 'v3 · 12.1 MB' } }),
+      msg('Maya Bouchard', 'Reviewed the tone examples, clear and ready for client handoff.', '10:04', { file: { name: 'Tone-examples.pdf', meta: 'guest link · 2.4 MB' } }),
       msg('', 'Thanks all. Emma, can you drop the pricing table before the sync?', '10:12'),
-      msg('Emma Clarke', 'On it — ready in an hour. Draft is up already.', '10:24', { file: { name: 'Pricing-table.xlsx', meta: 'v1 · 420 KB' } }),
+      msg('Emma Clarke', 'On it, ready in an hour. Draft is up already.', '10:24', { file: { name: 'Pricing-table.xlsx', meta: 'v1 · 420 KB' } }),
     ],
   },
   {
@@ -80,7 +80,7 @@ const SEED: readonly Omit<Conversation, 'rank'>[] = [
     id: 'c-salma', kind: 'dm', name: 'Emma Clarke', members: ['Emma Clarke'], unread: 0, when: '09:51',
     messages: [
       msg('', 'Do you have the last quarter numbers for the pricing table?', '09:40'),
-      msg('Emma Clarke', 'Yes — pulling them from the finance sheet now.', '09:51'),
+      msg('Emma Clarke', 'Yes, pulling them from the finance sheet now.', '09:51'),
     ],
   },
   {
@@ -88,7 +88,7 @@ const SEED: readonly Omit<Conversation, 'rank'>[] = [
     messages: [
       msg('Claire Roy', 'Shift handover notes are in the ops folder.', '09:02', { file: { name: 'Handover-notes.docx', meta: 'v2 · 86 KB' } }),
       msg('Nathan Fraser', 'The incident timeline should go in the monthly review.', '09:18'),
-      msg('Ava Campbell', 'Agreed — folding it into the deck.', '09:26'),
+      msg('Ava Campbell', 'Agreed, folding it into the deck.', '09:26'),
     ],
   },
   {
@@ -99,7 +99,7 @@ const SEED: readonly Omit<Conversation, 'rank'>[] = [
   },
   {
     id: 'c-lina', kind: 'dm', name: 'Maya Bouchard', members: ['Maya Bouchard'], guest: 'Maya Bouchard', unread: 0, when: 'Yesterday',
-    messages: [msg('Maya Bouchard', 'Reviewed — ready for handoff', 'Yesterday')],
+    messages: [msg('Maya Bouchard', 'Reviewed, ready for handoff', 'Yesterday')],
   },
   {
     id: 'c-general', kind: 'channel', name: 'general', members: ['Claire Roy', 'Nathan Fraser', 'Emma Clarke', 'Hannah Lavoie', 'Ava Campbell', 'Noah Leblanc'], unread: 2, when: 'Tuesday',
@@ -112,12 +112,12 @@ const SEED: readonly Omit<Conversation, 'rank'>[] = [
 
 /** What a teammate says back, per conversation, in turn. */
 const REPLIES: Readonly<Record<string, readonly string[]>> = {
-  'c-brand': ['Looks good to me 👍', 'Noted — I will update the checklist.', 'Can we go over this in the 2:00 PM sync?'],
+  'c-brand': ['Looks good to me 👍', 'Noted, I will update the checklist.', 'Can we go over this in the 2:00 PM sync?'],
   'c-omar': ['Great, thanks!', 'See you at the sync.'],
-  'c-salma': ['Sending them over in a few minutes.', 'Done — check the Files tab.'],
+  'c-salma': ['Sending them over in a few minutes.', 'Done, check the Files tab.'],
   'c-ops': ['On it.', 'I will add it to the review deck.'],
   'c-contoso': ['Thank you, we will confirm by end of day.'],
-  'c-lina': ['Happy to help — ping me if anything changes.'],
+  'c-lina': ['Happy to help, ping me if anything changes.'],
   'c-general': ['Thanks for the update!', 'See everyone Thursday.'],
 };
 
