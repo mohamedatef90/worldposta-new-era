@@ -1231,3 +1231,17 @@
 @media (max-width:560px){.tab-panel--visual-first .bullet-list{flex-direction:column}.tab-panel--visual-first .vm-stats{grid-template-columns:1fr}}
 .eco-demo-loading{display:grid;place-items:center;min-height:520px;background:#f4f6f9;color:#5b6577;font-size:14px}
 :host-context([data-theme='dark']) .eco-demo-loading{background:var(--color-bg-primary);color:var(--color-text-secondary)}
+
+
+/* Homepage category controls keep the existing live service previews. */
+.home-categories{display:flex;gap:4px;border-bottom:1px solid var(--color-border);margin-bottom:8px}
+.home-categories button{flex:1;min-width:0;min-height:44px;padding:7px 4px;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--color-text-secondary);font:inherit;font-size:12px;font-weight:700;line-height:1.25;cursor:pointer}
+.home-categories button.active{border-bottom-color:var(--color-action);color:var(--wp-ink)}
+.home-categories button:focus-visible{outline:2px solid var(--color-brand-green);outline-offset:-2px}
+
+/* Temporary panels for management services awaiting their interactive previews. */
+.eco-placeholder { display:flex; min-height:360px; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-2xl); text-align:center; color:var(--wp-body); }
+.eco-placeholder__icon { display:grid; width:56px; height:56px; place-items:center; margin-bottom:var(--space-lg); border-radius:var(--radius-lg); color:var(--wp-green); background:color-mix(in srgb, var(--wp-green) 14%, var(--wp-panel)); font-size:22px; }
+.eco-placeholder__eyebrow { margin:0 0 var(--space-sm); color:var(--color-text-muted); font-size:var(--fs-caption); font-weight:var(--fw-bold); letter-spacing:1.4px; text-transform:uppercase; }
+.eco-placeholder h3 { margin:0 0 var(--space-sm); color:var(--wp-ink); font-size:var(--fs-h3); }
+.eco-placeholder p:last-child { margin:0; }

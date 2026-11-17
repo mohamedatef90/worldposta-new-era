@@ -3,7 +3,7 @@
  * WorldPosta catalogue; product pages show their own slice of it, in the
  * same layout, so a service reads the same wherever it appears.
  */
-import { faClipboardList, faCloud, faEnvelope, faGear, faGlobe, faInbox, faListCheck, faShieldHalved, faUserGroup, faUsersViewfinder } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardList, faCloud, faEnvelope, faGear, faGlobe, faInbox, faKey, faCode, faRotate, faListCheck, faShieldHalved, faUserGroup, faUsersViewfinder } from '@fortawesome/free-solid-svg-icons';
 import { ECOSYSTEM_SCREENS, type EcosystemScreen } from './ecosystem-screens';
 import type { DemoKey } from './demos/demo-registry';
 import { TAB_CONTENT, TAB_GROUPS, type TabContent, type TabGroup } from './ecosystem-tabs.data';
@@ -56,7 +56,16 @@ const item = (id: string) => {
 
 /** Home: every service, grouped as the sidebar presents it. */
 export const HOME_CATALOGUE: EcosystemCatalogue = {
-  groups: TAB_GROUPS,
+  groups: TAB_GROUPS.map((entry) => entry.id === 'management'
+    ? { ...entry, items: [
+      entry.items[0],
+      { id: 'auth-sources', label: 'Auth Sources', icon: faKey },
+      { id: 'scim', label: 'SCIM', icon: faRotate },
+      { id: 'oauth-clients', label: 'OAuth Clients', icon: faCode },
+      { id: 'saml-service-provider', label: 'SAML Service Provider', icon: faShieldHalved },
+      ...entry.items.slice(1),
+    ] }
+    : entry),
   content: TAB_CONTENT,
   screens: ECOSYSTEM_SCREENS,
   live: LIVE,

@@ -45,6 +45,7 @@ export class EcosystemTabsComponent {
   private readonly theme = inject(ThemeService);
 
   readonly catalogue = input<EcosystemCatalogue>(HOME_CATALOGUE);
+  readonly homeMode = input(false);
   /** Anchor id for the section, for page jump links. */
   readonly sectionId = input<string | null>(null);
   /** Id of the section heading; a projected header must use it on its h2. */
@@ -157,7 +158,23 @@ export class EcosystemTabsComponent {
     };
   });
 
+  protected readonly placeholder = computed(() => this.homeMode() &&
+    ['auth-sources', 'scim', 'oauth-clients', 'saml-service-provider'].includes(this.activeTabId()));
+
   protected readonly tabGroups = computed(() => this.catalogue().groups);
+  protected readonly homeCategory = signal('cloud-infrastructure');
+  protected readonly visibleGroups = computed(() => this.homeMode()
+    ? this.tabGroups().filter(group => group.id === this.homeCategory() || group.id === 'management')
+    : this.tabGroups());
+
+  protected selectCategory(id: string): void {
+    this.homeCategory.set(id);
+    const first = this.tabGroups().find(group => group.id === id)?.items[0];
+    if (first) {
+      this.activeTabId.set(first.id);
+      this.actionNote.set(null);
+    }
+  }
 
   /** Opens on the catalogue's first service, and again whenever the catalogue changes. */
   protected readonly activeTabId = linkedSignal(() => this.tabGroups()[0].items[0].id);
@@ -276,10 +293,15 @@ export class EcosystemTabsComponent {
 
   protected setActiveTab(tabId: string): void {
     this.activeTabId.set(tabId);
+    if (this.homeMode()) {
+      const group = this.tabGroups().find(entry => entry.items.some(item => item.id === tabId));
+      if (group && group.id !== 'management') this.homeCategory.set(group.id);
+    }
     this.actionNote.set(null);
     // Picking a service is the end of the errand: fold the list away so the
     // panel it just changed is what you are looking at.
     this.pickerOpen.set(false);
+    if (this.homeMode()) return;
     // Bring the product screen into view when the panel top is off screen
     // (always the case on phones, where the panel sits under the list).
     setTimeout(() => {
