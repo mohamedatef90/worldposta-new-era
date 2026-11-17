@@ -474,6 +474,7 @@
 
         }
 
+        @if (!placeholder()) {
         <div class="benefits-strip">
           @for (benefit of tabContent().benefits; track $index) {
             <div class="benefit-item">
@@ -487,6 +488,7 @@
             </div>
           }
         </div>
+        }
       </div>
     </div>
     <ng-content select="[ecosystemFooter]" />

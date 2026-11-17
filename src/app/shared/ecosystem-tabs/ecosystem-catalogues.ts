@@ -74,7 +74,8 @@ export const HOME_CATALOGUE: EcosystemCatalogue = {
 /** CloudEdge: the cloud services and the management tools that run them. */
 export const CLOUDEDGE_CATALOGUE: EcosystemCatalogue = {
   ...HOME_CATALOGUE,
-  groups: [group('cloud-infrastructure'), group('management')],
+  groups: HOME_CATALOGUE.groups.filter((entry) => entry.id === 'cloud-infrastructure' || entry.id === 'management').map((entry) => entry.id === 'cloud-infrastructure' ? { ...entry, label: 'CloudEdge', items: entry.items.map((tab) => tab.id === 'cloud-infrastructure' ? { ...tab, label: 'CloudEdge' } : tab) } : entry),
+  content: { ...TAB_CONTENT, 'cloud-infrastructure': { ...TAB_CONTENT['cloud-infrastructure'], badge: 'CloudEdge', heading: 'CloudEdge' } },
 };
 
 /**

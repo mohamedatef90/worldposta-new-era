@@ -158,7 +158,7 @@ export class EcosystemTabsComponent {
     };
   });
 
-  protected readonly placeholder = computed(() => this.homeMode() &&
+  protected readonly placeholder = computed(() =>
     ['auth-sources', 'scim', 'oauth-clients', 'saml-service-provider'].includes(this.activeTabId()));
 
   protected readonly tabGroups = computed(() => this.catalogue().groups);
