@@ -6,7 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
-import { CASE_STUDY_STORIES } from '../case-studies/case-studies.data';
+import { CASE_STUDIES, CASE_STUDY_STORIES } from '../case-studies/case-studies.data';
 
 @Component({
   imports: [NgOptimizedImage, RouterLink, SiteHeaderComponent, SiteFooterComponent],
@@ -17,7 +17,7 @@ export class CaseStudy {
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   private readonly slug = toSignal(inject(ActivatedRoute).paramMap.pipe(map((params) => params.get('slug') ?? '')), { initialValue: '' });
-  protected readonly story = computed(() => CASE_STUDY_STORIES[this.slug()]);
+  protected readonly story = computed(() => CASE_STUDIES.some((study) => study.slug === this.slug() && study.hasStory) ? CASE_STUDY_STORIES[this.slug()] : undefined);
 
   constructor() {
     effect(() => {

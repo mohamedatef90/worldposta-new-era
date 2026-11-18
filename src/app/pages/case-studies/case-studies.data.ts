@@ -3,6 +3,7 @@ export interface CaseStudyCard {
   readonly industry: string;
   readonly country: string;
   readonly services: readonly string[];
+  readonly category?: readonly ('CloudEdge' | 'Posta Workspace')[];
   readonly title: string;
   readonly summary: string;
   readonly image: string;
@@ -28,7 +29,7 @@ export interface CaseStudyStory {
 
 const asset = (name: string) => `/worldposta-assets/case-studies/${name}`;
 
-export const CASE_STUDIES: readonly CaseStudyCard[] = [
+const existingStudies: readonly CaseStudyCard[] = [
   {
     slug: 'uae-government',
     industry: 'Government',
@@ -91,6 +92,44 @@ export const CASE_STUDIES: readonly CaseStudyCard[] = [
   },
 ];
 
+const plannedStudies = [
+  ['UAE', 'CloudEdge', 'A Cloud Foundation for Changing Workloads', 'Explore how reserved cloud capacity can support workloads as business requirements change.'],
+  ['UAE', 'Posta Workspace', 'Bringing Business Communication Together', 'See how business email, calendars and team communication can help people coordinate their work.'],
+  ['KSA', 'CloudEdge', 'Planning Infrastructure for Growth', 'Explore how cloud capacity can support an organization planning for new workloads.'],
+  ['KSA', 'Posta Workspace', 'A Shared Workspace for Distributed Teams', 'Discover how email, files and team conversations can support colleagues working across locations.'],
+  ['Egypt', 'CloudEdge', 'Supporting Applications with Cloud Capacity', 'See how infrastructure resources can provide a foundation for business applications.'],
+  ['Egypt', 'Posta Workspace', 'Making Everyday Collaboration Easier', 'Explore how shared files, notes and email can support day-to-day teamwork.'],
+  ['United States', 'CloudEdge', 'Cloud Resources for Business Applications', 'Discover how reserved compute capacity can help teams plan and run their workloads.'],
+  ['United States', 'Posta Workspace', 'Connecting People and Their Work', 'See how a business workspace can bring email, documents and team conversations together.'],
+  ['Europe', 'CloudEdge', 'A Flexible Infrastructure for Evolving Needs', 'Explore an approach to allocating cloud resources as application requirements evolve.'],
+  ['Europe', 'Posta Workspace', 'Helping Teams Share and Coordinate', 'Discover how shared calendars, files and business email can support collaboration.'],
+  ['Pakistan', 'CloudEdge', 'Building Capacity for Growing Applications', 'See how cloud infrastructure can support organizations preparing for changing workloads.'],
+  ['Pakistan', 'Posta Workspace', 'A Workspace for Everyday Teamwork', 'Explore how teams can organize communication and share files across their workday.'],
+  ['Middle East', 'CloudEdge', 'A Cloud Platform for Business Operations', 'Explore how reserved infrastructure can support business workloads across the region.'],
+  ['Middle East', 'Posta Workspace', 'Keeping Teams Connected Across the Region', 'Discover how email, calendars and team chat can support communication across locations.'],
+] as const;
+
+
+export const CASE_STUDIES: readonly CaseStudyCard[] = [
+  ...existingStudies.map((study) => ({
+    ...study,
+    category: [
+      ...(study.services.some((service) => ['Private Cloud', 'Backup as a Service', 'Disaster Recovery', 'Cloud Computing', 'Data Backup', 'Cloud Storage'].includes(service)) ? ['CloudEdge' as const] : []),
+      ...(study.services.some((service) => ['Collaboration', 'Business Email'].includes(service)) ? ['Posta Workspace' as const] : []),
+    ],
+  })),
+  ...plannedStudies.map(([country, service, title, summary], index) => ({
+    slug: `planned-${country.toLowerCase().replace(/\s+/g, '-')}-${service.toLowerCase().replace(/\s+/g, '-')}`,
+    industry: 'Business',
+    country,
+    services: [service],
+    category: [service],
+    title,
+    summary,
+    image: asset(index % 2 === 0 ? 'listing-hero.webp' : 'story-cta.webp'),
+    hasStory: false,
+  })),
+];
 export const CASE_STUDY_STORIES: Readonly<Record<string, CaseStudyStory>> = {
   'uae-government': {
     slug: 'uae-government',

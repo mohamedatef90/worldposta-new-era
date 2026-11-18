@@ -76,7 +76,7 @@ export class SecuritySectionComponent {
       icon: faPeopleGroup,
       tone: 'green',
       title: 'Expert Support',
-      description: 'A dedicated team to guide you at every step — from design to daily operations.',
+      description: 'A dedicated team to guide you at every step, from design to daily operations.',
     },
   ];
 

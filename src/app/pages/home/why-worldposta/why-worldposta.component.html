@@ -7,11 +7,7 @@
         Challenges.<br />
         <span class="text-green">Our Solutions.</span>
       </h2>
-      <p class="why-lede">
-        From rising costs and security concerns to the need for more control and scalability —
-        WorldPosta delivers the cloud expertise and solutions to turn today's challenges into real
-        business outcomes.
-      </p>
+      <p class="why-lede">WorldPosta helps you manage cloud costs, security and growth.</p>
       <a class="btn-primary" href="/our-story">
         See Why WorldPosta
         <fa-icon [icon]="arrowRight" aria-hidden="true" />
@@ -22,7 +18,7 @@
       <p class="why-pairs__head why-pairs__head--challenge">Common cloud challenges</p>
       <p class="why-pairs__head why-pairs__head--solution">How WorldPosta helps</p>
 
-      @for (pair of pairs; track pair.challenge.title) {
+      @for (pair of pairs; track pair.challenge.title; let i = $index) {
         <article class="why-card why-card--challenge" [attr.data-tone]="pair.tone">
           <span class="why-card__icon"><fa-icon [icon]="pair.challenge.icon" aria-hidden="true" /></span>
           <div>
@@ -33,11 +29,14 @@
 
         <!-- The arrow is the pairing made visible; the two cards already sit
              under their own headings, so it carries no meaning of its own. -->
-        <span class="why-pairs__arrow" aria-hidden="true">
-          <fa-icon [icon]="arrowRight" />
+        <span class="why-pairs__arrow" [style.--flow-delay]="(i * 2) + 's'" aria-hidden="true">
+          <svg viewBox="0 0 48 24" fill="none" focusable="false">
+            <path class="why-arrow-base" d="M3 12H43M36 5L43 12L36 19" />
+            <path class="why-arrow-active" d="M3 12H43M36 5L43 12L36 19" />
+          </svg>
         </span>
 
-        <article class="why-card why-card--solution">
+        <article class="why-card why-card--solution" [style.--flow-delay]="(i * 2) + 's'">
           <span class="why-card__icon"><fa-icon [icon]="pair.solution.icon" aria-hidden="true" /></span>
           <div>
             <h3>{{ pair.solution.title }}</h3>
@@ -48,17 +47,5 @@
     </div>
   </div>
 
-  <ul class="why-proof ds-container" aria-label="WorldPosta at a glance">
-    @for (point of proof; track point.label) {
-      <li class="why-proof__item" [attr.data-tone]="point.tone">
-        <span class="why-proof__icon"><fa-icon [icon]="point.icon" aria-hidden="true" /></span>
-        <div>
-          <strong>{{ point.value }}</strong>
-          <span class="why-proof__label">{{ point.label }}</span>
-          <span class="why-proof__note">{{ point.note }}</span>
-        </div>
-      </li>
-    }
-  </ul>
 </section>
 

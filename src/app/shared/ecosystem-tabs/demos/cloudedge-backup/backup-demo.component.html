@@ -42,7 +42,7 @@
                   }
                 </span>
               </th>
-              <td class="bk-desc">{{ job.description || '—' }}</td>
+              <td class="bk-desc">{{ job.description || 'Not available' }}</td>
               <td class="bk-center"><input type="checkbox" role="switch" class="d-switch" [checked]="job.isHighPriority" (change)="setPriority(job, $any($event.target).checked)" [attr.aria-label]="job.name + ' is high priority'" /></td>
               <td>{{ job.reservation }}</td>
               <td class="bk-center">
@@ -260,7 +260,7 @@
               @if (jobError('time'); as e) { <p class="d-error" id="bk-err-time">{{ e }}</p> }
             </label>
           </div>
-          <p class="bk-summary">Runs {{ jobForm().frequency.toLowerCase() }} at {{ jobForm().time || '—' }} and keeps {{ jobForm().retentionDays }} days of restore points.</p>
+          <p class="bk-summary">Runs {{ jobForm().frequency.toLowerCase() }} at {{ jobForm().time || 'Not available' }} and keeps {{ jobForm().retentionDays }} days of restore points.</p>
         }
       }
     </div>

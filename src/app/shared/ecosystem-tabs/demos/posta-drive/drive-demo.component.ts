@@ -20,9 +20,9 @@ const EMAIL = /^[^\s@<>,;]+@[^\s@<>,;]+\.[^\s@<>,;]+$/;
 
 /** The share tiers and their one-line descriptions, from ShareDialog's TierPicker. */
 export const TIERS: Record<ShareRole, { title: string; sub: string }> = {
-  viewer: { title: 'View', sub: "Read & download — can't comment or edit" },
-  commenter: { title: 'Comment', sub: "Read + leave comments — can't change the file" },
-  editor: { title: 'Edit', sub: 'Full access — can edit in Office Online' },
+  viewer: { title: 'View', sub: "Read & download; can't comment or edit" },
+  commenter: { title: 'Comment', sub: "Read + leave comments; can't change the file" },
+  editor: { title: 'Edit', sub: 'Full access; can edit in Office Online' },
   manager: { title: 'Manage', sub: 'Edit + manage access and sharing' },
 };
 
@@ -161,11 +161,11 @@ export class DriveDemoComponent {
   protected sizeLabel(it: DriveItem): string {
     if (it.kind === 'file') return fmtBytes(it.sizeBytes);
     const n = this.store.folderSize(it.id);
-    return n ? fmtBytes(n) : '—';
+    return n ? fmtBytes(n) : 'Not available';
   }
 
   protected date(iso: string | null): string {
-    return iso ? new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
+    return iso ? new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Not available';
   }
 
   protected icon(it: DriveItem): IconDefinition {
@@ -450,7 +450,7 @@ export class DriveDemoComponent {
 
   protected pickName(): string {
     const p = this.movePick();
-    return p === undefined ? '(pick a folder above — My Drive is allowed)' : p === null ? 'My Drive' : (this.store.get(p)?.name ?? '');
+    return p === undefined ? '(pick a folder above; My Drive is allowed)' : p === null ? 'My Drive' : (this.store.get(p)?.name ?? '');
   }
 
   /* ---------- Trash ---------- */

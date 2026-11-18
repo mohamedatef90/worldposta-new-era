@@ -44,6 +44,7 @@ import { ThemeService } from '@/shared/services/theme.service';
 
 import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
+import { ProviderComparisonComponent } from '../home/provider-comparison/provider-comparison.component';
 import { CLOUDEDGE_CATALOGUE } from '@/shared/ecosystem-tabs/ecosystem-catalogues';
 interface HeroChip {
   readonly id: string;
@@ -137,7 +138,7 @@ interface AddOn {
  * reference section mockups, section for section.
  */
 @Component({
-  imports: [PageJumpNavComponent, EcosystemTabsComponent, ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
+  imports: [ProviderComparisonComponent, PageJumpNavComponent, EcosystemTabsComponent, ExpertJourneyComponent, FaIconComponent, LoopVideoComponent, NgOptimizedImage, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {
@@ -185,7 +186,7 @@ export class CloudEdgeComponent {
     { id: 'support', icon: faHeadset, tone: 'blue', label: '24/7 Support' },
     { id: 'migration', icon: faClockRotateLeft, tone: 'purple', label: 'Zero Downtime Migration' },
     { id: 'security', icon: faShieldHalved, tone: 'green', label: 'Maximum Security' },
-    { id: 'cost', icon: faChartColumn, tone: 'blue', label: '50% Lower Total Cost' },
+    { id: 'cost', icon: faChartColumn, tone: 'blue', label: 'Cost Management' },
   ];
 
   /** The three benefits that float over the hero photo on desktop. */
@@ -294,8 +295,8 @@ export class CloudEdgeComponent {
   protected readonly globalStats: readonly StatTile[] = [
     { icon: faGlobe, tone: 'blue', value: '35+', label: 'Global Regions' },
     { icon: faClockRotateLeft, tone: 'purple', value: '99.99%', label: 'SLA Uptime' },
-    { icon: faPeopleGroup, tone: 'green', value: '500+', label: 'Enterprise Customers' },
-    { icon: faChartColumn, tone: 'amber', value: 'Up to 50%', label: 'Lower Costs' },
+    { icon: faPeopleGroup, tone: 'green', value: '1M', label: 'Enterprise Customers' },
+    { icon: faChartColumn, tone: 'amber', value: 'Lower Costs', label: 'Cloud infrastructure' },
   ];
 
   // ============================================================

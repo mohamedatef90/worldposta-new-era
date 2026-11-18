@@ -1120,3 +1120,22 @@ main section.os :is(.os-green-text,.s2-num,.s2-quote figcaption span,.s2-kicker 
   .compliance-panel li{flex-direction:column;gap:8px}
   .compliance-panel li>.compliance-mark{align-self:flex-start;justify-content:start}
 }
+
+/* Keep panel surfaces and labels readable in both themes. */
+.story-compliance .compliance-panel{background:var(--os-panel);border-color:var(--os-line)}
+.story-compliance .compliance-panel>h3{color:var(--os-body);font-size:12px;line-height:1.4}
+.story-compliance .compliance-panel li{flex-direction:column;align-items:center;gap:8px;text-align:center}
+.story-compliance .compliance-panel li+li{border-color:var(--os-line)}
+.story-compliance .compliance-panel h4{color:var(--os-ink);line-height:1.3}
+:host-context([data-theme='dark']) .story-compliance .compliance-mark:not(.compliance-mark-soc):not(.compliance-mark-eu){color:#9bc9f2}
+:host-context([data-theme='dark']) .story-compliance .compliance-mark-pci>small{color:#9bc9f2}
+.story-compliance .compliance-panel li > .compliance-mark{align-self:center;justify-content:center}
+
+.story-infrastructure .s2-copy > p:not(.story-eyebrow) + p{margin-top:16px}
+.story-infrastructure .os-btn{margin-top:24px}
+
+:is(.story-impact,.story-partnerships,.story-delivery) .os-btn{margin-top:24px}
+
+
+
+

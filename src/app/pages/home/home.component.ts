@@ -21,7 +21,6 @@ import { ThemeService } from '@/shared/services/theme.service';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
 import { GetStartedComponent } from './get-started/get-started.component';
-import { ProviderComparisonComponent } from './provider-comparison/provider-comparison.component';
 import { SecuritySectionComponent } from './security-section/security-section.component';
 import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
@@ -52,7 +51,6 @@ interface EcosystemTile {
     PerformanceTrustComponent,
     SecuritySectionComponent,
     WhyWorldpostaComponent,
-    ProviderComparisonComponent,
     GetStartedComponent,
     SiteFooterComponent,
   ],
@@ -104,18 +102,18 @@ export class Home {
     },
     {
       icon: faCoins,
-      title: 'Up to 50% Lower Cost',
+      title: 'Lower Cost',
       description: 'More power. Less cost.',
     },
   ];
 
   protected readonly ecosystemTiles: readonly EcosystemTile[] = [
-    { icon: faEnvelope, label: 'Business Email', href: '/posta', colorClass: 'tile--green' },
-    { icon: faMessage, label: 'Team Chat', href: '/link', colorClass: 'tile--purple' },
-    { icon: faVideo, label: 'Conferencing', href: '/link', colorClass: 'tile--teal' },
-    { icon: faCalendarDays, label: 'Calendar', href: '/cloudspace', colorClass: 'tile--pink' },
-    { icon: faFolderOpen, label: 'Files & Storage', href: '/drive', colorClass: 'tile--amber' },
-    { icon: faNoteSticky, label: 'Notes', href: '/cloudspace', colorClass: 'tile--sky' },
+    { icon: faEnvelope, label: 'Posta Mail', href: '/posta', colorClass: 'tile--green' },
+    { icon: faMessage, label: 'Posta Link: Chat', href: '/link', colorClass: 'tile--purple' },
+    { icon: faVideo, label: 'Posta Link: Meetings', href: '/link', colorClass: 'tile--teal' },
+    { icon: faCalendarDays, label: 'Posta Calendar', href: '/cloudspace', colorClass: 'tile--pink' },
+    { icon: faFolderOpen, label: 'Posta Drive', href: '/drive', colorClass: 'tile--amber' },
+    { icon: faNoteSticky, label: 'Posta Note', href: '/cloudspace', colorClass: 'tile--sky' },
     { icon: faGauge, label: 'Dashboard', href: '/cloudspace', colorClass: 'tile--indigo' },
     { icon: faUsers, label: 'Team Management', href: '/link', colorClass: 'tile--rose' },
   ];

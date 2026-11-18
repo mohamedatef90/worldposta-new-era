@@ -102,10 +102,10 @@ export class WorkspaceDashboardDemoComponent {
     const live = this.store.meetings().filter((m) => m.state !== 'ended');
     const today = live.filter((m) => m.state === 'active' || (m.at !== null && m.at >= today0 && m.at <= today1)).length;
     const later = live.filter((m) => m.state === 'scheduled' && m.at !== null && m.at > today1 && m.at <= week1).length;
-    if (!today && !later) return 'No meetings scheduled — ready when you are.';
+    if (!today && !later) return 'No meetings scheduled. Ready when you are.';
     if (!today) return `${later} upcoming this week.`;
     const s = today === 1 ? '' : 's';
-    return later ? `You have ${today} meeting${s} today and ${later} upcoming this week.` : `You have ${today} meeting${s} today — ready when you are.`;
+    return later ? `You have ${today} meeting${s} today and ${later} upcoming this week.` : `You have ${today} meeting${s} today. Ready when you are.`;
   });
 
   protected readonly stats = computed(() => {

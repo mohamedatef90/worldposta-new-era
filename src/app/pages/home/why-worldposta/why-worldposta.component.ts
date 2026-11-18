@@ -82,7 +82,7 @@ export class WhyWorldpostaComponent {
       solution: {
         icon: faChartColumn,
         title: 'Scalable infrastructure',
-        description: 'Flexible, on-demand resources to support your growth — anytime, anywhere.',
+        description: 'Flexible, on-demand resources to support your growth anytime, anywhere.',
       },
     },
     {
@@ -108,7 +108,7 @@ export class WhyWorldpostaComponent {
       solution: {
         icon: faHeadset,
         title: 'A trusted partner',
-        description: 'Our experts are with you every step of the way — from strategy to operations.',
+        description: 'Our experts are with you every step of the way, from strategy to operations.',
       },
     },
   ];
@@ -117,6 +117,6 @@ export class WhyWorldpostaComponent {
     { icon: faGlobe, tone: 'blue', value: '35+', label: 'Global Regions', note: 'Local presence. Global reach.' },
     { icon: faPeopleGroup, tone: 'green', value: '500+', label: 'Enterprise Customers', note: 'Across industries worldwide.' },
     { icon: faShieldHalved, tone: 'purple', value: '99.99%', label: 'Service Uptime', note: "Because your business can't wait." },
-    { icon: faStar, tone: 'green', value: 'Trusted Partner', label: 'For a Smarter Cloud Future', note: 'More than a provider — a partner in your success.' },
+    { icon: faStar, tone: 'green', value: 'Trusted Partner', label: 'For a Smarter Cloud Future', note: 'More than a provider, a partner in your success.' },
   ];
 }
