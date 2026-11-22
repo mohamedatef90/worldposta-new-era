@@ -30,7 +30,7 @@ export class WpsysSoc {
   }
 
   protected readonly socAdvantages = [
-    { tone: 'blue', title: 'Modern & Scalable', description: 'Cloud-native SOC built to scale with your business, without the cost and complexity of on-premise infrastructure.', icon: 'M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16Z' },
+    { tone: 'blue', title: 'Modern & Scalable', description: 'Cloud-native SOC built to scale with your business, without the cost and complexity of on-premises infrastructure.', icon: 'M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16Z' },
     { tone: 'green', title: 'Expert-Led Protection', description: '24/7 monitoring by certified security analysts using advanced threat intelligence and AI-driven detection.', icon: 'M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM20 12v14m-6-6 6 6 6-6' },
     { tone: 'purple', title: 'Faster, Smarter Response', description: 'Automated alert correlation and guided investigation to detect, contain and eliminate threats before they impact your business.', icon: 'M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31M4 15l10-8 9 2 12-7' },
   ];
@@ -59,16 +59,16 @@ export class WpsysSoc {
   ];
   protected readonly workflowOutcomes = [
     { tone: 'green', title: 'Faster Response Times', description: 'Reduce dwell time and prevent wider impact.', icon: 'M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7Z' },
-    { tone: 'blue', title: 'Greater Visibility', description: 'Unified view across cloud, on-premise and hybrid environments.', icon: 'M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31' },
+    { tone: 'blue', title: 'Greater Visibility', description: 'A unified view across cloud, on-premises and hybrid environments.', icon: 'M6 35V23h7v12M17 35V13h7v22M28 35V4h7v31' },
     { tone: 'purple', title: 'Stronger Security Posture', description: 'Continuous monitoring and proactive threat hunting.', icon: 'M33 9c0 8-26 8-26 0s26-8 26 0ZM7 9v22c0 8 26 8 26 0V9M7 17c0 8 26 8 26 0M7 24c0 8 26 8 26 0' },
     { tone: 'amber', title: 'Lower Risk & Cost', description: 'Detect and resolve threats early, avoiding costly downtime and breaches.', icon: 'M33 9c0 8-26 8-26 0s26-8 26 0ZM7 9v22c0 8 26 8 26 0V9M7 17c0 8 26 8 26 0M7 24c0 8 26 8 26 0' },
   ];
 
   protected readonly features = [
-    { tone: 'green', title: '24/7 Threat Monitoring', description: 'Continuous monitoring across your cloud and on-premise environments.', icon: 'M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13' },
+    { tone: 'green', title: '24/7 Threat Monitoring', description: 'Continuous monitoring across your cloud and on-premises environments.', icon: 'M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13' },
     { tone: 'blue', title: 'Advanced Threat Detection', description: 'Identify and stop threats before they impact your business.', icon: 'M28 17a11 11 0 1 1-22 0 11 11 0 0 1 22 0ZM25 25l10 10' },
     { tone: 'purple', title: 'Rapid Incident Response', description: 'Expert analysts respond quickly to contain and remediate threats.', icon: 'm22 3-13 20h11l-4 14 15-23H21l5-11Z' },
-    { tone: 'amber', title: 'Global Threat Intelligence', description: 'Leverage real-time intelligence from global threat feeds and AI analytics.', icon: 'M14 20a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM35 7a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM35 33a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM14 17l11-7M14 23l11 7' },
+    { tone: 'amber', title: 'Global Threat Intelligence', description: 'Use real-time intelligence from global threat feeds and AI analytics.', icon: 'M14 20a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM35 7a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM35 33a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM14 17l11-7M14 23l11 7' },
     { tone: 'green', title: 'Cloud-Native & Scalable', description: 'Built for modern IT environments with flexible, scalable deployment.', icon: 'M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16Z' },
     { tone: 'blue', title: 'Compliance & Reporting', description: 'Get detailed reports to meet industry and regulatory requirements.', icon: 'M8 3h17l8 8v26H8ZM25 3v9h8M14 19h13M14 25h13M14 31h9' },
   ];
