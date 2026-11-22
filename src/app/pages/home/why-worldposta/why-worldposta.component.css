@@ -3,7 +3,7 @@
 }
 
 .why-section {
-  padding-top:var(--wp-section-pad);
+  padding-block:var(--wp-section-pad);
   background:linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%);
 }
 
