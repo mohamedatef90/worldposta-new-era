@@ -24,7 +24,7 @@ export class Contact {
     const form = event.target;
     if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
     const body = Array.from(new FormData(form).entries()).map(([key, value]) => key + ': ' + String(value)).join('\n');
-    window.location.href = 'mailto:info@worldposta.com?subject=Contact%20request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=Contact%20request&body=' + encodeURIComponent(body);
     this.contactStatus.set('Your email app will open with your request. Send it to contact our team.');
   }
 
@@ -33,7 +33,7 @@ export class Contact {
     const form = event.target;
     if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
     const email = String(new FormData(form).get('email') ?? '');
-    window.location.href = 'mailto:info@worldposta.com?subject=Newsletter%20subscription&body=' + encodeURIComponent('Please subscribe me to WorldPosta updates: ' + email);
+    window.location.href = 'mailto:support@worldposta.com?subject=Newsletter%20subscription&body=' + encodeURIComponent('Please subscribe me to WorldPosta updates: ' + email);
     this.newsletterStatus.set('Send the subscription request from your email app.');
   }
 }

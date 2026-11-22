@@ -160,7 +160,7 @@ export class PostaPortal {
       'Requirements: ' + String(data.get('requirements') ?? ''),
       'Consent: I agree to be contacted by the WorldPosta team.',
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=Posta%20Portal%20Demo%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=Posta%20Portal%20Demo%20Request&body=' + encodeURIComponent(body);
     this.demoStatus.set('Your demo request is ready in your email app. Review and send it to contact our team.');
   }
 

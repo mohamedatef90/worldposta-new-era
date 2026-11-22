@@ -31,7 +31,7 @@ export class Sap {
       'Permission to contact regarding this enquiry: Yes',
       '', 'Additional details:', String(data.get('details') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=SAP%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=SAP%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.enquiryStatus.set('Your request is ready in your email app. Review and send it to complete your enquiry.');
   }
 }

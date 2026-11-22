@@ -50,10 +50,10 @@
 @media(max-width:850px){.soc-workflow-wrap{grid-template-columns:minmax(0,1fr)}.soc-workflow-heading{grid-column:1;grid-row:1}.soc-workflow-steps{grid-column:1;grid-row:2}.soc-workflow-art{grid-column:1;grid-row:3;width:100%;max-width:600px;justify-self:center}.soc-workflow-outcomes{grid-row:4}}
 @media(max-width:540px){.soc-workflow-heading h2{font-size:var(--fs-h2)}.soc-workflow-steps{grid-template-columns:minmax(0,1fr)}.soc-workflow-outcomes{grid-template-columns:minmax(0,1fr)}.soc-workflow-outcomes li+li{border-left:0;padding-left:0;padding-top:var(--space-md);border-top:1px solid var(--color-border)}}
 
-.soc-key-benefits{background:linear-gradient(115deg,var(--wp-mist-from),var(--color-bg-primary));color:var(--wp-ink)}.soc-key-benefits-wrap{width:min(1400px,88%);margin-inline:auto;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:var(--space-2xl);align-items:center}.soc-benefits-art{position:relative;overflow:hidden;aspect-ratio:685/535;border:1px solid var(--color-border);border-radius:var(--radius-2xl);background:var(--wp-panel);box-shadow:var(--shadow-md)}.soc-benefits-art img{position:absolute;left:-6.131%;top:-12.15%;width:233.577%;height:auto;max-width:none}
+.soc-key-benefits{background:linear-gradient(115deg,var(--wp-mist-from),var(--color-bg-primary));color:var(--wp-ink)}.soc-key-benefits-wrap{width:min(1400px,88%);margin-inline:auto;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:var(--space-2xl);align-items:center}
 .soc-key-benefits-content>.soc-eyebrow{margin-bottom:var(--space-md)}.soc-key-benefits-content h2{font-family:var(--font-heading);font-size:clamp(32px,2.8vw,44px);font-weight:var(--fw-bold);line-height:1.16;letter-spacing:-1.1px;margin:0 0 var(--space-md);color:var(--wp-ink)}.soc-key-benefits-content h2 span{color:var(--wp-green)}.soc-key-benefits-lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--wp-body);margin:0 0 var(--space-xl)}.soc-key-benefits-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-md)}.soc-benefit-card{display:grid;grid-template-columns:44px minmax(0,1fr);gap:var(--space-md);padding:var(--space-lg) var(--space-md);border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--wp-panel);box-shadow:var(--shadow-sm)}.soc-benefit-card .soc-icon{width:44px;height:44px;border-radius:var(--radius-lg)}.soc-benefit-card .soc-icon svg{width:26px;height:26px}.soc-benefit-card h3{font-size:var(--fs-body-sm);line-height:var(--lh-tight);font-weight:var(--fw-bold);margin:0 0 var(--space-sm);color:var(--wp-ink)}.soc-benefit-card p{font-size:var(--fs-body-sm);line-height:1.6;color:var(--wp-body);margin:0}
 @media(max-width:1100px){.soc-key-benefits-wrap{gap:var(--space-lg);grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr)}.soc-benefit-card{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:850px){.soc-key-benefits-wrap{grid-template-columns:minmax(0,1fr);gap:var(--space-xl)}.soc-benefits-art{grid-row:2;width:100%;max-width:650px;justify-self:center}.soc-key-benefits-content{grid-row:1}.soc-benefit-card{grid-template-columns:44px minmax(0,1fr)}}
+@media(max-width:850px){.soc-key-benefits-wrap{grid-template-columns:minmax(0,1fr);gap:var(--space-xl)}.soc-key-benefits-content{grid-row:1}.soc-benefit-card{grid-template-columns:44px minmax(0,1fr)}}
 @media(max-width:540px){.soc-key-benefits-grid{grid-template-columns:minmax(0,1fr)}.soc-key-benefits-content h2{font-size:var(--fs-h2)}}
 
 .soc-why{background:linear-gradient(120deg,var(--color-bg-primary),var(--wp-mist-from));color:var(--wp-ink)}.soc-why-wrap{width:min(1400px,88%);margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:var(--space-xl) var(--space-2xl);align-items:center}.soc-why-copy>.soc-eyebrow{margin-bottom:var(--space-md)}.soc-why h2{font-family:var(--font-heading);font-size:clamp(32px,2.8vw,44px);font-weight:var(--fw-bold);line-height:1.16;letter-spacing:-1.1px;color:var(--wp-ink);margin:0 0 var(--space-md)}.soc-why h2 span{color:var(--wp-green)}.soc-why-lead{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--wp-body);margin:0 0 var(--space-xl)}
@@ -70,8 +70,6 @@
 @media(max-width:1100px){.soc-contact-wrap{gap:var(--space-lg)}.soc-contact-form{padding:var(--space-lg)}}
 @media(max-width:850px){.soc-contact-wrap{grid-template-columns:minmax(0,1fr);gap:var(--space-xl)}.soc-contact-art{max-width:550px;aspect-ratio:405/280}.soc-contact-copy h2{max-width:650px}}
 @media(max-width:540px){.soc-contact-fields{grid-template-columns:minmax(0,1fr)}.soc-contact-form{padding:var(--space-lg) var(--space-md)}.soc-contact-copy h2{font-size:var(--fs-h2)}.soc-contact-form h3{font-size:var(--fs-h3)}}
-
-
 
 /* Full, uncropped visuals: each box now uses a dedicated image cropped to the
    visual itself, shown at its natural aspect ratio (nothing cut off). */
@@ -162,30 +160,17 @@ main .soc-workflow-outcomes li{display:flex;gap:12px;align-items:flex-start;padd
 /* Key Benefits, option "Copy and photo, benefits below": copy beside real WorldPosta product screens, six cards below. */
 main .soc-key-benefits-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(30px,3vw,44px)}
 main .soc-key-benefits-wrap>*{grid-column:auto;grid-row:auto}
-main .soc-kb-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(28px,4vw,64px);align-items:center}
+main .soc-kb-top{max-width:780px}
 main .soc-key-benefits-content{grid-column:auto;grid-row:auto}
-main .soc-benefits-art{position:relative;aspect-ratio:auto;overflow:visible;width:auto;max-width:none;margin:0 0 28px 28px;border:0;border-radius:0;background:none;box-shadow:none}
-main .soc-kb-screen{overflow:hidden;border:6px solid var(--wp-panel);border-radius:var(--radius-xl);background:var(--wp-panel);box-shadow:0 30px 60px -28px rgba(15,19,24,.4),0 0 0 1px var(--color-border)}
-main .soc-kb-bar{display:flex;gap:6px;align-items:center;height:26px;padding:0 10px;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border)}
-main .soc-kb-bar i{width:8px;height:8px;border-radius:50%;background:var(--color-border)}
-main .soc-benefits-art .soc-kb-screen img{position:static;display:block;width:100%;height:auto;max-width:none;transform:none}
-main .soc-benefits-art .soc-kb-score{position:absolute;left:-28px;bottom:-28px;top:auto;width:34%;height:auto;max-width:200px;border-radius:14px;border:1px solid var(--color-border);box-shadow:0 22px 44px -20px rgba(15,19,24,.45);transform:none}
+
 main .soc-key-benefits-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 main .soc-benefit-card{border-top:3px solid var(--soc-tone)}
-@media(max-width:900px){main .soc-kb-top{grid-template-columns:minmax(0,1fr)}main .soc-benefits-art{margin:0 0 24px;max-width:650px;justify-self:center}main .soc-benefits-art .soc-kb-score{left:12px;bottom:-24px;width:30%}}
+
 @media(max-width:700px){main .soc-key-benefits-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:540px){main .soc-key-benefits-grid{grid-template-columns:minmax(0,1fr)}}
 main .soc-workflow-steps>.soc-workflow-step{grid-column:auto}
-main .soc-benefits-art .soc-kb-score{width:28%;max-width:170px;bottom:-36px}
 
 /* Key Benefits visual in light mode: light console screen, Security Score card floating on the right. */
-main .soc-benefits-art{margin:0 28px 28px 0}
-main .soc-benefits-art .soc-kb-score{left:auto;right:-28px;bottom:-36px;width:30%;max-width:180px}
-main .soc-kb-screen,main .soc-kb-bar{background:#ffffff;border-color:#ffffff}
-main .soc-kb-bar{border-bottom:1px solid #e5e7eb}
-main .soc-kb-bar i{background:#d9dee5}
-@media(max-width:900px){main .soc-benefits-art{margin:0 0 24px}main .soc-benefits-art .soc-kb-score{right:12px;left:auto;bottom:-24px}}
-
 
 /* Why choose us, option "Copy and photo, numbered cards": copy beside the team photo, three numbered cards, assurances strip. */
 main .soc-why-wrap{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,3vw,40px) clamp(28px,4vw,64px)}
