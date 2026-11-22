@@ -238,7 +238,7 @@ button, input, select { font-family:inherit; }
 .billing-toggle button { display:grid; min-width:96px; padding:var(--space-sm) var(--space-md); border:0; border-radius:var(--radius-full); background:transparent; color:var(--wp-body-strong); font-size:13px; font-weight:var(--fw-bold); line-height:1.2; cursor:pointer; }
 .billing-toggle button small { color:var(--color-text-muted); font-size:10px; font-weight:var(--fw-semibold); }
 .billing-toggle button[aria-pressed='true'] { color:var(--wp-green); background:color-mix(in srgb, var(--color-brand-green) 12%, transparent); box-shadow:inset 0 0 0 1.5px var(--color-brand-green); }
-.plans { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:var(--space-md); align-items:stretch; }
+.plans { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:var(--space-md); align-items:stretch; }
 .plan { position:relative; display:flex; flex-direction:column; padding:var(--space-lg); }
 .plan .tone-icon { margin-bottom:var(--space-md); border-radius:50%; }
 .plan h3 { font-size:19px; letter-spacing:-0.2px; }
@@ -249,6 +249,8 @@ button, input, select { font-family:inherit; }
 .plan ul { display:grid; gap:9px; margin:var(--space-lg) 0; padding:0; list-style:none; }
 .plan li { display:flex; align-items:baseline; gap:10px; color:var(--color-text-secondary); font-size:13.5px; line-height:1.35; }
 .plan li i { color:var(--wp-tone-green); font-size:13px; }
+.plan li.plan__previous { color:var(--wp-ink); font-weight:var(--fw-semibold); }
+.plan__previous span { color:var(--wp-tone-green); font-size:16px; line-height:1; }
 .plan .btn { margin-top:auto; border-radius:var(--radius-md); min-height:44px; }
 .plan--free { border-color:color-mix(in srgb, var(--color-brand-green) 40%, transparent); background:color-mix(in srgb, var(--color-brand-green) 6%, var(--wp-panel)); }
 .plan--free .plan__desc { margin-top:var(--space-sm); color:var(--wp-body); font-size:13px; line-height:1.45; }
@@ -265,7 +267,7 @@ button, input, select { font-family:inherit; }
 .compare-table th, .compare-table td { padding:13px 14px; text-align:center; vertical-align:middle; }
 .compare-table thead th { color:var(--wp-ink); font-size:var(--fs-body-sm); font-weight:var(--fw-bold); border-bottom:1px solid var(--color-border); }
 .compare-table thead th:first-child, .compare-table tbody th { text-align:left; }
-.compare-table tbody th { color:var(--wp-body-strong); font-size:13px; font-weight:var(--fw-semibold); white-space:nowrap; }
+.compare-table tbody th { color:var(--wp-body-strong); font-size:13px; font-weight:var(--fw-semibold); white-space:normal; min-width:200px; }
 .compare-table tbody th i { width:18px; margin-right:10px; color:var(--color-text-muted); text-align:center; }
 .compare-table td { color:var(--color-text-secondary); }
 .compare-table tbody tr + tr > * { border-top:1px solid var(--wp-hairline); }
@@ -274,6 +276,8 @@ button, input, select { font-family:inherit; }
 .compare-table .is-us { background:color-mix(in srgb, var(--wp-blue) 7%, transparent); }
 .compare-table thead .is-us { color:var(--wp-blue); }
 .compare-table td b { color:var(--wp-ink); }
+.compare-table .compare-group th { padding:15px 14px; color:var(--wp-ink); background:transparent; border-top:1px solid var(--wp-panel-line); font-size:var(--fs-body-sm); font-weight:var(--fw-bold); }
+.compare-table tbody + tbody .compare-group > * { border-top:1px solid var(--wp-hairline); }
 .compare-yes { color:var(--wp-tone-green); font-size:15px; }
 .compare-no { color:var(--color-text-muted); }
 .compare-table tr.is-extra { display:none; }
@@ -286,7 +290,7 @@ button, input, select { font-family:inherit; }
 .cert { display:flex; flex-direction:column; align-items:center; gap:6px; padding:var(--space-lg) 12px var(--space-md); text-align:center; }
 .cert__mark { display:grid; height:56px; place-items:center; margin-bottom:var(--space-xs); }
 .cert__mark .tone-icon { width:54px; height:54px; border-radius:50%; font-size:22px; }
-.cert__mark img { width:40px; height:40px; }
+.cert__mark img { width:50px; height:auto; max-width:100%; max-height:50px; object-fit:contain; }
 .cert strong { color:var(--wp-ink); font-size:var(--fs-body-sm); line-height:1.25; }
 .cert small { color:var(--wp-body); font-size:var(--fs-caption); line-height:1.4; min-height:34px; }
 .cert-pill { display:inline-flex; align-items:center; gap:6px; margin-top:auto; padding:5px 12px; border-radius:var(--radius-md); background:color-mix(in srgb, var(--wp-tone-green) 10%, transparent); color:var(--wp-ink); font-size:var(--fs-caption); font-weight:var(--fw-bold); white-space:nowrap; }
@@ -341,7 +345,7 @@ button, input, select { font-family:inherit; }
 .reveal.is-in { opacity:1; transform:none; }
 .no-js .reveal { opacity:1; transform:none; }
 @media (max-width:1279px) {
-.plans { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+.plans { grid-template-columns:repeat(2, minmax(0, 1fr)); }
 .cert-grid { grid-template-columns:repeat(4, minmax(0, 1fr)); }
 .signup2 { grid-template-columns:minmax(0, 1fr) minmax(320px, .9fr); }
 .signup2 .device-visual { display:none; }
@@ -1587,3 +1591,21 @@ button, input, select { font-family:inherit; }
   .signup-scene .ready-float { bottom:auto; top:12px; left:12px; }
   .signup-scene .ready-float strong { font-size:13px; }
 }
+
+/* Keep the final row of three migration cards centered. */
+@media (min-width:1101px) {
+  #migration .tile-grid { grid-template-columns:repeat(8, minmax(0, 1fr)); }
+  #migration .tile { grid-column:span 2; }
+  #migration .tile:nth-child(5) { grid-column:2 / span 2; }
+}
+
+/* Business email comparison */
+.provider-compare__intro { max-width:760px; margin-bottom:var(--space-xl); }
+.provider-compare__intro .lede { margin-bottom:0; }
+.provider-compare__footer { display:flex; align-items:center; justify-content:space-between; gap:var(--space-lg); margin-top:var(--space-lg); }
+.provider-compare__footer p, .provider-compare__sources { color:var(--wp-body); line-height:1.5; margin:0; }
+.provider-compare__footer p { max-width:65ch; }
+.provider-compare__footer .btn { flex-shrink:0; }
+.provider-compare__sources { margin-top:var(--space-md); font-size:var(--fs-caption); }
+.provider-compare__sources a { color:var(--wp-blue); text-decoration:underline; }
+@media (max-width:640px) { .provider-compare__footer { align-items:flex-start; flex-direction:column; } }
