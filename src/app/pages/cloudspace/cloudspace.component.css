@@ -339,6 +339,11 @@ main .challenges-section .challenge-grid article.on .challenge-icon{background:v
 .connect-section .benefit-grid>.cn-ben.on{background:color-mix(in srgb,var(--color-brand-green) 9%,transparent);box-shadow:0 0 0 8px color-mix(in srgb,var(--color-brand-green) 9%,transparent),0 0 0 9px color-mix(in srgb,var(--color-brand-green) 30%,transparent)}
 .connect-section .benefit-grid>.cn-ben:focus-visible{outline:3px solid var(--wp-blue,#126ddb);outline-offset:8px}
 .connect-artwork{position:relative;container-type:inline-size}
+.cn-offer-label{position:absolute;z-index:2;left:9.4%;top:70.7%;width:34%;height:16.2%;box-sizing:border-box;display:flex;align-items:center;gap:5%;padding:3%;border:2px solid #c8edc8;border-radius:18px;background:#f1fff3;box-shadow:0 5px 15px #68a16c24;transform:rotate(4deg);color:#111d3c}
+.cn-offer-icon{flex:none;display:grid;place-items:center;width:22%;aspect-ratio:1;border-radius:50%;background:#dff4df;color:#5a9c36;font-size:clamp(15px,4cqi,30px);font-weight:700}
+.cn-offer-label strong,.cn-offer-label small{display:block;line-height:1.2}
+.cn-offer-label strong{font-size:clamp(10px,2cqi,17px)}
+.cn-offer-label small{margin-top:4%;font-size:clamp(8px,1.5cqi,13px);color:#526580}
 .cn-hs{position:absolute;width:16%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:2px solid var(--color-brand-green);box-shadow:0 0 0 6px color-mix(in srgb,var(--color-brand-green) 18%,transparent),0 0 30px 8px color-mix(in srgb,var(--color-brand-green) 35%,transparent);opacity:0;scale:.7;transition:opacity .35s ease,scale .45s cubic-bezier(.2,.9,.3,1.4);pointer-events:none;z-index:3}
 .cn-hs.on{opacity:1;scale:1}
 .cn-hs0{left:73%;top:40%}.cn-hs1{left:44%;top:50%;width:32%;aspect-ratio:1.28;border-radius:18px}.cn-hs2{left:25%;top:19%}.cn-hs3{left:76%;top:82%}
