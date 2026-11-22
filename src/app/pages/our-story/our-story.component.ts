@@ -25,7 +25,7 @@ export class OurStory {
       '',
       String(data.get('message') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=WorldPosta%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=WorldPosta%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.consultationStatus.set('Your enquiry is ready in your email app. Review and send it to request your consultation.');
   }
 }

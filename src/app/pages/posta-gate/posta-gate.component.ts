@@ -139,7 +139,7 @@ export class PostaGate {
       'Phone: ' + String(data.get('phone') ?? ''),
       'Industry: ' + String(data.get('industry') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=Posta%20Gate%20Enquiry&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=Posta%20Gate%20Enquiry&body=' + encodeURIComponent(body);
     this.signupStatus.set('Your request is ready in your email app. Review and send it to discuss Posta Gate.');
   }
 }

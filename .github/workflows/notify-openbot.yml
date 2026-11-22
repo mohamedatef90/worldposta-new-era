@@ -1,0 +1,171 @@
+# Sends a short summary of every repository event to an OpenBot webhook routine,
+# which posts it to WhatsApp. No repository code is checked out or run here, so
+# pull_request_target is safe and also covers PRs opened from forks.
+name: Notify OpenBot
+
+on:
+  push:
+  create:
+  delete:
+  fork:
+  watch:
+  public:
+  release:
+  issues:
+  issue_comment:
+  pull_request_target:
+    types: [opened, edited, closed, reopened, synchronize, ready_for_review, converted_to_draft, review_requested, assigned, labeled]
+  pull_request_review:
+  pull_request_review_comment:
+  discussion:
+  discussion_comment:
+  deployment_status:
+  status:
+  check_suite:
+    types: [completed]
+  gollum:
+  milestone:
+  label:
+  branch_protection_rule:
+  # Only drives the asmaa-review job below; the notify job skips it.
+  schedule:
+    - cron: '*/10 * * * *'
+
+permissions: {}
+
+jobs:
+  notify:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Send event summary
+        env:
+          WEBHOOK_URL: ${{ secrets.OPENBOT_WEBHOOK_URL }}
+          WEBHOOK_SECRET: ${{ secrets.OPENBOT_WEBHOOK_SECRET }}
+          EVENT_NAME: ${{ github.event_name }}
+          DELIVERY_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ] || [ -z "$WEBHOOK_SECRET" ]; then
+            echo "OpenBot secrets are not available for this event (for example a review from a fork). Skipping."
+            exit 0
+          fi
+
+          # Keep the body small: only the fields the message needs.
+          body=$(jq -c --arg type "github.$EVENT_NAME" '{
+            type: $type,
+            occurredAt: (now | todate),
+            data: {
+              event: $type | ltrimstr("github."),
+              action: .action,
+              repository: .repository.full_name,
+              actor: .sender.login,
+              ref: (.ref // .pull_request.head.ref // .check_suite.head_branch),
+              ref_type: .ref_type,
+              created: .created,
+              deleted: .deleted,
+              forced: .forced,
+              commits: ((.commits // []) | length),
+              head_commit: (.head_commit.message // null | if . then split("\n")[0] else . end),
+              compare: .compare,
+              pull_request: (if .pull_request then {
+                number: .pull_request.number, title: .pull_request.title, state: .pull_request.state,
+                merged: .pull_request.merged, base: .pull_request.base.ref, head: .pull_request.head.label,
+                url: .pull_request.html_url } else null end),
+              issue: (if .issue then { number: .issue.number, title: .issue.title, url: .issue.html_url } else null end),
+              review: (if .review then { state: .review.state, url: .review.html_url } else null end),
+              comment: (if .comment then { body: (.comment.body[0:200]), url: .comment.html_url } else null end),
+              release: (if .release then { tag: .release.tag_name, name: .release.name, url: .release.html_url } else null end),
+              forkee: .forkee.full_name,
+              state: (.state // .deployment_status.state // .check_suite.conclusion),
+              context: (.context // .deployment.environment),
+              target_url: (.target_url // .deployment_status.target_url),
+              url: (.pull_request.html_url // .issue.html_url // .release.html_url // .compare // .forkee.html_url // .repository.html_url)
+            }
+          }' "$GITHUB_EVENT_PATH")
+
+          ts=$(date +%s)
+          sig=$(printf '%s.%s.%s' "$ts" "$DELIVERY_ID" "$body" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" -hex | sed 's/^.* //')
+
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -H "x-openbot-timestamp: $ts" \
+            -H "x-openbot-delivery-id: $DELIVERY_ID" \
+            -H "x-openbot-signature: sha256=$sig" \
+            --data-binary "$body")
+          echo "OpenBot responded $code"
+          case "$code" in 200|202) ;; *) exit 1 ;; esac
+
+  # Pushes to the asmaa branch run no workflows from the branch itself (it
+  # predates this file). But GitHub sends check_suite and status events for the
+  # pushed commit within seconds, and those run from main's copy of this file.
+  # So a push to asmaa triggers a review wave right away, with or without a pull
+  # request, as soon as any app (Vercel, even when its deploy fails) reports on
+  # the commit. The schedule is only a fallback: GitHub delays scheduled runs by
+  # hours, so it accepts a push from the last 12 hours. The delivery ID is the
+  # commit SHA, so OpenBot drops repeats.
+  asmaa-review:
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'check_suite' && github.event.check_suite.head_branch == 'asmaa') ||
+      (github.event_name == 'status' && contains(github.event.branches.*.name, 'asmaa')) ||
+      (github.event_name == 'deployment_status' && github.event.deployment.environment == 'Preview')
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Trigger review wave for new asmaa commits
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WEBHOOK_URL: ${{ secrets.OPENBOT_REVIEW_WEBHOOK_URL }}
+          WEBHOOK_SECRET: ${{ secrets.OPENBOT_REVIEW_WEBHOOK_SECRET }}
+          EVENT_SHA: ${{ github.event.check_suite.head_sha || github.event.sha }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ] || [ -z "$WEBHOOK_SECRET" ]; then
+            echo "Review webhook secrets are not set. Skipping."
+            exit 0
+          fi
+          tip=$(gh api "repos/$GITHUB_REPOSITORY/commits/asmaa" --jq .sha 2>/dev/null || true)
+          if [ -z "$tip" ]; then
+            echo "Could not read the asmaa branch. Skipping."
+            exit 0
+          fi
+          case "$GITHUB_EVENT_NAME" in
+            check_suite|status)
+              # Only the newest commit on asmaa starts a wave. An older commit
+              # that is also reachable from other branches is ignored.
+              if [ "$EVENT_SHA" != "$tip" ]; then
+                echo "${EVENT_SHA:0:7} is not the asmaa tip (${tip:0:7}). Skipping."
+                exit 0
+              fi
+              sha="$tip"
+              ;;
+            *)
+              last=$(gh api "repos/$GITHUB_REPOSITORY/activity?ref=refs/heads/asmaa&activity_type=push&per_page=1" \
+                --jq '.[0] | select(.after != null) | "\(.after) \(.timestamp)"' 2>/dev/null || true)
+              if [ -z "$last" ]; then
+                echo "No push found on asmaa. Skipping."
+                exit 0
+              fi
+              read -r sha pushed <<< "$last"
+              age=$(( $(date +%s) - $(date -d "$pushed" +%s) ))
+              if [ "$age" -gt 43200 ]; then
+                echo "Latest asmaa push ${sha:0:7} is ${age}s old. Nothing new."
+                exit 0
+              fi
+              ;;
+          esac
+          delivery="asmaa-$sha"
+          body=$(jq -cn --arg sha "$sha" --arg repo "$GITHUB_REPOSITORY" --arg via "$GITHUB_EVENT_NAME" \
+            '{type:"github.asmaa_review", occurredAt:(now|todate), data:{repository:$repo, branch:"asmaa", sha:$sha, via:$via}}')
+          ts=$(date +%s)
+          sig=$(printf '%s.%s.%s' "$ts" "$delivery" "$body" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" -hex | sed 's/^.* //')
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -H "x-openbot-timestamp: $ts" \
+            -H "x-openbot-delivery-id: $delivery" \
+            -H "x-openbot-signature: sha256=$sig" \
+            --data-binary "$body")
+          echo "OpenBot responded $code for ${sha:0:7}"
+          case "$code" in 200|202) ;; *) exit 1 ;; esac

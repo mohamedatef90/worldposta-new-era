@@ -33,11 +33,11 @@ export class PostaLink {
       'Industry: ' + String(data.get('industry') ?? ''),
       'Team size: ' + String(data.get('teamSize') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=Posta%20Link%20Free%20Trial&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=Posta%20Link%20Free%20Trial&body=' + encodeURIComponent(body);
     this.trialStatus.set('Your trial request is ready in your email app. Review and send it to contact our team.');
   }
   protected watchVideo(): void {
-    window.location.href = 'mailto:hello@worldposta.com?subject=Posta%20Link%20Product%20Demo';
+    window.location.href = 'mailto:support@worldposta.com?subject=Posta%20Link%20Product%20Demo';
     this.videoNotice.set('Your email app will open. Send your demo request to arrange a product walkthrough.');
   }
   // Product video (See Posta Link in Action)

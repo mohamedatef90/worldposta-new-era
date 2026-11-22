@@ -25,7 +25,7 @@ export class SapBasisOperations {
       'SAP system size: ' + String(data.get('systemSize') ?? ''),
       'Requirements: ' + String(data.get('requirements') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=SAP%20Basis%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=SAP%20Basis%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.consultationStatus.set('Your enquiry is ready in your email app. Review and send it to contact our SAP team.');
   }
 }

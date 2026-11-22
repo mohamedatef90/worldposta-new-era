@@ -30,7 +30,7 @@ export class SeamlessMigration {
       'Additional details:',
       String(data.get('details') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=Migration%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=Migration%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.finalEnquiryStatus.set('Your email app will open with your request. Review and send the email to complete your enquiry.');
   }
   protected readonly migrationOutcomes = [

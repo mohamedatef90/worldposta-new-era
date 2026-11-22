@@ -1,10 +1,42 @@
 import { Component, computed, signal } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faCheck, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
-import { EMAIL_NEEDS, NEED_GROUPS, RIVALS, type CompareWith, type EmailNeed } from './provider-compare.data';
+import { faCheck, faChevronDown, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { EMAIL_NEEDS, NEED_GROUPS, RIVALS, type CompareWith, type EmailNeed, type NeedGroupId, type RivalId } from './provider-compare.data';
 import { fitFor, type FitResult } from './fit-score';
 import { SCREENSHOT_COMPARISONS } from './screenshot-comparisons';
 import { COMPARISON_SUPPLEMENTS } from './comparison-supplements';
+
+/** Provider-comparison rows, grouped the way the table accordion presents them. */
+const COMPARE_THEMES: readonly { id: string; label: string; ids: readonly string[] }[] = [
+  { id: 'email', label: 'Email & Outlook', ids: ['email', 'protocol', 'outlook', 'mobile', 'calendar', 'distribution', 'aliases', 'recall', 'rules', 'delegation'] },
+  { id: 'security', label: 'Security & reliability', ids: ['phishing', 'ai', 'sandboxing', 'sla', 'security', 'mfa'] },
+  { id: 'storage', label: 'Storage & recovery', ids: ['storage', 'recovery'] },
+  { id: 'collab', label: 'Collaboration & apps', ids: ['files', 'chat', 'crm'] },
+  { id: 'admin', label: 'Admin, licensing & migration', ids: ['admin', 'licensing', 'migration', 'domains'] },
+];
+
+const SCORE_SHORT: Readonly<Record<string, string>> = {
+  posta: 'Posta',
+  microsoft: 'Microsoft',
+  google: 'Google',
+  zoho: 'Zoho',
+};
+
+interface CompareRow {
+  readonly id: string;
+  readonly feature: string;
+  readonly posta: string;
+  readonly rivals: Partial<Record<RivalId, string>>;
+}
+
+function rowCell(row: CompareRow, provider: string): string {
+  return provider === 'posta' ? row.posta : (row.rivals[provider as RivalId] ?? '—');
+}
+
+function isScoredCell(cell: string): boolean {
+  const text = cell.trim();
+  return text.startsWith('✓') || text.startsWith('⚠') || text.startsWith('✗');
+}
 
 /**
  * Interactive business email comparison: visitors tap what is true for their
@@ -18,7 +50,7 @@ import { COMPARISON_SUPPLEMENTS } from './comparison-supplements';
   styleUrl: './provider-compare.component.css',
 })
 export class ProviderCompareComponent {
-  protected readonly icons = { check: faCheck, reset: faRotateLeft };
+  protected readonly icons = { check: faCheck, reset: faRotateLeft, chevron: faChevronDown };
   protected readonly needs = EMAIL_NEEDS;
   protected readonly rivals = RIVALS;
   protected readonly screenshotComparisons = SCREENSHOT_COMPARISONS;
@@ -30,6 +62,8 @@ export class ProviderCompareComponent {
   protected readonly selected = signal<readonly string[]>([]);
   protected readonly compareWith = signal<CompareWith>('all');
   protected readonly showAllRows = signal(false);
+  protected readonly activeGroup = signal<NeedGroupId>('daily');
+  protected readonly openGroup = signal('email');
 
   protected readonly picked = computed(() => this.needs.filter((n) => this.selected().includes(n.id)));
 
@@ -55,6 +89,7 @@ export class ProviderCompareComponent {
       files: 'Cloud office apps and file storage', chat: 'Video conferencing', admin: 'Admin panel',
       licensing: 'Licensing model', hosting: 'Regional data center options', recall: 'Email recall',
       rules: 'Server-side inbox rules', domains: 'Multi-domain support', mfa: 'MFA', crm: 'Zoho CRM integration',
+      storage: 'Mailbox storage', recovery: 'Recover deleted email', migration: 'Migration and coexistence',
     };
     const combined = new Map<string, { id: string; feature: string; posta: string; rivals: Partial<Record<'microsoft' | 'google' | 'zoho', string>> }>();
     for (const rival of this.rivals) {
@@ -82,24 +117,96 @@ export class ProviderCompareComponent {
     return [{ id: 'posta' as const, name: 'Posta Workspace' }, ...this.visibleRivals()].map((p) => fitFor(p.id, p.name, picked));
   });
 
-  /** Pins on the fit scale; providers on the same score fan out side by side instead of hiding each other. */
-  protected readonly pins = computed(() => {
-    const fits = this.fits();
-    return fits.map((fit) => {
-      const tied = fits.filter((f) => f.score === fit.score);
-      const index = tied.indexOf(fit);
-      // Fan the cluster inward from its score, so pins at either end stay on the scale.
-      const offset = fit.score >= 50 ? -(tied.length - 1 - index) * 22 : index * 22;
-      return { ...fit, offset };
-    });
+  /** Columns in the comparison table and the score pills on each group. */
+  protected readonly tableColumns = computed(() => {
+    const rivals = this.compareWith() === 'all' ? this.rivals : this.visibleRivals();
+    return [
+      { id: 'posta' as const, short: 'Posta', heading: 'WorldPosta Posta' },
+      ...rivals.map((rival) => ({ id: rival.id, short: SCORE_SHORT[rival.id], heading: rival.name })),
+    ];
+  });
+
+  /** Comparison rows folded into themed accordion groups, with a coverage score per provider. */
+  protected readonly compareGroups = computed(() => {
+    const columns = this.tableColumns();
+    const rows = this.comparisonRows();
+    return COMPARE_THEMES.map((theme) => {
+      const groupRows = theme.ids.flatMap((id) => rows.filter((row) => row.id === id));
+      const scored = groupRows.filter((row) => columns.some((column) => isScoredCell(rowCell(row, column.id))));
+      return {
+        id: theme.id,
+        label: theme.label,
+        rows: groupRows,
+        scores: columns.map((column) => ({
+          id: column.id,
+          name: column.short,
+          covered: scored.filter((row) => rowCell(row, column.id).trim().startsWith('✓')).length,
+          total: scored.length,
+        })),
+      };
+    }).filter((group) => group.rows.length > 0);
+  });
+
+  /** The open accordion group. An empty value means every group is closed. */
+  protected readonly shownGroup = computed(() => {
+    const open = this.openGroup();
+    if (!open) return '';
+    const groups = this.compareGroups();
+    return groups.some((group) => group.id === open) ? open : (groups[0]?.id ?? '');
   });
 
   /** One sentence for screen readers, announced as the scores change. */
-  protected readonly fitSummary = computed(() =>
-    this.picked().length
-      ? `Fit for ${this.picked().length} needs: ${this.fits().map((f) => `${f.name} ${f.score}%`).join(', ')}.`
-      : '',
-  );
+  protected readonly fitSummary = computed(() => {
+    const count = this.picked().length;
+    return count
+      ? `Fit for ${count} ${count === 1 ? 'need' : 'needs'}: ${this.fits().map((fit) => `${fit.name} ${fit.yes} of ${count}`).join(', ')}.`
+      : '';
+  });
+
+  protected pickedIn(groupId: NeedGroupId): number {
+    return this.groups.find((group) => group.id === groupId)?.needs.filter((need) => this.isOn(need.id)).length ?? 0;
+  }
+
+  protected activeNeeds(): readonly EmailNeed[] {
+    return this.groups.find((group) => group.id === this.activeGroup())?.needs ?? [];
+  }
+
+  protected onNeedTabKey(event: KeyboardEvent, groupId: NeedGroupId): void {
+    const ids = this.groups.map((group) => group.id);
+    const index = ids.indexOf(groupId);
+    const next = event.key === 'ArrowDown' || event.key === 'ArrowRight'
+      ? ids[(index + 1) % ids.length]
+      : event.key === 'ArrowUp' || event.key === 'ArrowLeft'
+        ? ids[(index - 1 + ids.length) % ids.length]
+        : event.key === 'Home'
+          ? ids[0]
+          : event.key === 'End'
+            ? ids[ids.length - 1]
+            : null;
+    if (!next) return;
+    event.preventDefault();
+    this.activeGroup.set(next);
+    queueMicrotask(() => document.getElementById(`need-tab-${next}`)?.focus());
+  }
+
+  protected toggleCompareGroup(id: string): void {
+    this.openGroup.update((current) => (current === id ? '' : id));
+  }
+
+  protected cell(row: CompareRow, provider: string): string {
+    return rowCell(row, provider);
+  }
+
+  private comparisonRows(): readonly CompareRow[] {
+    if (this.compareWith() === 'all') return this.allProviderRows();
+    const rival = this.visibleRivals()[0];
+    return this.screenshotRows(rival.id).map((row) => ({
+      id: row.feature.toLowerCase().includes('ai threat') ? 'ai' : row.need,
+      feature: row.feature,
+      posta: row.posta,
+      rivals: { [rival.id]: row.rival },
+    }));
+  }
 
   protected isOn(id: string): boolean {
     return this.selected().includes(id);
@@ -117,5 +224,7 @@ export class ProviderCompareComponent {
     this.selected.set([]);
     this.compareWith.set('all');
     this.showAllRows.set(false);
+    this.activeGroup.set('daily');
+    this.openGroup.set('email');
   }
 }

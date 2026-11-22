@@ -8,7 +8,7 @@
  </div>
 <div class="hero wrap split">
  <div><p class="eyebrow">CloudSpace</p><h1 class="hero-palette">More Than <span class="hero-palette-blue">Tools.</span><br><span class="hero-palette-green">A Better Way to Work.</span></h1><p class="lead">Everything your team needs to communicate, create, share and stay organized — all in one secure platform.</p>
- <div class="tool-list">@for (tool of tools; track tool.name; let i = $index) {<div class="cs-tool" tabindex="0" [class.on]="activeTool() === i" [style.--dwell]="toolDwell + 'ms'" (mouseenter)="pickTool(i)" (focus)="pickTool(i)" (mouseleave)="resumeTools()" (blur)="resumeTools()"><span [class]="'icon '+tool.color"><fa-icon [icon]="tool.icon"/></span><div><h3>{{tool.name}}</h3><p>{{tool.copy}}</p></div></div>}</div>
+ <div class="tool-list">@for (tool of tools; track tool.name; let i = $index) {<div class="cs-tool" tabindex="0" [class.on]="activeTool() === i" [style.--dwell]="toolDwell + 'ms'" (mouseenter)="pickTool(i)" (focus)="pickTool(i)" (mouseleave)="resumeTools()" (blur)="resumeTools()">@if (tool.logo) {<img class="mark" [ngSrc]="tool.logo" [width]="tool.logoWidth" [height]="tool.logoHeight" alt="" />} @else {<span [class]="'icon '+tool.color"><fa-icon [icon]="tool.icon"/></span>}<div><h3>{{tool.name}}</h3><p>{{tool.copy}}</p></div></div>}</div>
  <div class="actions"><a class="button" href="#cs-demo">Try CloudSpace Now →</a><a class="outline" href="#cs-connect">Explore Connect</a></div></div>
 </div>
 </section>
@@ -98,7 +98,7 @@
       @for (tool of tools; track tool.name) {
        @if (tool.name === name) {
         <article [class]="'ecosystem-tool ecosystem-tool-'+name.toLowerCase()">
-         <span [class]="'icon '+tool.color" aria-hidden="true"><fa-icon [icon]="tool.icon"/></span>
+         @if (tool.logo) {<img class="mark" [ngSrc]="tool.logo" [width]="tool.logoWidth" [height]="tool.logoHeight" alt="" />} @else {<span [class]="'icon '+tool.color" aria-hidden="true"><fa-icon [icon]="tool.icon"/></span>}
          <h3>{{name === 'Apps' ? 'Documents' : name}}</h3>
          <p>{{name === 'Apps' ? 'Create and edit together in real time.' : tool.copy}}</p>
          @if (name === 'Calendar') {

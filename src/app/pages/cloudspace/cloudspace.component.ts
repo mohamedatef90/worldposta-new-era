@@ -125,11 +125,11 @@ export class CloudSpace {
  }
  protected readonly icons = {folder:faFolder, calendar:faCalendarDays, users:faUsers, notes:faNoteSticky, apps:faLayerGroup, check:faCheck, shield:faShieldHalved, video:faVideo, chat:faComments, chart:faChartSimple, lock:faLock, mail:faEnvelope, file:faFileLines, cost:faCoins, phone:faPhone, location:faLocationDot, support:faHeadset, clock:faClock, bell:faBell, send:faPaperPlane};
  protected readonly tools = [
- {name:'Drive',copy:'Store, share and collaborate on files securely.',icon:faFolder,color:'green',items:['Documents','Spreadsheets','Presentations','PDF files']},
- {name:'Calendar',copy:'Plan, schedule and stay in sync with your team.',icon:faCalendarDays,color:'blue',items:['Team schedules','Shared calendars','Meeting reminders','Events']},
- {name:'Connect',copy:'Team chat and video meetings in one place.',icon:faUsers,color:'purple',items:['Team chat','Video meetings','Channels','Audio calls','Screen sharing']},
- {name:'Notes',copy:'Capture ideas and keep track of important information.',icon:faNoteSticky,color:'orange',items:['Meeting notes','Project ideas','Action items','Personal notes']},
- {name:'Apps',copy:'Access all your essential tools in one place.',icon:faLayerGroup,color:'blue',items:['Documents','Sheets','Slides','PDF']},
+ {name:'Drive',copy:'Store, share and collaborate on files securely.',icon:faFolder,color:'green',logo:'/worldposta-assets/product-logos/posta-drive.png',logoWidth:440,logoHeight:318,items:['Documents','Spreadsheets','Presentations','PDF files']},
+ {name:'Calendar',copy:'Plan, schedule and stay in sync with your team.',icon:faCalendarDays,color:'blue',logo:'/worldposta-assets/product-logos/posta-calendar.png',logoWidth:416,logoHeight:421,items:['Team schedules','Shared calendars','Meeting reminders','Events']},
+ {name:'Connect',copy:'Team chat and video meetings in one place.',icon:faUsers,color:'purple',logo:'/worldposta-assets/product-logos/posta-link.png',logoWidth:439,logoHeight:419,items:['Team chat','Video meetings','Channels','Audio calls','Screen sharing']},
+ {name:'Notes',copy:'Capture ideas and keep track of important information.',icon:faNoteSticky,color:'orange',logo:'/worldposta-assets/product-logos/posta-note.png',logoWidth:440,logoHeight:414,items:['Meeting notes','Project ideas','Action items','Personal notes']},
+ {name:'Apps',copy:'Access all your essential tools in one place.',icon:faLayerGroup,color:'blue',logo:'/worldposta-assets/product-logos/posta-office.png',logoWidth:420,logoHeight:421,items:['Documents','Sheets','Slides','PDF']},
  {name:'Tasks',copy:'Manage tasks, assign work and stay productive.',icon:faCheck,color:'green',items:['Assign work','Track progress','Stay organized','Work together']},
  ];
  protected readonly challenges = [
@@ -153,7 +153,7 @@ export class CloudSpace {
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const body = Array.from(data.entries()).map(([key,value]) => key + ': ' + String(value)).join('\n');
-  window.location.href = 'mailto:info@worldposta.com?subject=CloudSpace%20demo%20request&body=' + encodeURIComponent(body);
+  window.location.href = 'mailto:support@worldposta.com?subject=CloudSpace%20demo%20request&body=' + encodeURIComponent(body);
   this.contactStatus.set('Your email app will open with your request. Send it to contact our team.');
  }
 }
