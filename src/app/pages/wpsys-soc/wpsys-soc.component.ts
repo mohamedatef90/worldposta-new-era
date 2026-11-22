@@ -25,7 +25,7 @@ export class WpsysSoc {
       'Job title: ' + String(data.get('jobTitle') ?? ''),
       'Requirements: ' + String(data.get('requirements') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=WPSYS%20SOC%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=WPSYS%20SOC%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.contactStatus.set('Your enquiry is ready in your email app. Review and send it to contact our SOC team.');
   }
 

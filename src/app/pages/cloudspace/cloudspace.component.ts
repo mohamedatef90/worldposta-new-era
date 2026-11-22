@@ -153,7 +153,7 @@ export class CloudSpace {
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const body = Array.from(data.entries()).map(([key,value]) => key + ': ' + String(value)).join('\n');
-  window.location.href = 'mailto:info@worldposta.com?subject=CloudSpace%20demo%20request&body=' + encodeURIComponent(body);
+  window.location.href = 'mailto:support@worldposta.com?subject=CloudSpace%20demo%20request&body=' + encodeURIComponent(body);
   this.contactStatus.set('Your email app will open with your request. Send it to contact our team.');
  }
 }

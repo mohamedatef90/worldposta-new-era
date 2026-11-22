@@ -204,7 +204,7 @@ export class Wpsys {
       'Industry: ' + String(data.get('industry') ?? ''),
       'Service: ' + String(data.get('service') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=WPSYS%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=WPSYS%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.contactStatus.set('Your enquiry is ready in your email app. Review and send it to contact our team.');
   }
 }

@@ -26,7 +26,7 @@ export class ItAutomation {
       'Industry: ' + String(data.get('industry') ?? ''),
       'Requirements: ' + String(data.get('requirements') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=IT%20Automation%20Consultation%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=IT%20Automation%20Consultation%20Request&body=' + encodeURIComponent(body);
     this.automationContactStatus.set('Your enquiry is ready in your email app. Review and send it to contact our team.');
   }
 

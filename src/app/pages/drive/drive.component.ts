@@ -182,7 +182,7 @@ export class Drive {
       'Team size: ' + String(data.get('teamSize') ?? ''),
       'Purpose: ' + String(data.get('purpose') ?? ''),
     ].join('\n');
-    window.location.href = 'mailto:hello@worldposta.com?subject=Drive%20Free%20Trial%20Request&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:support@worldposta.com?subject=Drive%20Free%20Trial%20Request&body=' + encodeURIComponent(body);
     this.trialStatus.set('Your trial request is ready in your email app. Review and send it to contact our team.');
   }
 }
