@@ -9,13 +9,13 @@
           <span class="highlight">Every Tool</span> Your Business Runs On.
         </h2>
         <p class="subtitle">
-          From business communication and collaboration to secure, scalable cloud infrastructure —
+          From business communication and collaboration to secure, scalable cloud infrastructure,
           WorldPosta gives you everything you need, in one connected ecosystem.
         </p>
       </ng-content>
     </header>
 
-    <div class="ecosystem-surface">
+    <div class="ecosystem-surface" [class.ecosystem-surface--home]="homeMode()">
       <app-service-picker
         [service]="activeTab()"
         [count]="serviceCount()"
@@ -30,9 +30,15 @@
            div, not an aside, so it doesn't nest a landmark inside main. -->
       <div id="service-tablist" class="tabs-sidebar">
         <div class="tabs-sidebar__inner">
-        @for (group of tabGroups(); track group.id) {
+        @if (homeMode()) {
+          <div class="home-categories" role="group" aria-label="Service category">
+            <button type="button" [class.active]="homeCategory() === 'cloud-infrastructure'" [attr.aria-pressed]="homeCategory() === 'cloud-infrastructure'" (click)="selectCategory('cloud-infrastructure')">CloudEdge</button>
+            <button type="button" [class.active]="homeCategory() === 'collaboration'" [attr.aria-pressed]="homeCategory() === 'collaboration'" (click)="selectCategory('collaboration')">Posta Workspace</button>
+          </div>
+        }
+        @for (group of visibleGroups(); track group.id) {
           <div class="tab-group">
-            <h3 class="tab-group-label" [id]="'tab-group-' + group.id">{{ group.label }}</h3>
+            <h3 class="tab-group-label" [id]="'tab-group-' + group.id" [class.sr-only]="homeMode() && group.id !== 'management'">{{ homeMode() && group.id === 'cloud-infrastructure' ? 'CloudEdge' : homeMode() && group.id === 'collaboration' ? 'Posta Workspace' : group.label }}</h3>
             <div class="tab-group-items" role="tablist" aria-orientation="vertical" [attr.aria-labelledby]="'tab-group-' + group.id">
               @for (item of group.items; track item.id; let i = $index) {
                 <button
@@ -66,8 +72,16 @@
         [attr.aria-labelledby]="'tab-' + activeTabId()"
         [attr.tabindex]="0"
       >
-        @if (screen() || liveMode()) {
+        @if (placeholder()) {
+          <div class="eco-placeholder">
+            <span class="eco-placeholder__icon"><fa-icon [icon]="activeIcon()" aria-hidden="true" /></span>
+            <p class="eco-placeholder__eyebrow">Management preview</p>
+            <h3>{{ activeTab().label }}</h3>
+            <p>This interactive preview is being prepared.</p>
+          </div>
+        } @else if (screen() || liveMode()) {
           <div class="eco-shot">
+            @if (!homeMode()) {
             <div class="eco-shot__head">
               <div class="eco-shot__copy">
                 <span class="badge">
@@ -84,6 +98,7 @@
                 <span class="sr-only">(opens in a new tab)</span></a>
               </div>
             </div>
+            }
             @if (liveMode(); as live) {
               <figure class="eco-shot__window eco-shot__window--live">
                 <div class="eco-shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>{{ demos[live].title }}</span><em class="eco-live">Try it · demo data</em></div>
@@ -288,7 +303,7 @@
               @if (calendarWeeks(); as weeks) {
                 <table class="cal-grid">
                   <caption class="sr-only">
-                    Example calendar for {{ cal.month }} — illustrative sample data.
+                    Example calendar for {{ cal.month }}: illustrative sample data.
                   </caption>
                   <thead>
                     <tr>
@@ -386,7 +401,7 @@
               <div class="vm-table-scroll" role="region" tabindex="0" [attr.aria-label]="view.title + ' table'">
                 <table class="vm-table">
                   <caption class="sr-only">
-                    Example {{ view.title.toLowerCase() }}, showing {{ view.rows.length }} of {{ view.total | number }} — illustrative sample data.
+                    Example {{ view.title.toLowerCase() }}, showing {{ view.rows.length }} of {{ view.total | number }}: illustrative sample data.
                   </caption>
                   <thead>
                     <tr>
@@ -459,6 +474,7 @@
 
         }
 
+        @if (!placeholder()) {
         <div class="benefits-strip">
           @for (benefit of tabContent().benefits; track $index) {
             <div class="benefit-item">
@@ -472,6 +488,7 @@
             </div>
           }
         </div>
+        }
       </div>
     </div>
     <ng-content select="[ecosystemFooter]" />

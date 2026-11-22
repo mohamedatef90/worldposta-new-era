@@ -1,0 +1,125 @@
+<div class="reco" role="group" aria-labelledby="reco-heading">
+  <div class="reco__head">
+    <p class="reco__eyebrow">Not sure? Tell us how you work</p>
+    <h3 class="reco__title" id="reco-heading">Find your fit in 20 seconds</h3>
+    <p class="reco__sub">Tap everything that is true for your team, then pick a provider to compare. The table narrows to what matters to you.</p>
+  </div>
+
+  <div class="need-picker">
+    <div class="need-tabs" role="tablist" aria-label="Need categories">
+      @for (group of groups; track group.id) {
+        <button type="button" class="need-tab" role="tab" [id]="'need-tab-' + group.id" [attr.aria-selected]="activeGroup() === group.id" [attr.aria-controls]="'need-panel-' + group.id" [attr.tabindex]="activeGroup() === group.id ? 0 : -1" (click)="activeGroup.set(group.id)" (keydown)="onNeedTabKey($event, group.id)">
+          <span>{{ group.label }}</span>
+          @if (pickedIn(group.id); as count) { <span class="need-tab__count">{{ count }}</span> }
+        </button>
+      }
+    </div>
+    <div class="need-panel" role="tabpanel" [id]="'need-panel-' + activeGroup()" [attr.aria-labelledby]="'need-tab-' + activeGroup()">
+      <ul class="chips">
+        @for (need of activeNeeds(); track need.id) {
+          <li>
+            <button type="button" class="chip" [class.is-on]="isOn(need.id)" [attr.aria-pressed]="isOn(need.id)" (click)="toggle(need.id)">
+              <span class="chip__box" aria-hidden="true"><fa-icon [icon]="icons.check" /></span>{{ need.chip }}
+            </button>
+          </li>
+        }
+      </ul>
+      @if (picked().length < needs.length) {
+        <button type="button" class="need-groups__all" (click)="selectAll()">Select all {{ needs.length }}</button>
+      }
+    </div>
+  </div>
+
+  <div class="rival-switch" role="group" aria-label="Compare Posta Workspace with">
+    <span class="rival-switch__label" aria-hidden="true">Compare with</span>
+    <button type="button" [class.is-on]="compareWith() === 'all'" [attr.aria-pressed]="compareWith() === 'all'" (click)="compareWith.set('all')">All providers</button>
+    @for (rival of rivals; track rival.id) {
+      <button type="button" [class.is-on]="compareWith() === rival.id" [attr.aria-pressed]="compareWith() === rival.id" (click)="compareWith.set(rival.id)">{{ rival.name }}</button>
+    }
+  </div>
+
+  <section class="fit" aria-labelledby="fit-heading">
+    <div class="fit__head">
+      <div>
+        <h4 class="fit__title" id="fit-heading">How each option fits</h4>
+        <p class="fit__basis">
+          @if (picked().length) { Based on the {{ picked().length }} {{ picked().length === 1 ? 'need' : 'needs' }} you picked }
+          @else { Tap a few needs above to see the fit }
+        </p>
+      </div>
+      <button type="button" class="reco__reset" (click)="reset()"><fa-icon [icon]="icons.reset" aria-hidden="true" />Reset</button>
+    </div>
+
+    @if (picked().length) {
+      <ul class="fit-bars">
+        @for (fit of fits(); track fit.id) {
+          <li class="fit-bar" [class.is-posta]="fit.id === 'posta'">
+            <span class="fit-bar__name">{{ fit.name }}</span>
+            <span class="fit-bar__track" aria-hidden="true"><span class="fit-bar__fill" [style.width.%]="(fit.yes / picked().length) * 100"></span></span>
+            <span class="fit-bar__ratio">{{ fit.yes }}/{{ picked().length }}<span class="sr-only"> needs covered</span></span>
+          </li>
+        }
+      </ul>
+    }
+    <p class="sr-only" aria-live="polite">{{ fitSummary() }}</p>
+  </section>
+</div>
+
+<div class="table-bar">
+  <p class="table-bar__status" aria-live="polite">
+    Posta compared with {{ compareWith() === 'all' ? 'all providers' : visibleRivals()[0].name }}
+  </p>
+  @if (picked().length > 0 && picked().length < needs.length) {
+    <button type="button" class="table-bar__toggle" aria-controls="provider-compare-accordion" [attr.aria-expanded]="showAllRows()" (click)="showAllRows.set(!showAllRows())">
+      {{ showAllRows() ? 'Show only my needs' : 'Show all features' }}
+    </button>
+  }
+</div>
+
+<div class="compare-accordion" id="provider-compare-accordion">
+  @for (group of compareGroups(); track group.id) {
+    <section class="compare-acc">
+      <h3 class="compare-acc__h">
+        <button type="button" class="compare-acc__btn" [class.is-open]="shownGroup() === group.id" [attr.aria-expanded]="shownGroup() === group.id" [attr.aria-controls]="'compare-group-' + group.id" (click)="toggleCompareGroup(group.id)">
+          <span class="compare-acc__label">{{ group.label }}</span>
+          <span class="compare-acc__aside">
+            <span class="compare-acc__count">{{ group.rows.length }} {{ group.rows.length === 1 ? 'feature' : 'features' }}</span>
+            @for (score of group.scores; track score.id) {
+              @if (score.total) {
+                <span class="compare-score" [class.is-posta]="score.id === 'posta'">{{ score.name }} {{ score.covered }}/{{ score.total }}</span>
+              }
+            }
+            <fa-icon class="compare-acc__chevron" [icon]="icons.chevron" aria-hidden="true" />
+          </span>
+        </button>
+      </h3>
+      @if (shownGroup() === group.id) {
+        <div class="compare-scroll screenshot-table" [id]="'compare-group-' + group.id" role="region" [attr.aria-label]="group.label" tabindex="0">
+          <table class="compare-table" [class.is-pair]="compareWith() !== 'all'">
+            <caption class="sr-only">{{ group.label }}: WorldPosta Posta compared with {{ compareWith() === 'all' ? 'Microsoft 365, Google Workspace and Zoho Mail' : visibleRivals()[0].name }}</caption>
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                @for (column of tableColumns(); track column.id) {
+                  <th scope="col" [class.is-posta]="column.id === 'posta'">{{ column.heading }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of group.rows; track row.id + row.feature) {
+                <tr [class.is-picked]="isOn(row.id)">
+                  <th scope="row">{{ row.feature }}</th>
+                  @for (column of tableColumns(); track column.id) {
+                    <td [class.is-posta]="column.id === 'posta'" [class.screenshot-posta]="column.id === 'posta' && cell(row, column.id) !== '—' && !cell(row, column.id).startsWith('✗')" [class.screenshot-yes]="column.id !== 'posta' && cell(row, column.id).startsWith('✓')">{{ cell(row, column.id) }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  } @empty {
+    <p class="compare-acc__empty">No matching features in this comparison. Select another need or show all features.</p>
+  }
+</div>

@@ -46,7 +46,7 @@ export class Wpsys {
     ],
     after: [
       { title: 'One accountable team', text: 'One SLA covers infrastructure, security and support.' },
-      { title: 'Proactive monitoring', text: 'Issues are caught and fixed before they spread.' },
+      { title: 'Proactive monitoring', text: 'Monitoring helps the team identify and address issues.' },
       { title: '24/7 protection', text: 'Monitoring, detection and response around the clock.' },
       { title: 'Predictable spending', text: 'A clear plan with reporting you can share.' },
     ],

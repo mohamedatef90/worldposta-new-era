@@ -5,11 +5,6 @@
       A More Secure<br />
       <span class="text-green">Cloud</span> for Your Business.
     </h2>
-    <p class="security-lede">
-      Enterprise-grade security across cloud, private cloud and on-prem — so you can innovate with
-      confidence.
-    </p>
-
     <a class="btn-primary" href="https://www.worldposta.com/cloud-security-solutions">
       Explore Our Security Solutions
       <fa-icon [icon]="arrowRight" aria-hidden="true" />
@@ -30,7 +25,9 @@
       <ul class="security-partners__list">
         @for (partner of partners; track partner.name) {
           <li>
-            @if (partner.src) {
+            @if (partner.name === 'Splunk') {
+              <span class="security-partners__splunk" role="img" aria-label="Splunk"></span>
+            } @else if (partner.src) {
               <img
                 [ngSrc]="partner.src"
                 [width]="partner.width ?? 50"
@@ -45,12 +42,6 @@
             }
           </li>
         }
-        <li>
-          <a class="security-partners__more" href="https://www.worldposta.com/cloud-security-solutions">
-            and more
-            <fa-icon [icon]="arrowRight" aria-hidden="true" />
-          </a>
-        </li>
       </ul>
     </div>
   </div>

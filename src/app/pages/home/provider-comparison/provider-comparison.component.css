@@ -80,7 +80,8 @@ h2 {
 
 .compare-table {
   width:100%;
-  min-width:560px;
+  min-width:760px;
+  table-layout:fixed;
   border-collapse:collapse;
 }
 
@@ -115,6 +116,8 @@ h2 {
   letter-spacing:-0.3px;
 }
 
+.compare-table thead th:first-child { width:29%; }
+
 .compare-table tbody th {
   color:var(--wp-body-strong);
   font-size:var(--fs-caption);
@@ -137,7 +140,7 @@ h2 {
   border-radius:var(--radius-lg) var(--radius-lg) 0 0;
 }
 
-.compare-actions .compare-col--us {
+.compare-table tbody tr:last-child .compare-col--us {
   border-radius:0 0 var(--radius-lg) var(--radius-lg);
 }
 

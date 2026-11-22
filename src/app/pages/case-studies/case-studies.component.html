@@ -3,9 +3,9 @@
   <section class="cs-hero" aria-labelledby="cs-hero-title">
     <div class="cs-wrap cs-hero-grid">
       <div class="cs-hero-copy">
-        <p class="cs-eyebrow"><span aria-hidden="true"></span>SUCCESS STORIES</p>
-        <h1 id="cs-hero-title">Real Organizations.<br><span>Real Results.</span></h1>
-        <p class="cs-lead">See how organizations across different industries and regions are achieving more with WorldPosta’s secure, scalable and integrated cloud solutions.</p>
+        <p class="cs-eyebrow"><span aria-hidden="true"></span>CASE STUDIES</p>
+        <h1 id="cs-hero-title">Stories from<br><span>around the world.</span></h1>
+        <p class="cs-lead">Explore upcoming stories about cloud infrastructure, business email and collaboration across industries and regions.</p>
       </div>
       <div class="cs-hero-art">
         <p class="cs-hero-tagline">Cloud that<br>works smarter<br><span>for your business.</span></p>
@@ -19,10 +19,17 @@
       <div class="cs-filters" role="search" aria-label="Filter case studies">
         <label class="cs-filter">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.6"/></svg>
-          <span><strong>Country</strong>
+          <span><strong>Country or region</strong>
             <select [value]="country()" (change)="pick($event.target, 'country')">
-              <option value="">All Countries</option>
-              @for (option of countries; track option) { <option [value]="option">{{ option }}</option> }
+              <option value="">All Countries and Regions</option>
+              <option class="cs-region-option" value="North America">North America</option>
+              @for (option of northAmericaCountries; track option) { <option [value]="option">&nbsp;&nbsp;{{ option }}</option> }
+              <option class="cs-region-option" value="Europe">Europe</option>
+              @for (option of europeCountries; track option) { <option [value]="option">&nbsp;&nbsp;{{ option }}</option> }
+              <option class="cs-region-option" value="South Asia">South Asia</option>
+              @for (option of southAsiaCountries; track option) { <option [value]="option">&nbsp;&nbsp;{{ option }}</option> }
+              <option class="cs-region-option" value="Middle East">Middle East</option>
+              @for (option of middleEastCountries; track option) { <option [value]="option">&nbsp;&nbsp;{{ option }}</option> }
             </select>
           </span>
         </label>
@@ -61,14 +68,14 @@
           @for (study of results(); track study.slug) {
             <li class="cs-card">
               <div class="cs-card-photo">
-                <img [ngSrc]="study.image" width="651" height="164" [alt]="study.industry + ' — ' + study.country" />
+                <img [ngSrc]="study.image" width="651" height="164" alt="" />
                 <span class="cs-industry">{{ study.industry }}</span>
               </div>
               <div class="cs-card-body">
                 <h2>{{ study.title }}</h2>
                 <p>{{ study.summary }}</p>
                 <div class="cs-card-foot">
-                  <ul class="cs-tags" aria-label="Country and services">
+                  <ul class="cs-tags" aria-label="Location and services">
                     <li class="cs-tag-country">{{ study.country }}</li>
                     @for (tag of study.services; track tag) { <li>{{ tag }}</li> }
                   </ul>

@@ -15,15 +15,14 @@
           <span class="text-green hero-palette-green">for Real Business.</span>
         </h1>
         <p class="hero-copy__description">
-          Deploy, manage and secure your infrastructure with WorldPosta CloudEdge.
-          High performance. Enterprise-grade security. Up to 50% lower cost.
+          Cloud infrastructure for your business.
         </p>
 
         <ul class="proof-points" aria-label="CloudEdge benefits">
           @for (point of proofPoints; track point.title) {
             <li>
               <span class="proof-icon"><fa-icon [icon]="point.icon" aria-hidden="true" /></span>
-              <span><strong>{{ point.title }}</strong><small>{{ point.description }}</small></span>
+              <span><strong>{{ point.title }}</strong></span>
             </li>
           }
         </ul>
@@ -86,51 +85,52 @@
     </div>
 
   </section>
-  <nav appPageJumpNav [links]="[{ href: '/#ecosystem-section-heading', label: 'Explore products' }, { href: '/#performance-heading', label: 'Infrastructure' }, { href: '/#security-heading', label: 'Security' }, { href: '/#compare-heading', label: 'Compare providers' }, { href: '/#start-heading', label: 'Talk to an expert' }]"></nav>
+  <nav appPageJumpNav [links]="[{ href: '/#ecosystem-section-heading', label: 'Explore products' }, { href: '/#performance-heading', label: 'Infrastructure' }, { href: '/#security-heading', label: 'Security' }, { href: '/#start-heading', label: 'Talk to an expert' }]"></nav>
 
   <section class="ecosystem-strip-section" aria-labelledby="ecosystem-heading">
     <div class="ecosystem-strip ds-container">
       <div class="ecosystem-strip__intro">
         <p class="ecosystem-strip__eyebrow">Also part of the WorldPosta ecosystem</p>
-        <h2 id="ecosystem-heading" class="ecosystem-strip__heading">Collaboration <span>&</span> Productivity</h2>
-        <p class="ecosystem-strip__subtitle">Unified tools for modern teams</p>
+        <h2 id="ecosystem-heading" class="ecosystem-strip__heading">Posta Workspace</h2>
+        <p class="ecosystem-strip__subtitle">Business email, calendars, files, notes and team communication</p>
       </div>
       <nav class="ecosystem-strip__tiles" aria-label="Collaboration and Productivity services">
         @for (tile of ecosystemTiles; track tile.label) {
-          <a class="ecosystem-tile" [class]="tile.colorClass" [href]="tile.href" [attr.aria-label]="tile.label + ' service'">
-            <span class="ecosystem-tile__icon">
-              <fa-icon [icon]="tile.icon" aria-hidden="true" />
+          @if (tile.href) {
+            <a class="ecosystem-tile" [class]="tile.colorClass" [href]="tile.href" [attr.aria-label]="tile.label">
+              <ng-container [ngTemplateOutlet]="tileBody" [ngTemplateOutletContext]="{ $implicit: tile }" />
+            </a>
+          } @else {
+            <span class="ecosystem-tile" [class]="tile.colorClass">
+              <ng-container [ngTemplateOutlet]="tileBody" [ngTemplateOutletContext]="{ $implicit: tile, static: true }" />
             </span>
-            <span class="ecosystem-tile__label">
-              {{ tile.label }}
-              <fa-icon class="ecosystem-tile__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
-            </span>
-          </a>
+          }
         }
       </nav>
+      <ng-template #tileBody let-tile let-static="static">
+        <span class="ecosystem-tile__icon">
+          @if (tile.logo) {
+            <img [ngSrc]="tile.logo" [width]="tile.logoWidth!" [height]="tile.logoHeight!" alt="" />
+          } @else {
+            <fa-icon [icon]="tile.icon!" aria-hidden="true" />
+          }
+        </span>
+        <span class="ecosystem-tile__label">
+          {{ tile.label }}
+          @if (!static) {
+            <fa-icon class="ecosystem-tile__chevron" [icon]="icons.chevronRight" aria-hidden="true" />
+          }
+        </span>
+      </ng-template>
     </div>
   </section>
 
-  <section class="trust-strip ds-container" aria-label="Trusted by businesses across industries">
-    <p>Trusted by businesses<br />across industries</p>
-    <div class="trust-logos" aria-label="Customer logos">
-      <img class="trust-logo trust-logo--oracle" ngSrc="/worldposta-assets/brand-logos/partners/oracle.svg" width="231" height="30" alt="Oracle" />
-      <img class="trust-logo" ngSrc="/worldposta-assets/brand-logos/partners/sap.svg" width="73" height="36" alt="SAP" />
-      <img class="trust-logo trust-logo--microsoft" ngSrc="/worldposta-assets/brand-logos/partners/microsoft.svg" width="36" height="36" alt="Microsoft" />
-      <img class="trust-logo trust-logo--vmware" ngSrc="/worldposta-assets/brand-logos/partners/vmware.svg" width="82" height="13" alt="VMware" />
-      <img class="trust-logo" ngSrc="/worldposta-assets/brand-logos/partners/fortinet.svg" width="50" height="36" alt="Fortinet" />
-      <img class="trust-logo" ngSrc="/worldposta-assets/brand-logos/partners/dell.svg" width="36" height="36" alt="Dell Technologies" />
-    </div>
-    <span class="trust-message">Secure. Scalable. Always on.</span>
-  </section>
-
-  <app-ecosystem-tabs />
+  <app-ecosystem-tabs [homeMode]="true" />
   <app-performance-trust />
   <app-security-section />
   <app-why-worldposta />
-  <app-provider-comparison />
   <app-get-started />
 </main>
 
-<app-site-footer />
+<app-site-footer [homeMode]="true" />
 

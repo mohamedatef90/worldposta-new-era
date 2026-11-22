@@ -1,6 +1,6 @@
 <app-site-header #header [solid]="true"><app-main-nav-links nav-links /><app-main-nav-links mobile-nav-links [mobile]="true" (linkClick)="header.closeMenu()" /></app-site-header>
 <main id="main-content" tabindex="-1"><section class="portal-hero portal-hero-stage" aria-labelledby="portal-hero-title"><div class="hero-stage-wrap ds-container"><div class="hero-stage-grid"><div class="hero-stage-copy">
-  <p class="portal-eyebrow hero-stage-eyebrow"><img ngSrc="/worldposta-assets/posta/posta-mark.avif" width="20" height="20" alt="" />POSTA PORTAL</p>
+  <p class="portal-eyebrow hero-stage-eyebrow"><img ngSrc="/worldposta-assets/product-logos/posta-admin.png" width="439" height="421" alt="" />POSTA PORTAL</p>
   <h1 id="portal-hero-title" class="hero-palette">Your Branded<br><span class="hero-palette-blue">Email Platform.</span><br><span class="hero-palette-green">Under Your Control.</span></h1>
   <p class="hero-stage-lead">Posta Portal is a powerful, white-label email administration platform built for service providers and government organizations — to manage, secure and grow their email services with ease.</p>
   <div class="hero-stage-actions"><a class="ds-btn ds-btn--primary" href="/posta-portal#portal-contact">Request a Demo <span aria-hidden="true">→</span></a><a class="ds-btn ds-btn--secondary" href="/posta-portal#portal-overview-title">Explore Features <span aria-hidden="true">→</span></a></div>
@@ -76,7 +76,7 @@
       <div class="portal-tour-stage" role="tabpanel" id="portal-tour-panel" [attr.aria-labelledby]="'portal-tour-tab-' + tourModule().id">
         <p class="portal-tour-sr">{{ tourModule().preview }}</p>
         <div class="tour-app" aria-hidden="true">
-          <div class="tour-app-top"><i></i><i></i><i></i><span class="tour-brand"><img ngSrc="/worldposta-assets/posta/posta-mark.avif" width="22" height="22" alt="" />Posta Portal</span><span class="tour-user">admin&#64;example.com</span></div>
+          <div class="tour-app-top"><i></i><i></i><i></i><span class="tour-brand"><img ngSrc="/worldposta-assets/product-logos/posta-admin.png" width="439" height="421" alt="" />Posta Portal</span><span class="tour-user">admin&#64;example.com</span></div>
           <div class="tour-app-body">
             <nav class="tour-app-nav">@for (module of tourModules; track module.id; let i = $index) {<span [class.is-on]="activeModule() === i">{{ module.nav }}</span>}</nav>
             <div class="tour-app-main">

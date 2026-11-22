@@ -95,8 +95,8 @@ h2 {
 }
 
 .start-assurances {
-  display:flex;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:var(--space-lg) var(--space-xl);
   padding:0;
   margin:0;
@@ -289,3 +289,8 @@ h2 {
 @media (max-width:980px) and (min-width:641px) {
   .start-visual { width:min(100%, 560px); min-height:360px; margin-inline:auto; }
 }
+
+
+.start-visual__image { display:block; width:100%; height:auto; border-radius:var(--radius-xl); }
+
+@media (max-width:480px) { .start-assurances { grid-template-columns:1fr; } }

@@ -3,7 +3,7 @@
 }
 
 .why-section {
-  padding-top:var(--wp-section-pad);
+  padding-block:var(--wp-section-pad);
   background:linear-gradient(180deg, var(--wp-band-from) 0%, var(--wp-band-to) 100%);
 }
 
@@ -74,7 +74,7 @@ h2 {
 /* Challenge | arrow | solution, so each pair stays on one row. */
 .why-pairs {
   display:grid;
-  grid-template-columns:minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns:minmax(0, 1fr) 48px minmax(0, 1fr);
   gap:var(--space-md) var(--space-sm);
   align-items:center;
 }
@@ -92,6 +92,9 @@ h2 {
 .why-pairs__head--solution { grid-column:3; }
 
 .why-card {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
   display:flex;
   gap:var(--space-md);
   height:100%;
@@ -134,16 +137,81 @@ h2 {
 .why-card--challenge[data-tone='indigo'] { --tone:var(--wp-tone-indigo); }
 .why-card--challenge[data-tone='pink'] { --tone:var(--wp-tone-pink); }
 
+.why-card::before {
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  border-radius:inherit;
+  background:color-mix(in srgb, var(--wp-tone-green) 24%, transparent);
+  opacity:0;
+  transform:scaleX(0);
+  transform-origin:left;
+  content:'';
+}
+
 .why-card--solution {
   --tone:var(--wp-tone-green);
   background:color-mix(in srgb, var(--wp-tone-green) 7%, var(--wp-panel));
 }
 
 .why-pairs__arrow {
+  position:relative;
   display:grid;
+  width:48px;
+  height:24px;
   place-items:center;
   color:var(--wp-blue);
   font-size:var(--fs-body-sm);
+}
+
+.why-pairs__arrow svg {
+  display:block;
+  width:48px;
+  height:24px;
+  overflow:visible;
+}
+
+.why-pairs__arrow path {
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.why-arrow-base { stroke:var(--wp-blue); opacity:.65; }
+.why-arrow-active { stroke:var(--wp-green); opacity:0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .why-arrow-active {
+    stroke-dasharray:60;
+    stroke-dashoffset:60;
+    animation:why-connect 10s var(--flow-delay, 0s) infinite linear;
+  }
+
+  .why-card--solution::before {
+    animation:why-answer 10s var(--flow-delay, 0s) infinite ease-in-out;
+  }
+
+  @keyframes why-connect {
+    0% { stroke-dashoffset:60; opacity:0; }
+    2% { opacity:1; }
+    8%, 14% { stroke-dashoffset:0; opacity:1; }
+    19%, 100% { stroke-dashoffset:0; opacity:0; }
+  }
+
+  @keyframes why-answer {
+    0%, 7% { opacity:0; transform:scaleX(0); }
+    11%, 14% { opacity:.65; transform:scaleX(1); }
+    19%, 100% { opacity:0; transform:scaleX(1); }
+  }
+
+  @media (max-width:720px) {
+    .why-card::before { transform-origin:top; }
+    @keyframes why-answer {
+      0%, 7% { opacity:0; transform:scaleY(0); }
+      11%, 14% { opacity:.65; transform:scaleY(1); }
+      19%, 100% { opacity:0; transform:scaleY(1); }
+    }
+  }
 }
 
 /* ------------------------------------------------------------ proof strip */
@@ -228,8 +296,7 @@ h2 {
 }
 
 @media (max-width:720px) {
-  /* Stacked, the arrow between a pair points the wrong way:it becomes a
-     downward step from challenge to solution, so it is simply dropped. */
+  /* The connector turns downward between stacked cards. */
   .why-pairs {
     grid-template-columns:minmax(0, 1fr);
   }
@@ -237,7 +304,12 @@ h2 {
   /* Both headings label columns that no longer exist once stacked — they would
      land together at the top, describing nothing. Each pair reads on its own:the tinted challenge card is followed directly by its green answer. */
   .why-pairs__head { display:none; }
-  .why-pairs__arrow { display:none; }
+  .why-pairs__arrow {
+    display:grid;
+    justify-self:center;
+    margin-block:-10px;
+    transform:rotate(90deg);
+  }
 
   .why-proof {
     grid-template-columns:minmax(0, 1fr);
@@ -253,3 +325,4 @@ h2 {
     justify-content:center;
   }
 }
+

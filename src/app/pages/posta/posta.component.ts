@@ -85,6 +85,7 @@ import { scrollToFragmentOnClick } from '@/shared/utils';
 import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
 import { POSTA_CATALOGUE } from '@/shared/ecosystem-tabs/ecosystem-catalogues';
+import { ProviderCompareComponent } from './provider-compare/provider-compare.component';
 type BillingPeriod = 'monthly' | 'annual';
 
 interface Plan {
@@ -147,7 +148,7 @@ interface ResourceCard {
  * sections below are specific to Posta and own their content + CSS.
  */
 @Component({
-  imports: [PageJumpNavComponent, EcosystemTabsComponent, FaIconComponent, NgOptimizedImage, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
+  imports: [PageJumpNavComponent, EcosystemTabsComponent, FaIconComponent, NgOptimizedImage, ProviderCompareComponent, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {
@@ -276,38 +277,28 @@ export class PostaComponent {
 
   protected readonly plans: readonly Plan[] = [
     {
-      name: 'Posta Free',
-      flag: 'Free forever',
-      free: true,
-      price: { monthly: '$0', annual: '$0' },
-      priceSuffix: '/forever',
-      description: 'Get started with 5 business emails for your domain.',
-      features: ['5 mailboxes', '1 GB per mailbox', 'Your own domain', 'Web & mobile access', 'Team chat (Posta Link)'],
-      cta: { label: 'Get 5 Free Emails', href: '#start', variant: 'primary' },
-    },
-    {
       name: 'Posta Light',
       icon: faEnvelope,
       tone: 'green',
-      price: { monthly: '$1.5', annual: '$1.5' },
+      price: { monthly: '$1.9', annual: '$1.5' },
       priceSuffix: '/user/month',
-      features: ['10GB mailbox', '2GB CloudSpace', '20 days restore', '2 hosted domains', 'Essential security'],
+      features: ['10 GB per mailbox', '2 GB Drive storage', '20 MB attachments', 'Webmail access only', 'Restore deleted items for 20 days', 'Video conferences: up to 100 attendees', 'Standard security'],
       cta: { label: 'Buy now', href: '#contact', variant: 'outline' },
     },
     {
       name: 'Posta Business',
       icon: faUsers,
       featured: true,
-      price: { monthly: '$3.5', annual: '$3.5' },
+      price: { monthly: '$4.4', annual: '$3.5' },
       priceSuffix: '/user/month',
       features: [
-        '100GB mailbox',
-        '100GB CloudSpace',
-        '40 days restore',
-        '5 hosted domains',
+        '100 GB per mailbox',
+        '100 GB Drive storage',
+        '50 MB attachments',
+        'Email access: webmail, mobile and Outlook',
+        'Restore deleted items for 60 days',
+        'Video conferences: up to 200 attendees',
         'Advanced security',
-        'Chat & video',
-        'Mail approval + monitoring',
       ],
       cta: { label: 'Buy now', href: '#contact', variant: 'blue' },
     },
@@ -315,25 +306,25 @@ export class PostaComponent {
       name: 'Posta Pro',
       icon: faChartSimple,
       tone: 'blue',
-      price: { monthly: '$5', annual: '$5' },
+      price: { monthly: '$6.3', annual: '$5' },
       priceSuffix: '/user/month',
-      features: ['200GB mailbox', '1TB CloudSpace', '60 days restore', '10 hosted domains', 'Advanced security', 'Video conferences'],
+      features: ['200 GB per mailbox', '1 TB Drive storage', '150 MB attachments', 'Email access included', 'Restore deleted items for 60 days', 'Video conferences: up to 1,000 attendees', 'Advanced security'],
       cta: { label: 'Buy now', href: '#contact', variant: 'outline' },
     },
     {
       name: 'Posta Enterprise',
       icon: faBuilding,
       tone: 'teal',
-      price: { monthly: '$10', annual: '$10' },
+      price: { monthly: '$12.5', annual: '$10' },
       priceSuffix: '/user/month',
       features: [
-        '1TB mailbox',
-        '5TB CloudSpace',
-        '100 days restore',
-        'Unlimited domains',
+        '1 TB per mailbox',
+        '5 TB Drive storage',
+        '150 MB attachments',
+        'Email access included',
+        'Restore deleted items for 100 days',
+        'Video conferences: up to 1,000 attendees',
         'Enterprise security',
-        'Archiving',
-        'Dedicated support',
       ],
       cta: { label: 'Buy now', href: '#contact', variant: 'outline' },
     },
@@ -342,19 +333,18 @@ export class PostaComponent {
   protected readonly migrationTiles: readonly MigrationTile[] = [
     { icon: faStopwatch, tone: 'green', num: '01', titleLines: ['Zero', 'Downtime'] },
     { icon: faHandHoldingDollar, tone: 'blue', num: '02', titleLines: ['Completely', 'Free'] },
-    { icon: faFileArrowUp, tone: 'purple', num: '03', titleLines: ['Upload PST', 'Files to Cloud'] },
+    { icon: faListCheck, tone: 'blue', num: '03', titleLines: ['Easy-to-Use', 'Migration Tool'] },
     { icon: faUserShield, tone: 'green', num: '04', titleLines: ['Secure', 'Process'] },
-    { icon: faListCheck, tone: 'blue', num: '05', titleLines: ['Accurate &', 'Easy Tool'] },
-    { icon: faEnvelopesBulk, tone: 'amber', num: '06', titleLines: ['IMAP/POP3/', 'Exchange'] },
-    { icon: faDesktop, tone: 'pink', num: '07', titleLines: ['RDP', 'Support'] },
-    { icon: faUserTie, tone: 'leaf', num: '08', titleLines: ['Dedicated', 'Project Manager'] },
+    { icon: faFileArrowUp, tone: 'purple', num: '05', titleLines: ['Upload PST', 'Files to Cloud'] },
+    { icon: faDesktop, tone: 'pink', num: '06', titleLines: ['RDP', 'Support'] },
+    { icon: faUserTie, tone: 'leaf', num: '07', titleLines: ['Dedicated', 'Project Manager'] },
   ];
 
   protected readonly certs: readonly CertItem[] = [
     {
-      mark: '/worldposta-assets/brand-logos/partners/microsoft.svg',
+      mark: '/worldposta-assets/brand-logos/providers/Microsoft_Exchange_Server-Logo.wine.svg',
       tone: 'sky',
-      name: 'Microsoft Exchange',
+      name: 'Exchange',
       description: 'Enterprise-grade email platform',
       pill: 'Trusted Technology',
     },
@@ -444,7 +434,7 @@ export class PostaComponent {
       tone: 'amber',
       cover: '/worldposta-assets/posta/datasheet-comm-hub.avif',
       coverAlt: 'Posta Communication Hub datasheet cover',
-      title: 'Posta Datasheet — Communication Hub',
+      title: 'Posta Datasheet: Communication Hub',
       description: 'Explore enterprise-grade email and collaboration powered by Microsoft.',
     },
   ];

@@ -296,14 +296,14 @@ export const TAB_GROUPS: readonly TabGroup[] = [
   },
   {
     id: 'collaboration',
-    label: 'Collaboration & Productivity',
+    label: 'Posta Workspace',
     items: [
-      { id: 'business-email', label: 'Business Email', icon: faEnvelope },
-      { id: 'team-chat', label: 'Link', icon: faMessage },
-      { id: 'conferencing', label: 'Conferencing', icon: faVideo },
-      { id: 'calendar', label: 'Calendar', icon: faCalendarDays },
-      { id: 'drive-files', label: 'Drive & Files', icon: faFolderOpen },
-      { id: 'notes', label: 'Notes', icon: faFileLines },
+      { id: 'business-email', label: 'Posta Mail', icon: faEnvelope },
+      { id: 'team-chat', label: 'Posta Link: Chat', icon: faMessage },
+      { id: 'conferencing', label: 'Posta Link: Meetings', icon: faVideo },
+      { id: 'calendar', label: 'Posta Calendar', icon: faCalendarDays },
+      { id: 'drive-files', label: 'Posta Drive', icon: faFolderOpen },
+      { id: 'notes', label: 'Posta Note', icon: faFileLines },
       { id: 'dashboard', label: 'Dashboard', icon: faChartLine },
     ],
   },
@@ -914,7 +914,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   'business-email': {
     badge: 'Collaboration & Productivity',
-    heading: 'Business Email',
+    heading: 'Posta Mail',
     description:
       'Secure, reliable and professional email for your business, built for productivity.',
     bullets: [
@@ -973,9 +973,9 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   'team-chat': {
     badge: 'Collaboration & Productivity',
-    heading: 'Link',
+    heading: 'Posta Link: Team Chat',
     description:
-      'Connect your teams, streamline communication and get work done — all in one secure platform.',
+      'Connect your teams, streamline communication and get work done in one secure platform.',
     bullets: [
       'Real-time messaging and group chats',
       'Secure and compliant communication',
@@ -1035,7 +1035,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   conferencing: {
     badge: 'Collaboration & Productivity',
-    heading: 'Conferencing',
+    heading: 'Posta Link: Meetings',
     description:
       'Host secure, high-quality video meetings and bring your teams closer, from anywhere.',
     bullets: [
@@ -1096,7 +1096,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   calendar: {
     badge: 'Collaboration & Productivity',
-    heading: 'Calendar',
+    heading: 'Posta Calendar',
     description:
       'Plan, organize and stay in sync across your teams. Seamless scheduling for a more productive business.',
     bullets: [
@@ -1188,7 +1188,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   'drive-files': {
     badge: 'Collaboration & Productivity',
-    heading: 'Drive & Files',
+    heading: 'Posta Drive',
     description:
       'Store, share and collaborate on your files securely from anywhere.',
     bullets: [
@@ -1217,10 +1217,10 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
         { icon: faUser, label: 'Active Collaborators', value: '48', delta: '14%', tone: 'purple', trend: [42, 43, 44, 45, 46, 47, 47, 48] },
       ],
       rows: [
-        { name: 'Marketing Materials', icon: faFolderOpen, cells: ['Me', 'Jan 12, 2024 10:24 AM', '—'] },
-        { name: 'Sales Enablement', icon: faFolderOpen, cells: ['Ethan Tremblay', 'Jan 11, 2024 02:15 PM', '—'] },
-        { name: 'HR', icon: faFolderOpen, cells: ['Chloe Gagnon', 'Jan 10, 2024 11:03 AM', '—'] },
-        { name: 'Project Phoenix', icon: faFolderOpen, cells: ['Me', 'Jan 09, 2024 04:20 PM', '—'] },
+        { name: 'Marketing Materials', icon: faFolderOpen, cells: ['Me', 'Jan 12, 2024 10:24 AM', 'Not available'] },
+        { name: 'Sales Enablement', icon: faFolderOpen, cells: ['Ethan Tremblay', 'Jan 11, 2024 02:15 PM', 'Not available'] },
+        { name: 'HR', icon: faFolderOpen, cells: ['Chloe Gagnon', 'Jan 10, 2024 11:03 AM', 'Not available'] },
+        { name: 'Project Phoenix', icon: faFolderOpen, cells: ['Me', 'Jan 09, 2024 04:20 PM', 'Not available'] },
         { name: 'Product Brochure.pdf', icon: faFilePdf, cells: ['Marketing Team', 'Jan 08, 2024 01:12 PM', '4.2 MB'] },
         { name: 'Q1 Strategy Deck.pptx', icon: faFilePowerpoint, cells: ['Liam Roy', 'Jan 07, 2024 03:45 PM', '12.8 MB'] },
         { name: 'Budget 2024.xlsx', icon: faFileExcel, cells: ['Finance Team', 'Jan 06, 2024 09:30 AM', '1.1 MB'] },
@@ -1252,7 +1252,7 @@ export const TAB_CONTENT: Readonly<Record<string, TabContent>> = {
   },
   notes: {
     badge: 'Collaboration & Productivity',
-    heading: 'Notes',
+    heading: 'Posta Note',
     description: 'Capture ideas, organize information and keep your team aligned.',
     bullets: [
       'Create and organize notes effortlessly',

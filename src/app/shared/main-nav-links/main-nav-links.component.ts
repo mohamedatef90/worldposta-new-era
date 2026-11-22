@@ -58,16 +58,15 @@ export class MainNavLinksComponent {
       ] }],
     },
     {
-      id: 'posta', label: 'Posta', icon: faEnvelope, tagline: 'Business Email & Collaboration',
+      id: 'posta', label: 'Posta Workspace', icon: faEnvelope, tagline: 'Business Email & Collaboration',
       intro: 'Secure business email, files and team chat that work together in one suite.',
-      overview: { label: 'Explore Posta', href: '/posta' },
+      overview: { label: 'Explore Posta Workspace', href: '/posta' },
       groups: [{ title: 'Email & collaboration', items: [
-        { name: 'Email', description: 'Secure business email on your own domain', href: '/posta', icon: faEnvelopeOpenText },
-        { name: 'Drive', description: 'Files, sharing and team collaboration', href: '/drive', icon: faFolderOpen },
-        { name: 'Link', description: 'Team chat and video meetings', href: '/link', icon: faComments },
+        { name: 'Posta Mail', description: 'Secure business email on your own domain', href: '/posta', icon: faEnvelopeOpenText },
+        { name: 'Posta Drive', description: 'Files, sharing and team collaboration', href: '/drive', icon: faFolderOpen },
+        { name: 'Posta Link', description: 'Team chat and video meetings', href: '/link', icon: faComments },
       ] }],
     },
-    { id: 'cloudspace', label: 'CloudSpace', icon: faPeopleGroup, tagline: 'Collaboration & Productivity', href: '/cloudspace' },
     { id: 'posta-gate', label: 'Posta Gate', icon: faShieldHalved, tagline: 'Email Gateway & Security', href: '/posta-gate-security' },
     {
       id: 'service-provider', label: 'Service Provider', icon: faHandshake, tagline: 'Managed Services & Support',

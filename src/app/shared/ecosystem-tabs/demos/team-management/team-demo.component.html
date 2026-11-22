@@ -105,7 +105,7 @@
                   <tbody>
                     @for (r of resources(); track r.id) {
                       <tr>
-                        <th scope="row">{{ r.productId === 'posta' ? 'Posta' : 'CloudEdge' }}</th>
+                        <th scope="row">{{ r.productId === 'posta' ? 'Posta Workspace' : 'CloudEdge' }}</th>
                         <td>{{ packageName(r) }}</td>
                         <td>{{ orgName(r.organizationId) }}</td>
                         <td>{{ domainNames(r) }}</td>
@@ -244,7 +244,7 @@
     <label class="d-field">
       <span>Product</span>
       <select class="d-select" [value]="resourceForm().productId" (change)="setProduct($any($event.target).value)">
-        <option value="posta">Posta</option>
+        <option value="posta">Posta Workspace</option>
         <option value="cloudedge">CloudEdge</option>
       </select>
     </label>

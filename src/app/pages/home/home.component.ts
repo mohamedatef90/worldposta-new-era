@@ -1,27 +1,19 @@
-import { DOCUMENT, NgOptimizedImage } from '@angular/common';
+import { DOCUMENT, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
-  faCalendarDays,
   faChevronRight,
   faCloud,
   faCoins,
-  faEnvelope,
-  faFolderOpen,
   faGauge,
   faLock,
-  faMessage,
-  faNoteSticky,
   faShieldHalved,
-  faUsers,
-  faVideo,
 } from '@fortawesome/free-solid-svg-icons';
 import { ThemeService } from '@/shared/services/theme.service';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { EcosystemTabsComponent } from '@/shared/ecosystem-tabs/ecosystem-tabs.component';
 import { GetStartedComponent } from './get-started/get-started.component';
-import { ProviderComparisonComponent } from './provider-comparison/provider-comparison.component';
 import { SecuritySectionComponent } from './security-section/security-section.component';
 import { WhyWorldpostaComponent } from './why-worldposta/why-worldposta.component';
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
@@ -37,22 +29,27 @@ interface ProofPoint {
 }
 
 interface EcosystemTile {
-  readonly icon: IconDefinition;
   readonly label: string;
-  readonly href: string;
+  /** Omitted when the product has no page yet, so the tile stays visible but not a link. */
+  readonly href?: string;
   readonly colorClass: string;
+  /** Official Posta Workspace mark. Tiles without one keep a Font Awesome glyph. */
+  readonly logo?: string;
+  readonly logoWidth?: number;
+  readonly logoHeight?: number;
+  readonly icon?: IconDefinition;
 }
 
 @Component({
   imports: [PageJumpNavComponent, 
     FaIconComponent,
     NgOptimizedImage,
+    NgTemplateOutlet,
     SiteHeaderComponent,
     EcosystemTabsComponent,
     PerformanceTrustComponent,
     SecuritySectionComponent,
     WhyWorldpostaComponent,
-    ProviderComparisonComponent,
     GetStartedComponent,
     SiteFooterComponent,
   ],
@@ -104,19 +101,18 @@ export class Home {
     },
     {
       icon: faCoins,
-      title: 'Up to 50% Lower Cost',
+      title: 'Lower Cost',
       description: 'More power. Less cost.',
     },
   ];
 
   protected readonly ecosystemTiles: readonly EcosystemTile[] = [
-    { icon: faEnvelope, label: 'Business Email', href: '/posta', colorClass: 'tile--green' },
-    { icon: faMessage, label: 'Team Chat', href: '/link', colorClass: 'tile--purple' },
-    { icon: faVideo, label: 'Conferencing', href: '/link', colorClass: 'tile--teal' },
-    { icon: faCalendarDays, label: 'Calendar', href: '/cloudspace', colorClass: 'tile--pink' },
-    { icon: faFolderOpen, label: 'Files & Storage', href: '/drive', colorClass: 'tile--amber' },
-    { icon: faNoteSticky, label: 'Notes', href: '/cloudspace', colorClass: 'tile--sky' },
-    { icon: faGauge, label: 'Dashboard', href: '/cloudspace', colorClass: 'tile--indigo' },
-    { icon: faUsers, label: 'Team Management', href: '/link', colorClass: 'tile--rose' },
+    { logo: '/worldposta-assets/product-logos/posta-admin.png', logoWidth: 439, logoHeight: 421, label: 'Posta Admin', href: '/posta-portal', colorClass: 'tile--indigo' },
+    { logo: '/worldposta-assets/product-logos/posta-mail.png', logoWidth: 440, logoHeight: 336, label: 'Posta Mail', href: '/posta', colorClass: 'tile--green' },
+    { logo: '/worldposta-assets/product-logos/posta-link.png', logoWidth: 439, logoHeight: 419, label: 'Posta Link', href: '/link', colorClass: 'tile--purple' },
+    { logo: '/worldposta-assets/product-logos/posta-drive.png', logoWidth: 440, logoHeight: 318, label: 'Posta Drive', href: '/drive', colorClass: 'tile--amber' },
+    { logo: '/worldposta-assets/product-logos/posta-office.png', logoWidth: 420, logoHeight: 421, label: 'Posta Office', colorClass: 'tile--teal' },
+    { logo: '/worldposta-assets/product-logos/posta-calendar.png', logoWidth: 416, logoHeight: 421, label: 'Posta Calendar', colorClass: 'tile--pink' },
+    { logo: '/worldposta-assets/product-logos/posta-note.png', logoWidth: 440, logoHeight: 414, label: 'Posta Note', colorClass: 'tile--sky' },
   ];
 }

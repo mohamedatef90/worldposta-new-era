@@ -30,24 +30,6 @@ h2 { margin:0; font-family:var(--font-heading); font-weight:var(--fw-bold); line
    a grid with two odd tiles in it. Deliberately not tokenised — theming them
    would be the bug, not the fix. */
 .logo-plate { display:grid; place-items:center; min-height:56px; padding:var(--space-sm) 12px; border:1px solid var(--wp-panel-line); border-radius:var(--radius-md); background:var(--color-bg-tertiary); }
-/* The customer wall is deliberately monochrome, so one chain treats all nine
-   marks identically — read left to right:brightness(0)   flattens every logo to black, discarding brand colour. Plain
-                     grayscale() cannot be used here: it preserves luminance, so
-                     a pale mark stays pale — Ferrovial is yellow and lands at
-                     1.5:1 against the plate, which is no logo at all.
-     drop-shadow x2  the assets carry very different alphas (DFM, Ferrovial,
-                     Michelin and LSEG average 140-174 and are more than half
-                     thin ink; BBVA and ITV are near-opaque). Flat black alone
-                     renders the thin ones visibly weaker, so each zero-blur
-                     shadow composites another copy to build them up. Opaque
-                     logos are unaffected, which is what makes one rule work.
-     opacity(.55)    lands the whole wall on the same grey, ~4.9:1 on the plate.
-   Michelin keeps its interior detail because its highlights are transparent
-   rather than opaque white — worth re-checking with any new asset, since an
-   opaque background would flatten to a solid black rectangle here.
-   Every asset is dark-ink, so colour can be restored (hover, or dropping this
-   rule) without anything disappearing against the plate. */
-.company-logos .logo-plate img { filter:brightness(0) drop-shadow(0 0 0 var(--wp-black)) drop-shadow(0 0 0 var(--wp-black)) opacity(.55); }
 .logo-plate img { width:auto; height:auto; max-width:100%; max-height:32px; }
 
 .assurance-section { display:grid; grid-template-columns:1.35fr .85fr; gap:var(--space-md); padding-block:var(--wp-section-pad); }.assurance-card { min-height:232px; padding:var(--space-lg); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:linear-gradient(120deg, var(--wp-card-cool-from), var(--wp-card-cool-to)); }.certifications-card { display:grid; grid-template-columns:40% 1fr; gap:var(--space-lg); }.assurance-card .eyebrow { margin-bottom:12px; }.assurance-card h2 { font-size:28px; }.assurance-card > p:not(.eyebrow), .assurance-copy > p:not(.eyebrow) { margin:var(--space-sm) 0 var(--space-md); color:var(--wp-body); font-size:13px; line-height:1.45; }/* Top-aligned, not centred:the captions wrap to different line counts, and
@@ -73,3 +55,5 @@ h2 { margin:0; font-family:var(--font-heading); font-weight:var(--fw-bold); line
 .certifications-card { align-items:center; }
 .certification { padding:var(--space-md) var(--space-xs); border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:color-mix(in srgb, var(--wp-panel) 70%, transparent); }
 .certification-list { align-items:stretch; }
+
+.company-logos .company-logos__note { padding:12px 8px; border:1px solid var(--wp-panel-line); border-radius:var(--radius-lg); background:var(--wp-panel-wash); color:var(--wp-body); line-height:1.4; font-weight:var(--fw-semibold); }

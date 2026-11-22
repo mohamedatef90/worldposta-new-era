@@ -104,7 +104,7 @@
 .hero-stage-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(500px,1.35fr);gap:var(--space-xl);align-items:center}
 .hero-stage-copy{max-width:520px;padding-top:var(--space-md)}
 .hero-stage-eyebrow{gap:var(--space-sm);margin:0 0 12px;font-size:var(--fs-caption);letter-spacing:3px;text-transform:uppercase;color:var(--color-text-muted,var(--wp-body))}
-.hero-stage-eyebrow img{width:20px;height:20px}
+.hero-stage-eyebrow img{width:20px;height:20px;object-fit:contain}
 .portal-hero-stage h1{margin:0}
 .hero-stage-lead{max-width:470px;margin:var(--space-md) 0 var(--space-lg);font-size:17px;font-weight:var(--fw-medium);line-height:1.45;color:var(--color-text-secondary,var(--wp-body))}
 .hero-stage-actions{display:flex;flex-wrap:wrap;gap:var(--space-md)}
