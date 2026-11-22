@@ -115,7 +115,7 @@ const EMAIL_ADMIN_CONTENT: Readonly<Record<string, TabContent>> = {
   webmail: {
     ...TAB_CONTENT['business-email'],
     badge: 'Posta · Email Services',
-    heading: 'Webmail',
+    heading: 'Posta Mail',
     cta: 'Create Your Business Email',
     benefits: POSTA_EMAIL.benefits,
   },
@@ -144,7 +144,7 @@ const EMAIL_ADMIN_CONTENT: Readonly<Record<string, TabContent>> = {
 /** Posta: the inbox, its Email Admin Suite, then the collaboration apps that come with it. */
 export const POSTA_CATALOGUE: EcosystemCatalogue = {
   groups: [
-    { id: 'email', label: 'Business Email', items: [{ id: 'webmail', label: 'Webmail', icon: faInbox }] },
+    { id: 'email', label: 'Posta Workspace', items: [{ id: 'webmail', label: 'Posta Mail', icon: faInbox }] },
     {
       id: 'email-admin',
       label: 'Email Admin Suite',
@@ -158,7 +158,7 @@ export const POSTA_CATALOGUE: EcosystemCatalogue = {
     },
     {
       id: 'collaboration',
-      label: 'Collaboration',
+      label: 'Posta Workspace',
       items: [item('calendar'), item('drive-files'), item('team-chat'), item('conferencing')],
     },
   ],
