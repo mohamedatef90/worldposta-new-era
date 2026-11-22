@@ -96,14 +96,20 @@ jobs:
           echo "OpenBot responded $code"
           case "$code" in 200|202) ;; *) exit 1 ;; esac
 
-  # Pushes to the asmaa branch run no workflows here (the branch predates this
-  # file). So this job looks at the branch's latest push itself: right away
-  # when any Vercel preview reports in, and every 10 minutes as a fallback
-  # that works even if Vercel refuses or fails the deploy. A push from the last
-  # 25 minutes is sent to OpenBot once; the delivery ID is the commit SHA, so
-  # OpenBot drops repeats.
+  # Pushes to the asmaa branch run no workflows from the branch itself (it
+  # predates this file). But GitHub sends check_suite and status events for the
+  # pushed commit within seconds, and those run from main's copy of this file.
+  # So a push to asmaa triggers a review wave right away, with or without a pull
+  # request, as soon as any app (Vercel, even when its deploy fails) reports on
+  # the commit. The schedule is only a fallback: GitHub delays scheduled runs by
+  # hours, so it accepts a push from the last 12 hours. The delivery ID is the
+  # commit SHA, so OpenBot drops repeats.
   asmaa-review:
-    if: github.event_name == 'schedule' || (github.event_name == 'deployment_status' && github.event.deployment.environment == 'Preview')
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'check_suite' && github.event.check_suite.head_branch == 'asmaa') ||
+      (github.event_name == 'status' && contains(github.event.branches.*.name, 'asmaa')) ||
+      (github.event_name == 'deployment_status' && github.event.deployment.environment == 'Preview')
     runs-on: ubuntu-latest
     timeout-minutes: 2
     permissions:
@@ -114,23 +120,42 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           WEBHOOK_URL: ${{ secrets.OPENBOT_REVIEW_WEBHOOK_URL }}
           WEBHOOK_SECRET: ${{ secrets.OPENBOT_REVIEW_WEBHOOK_SECRET }}
+          EVENT_SHA: ${{ github.event.check_suite.head_sha || github.event.sha }}
         run: |
           if [ -z "$WEBHOOK_URL" ] || [ -z "$WEBHOOK_SECRET" ]; then
             echo "Review webhook secrets are not set. Skipping."
             exit 0
           fi
-          last=$(gh api "repos/$GITHUB_REPOSITORY/activity?ref=refs/heads/asmaa&activity_type=push&per_page=1" \
-            --jq '.[0] | select(.after != null) | "\(.after) \(.timestamp)"' 2>/dev/null || true)
-          if [ -z "$last" ]; then
-            echo "No push found on asmaa. Skipping."
+          tip=$(gh api "repos/$GITHUB_REPOSITORY/commits/asmaa" --jq .sha 2>/dev/null || true)
+          if [ -z "$tip" ]; then
+            echo "Could not read the asmaa branch. Skipping."
             exit 0
           fi
-          read -r sha pushed <<< "$last"
-          age=$(( $(date +%s) - $(date -d "$pushed" +%s) ))
-          if [ "$age" -gt 1500 ]; then
-            echo "Latest asmaa push ${sha:0:7} is ${age}s old. Nothing new."
-            exit 0
-          fi
+          case "$GITHUB_EVENT_NAME" in
+            check_suite|status)
+              # Only the newest commit on asmaa starts a wave. An older commit
+              # that is also reachable from other branches is ignored.
+              if [ "$EVENT_SHA" != "$tip" ]; then
+                echo "${EVENT_SHA:0:7} is not the asmaa tip (${tip:0:7}). Skipping."
+                exit 0
+              fi
+              sha="$tip"
+              ;;
+            *)
+              last=$(gh api "repos/$GITHUB_REPOSITORY/activity?ref=refs/heads/asmaa&activity_type=push&per_page=1" \
+                --jq '.[0] | select(.after != null) | "\(.after) \(.timestamp)"' 2>/dev/null || true)
+              if [ -z "$last" ]; then
+                echo "No push found on asmaa. Skipping."
+                exit 0
+              fi
+              read -r sha pushed <<< "$last"
+              age=$(( $(date +%s) - $(date -d "$pushed" +%s) ))
+              if [ "$age" -gt 43200 ]; then
+                echo "Latest asmaa push ${sha:0:7} is ${age}s old. Nothing new."
+                exit 0
+              fi
+              ;;
+          esac
           delivery="asmaa-$sha"
           body=$(jq -cn --arg sha "$sha" --arg repo "$GITHUB_REPOSITORY" --arg via "$GITHUB_EVENT_NAME" \
             '{type:"github.asmaa_review", occurredAt:(now|todate), data:{repository:$repo, branch:"asmaa", sha:$sha, via:$via}}')
