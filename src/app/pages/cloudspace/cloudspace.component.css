@@ -541,3 +541,6 @@ main .datasheet-card{padding-left:clamp(18px,2.4vw,32px);padding-right:clamp(18p
 :host-context([data-theme='dark']) .demo-reference input,:host-context([data-theme='dark']) .demo-reference select,:host-context([data-theme='dark']) .demo-reference textarea,:host-context([data-theme='dark']) .meeting-grid input,:host-context([data-theme='dark']) .meeting-grid select,:host-context([data-theme='dark']) .meeting-grid textarea{background:var(--color-bg-primary);border-color:var(--color-border)}
 :host-context([data-theme='dark']) .story-before li.on{--pill:color-mix(in srgb,rgb(238 0 84) 20%,var(--wp-panel));background:var(--pill);box-shadow:0 0 0 5px var(--pill);color:color-mix(in srgb,rgb(255 120 160) 70%,var(--wp-ink))}
 :host-context([data-theme='dark']) .story-after li.on{--pill:color-mix(in srgb,rgb(52 150 46) 22%,var(--wp-panel));background:var(--pill);box-shadow:0 0 0 5px var(--pill);color:color-mix(in srgb,rgb(140 210 120) 70%,var(--wp-ink))}
+.cs-hero .hero .tool-list .mark{width:44px;height:44px;object-fit:contain;flex:0 0 auto}
+.ecosystem-tool .mark{width:47px;height:47px;object-fit:contain;margin-bottom:12px}
+@media(max-width:600px){.cs-hero .hero .tool-list .mark{width:40px;height:40px}}

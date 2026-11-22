@@ -98,7 +98,11 @@
         @for (tile of ecosystemTiles; track tile.label) {
           <a class="ecosystem-tile" [class]="tile.colorClass" [href]="tile.href" [attr.aria-label]="tile.label + ' service'">
             <span class="ecosystem-tile__icon">
-              <fa-icon [icon]="tile.icon" aria-hidden="true" />
+              @if (tile.logo) {
+                <img [ngSrc]="tile.logo" [width]="tile.logoWidth!" [height]="tile.logoHeight!" alt="" />
+              } @else {
+                <fa-icon [icon]="tile.icon!" aria-hidden="true" />
+              }
             </span>
             <span class="ecosystem-tile__label">
               {{ tile.label }}

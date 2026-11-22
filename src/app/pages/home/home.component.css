@@ -63,6 +63,8 @@ h1 span { display:block; }.text-blue { color:var(--wp-blue); }.text-green { colo
 .ecosystem-tile:hover { transform:translateY(-2px); }
 .ecosystem-tile:focus-visible { outline:2px solid var(--color-brand-green); outline-offset:2px; border-radius:var(--radius-md); }
 .ecosystem-tile__icon { display:grid; width:40px; height:40px; place-items:center; border-radius:var(--radius-lg); font-size:var(--fs-body); color:var(--tone); background:color-mix(in srgb, var(--tone) var(--wp-tone-fill), transparent); }
+.ecosystem-tile__icon img { width:100%; height:100%; object-fit:contain; }
+.ecosystem-tile__icon:has(img) { background:transparent; }
 .ecosystem-tile__label { display:inline-flex; align-items:center; gap:6px; color:var(--color-text-primary); font-size:var(--fs-caption); font-weight:var(--fw-semibold); }
 .ecosystem-tile__chevron { color:var(--color-text-muted); font-size:10px; flex-shrink:0; }
 

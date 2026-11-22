@@ -67,7 +67,7 @@
 .drive-office-app:nth-child(1) { left:23%; transform:translateX(-50%) rotate(-7deg); }
 .drive-office-app:nth-child(2) { left:51%; top:0; }
 .drive-office-app:nth-child(3) { left:79%; transform:translateX(-50%) rotate(7deg); }
-.drive-office-app img { display:block; width:46px; height:46px; }
+.drive-office-app img { display:block; width:46px; height:46px; object-fit:contain; }
 .drive-office-app span { position:absolute; top:74px; font-family:var(--font-body); font-size:11px; font-weight:var(--fw-semibold); color:var(--wp-body); white-space:nowrap; background:var(--color-bg-primary); padding-inline:var(--space-xs); }
 .drive-reference.drive-product-visual { position:relative; z-index:1; }
 @media(max-width:1100px) { .drive-office-app { width:56px; height:56px; } .drive-office-app img { width:38px; height:38px; } .drive-office-app span { top:62px; font-size:10px; } }
@@ -88,7 +88,8 @@
 .drive-link-heading { display:flex; gap:var(--space-sm); align-items:center; margin-bottom:12px; }
 .drive-link-heading strong { display:block; font-size:17px; font-family:var(--font-heading); }
 .drive-link-heading div > span { display:block; font-size:9px; line-height:1.4; color:var(--wp-body); }
-.drive-link-logo { display:grid; place-items:center; width:32px; height:32px; flex-shrink:0; background:var(--wp-blue); border-radius:50%; color:white; }
+.drive-link-logo { display:grid; place-items:center; width:32px; height:32px; flex-shrink:0; background:transparent; }
+.drive-link-logo img { width:32px; height:32px; object-fit:contain; }
 .drive-link-logo svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:3; }
 .drive-link-call { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
 .drive-link-call > div { display:grid; place-items:center; min-height:64px; border-radius:var(--radius-md); background:color-mix(in srgb,var(--wp-blue) 10%,var(--wp-panel)); }
@@ -105,7 +106,7 @@
 .drive-visual-group .drive-crisp-ui { width:85%; aspect-ratio:auto; background:var(--wp-panel); color:var(--wp-ink); font-family:var(--font-body); }
 .drive-ui-top { display:flex; align-items:center; gap:12px; padding:14px; border-bottom:1px solid var(--color-border); }
 .drive-ui-brand { display:flex; align-items:center; gap:7px; flex-shrink:0; }
-.drive-reference.drive-crisp-ui .drive-ui-brand img { position:static; width:28px; height:22px; }
+.drive-reference.drive-crisp-ui .drive-ui-brand img { position:static; width:28px; height:22px; object-fit:contain; }
 .drive-ui-brand strong { font-size:var(--fs-body-sm); }
 .drive-ui-search { flex:1; padding:9px 12px; border:1px solid var(--color-border); border-radius:var(--radius-full); background:var(--color-bg-secondary); font-size:var(--fs-caption); color:var(--wp-body); }
 .drive-ui-avatar { display:grid; place-items:center; width:27px; height:27px; flex-shrink:0; border-radius:50%; background:var(--color-action); color:white; font-size:var(--fs-caption); }
@@ -125,7 +126,7 @@
 .drive-ui-row { font-size:var(--fs-caption); min-height:24px; }
 .drive-ui-row > span:not(:first-child) { font-size:10px; color:var(--wp-body); }
 .drive-ui-filename { display:flex; gap:var(--space-sm); align-items:center; min-width:0; white-space:nowrap; }
-.drive-reference.drive-crisp-ui .drive-ui-filename img { position:static; width:23px; height:23px; flex-shrink:0; }
+.drive-reference.drive-crisp-ui .drive-ui-filename img { position:static; width:23px; height:23px; flex-shrink:0; object-fit:contain; }
 .drive-ui-filename svg { width:23px; height:23px; fill:var(--wp-blue); flex-shrink:0; }
 .drive-ui-section { padding:var(--space-sm) 12px; background:var(--color-bg-secondary); font-size:11px; color:var(--wp-body); }
 .drive-ui-footer { padding:13px 12px; font-size:11px; color:var(--wp-body); }
@@ -236,7 +237,7 @@
 .cf-chip b { display:block; font:600 .98cqw/1.25 var(--font-body); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .cf-chip small { display:block; font:400 .82cqw/1.3 var(--font-body); color:#8a96a3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .cf-ic { flex:none; display:grid; place-items:center; width:2.65cqw; height:2.65cqw; border-radius:.7cqw; }
-.cf-ic svg, .comparison-reference-scene.challenge-flow .cf-ic img { width:1.6cqw; height:1.6cqw; }
+.cf-ic svg, .comparison-reference-scene.challenge-flow .cf-ic img { width:1.6cqw; height:1.6cqw; object-fit:contain; }
 .cf-badge { position:absolute; top:-.55cqw; right:-.55cqw; min-width:1.6cqw; height:1.6cqw; padding:0 .4cqw; border-radius:1cqw; border:2px solid #fff; background:#d64545; color:#fff; font:700 .82cqw/1.45cqw var(--font-body); text-align:center; }
 .cf-chip--messages { --i:0; --x:30%; --y:8%;  --r:-6deg; }
 .cf-chip--email    { --i:1; --x:36%; --y:30%; --r:4deg; }
@@ -246,7 +247,8 @@
 .cf-chip--meetings { --i:5; --x:18%; --y:66%; --r:3deg; }
 .cf-link { position:absolute; left:30%; bottom:6%; width:17.2cqw; padding:1.1cqw; border:1px solid #e3e9f0; border-radius:1.25cqw; background:#fff; box-shadow:0 1.6cqw 3.4cqw rgba(19,32,58,.16); color:#13203a; opacity:0; transform:translateY(1.25cqw); transition:opacity .6s ease .7s, transform .8s cubic-bezier(.32,.72,0,1) .7s; }
 .cf-link__h { display:flex; align-items:center; gap:.7cqw; font:600 1.17cqw/1 var(--font-heading); }
-.cf-link__logo { display:grid; place-items:center; width:2.2cqw; height:2.2cqw; border-radius:.62cqw; background:var(--wp-blue,#126ddb); }
+.cf-link__logo { display:grid; place-items:center; width:2.6cqw; height:2.6cqw; background:transparent; }
+.cf-link__logo img { width:100%; height:100%; object-fit:contain; }
 .cf-link__logo svg { width:1.25cqw; height:1.25cqw; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; }
 .cf-link__tabs { display:flex; gap:1.1cqw; margin:.8cqw 0 .6cqw; border-bottom:1px solid #e3e9f0; font:600 .86cqw/1 var(--font-body); color:#8a96a3; }
 .cf-link__tabs span { padding-bottom:.55cqw; }
@@ -350,3 +352,6 @@
 .cf-stage.is-connected .cf-relief{opacity:1;transform:scale(1);transition:opacity .35s ease 1.7s,transform .5s cubic-bezier(.34,1.56,.64,1) 1.7s}
 .comparison-reference-scene.challenge-flow .cf-toggle{margin:0 0 14px}
 @media (prefers-reduced-motion:reduce){.comparison-reference-scene.challenge-flow .cf-woman img.cf-woman__happy,.cf-relief{transition:none!important}}
+.feature-symbol:has(img){background:transparent}
+.feature-symbol img.feature-mark{position:static;left:auto;top:auto;width:42px;height:42px;object-fit:contain}
+.global-art.pulse-map .gm-card__ic img{object-fit:contain}
