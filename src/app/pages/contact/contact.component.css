@@ -138,3 +138,5 @@ main .loop-badge{color:rgb(44 104 54)}
    "Let's Talk" went pale on pale in dark mode. Dark gets the same two glows
    over the dark surface. */
 :host-context([data-theme='dark']) .get-in-touch{background:radial-gradient(ellipse at 95% 80%,color-mix(in srgb,var(--wp-blue) 14%,transparent),transparent 60%),radial-gradient(ellipse at 0 40%,color-mix(in srgb,var(--wp-green) 12%,transparent),transparent 48%),var(--color-bg-primary)}
+/* Three contact cards keep the height they had when there were four: the grid still reserves four equal rows. */
+@media(min-width:1024px){main .touch-details{grid-template-rows:repeat(4,minmax(0,1fr))}}
