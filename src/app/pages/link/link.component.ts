@@ -1,12 +1,18 @@
 import { SiteFooterComponent } from '@/shared/site-footer/site-footer.component';
-import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { SiteHeaderComponent } from '@/shared/site-header/site-header.component';
 import { MainNavLinksComponent } from '@/shared/main-nav-links/main-nav-links.component';
 
+import { LkHeroVisualComponent } from './visuals/lk-hero-visual.component';
+import { LkBenefitsVisualComponent } from './visuals/lk-benefits-visual.component';
+import { LkWorkflowVisualComponent } from './visuals/lk-workflow-visual.component';
+import { LkTrialVisualComponent } from './visuals/lk-trial-visual.component';
+import { LkDemoVisualComponent } from './visuals/lk-demo-visual.component';
+import { LkFinalVisualComponent } from './visuals/lk-final-visual.component';
 import { PageJumpNavComponent } from '@/shared/page-jump-nav/page-jump-nav.component';
 @Component({
-  imports: [PageJumpNavComponent, SiteFooterComponent, NgOptimizedImage, SiteHeaderComponent, MainNavLinksComponent],
+  imports: [NgOptimizedImage, LkDemoVisualComponent, LkFinalVisualComponent, LkTrialVisualComponent, LkWorkflowVisualComponent, LkBenefitsVisualComponent, LkHeroVisualComponent, PageJumpNavComponent, SiteFooterComponent, SiteHeaderComponent, MainNavLinksComponent],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
 })
@@ -62,18 +68,14 @@ export class PostaLink {
   protected benefitHover = false;
   protected pickBenefit(i: number): void { this.benefitStep.set(i); }
 
-  // Trial: ecosystem orbit
-  protected orbitHover = false;
-
   constructor() {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      this.cycle(host.querySelector('.lk-spotlight'), destroyRef, reduce, 2400, () => this.benefitHover, () => this.benefitStep.update((v) => (v + 1) % 6));
+      this.cycle(host.querySelector('lk-benefits-visual'), destroyRef, reduce, 2400, () => this.benefitHover, () => this.benefitStep.update((v) => (v + 1) % 6));
       this.initLiveTiles(host.querySelector('.link-hero'), destroyRef, reduce);
       this.initTilt(host.querySelector('.link-final'), host.querySelector('.final-device-art .lk-tilt'), destroyRef, reduce);
-      this.initOrbit(host.querySelector('.trial-product-visual .lk-stage'), destroyRef, reduce);
     });
   }
 
@@ -93,42 +95,6 @@ export class PostaLink {
       if (visible) timer = window.setInterval(() => { if (!paused() && !document.hidden) next(); }, ms);
     });
     destroyRef.onDestroy(stop);
-  }
-
-  /** Six ecosystem chips orbit the Link window on an ellipse (canvas 1600x800, centre 1135,400). */
-  private initOrbit(stage: Element | null, destroyRef: DestroyRef, reduce: boolean): void {
-    if (!stage) return;
-    const chips = Array.from(stage.querySelectorAll<HTMLImageElement>('.lk-orbit-chip'));
-    if (!chips.length) return;
-    let angle = -Math.PI / 2;
-    let raf = 0;
-    let last = 0;
-    const draw = () => {
-      chips.forEach((chip, i) => {
-        const t = angle + (i * Math.PI * 2) / chips.length;
-        const w = Number(chip.getAttribute('width')) / 1.5;
-        const h = Number(chip.getAttribute('height')) / 1.5;
-        const x = 1135 + 330 * Math.cos(t) - w / 2;
-        const y = 400 + 255 * Math.sin(t) - h / 2;
-        chip.style.left = (x / 16).toFixed(3) + '%';
-        chip.style.top = (y / 8).toFixed(3) + '%';
-        chip.style.zIndex = Math.sin(t) > 0 ? '3' : '1';
-              });
-    };
-    const loop = (now: number) => {
-      if (last && !this.orbitHover) angle += Math.min(now - last, 64) * 0.00011;
-      last = now;
-      draw();
-      raf = requestAnimationFrame(loop);
-    };
-    draw();
-    if (reduce) return;
-    this.watch(stage, destroyRef, (visible) => {
-      cancelAnimationFrame(raf);
-      last = 0;
-      if (visible) raf = requestAnimationFrame(loop);
-    });
-    destroyRef.onDestroy(() => cancelAnimationFrame(raf));
   }
 
   /** Final section: the laptop photo and phone tilt in 3D with the pointer (fine pointers only). */
