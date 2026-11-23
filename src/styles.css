@@ -595,3 +595,17 @@ main form :is(input:not([type=checkbox]):not([type=radio]),select,textarea):not(
 @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
   .page-jump-nav, .page-jump-nav__chevron { transition: none; }
 }
+
+/* Marketing CTAs share a filled green resting state across pages. */
+:root:root :is(main, app-site-header, app-site-footer) a:is(.btn, .btn-primary, .btn-secondary, .button, .primary, .secondary, .outline, .primary-cta, .secondary-cta, .outline-cta, .ds-btn, .link-primary, .benefits-trial, .wpsys-primary, .wpsys-secondary, .drive-start, .drive-more, .basis-cta, .story-cta, .operations-cta, .gp-btn, .gx-btn, .os-btn, .header-cta, .mobile-nav__cta, .site-footer__button),
+:root:root main form button[type="submit"] {
+  background:var(--color-action)!important;
+  color:var(--primary-foreground)!important;
+  border-color:var(--color-action)!important;
+}
+:root:root :is(main, app-site-header, app-site-footer) a:is(.btn, .btn-primary, .btn-secondary, .button, .primary, .secondary, .outline, .primary-cta, .secondary-cta, .outline-cta, .ds-btn, .link-primary, .benefits-trial, .wpsys-primary, .wpsys-secondary, .drive-start, .drive-more, .basis-cta, .story-cta, .operations-cta, .gp-btn, .gx-btn, .os-btn, .header-cta, .mobile-nav__cta, .site-footer__button):hover,
+:root:root main form button[type="submit"]:hover:not(:disabled) {
+  background:var(--color-action-hover)!important;
+  color:var(--primary-foreground)!important;
+  border-color:var(--color-action-hover)!important;
+}

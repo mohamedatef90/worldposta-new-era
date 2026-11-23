@@ -72,7 +72,7 @@ export class PostaLink {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.cycle(host.querySelector('.lk-spotlight'), destroyRef, reduce, 2400, () => this.benefitHover, () => this.benefitStep.update((v) => (v + 1) % 6));
       this.initLiveTiles(host.querySelector('.link-hero'), destroyRef, reduce);
-      this.initTilt(host.querySelector('.link-final'), host.querySelector('.final-device-art .lk-tilt'), destroyRef, reduce);
+
       this.initOrbit(host.querySelector('.trial-product-visual .lk-stage'), destroyRef, reduce);
     });
   }
@@ -129,26 +129,6 @@ export class PostaLink {
       if (visible) raf = requestAnimationFrame(loop);
     });
     destroyRef.onDestroy(() => cancelAnimationFrame(raf));
-  }
-
-  /** Final section: the laptop photo and phone tilt in 3D with the pointer (fine pointers only). */
-  private initTilt(area: HTMLElement | null, stage: HTMLElement | null, destroyRef: DestroyRef, reduce: boolean): void {
-    if (!area || !stage || reduce || !window.matchMedia('(pointer: fine)').matches) return;
-    const art = stage.parentElement as HTMLElement;
-    let raf = 0;
-    const move = (e: PointerEvent) => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const r = art.getBoundingClientRect();
-        const x = Math.max(-0.5, Math.min(0.5, (e.clientX - r.left) / r.width - 0.5));
-        const y = Math.max(-0.5, Math.min(0.5, (e.clientY - r.top) / r.height - 0.5));
-        stage.style.transform = `rotateY(${(x * 14).toFixed(2)}deg) rotateX(${(-y * 10).toFixed(2)}deg)`;
-      });
-    };
-    const leave = () => { cancelAnimationFrame(raf); stage.style.transform = ''; };
-    area.addEventListener('pointermove', move);
-    area.addEventListener('pointerleave', leave);
-    destroyRef.onDestroy(() => { cancelAnimationFrame(raf); area.removeEventListener('pointermove', move); area.removeEventListener('pointerleave', leave); });
   }
 
   /** Hero: the four meeting tiles play short muted webcam loops while the hero is on screen. */

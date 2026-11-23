@@ -1,3 +1,4 @@
+import { PostaRegistrationSteps } from './registration-steps/posta-registration-steps.component';
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { Component, inject, signal, viewChild, type ElementRef } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -148,7 +149,7 @@ interface ResourceCard {
  * sections below are specific to Posta and own their content + CSS.
  */
 @Component({
-  imports: [PageJumpNavComponent, EcosystemTabsComponent, FaIconComponent, NgOptimizedImage, ProviderCompareComponent, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
+  imports: [PostaRegistrationSteps, PageJumpNavComponent, EcosystemTabsComponent, FaIconComponent, NgOptimizedImage, ProviderCompareComponent, RevealDirective, SiteFooterComponent, SiteHeaderComponent],
   // Plain `href="#id"` anchors resolve against `<base href="/">`, not this
   // route, so a bare click would navigate back to "/" instead of scrolling.
   host: {

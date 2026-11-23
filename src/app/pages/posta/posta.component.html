@@ -18,7 +18,7 @@
         </h1>
         <p class="hero-copy__description">Posta Mail provides business email on your own domain as part of Posta Workspace, WorldPosta’s suite for communication and collaboration.</p>
         <div class="hero-actions">
-          <a class="btn btn--primary btn--lg" href="#start">Start Free Trial <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+          <a class="btn btn--primary btn--lg" href="https://admin.worldposta.com/auth/register">Start Free Trial <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           <a class="btn btn--ghost btn--lg" href="#pricing">View Plans</a>
         </div>
       </div>
@@ -95,7 +95,7 @@
       </ul>
     </div>
   </section>
-  <nav appPageJumpNav [links]="[{ href: '/posta#features-console', label: 'Features' }, { href: '/posta#migration', label: 'Migration' }, { href: '/posta#security', label: 'Security' }, { href: '/posta#pricing', label: 'Plans & pricing' }, { href: '/posta#contact', label: 'Talk to an expert' }]"></nav>
+  <nav appPageJumpNav [links]="[{ href: '/posta#features-console', label: 'Features' }, { href: '/posta#migration', label: 'Migration' }, { href: '/posta#security', label: 'Security' }, { href: '/posta#pricing', label: 'Plans & pricing' }, { href: '/contact', label: 'Talk to an expert' }]"></nav>
 
   <!-- ================= 2. FEATURES: ECOSYSTEM TABS ================= -->
   <!-- The home page's ecosystem tabs, scoped to Posta: email and its admin console, then the collaboration apps. -->
@@ -116,8 +116,7 @@
           <h2 class="h2" id="delivery-heading">Mission-Critical Email<br><span class="text-blue hero-palette-blue">Delivered.</span> <span class="text-green hero-palette-green">Always.</span></h2>
           <p class="lede">Posta supports business email delivery with filtering and routing controls.</p>
           <div class="dv-actions">
-            <a class="btn btn--primary" href="#start">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-            <a class="btn btn--ghost" href="#delivery"><span class="dv-play"><fa-icon [icon]="icons.play" aria-hidden="true" /></span>Watch demo</a>
+            <a class="btn btn--primary" href="https://admin.worldposta.com/auth/register">Start free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           </div>
         </div>
 
@@ -205,29 +204,9 @@
             <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.calendar" aria-hidden="true" /></span>30-day<br>free trial</li>
             <li><span class="tone-icon" data-tone="sky"><fa-icon [icon]="icons.clock" aria-hidden="true" /></span>Set up<br>in minutes</li>
           </ul>
-          <a class="btn btn--primary btn-full-sm" href="#signup-form">Create My Free Business Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
-          <p class="signin-hint">Already have an account? <a href="https://admin.worldposta.com/auth/login?redirect=https:%2F%2Fwww.worldposta.com" target="_blank" rel="noopener noreferrer">Sign in<span class="sr-only">(opens in a new tab)</span></a></p>
         </div>
 
-        <div class="signup__right" appReveal>
-          <ol class="steps-rail" aria-label="Three steps to your mailbox">
-            <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><span><b>1.</b> Choose<br>your email</span></li>
-            <li><span class="tone-icon" data-tone="blue"><fa-icon [icon]="icons.user" aria-hidden="true" /></span><span><b>2.</b> Create<br>your account</span></li>
-            <li><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.circleCheck" aria-hidden="true" /></span><span><b>3.</b> Start using<br>Posta</span></li>
-          </ol>
-
-          <form class="form-card panel" id="signup-form" (submit)="onMockSubmit($event)" aria-labelledby="form1-title">
-            <div class="form-progress" aria-hidden="true"><i class="on"></i><i></i><i></i><span>1 of 3 · Account setup</span></div>
-            <h3 id="form1-title" style="margin-bottom:var(--space-lg)">Create your business email</h3>
-            <div class="field"><label for="f1-name">Your name</label><input class="input" id="f1-name" type="text" placeholder="John Doe" autocomplete="name"></div>
-            <div class="field"><label for="f1-biz">Business name</label><input class="input" id="f1-biz" type="text" placeholder="Your Company" autocomplete="organization"></div>
-            <div class="field"><label for="f1-user">Choose your email</label>
-              <div class="input-group"><input id="f1-user" type="text" placeholder="you"><span class="addon">&#64;yourcompany.com <fa-icon [icon]="icons.chevronDown" style="font-size:10px;margin-left:6px" aria-hidden="true" /></span></div>
-            </div>
-            <button class="btn btn--primary btn--block" type="submit">Create My Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></button>
-            <div class="ready-chip"><span class="tone-icon" data-tone="green"><fa-icon [icon]="icons.envelope" aria-hidden="true" /></span><span><strong>you&#64;yourcompany.com</strong><small><fa-icon [icon]="icons.circleCheck" aria-hidden="true" /> Ready to use</small></span></div>
-          </form>
-        </div>
+        <app-posta-registration-steps appReveal />
       </div>
 
       <ul class="note-strip" appReveal aria-label="Posta assurances">
@@ -374,23 +353,7 @@
           </ul>
         </div>
 
-        <div class="signup-scene" appReveal>
-          <img class="signup-scene__photo" ngSrc="/worldposta-assets/posta/signup-founder.avif" width="1800" height="1416" alt="Business owner working in Posta webmail on her laptop" />
-          <div class="ready-float panel" aria-hidden="true"><fa-icon [icon]="icons.check" class="ok" aria-hidden="true" /><span><strong>you&#64;yourcompany.com</strong><small>Ready to use</small></span></div>
-
-        <form class="form-card form-card--glass panel" (submit)="onMockSubmit($event)" aria-labelledby="form2-title">
-          <h3 id="form2-title" style="margin-bottom:var(--space-lg)">Create your business email</h3>
-          <div class="field"><label for="f2-name">Your name</label><input class="input" id="f2-name" type="text" placeholder="John Doe" autocomplete="name"></div>
-          <div class="field"><label for="f2-biz">Business name</label><input class="input" id="f2-biz" type="text" placeholder="Your Company" autocomplete="organization"></div>
-          <div class="field"><label for="f2-user">Choose your email</label>
-            <div class="input-group"><input id="f2-user" type="text" placeholder="you"><span class="addon">&#64;yourcompany.com <fa-icon [icon]="icons.chevronDown" style="font-size:10px;margin-left:6px" aria-hidden="true" /></span></div>
-          </div>
-          <button class="btn btn--primary btn--block" type="submit">Create My Free Email <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></button>
-          <div class="divider">or</div>
-          <button class="btn btn--google" type="button"><fa-icon [icon]="icons.google" style="color:#4285f4" aria-hidden="true" /> Continue with Google</button>
-          <p class="form-note">Already have an account? <a href="https://admin.worldposta.com/auth/login?redirect=https:%2F%2Fwww.worldposta.com" target="_blank" rel="noopener noreferrer" style="color:var(--wp-blue);font-weight:600">Sign in<span class="sr-only">(opens in a new tab)</span></a></p>
-        </form>
-        </div>
+        <app-posta-registration-steps appReveal />
       </div>
 
       <ul class="note-strip" appReveal aria-label="Platform assurances">
@@ -508,7 +471,7 @@
       <app-provider-compare />
       <div class="provider-compare__footer">
         <p>Features and availability vary by plan and provider.</p>
-        <a class="btn btn--primary" href="#contact">Talk to an Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+        <a class="btn btn--primary" href="/contact">Talk to an Expert <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
       </div>
     </div>
   </section>

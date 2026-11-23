@@ -99,6 +99,14 @@ export class PostaGate {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
+      const signupSection = host.querySelector('#start-free');
+      if (signupSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const motionObserver = new IntersectionObserver(entries => {
+          for (const entry of entries) signupSection.classList.toggle('is-motion-visible', entry.isIntersecting);
+        }, { threshold: 0.2 });
+        motionObserver.observe(signupSection);
+        destroyRef.onDestroy(() => motionObserver.disconnect());
+      }
       const heroStage = host.querySelector('.gl-stage');
       if (heroStage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         let heroTimer: ReturnType<typeof setInterval> | undefined;

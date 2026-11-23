@@ -1,0 +1,62 @@
+<div class="reg-window" (pointerenter)="paused.set(true)" (pointerleave)="paused.set(false)" (focusin)="focused.set(true)" (focusout)="onFocusOut($event)" [class.is-paused]="paused() || focused()">
+<div class="reg-chrome" aria-hidden="true"><i></i><i></i><i></i><span><b></b><b></b><b></b></span></div>
+<div class="reg-body"><h3>Your path to business email</h3><div class="reg-layout"><ol class="reg-steps">
+@for(step of steps; track step.title; let i=$index){<li><button type="button" [class.is-active]="active()===i" [class.is-done]="active()>i" [attr.aria-pressed]="active()===i" (click)="active.set(i)"><span class="reg-number" aria-hidden="true">@if(active()>i){<svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10" /></svg>}@else {{{i+1}}}</span><span class="reg-copy"><span class="reg-label">Step {{i+1}}</span><strong>{{step.title}}</strong><span class="reg-description">{{step.description}}</span></span>@if(active()===i){<span class="reg-step-progress" aria-hidden="true"><span (animationend)="next()"></span></span>}</button></li>}
+</ol><div class="dd-stage reg-art-0" aria-hidden="true">@switch (active()) {
+              @case (0) {
+                <div class="dd-ill reg-art-1">
+                  <div class="reg-art-2">
+                    <span class="reg-art-3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                    <span class="reg-art-4"><span class="dd-growx reg-art-5"></span><span class="dd-growx reg-art-6"></span></span>
+                  </div>
+                  <div class="reg-art-7">
+                    <span class="reg-art-8"></span>
+                    <div class="reg-art-9">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="reg-art-10"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                      <span class="reg-art-11"><span class="dd-type19 reg-art-12">you&#64;yourcompany.com</span><span class="dd-caret"></span></span>
+                    </div>
+                  </div>
+                  <div class="dd-press reg-art-13"><span class="reg-art-14"></span></div>
+                  <span class="dd-popx reg-art-15"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </div>
+              }
+              @case (1) {
+                <div class="dd-ill reg-art-16">
+                  <svg width="150" height="112" viewBox="0 0 112 84" fill="none"><path d="M30 30l26-16 26 16" fill="var(--color-bg-tertiary)" stroke="var(--wp-panel-line)" stroke-linejoin="round"></path><g class="dd-rise"><rect x="38" y="20" width="36" height="30" rx="3" fill="var(--wp-panel)" stroke="var(--wp-panel-line)"></rect><rect x="44" y="27" width="20" height="4" rx="2" fill="var(--color-border)"></rect><rect x="44" y="35" width="14" height="4" rx="2" fill="var(--color-bg-tertiary)"></rect></g><path d="M30 30v34a4 4 0 0 0 4 4h44a4 4 0 0 0 4-4V30L56 48z" fill="var(--wp-panel)" stroke="var(--wp-panel-line)" stroke-linejoin="round"></path><path d="M30.5 67l20-16M81.5 67l-20-16" stroke="var(--wp-panel-line)"></path><g class="dd-pop reg-art-17"><circle cx="82" cy="62" r="12" fill="var(--color-action)" stroke="var(--wp-panel)" stroke-width="3"></circle><path d="M76.8 62.2l3.4 3.4 6.4-6.6" stroke="var(--wp-panel)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+                  <div class="dd-okfield reg-art-18">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="reg-art-19"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                    <span class="reg-art-20">you&#64;yourcompany.com</span>
+                    <span class="reg-art-21">
+                      <span class="dd-fadeout reg-art-22"><span class="dd-spin"></span></span>
+                      <span class="dd-popx reg-art-23"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    </span>
+                  </div>
+                  <span class="dd-growx reg-art-24"></span>
+                </div>
+              }
+              @case (2) {
+                <div class="dd-ill reg-art-25">
+                  <div class="reg-art-26">
+                    <span class="reg-art-27"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg></span>
+                    <span class="dd-growx reg-art-28"></span>
+                  </div>
+                  <div class="reg-art-29">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="reg-art-30"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <span class="reg-art-31"><span class="dd-type15 reg-art-32">yourcompany.com</span><span class="dd-caret"></span></span>
+                  </div>
+                  <div class="dd-appear reg-art-33">
+                    <span class="dd-popx reg-art-34"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    <span class="reg-art-35"></span>
+                  </div>
+                  <div class="dd-appear reg-art-36">
+                    <span class="dd-popx reg-art-37"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    <span class="reg-art-38"></span>
+                  </div>
+                  <div class="dd-appear reg-art-39">
+                    <span class="dd-popx reg-art-40"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    <span class="reg-art-41"></span>
+                  </div>
+                  <span class="dd-popx reg-art-42"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                </div>
+              }
+}</div></div></div><div class="reg-progress" aria-hidden="true"><span [style.width.%]="(active()+1)/3*100"></span></div></div>
