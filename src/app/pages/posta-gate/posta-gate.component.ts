@@ -99,6 +99,14 @@ export class PostaGate {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
+      const signupSection = host.querySelector('#start-free');
+      if (signupSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const motionObserver = new IntersectionObserver(entries => {
+          for (const entry of entries) signupSection.classList.toggle('is-motion-visible', entry.isIntersecting);
+        }, { threshold: 0.2 });
+        motionObserver.observe(signupSection);
+        destroyRef.onDestroy(() => motionObserver.disconnect());
+      }
       const heroStage = host.querySelector('.gl-stage');
       if (heroStage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         let heroTimer: ReturnType<typeof setInterval> | undefined;
@@ -126,20 +134,4 @@ export class PostaGate {
     });
   }
 
-  protected readonly signupStatus = signal('');
-  protected requestFreePlan(event: Event): void {
-    event.preventDefault();
-    const form = event.target;
-    if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
-    const data = new FormData(form);
-    const body = ['Posta Gate enquiry',
-      'Full name: ' + String(data.get('fullName') ?? ''),
-      'Company: ' + String(data.get('company') ?? ''),
-      'Work email: ' + String(data.get('email') ?? ''),
-      'Phone: ' + String(data.get('phone') ?? ''),
-      'Industry: ' + String(data.get('industry') ?? ''),
-    ].join('\n');
-    window.location.href = 'mailto:support@worldposta.com?subject=Posta%20Gate%20Enquiry&body=' + encodeURIComponent(body);
-    this.signupStatus.set('Your request is ready in your email app. Review and send it to discuss Posta Gate.');
-  }
 }

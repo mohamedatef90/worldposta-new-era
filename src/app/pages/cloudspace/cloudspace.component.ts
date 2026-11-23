@@ -146,16 +146,6 @@ export class CloudSpace {
  {name:'Flexible for Your Business',copy:'Scale anytime, with no complexity.',icon:faLayerGroup},
  {name:'Save Time and Costs',copy:'Less tools, more productivity.',icon:faCoins},
  ];
- protected readonly contactStatus = signal('');
- protected prepareRequest(event: Event): void {
-  event.preventDefault();
-  const form = event.target as HTMLFormElement;
-  if (!form.reportValidity()) return;
-  const data = new FormData(form);
-  const body = Array.from(data.entries()).map(([key,value]) => key + ': ' + String(value)).join('\n');
-  window.location.href = 'mailto:support@worldposta.com?subject=CloudSpace%20demo%20request&body=' + encodeURIComponent(body);
-  this.contactStatus.set('Your email app will open with your request. Send it to contact our team.');
- }
 }
 
 

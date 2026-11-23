@@ -274,3 +274,17 @@
 .lk-stage .lk-teams-02-tc{left:46.875%;top:19.531%;width:29.688%}
 .lk-stage .lk-teams-03-tc{left:70.378%;top:19.531%;width:29.622%}
 .lk-stage .lk-layer[class*="-bg"], .lk-stage .lk-layer[class*="-desk"], .lk-stage .lk-layer[class*="-dash"], .lk-stage .lk-layer[class*="-glow"], .lk-stage .lk-layer[class*="-ring"] { pointer-events:none; }
+
+/* Lead forms removed: the trial card is a single call to action, the closing section is copy + visual only. */
+.link-trial-cta{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.link-trial-cta>a{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:50px;padding:12px 24px;border-radius:var(--radius-md);background:var(--color-action);color:var(--color-text-on-brand,white);font-size:var(--fs-body-sm);font-weight:var(--fw-semibold);text-decoration:none}
+.link-trial-cta>a:hover{background:var(--color-action-hover)}
+.link-trial-cta>a:focus-visible{outline:3px solid var(--wp-blue);outline-offset:3px}
+.final-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,4vw,64px)}
+@media(max-width:1200px){.final-wrap{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.final-wrap{grid-template-columns:1fr}}
+/* Without the form the perks span the copy column (2x2), with the trial card beneath. */
+.trial-signup-layout{grid-template-columns:1fr}
+.trial-signup-layout .trial-perks{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.trial-signup-layout .link-trial-cta{order:2}
+@media(max-width:560px){.trial-signup-layout .trial-perks{grid-template-columns:1fr}}

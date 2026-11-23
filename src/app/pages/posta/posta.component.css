@@ -1609,3 +1609,7 @@ button, input, select { font-family:inherit; }
 .provider-compare__sources { margin-top:var(--space-md); font-size:var(--fs-caption); }
 .provider-compare__sources a { color:var(--wp-blue); text-decoration:underline; }
 @media (max-width:640px) { .provider-compare__footer { align-items:flex-start; flex-direction:column; } }
+
+/* Full Option D registration illustration uses the shared Posta component. */
+#start .signup, #get-started .signup2 { grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr); gap:clamp(28px,4vw,64px); align-items:center; }
+@media(max-width:900px) { #start .signup, #get-started .signup2 { grid-template-columns:minmax(0,1fr); } }

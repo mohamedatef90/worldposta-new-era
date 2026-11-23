@@ -10,7 +10,7 @@
         <p class="link-eyebrow"><span aria-hidden="true"></span>POSTA LINK</p>
         <h1 id="link-title" class="hero-palette">One Place to<br><span class="hero-palette-blue">Multiply Your</span><br><span class="hero-palette-green">Team’s Productivity.</span></h1>
         <p class="link-lead">Posta Workspace brings your team’s tools together. Use Posta Link for team chat and meetings, and share files from Posta Drive.</p>
-        <div class="link-actions"><a class="link-primary" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Get Started Free <span aria-hidden="true">→</span><span class="sr-only">(opens in a new tab)</span></a><button type="button" (click)="watchVideo()"><span class="play" aria-hidden="true">▶</span> Request a Demo</button></div>
+        <div class="link-actions"><a class="link-primary" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Get Started Free <span aria-hidden="true">→</span><span class="sr-only">(opens in a new tab)</span></a></div>
         <p class="video-notice" role="status">{{ videoNotice() }}</p>
         <ul class="link-features" aria-label="Posta Link features">
           <li class="chat"><span aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 4h24v20H13l-7 5v-5H4ZM9 11h14M9 16h10"/></svg></span><h2>Posta Link: Chat</h2><p>Direct messages and channels</p></li>
@@ -69,16 +69,7 @@
         <h2 id="link-trial-title">Try Posta Link<br><span>for Free.</span></h2>
         <p class="trial-lead">Bring your team together for conversations and meetings in Posta Link, part of Posta Workspace.</p>
         <div class="trial-signup-layout">
-          <form class="link-trial-form" (submit)="submitTrial($event)">
-            <h3>Request Your Free Trial</h3>
-            <p>No credit card required. Get started in minutes.</p>
-            <label><span class="trial-field-label">Full Name</span><input name="fullName" placeholder="Full Name" autocomplete="name" required /></label>
-            <label><span class="trial-field-label">Work Email</span><input name="email" placeholder="Work Email" type="email" autocomplete="email" required /></label>
-            <label><span class="trial-field-label">Company Name</span><input name="company" placeholder="Company Name" autocomplete="organization" required /></label>
-            <label><span class="trial-field-label">Team Size</span><select name="teamSize" required><option value="">Select your team size</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–500</option><option>500+</option></select></label>
-            <button type="submit">Start Free <span aria-hidden="true">→</span></button>
-            <p class="trial-terms">Your email app opens with your trial request. Review and send it to our team. See the <a href="https://www.worldposta.com/terms">Terms</a> and <a href="https://www.worldposta.com/privacy">Privacy Policy</a> for details.</p>
-          <p class="form-status" role="status">{{ trialStatus() }}</p></form>
+          <div class="link-trial-form link-trial-cta"><h3>Start Your Free Trial</h3><p>Create your account in the WorldPosta live panel. No credit card required.</p><a href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Start Free <span aria-hidden="true">→</span><span class="sr-only">(opens in a new tab)</span></a></div>
           <ul class="trial-perks">
             <li><span aria-hidden="true">✓</span><div><h3>Quick setup</h3><p>Ask our team about getting started.</p></div></li>
             <li><span aria-hidden="true">✓</span><div><h3>Invite your team</h3><p>Bring your team together in Posta Link.</p></div></li>
@@ -105,7 +96,7 @@
           <li class="teams"><span aria-hidden="true"><svg class="polished-icon" viewBox="0 0 32 32"><circle cx="12" cy="9" r="5"/><path d="M3 28v-5c0-10 18-10 18 0v5M24 5c7 0 7 10 0 10m0 4c7 0 7 5 7 9"/></svg></span><h3>Posta Office</h3><p>Create and edit files together</p></li>
           <li class="files"><span aria-hidden="true"><svg class="polished-icon" viewBox="0 0 32 32"><path d="M8 25a7 7 0 0 1-1-14 10 10 0 0 1 19 2 6 6 0 0 1-1 12Z"/></svg></span><h3>Posta Drive</h3><p>Store and share your files</p></li>
         </ul>
-        <a class="benefits-trial" href="#link-trial">Start Free <span aria-hidden="true">→</span></a>
+        <a class="benefits-trial" href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Start Free <span aria-hidden="true">→</span><span class="sr-only">(opens in a new tab)</span></a>
         <p class="trial-note">No credit card required. Set up in minutes.</p>
       </div>
       <div class="demo-media">
@@ -130,7 +121,7 @@
       <h2 id="link-team-use-title">Built for the way<br><span>your teams work.</span></h2>
       <p class="team-use-lead">Posta Link helps teams stay connected through daily conversations and meetings.</p>
       <div class="team-use-visual" tabindex="0" role="region" aria-label="Team use cases, scrolls sideways"><div class="lk-stage" role="img" aria-label="Four team use cases. Marketing: plan campaigns, share creative assets, get feedback and launch faster through chat, file review, tasks and meetings. Sales: discuss customers, share proposals, hold video meetings and track follow-ups. Operations: manage tasks, due dates, reminders, shared files and department channels. Management: hold large-team meetings, share reports, keep decisions and action points, and stay informed with mentions." style="--ar:1536/1024"><img class="lk-layer lk-teams-00-tc" ngSrc="/worldposta-assets/posta-link-teams-00-tc.avif" width="681" height="1065" alt="" /><img class="lk-layer lk-teams-01-tc" ngSrc="/worldposta-assets/posta-link-teams-01-tc.avif" width="684" height="1065" alt="" /><img class="lk-layer lk-teams-02-tc" ngSrc="/worldposta-assets/posta-link-teams-02-tc.avif" width="684" height="1065" alt="" /><img class="lk-layer lk-teams-03-tc" ngSrc="/worldposta-assets/posta-link-teams-03-tc.avif" width="683" height="1065" alt="" /></div></div>
-      <div class="team-use-cta"><div><h3>Empower every team with <span>Posta Link.</span></h3><p>Chat and meet in Posta Link, then share files from Posta Drive.</p></div><div><a href="#link-trial">Start Free <span aria-hidden="true">→</span></a><p class="team-use-note">No credit card required. Set up in minutes.</p></div></div>
+      <div class="team-use-cta"><div><h3>Empower every team with <span>Posta Link.</span></h3><p>Chat and meet in Posta Link, then share files from Posta Drive.</p></div><div><a href="https://admin.worldposta.com/auth/register" target="_blank" rel="noopener noreferrer">Start Free <span aria-hidden="true">→</span><span class="sr-only">(opens in a new tab)</span></a><p class="team-use-note">No credit card required. Set up in minutes.</p></div></div>
     </div>
   </section>
 
@@ -148,22 +139,6 @@
         </ul>
       </div>
       <div class="final-device-art"><lk-final-visual /></div>
-      <form class="final-signup" (submit)="submitTrial($event)">
-        <p class="link-eyebrow"><span aria-hidden="true"></span>GET STARTED</p>
-        <h3>Get Started Free</h3>
-        <p>Fill in the form and start using Posta Link today.</p>
-        <div class="final-fields">
-          <label><span class="trial-field-label">Full Name</span><input name="fullName" placeholder="Full Name" autocomplete="name" required /></label>
-          <label><span class="trial-field-label">Company Name</span><input name="company" placeholder="Company Name" autocomplete="organization" required /></label>
-          <label><span class="trial-field-label">Work Email</span><input name="email" placeholder="Work Email" type="email" autocomplete="email" required /></label>
-          <label><span class="trial-field-label">Phone Number</span><input name="phone" placeholder="Phone Number" type="tel" autocomplete="tel" required /></label>
-          <label><span class="trial-field-label">Industry</span><select name="industry" required><option value="">Industry</option><option>Technology</option><option>Manufacturing</option><option>Retail</option><option>Healthcare</option><option>Financial Services</option><option>Education</option><option>Government</option><option>Other</option></select></label>
-          <label><span class="trial-field-label">Team Size</span><select name="teamSize" required><option value="">Team Size</option><option>1–10</option><option>11–50</option><option>51–200</option><option>201–500</option><option>500+</option></select></label>
-        </div>
-        <button type="submit">Start Free <span aria-hidden="true">→</span></button>
-        <p class="final-note">No credit card required.</p>
-        <p class="final-note">Your email app opens with your trial request. Review and send it to our team.</p>
-      <p class="form-status" role="status">{{ trialStatus() }}</p></form>
     </div>
   </section>
 

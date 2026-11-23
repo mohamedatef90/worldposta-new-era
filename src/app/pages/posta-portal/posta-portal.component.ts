@@ -143,25 +143,6 @@ export class PostaPortal {
     { label: 'ERP', icon: faBuilding },
   ];
 
-  protected readonly demoStatus = signal('');
-  protected submitDemo(event: Event): void {
-    event.preventDefault();
-    const form = event.target;
-    if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
-    const data = new FormData(form);
-    const body = ['Posta Portal demo request',
-      'Name: ' + String(data.get('fullName') ?? ''),
-      'Company: ' + String(data.get('company') ?? ''),
-      'Business email: ' + String(data.get('email') ?? ''),
-      'Phone: ' + String(data.get('phone') ?? ''),
-      'Country: ' + String(data.get('country') ?? ''),
-      'Interested in: ' + String(data.get('interest') ?? ''),
-      'Requirements: ' + String(data.get('requirements') ?? ''),
-      'Consent: I agree to be contacted by the WorldPosta team.',
-    ].join('\n');
-    window.location.href = 'mailto:support@worldposta.com?subject=Posta%20Portal%20Demo%20Request&body=' + encodeURIComponent(body);
-    this.demoStatus.set('Your demo request is ready in your email app. Review and send it to contact our team.');
-  }
 
   // White-label: visitors type a company name and pick a color; the real admin dashboard shows that brand.
   protected readonly brandColors = [

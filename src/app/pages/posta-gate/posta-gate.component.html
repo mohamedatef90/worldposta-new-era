@@ -21,7 +21,6 @@
         </ul>
 
         <div class="hero-copy__actions">
-          <a class="primary-cta" href="mailto:support@worldposta.com?subject=Posta%20Gate%20Email%20Security%20Assessment">Test Your Email Security <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
           <a class="secondary-cta" href="/posta-gate-security#gate-capabilities">Explore Posta Gate</a>
         </div>
       </div>
@@ -134,7 +133,7 @@
       <h2 id="deployment-heading">Enterprise-Grade Email Security <span class="gx-green">Without the Hassle.</span></h2>
       <p class="gx-lede">Add email protection to your existing mail environment without replacing your mail platform.</p>
       <ul class="dp-pairs"><li class="kf-feat dp-pair" data-tone="amber"><span class="kf-tone-icon"><fa-icon [icon]="icons.bolt" aria-hidden="true" /></span><div><h3>Quick Setup</h3><p>Keep your existing mail platform. No migration or changes for your users.</p></div></li><li class="kf-feat dp-pair" data-tone="blue"><span class="kf-tone-icon"><fa-icon [icon]="icons.plug" aria-hidden="true" /></span><div><h3>Works With Your Environment</h3><p>Compatible with Microsoft 365, Google Workspace and on-premise email systems.</p></div></li><li class="kf-feat dp-pair" data-tone="green"><span class="kf-tone-icon"><fa-icon [icon]="icons.gift" aria-hidden="true" /></span><div><h3>Free for Up to 100 Mailboxes</h3><p>Contact the team to discuss mailbox coverage and current terms.</p></div></li></ul>
-      <a class="gx-btn" href="mailto:support@worldposta.com?subject=Posta%20Gate%20Enquiry">Get Started for Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+      <a class="gx-btn" href="https://admin.worldposta.com/auth/register">Get Started for Free <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
     </div>
     <div class="dp-dns" role="img" aria-label="Illustration of email routing through Posta Gate. Contact the team to confirm deployment requirements and compatibility.">
       <div class="ac-trace__top" aria-hidden="true"><span class="ac-dots"><i></i><i></i><i></i></span><strong>DNS · yourcompany.com</strong></div>
@@ -165,20 +164,26 @@
       <p class="gx-lede">Contact the team to discuss Posta Gate for your business email.</p>
       <ul class="gs-platforms"><li><span class="gs-pi gp-ms"><fa-icon [icon]="icons.microsoft" aria-hidden="true" /></span><div><h3>Microsoft 365</h3><p>Discuss deployment<br />with our team</p></div></li><li><span class="gs-pi gp-gg"><fa-icon [icon]="icons.google" aria-hidden="true" /></span><div><h3>Google Workspace</h3><p>Discuss deployment<br />with our team</p></div></li><li><span class="gs-pi gp-op"><fa-icon [icon]="icons.server" aria-hidden="true" /></span><div><h3>On-Premise</h3><p>Discuss compatibility</p></div></li><li><span class="gs-pi gs-free"><fa-icon [icon]="icons.gift" aria-hidden="true" /></span><div><h3>Free Plan</h3><p>Discuss current terms</p></div></li></ul>
     </div>
-    <form class="gs-form" (submit)="requestFreePlan($event)">
-      <h3>Start for Free</h3>
-      <p>Send a request to discuss Posta Gate coverage and current terms.</p>
-      <div class="gs-fields">
-        <label><span class="gs-sr">Full name (required)</span><input name="fullName" placeholder="Full Name*" autocomplete="name" required maxlength="150" /></label>
-        <label><span class="gs-sr">Company name (required)</span><input name="company" placeholder="Company Name*" autocomplete="organization" required maxlength="200" /></label>
-        <label><span class="gs-sr">Work email (required)</span><input type="email" name="email" placeholder="Work Email*" autocomplete="email" required maxlength="254" /></label>
-        <label><span class="gs-sr">Phone number (required)</span><input type="tel" name="phone" placeholder="Phone Number*" autocomplete="tel" required maxlength="50" /></label>
-        <label class="gs-full"><span class="gs-sr">Industry</span><select name="industry" aria-label="Industry"><option value="">Industry</option><option>Financial Services</option><option>Government &amp; Public Sector</option><option>Manufacturing &amp; Industrial</option><option>Healthcare</option><option>Retail &amp; Commercial</option><option>Education</option><option>Technology</option><option>Other</option></select></label>
-      </div>
-      <button type="submit">Start Free Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></button>
-      <ul class="gs-assure"><li><fa-icon [icon]="icons.check" aria-hidden="true" />Discuss mailbox coverage</li><li><fa-icon [icon]="icons.check" aria-hidden="true" />Discuss current terms</li><li><fa-icon [icon]="icons.check" aria-hidden="true" />Discuss setup</li></ul>
-      <p class="gs-status" role="status">{{ signupStatus() }}</p>
-    </form>
+    <div class="gs-form">
+<div class="gs-security-art" aria-hidden="true">
+<svg viewBox="0 0 360 170" fill="none" focusable="false">
+<path class="gs-art-route" d="M76 42h42l30 43m-72 43h42l30-43m64 0h56"/>
+<g class="gs-art-mail"><rect x="24" y="20" width="64" height="44" rx="10"/><path d="m30 28 26 19 26-19M30 57l16-14m36 14L66 43"/><rect x="24" y="106" width="64" height="44" rx="10"/><path d="m30 114 26 19 26-19M30 143l16-14m36 14-16-14"/></g>
+<circle class="gs-art-halo" cx="180" cy="85" r="64"/>
+<path class="gs-art-shield" d="m180 34 43 17v37c0 27-43 48-43 48s-43-21-43-48V51Z"/>
+<path class="gs-art-check" d="m159 84 15 15 29-32"/>
+<g class="gs-art-mail"><rect x="268" y="61" width="68" height="48" rx="10"/><path d="m274 69 28 20 28-20M274 102l18-15m38 15-18-15"/></g>
+<circle class="gs-art-packet gs-art-packet--upper" cx="0" cy="0" r="3.5"/>
+<circle class="gs-art-packet gs-art-packet--lower" cx="0" cy="0" r="3.5"/>
+<circle class="gs-art-packet gs-art-packet--out" cx="0" cy="0" r="3.5"/>
+<circle class="gs-art-confirm-ring" cx="180" cy="85" r="58"/>
+<g class="gs-art-delivered"><circle cx="328" cy="66" r="11"/><path d="m323 66 3 3 6-7"/></g>
+</svg>
+</div>
+<h3>Start for Free</h3>
+<p>Create your account in the WorldPosta live panel.</p>
+<a class="ds-btn ds-btn--primary" href="https://admin.worldposta.com/auth/register">Start Free Now <fa-icon [icon]="icons.arrowRight" aria-hidden="true" /></a>
+</div>
   </div>
 </section>
 </main>

@@ -549,3 +549,4 @@ main .datasheet-card{padding-left:clamp(18px,2.4vw,32px);padding-right:clamp(18p
 .cs-hero .hero .tool-list .mark{width:44px;height:44px;object-fit:contain;flex:0 0 auto}
 .ecosystem-tool .mark{width:47px;height:47px;object-fit:contain;margin-bottom:12px}
 @media(max-width:600px){.cs-hero .hero .tool-list .mark{width:40px;height:40px}}
+.cs-cta-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}.cs-cta-actions .button{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
