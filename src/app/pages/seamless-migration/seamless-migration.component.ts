@@ -51,8 +51,8 @@ export class SeamlessMigration {
   protected readonly migrationSecurity = [
     { title: 'End-to-End Encryption', description: 'Your data is encrypted during transfer and at rest to ensure maximum protection.', color: 'green', icon: 'M20 4 34 9v12c0 7-8 12-14 15C14 33 6 28 6 21V9ZM13 20l5 5 10-11' },
     { title: 'Secure Access Control', description: 'We implement strict access controls and identity management throughout the migration.', color: 'blue', icon: 'M5 19C5 0 35 0 35 19M10 20C10 6 30 6 30 20v4M15 20c0-8 10-8 10 0 0 7-2 13-6 17M20 18v4c0 7-4 12-8 14M10 25c0 5-2 7-5 9M30 29l-2 7M15 24c0 5-3 8-5 10' },
-    { title: 'Network Security', description: 'Secure connectivity via VPN and advanced monitoring to protect your environment.', color: 'pink', icon: 'M24 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M20 12v10M9 28v-6h22v6M13 32a4 4 0 1 1-8 0 4 4 0 0 1 8 0M35 32a4 4 0 1 1-8 0 4 4 0 0 1 8 0' },
-    { title: 'Compliance Ready', description: 'We follow industry standards and compliance requirements to meet your regulatory needs.', color: 'amber', icon: 'M22 36H7V4h18l7 7v10M24 4v10h8M12 19h12M12 25h8M12 31h6M29 22l8 3v6c0 4-5 7-8 9-3-2-8-5-8-9v-6ZM25 30l3 3 5-6' },
+    { title: 'Network Security', description: 'Protect your environment with secure VPN connectivity and advanced monitoring.', color: 'pink', icon: 'M24 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M20 12v10M9 28v-6h22v6M13 32a4 4 0 1 1-8 0 4 4 0 0 1 8 0M35 32a4 4 0 1 1-8 0 4 4 0 0 1 8 0' },
+    { title: 'Compliance Ready', description: 'We follow industry standards and compliance requirements to address your regulatory needs.', color: 'amber', icon: 'M22 36H7V4h18l7 7v10M24 4v10h8M12 19h12M12 25h8M12 31h6M29 22l8 3v6c0 4-5 7-8 9-3-2-8-5-8-9v-6ZM25 30l3 3 5-6' },
     { title: 'Continuous Monitoring', description: 'Real-time monitoring and threat detection throughout the migration process.', color: 'purple', icon: 'M4 6h32v25H4ZM20 31v6M12 37h16M9 23l6-8 6 8 9-12' },
   ];
   protected readonly partnerBenefits = [
@@ -74,16 +74,16 @@ export class SeamlessMigration {
     { number: '01', title: 'Assess', description: 'We analyze your current environment, applications and business goals.', color: 'blue', icon: 'M28 28 37 37M31 18a13 13 0 1 1-26 0 13 13 0 0 1 26 0' },
     { number: '02', title: 'Plan', description: 'We create a detailed migration strategy tailored to your environment, with clear timelines and minimal risk.', color: 'green', icon: 'M9 3h17l7 7v27H9ZM25 3v9h8M14 18h13M14 25h13M14 32h9' },
     { number: '03', title: 'Migrate', description: 'We securely migrate your data, workloads and applications using proven tools and best practices.', color: 'blue', icon: 'M12 33H9C-1 33 0 19 9 18 9 5 28 1 32 16c11 0 12 17 1 17h-6M20 35V17m-7 7 7-7 7 7' },
-    { number: '04', title: 'Validate', description: 'We test and validate everything to ensure data integrity, performance and full functionality.', color: 'green', icon: 'M7 4h26v32H7ZM12 20l6 6 11-13' },
+    { number: '04', title: 'Validate', description: 'We test and validate your environment to ensure data integrity, performance and full functionality.', color: 'green', icon: 'M7 4h26v32H7ZM12 20l6 6 11-13' },
     { number: '05', title: 'Switch', description: 'We complete the cutover with minimal disruption, ensuring your business continues to run smoothly.', color: 'blue', icon: 'M16 4h8l2 5 5-1 5 6-3 5 3 5-5 6-5-1-2 6h-8l-2-6-5 1-5-6 3-5-3-5 5-6 5 1ZM26 20a6 6 0 1 1-12 0 6 6 0 0 1 12 0' },
     { number: '06', title: 'Optimize', description: 'We fine-tune your environment and provide ongoing support to ensure maximum performance.', color: 'green', icon: 'M5 36V23h6v13M17 36V13h6v23M29 36V4h6v32M3 36h34' },
   ];
   protected readonly migrationEnvironments = [
-    { title: 'Physical to Cloud', description: 'Migrate your on-premise servers and infrastructure to the cloud with minimal disruption.', kind: 'physical', color: 'pink', icon: 'M8 5h24v8H8ZM8 16h24v8H8ZM8 27h24v8H8ZM12 9h2m-2 11h2m-2 11h2' },
+    { title: 'Physical to Cloud', description: 'Migrate your on-premises servers and infrastructure to the cloud with minimal disruption.', kind: 'physical', color: 'pink', icon: 'M8 5h24v8H8ZM8 16h24v8H8ZM8 27h24v8H8ZM12 9h2m-2 11h2m-2 11h2' },
     { title: 'Virtual to Cloud', description: 'Move your virtual machines and environments to a secure and scalable cloud platform.', kind: 'virtual', color: 'blue', icon: 'M5 6h30v22H5ZM20 28v7m-8 0h16' },
     { title: 'Cloud to Cloud', description: 'Migrate between cloud providers or regions seamlessly, with full data integrity.', kind: 'cloud', color: 'green', icon: 'M10 31h22c10 0 10-15 1-16C31 3 15 2 12 14 1 13 0 30 10 31Z' },
     { title: 'Data Center to Cloud', description: 'Transfer your entire data center to the cloud, including applications, databases and services.', kind: 'datacenter', color: 'purple', icon: 'M7 35V5h16v30M23 15h10v20M12 11h5m-5 7h5m-5 7h5m-5 7h5m11-11h2m-2 7h2M4 35h32' },
-    { title: 'Hybrid Environments', description: 'Migrate and integrate across hybrid environments with a unified and secure approach.', kind: 'hybrid', color: 'amber', icon: 'M20 13v9M9 28v-6h22v6M16 5h8v8h-8ZM5 28h8v8H5ZM27 28h8v8h-8Z' },
+    { title: 'Hybrid Environments', description: 'Use a unified, secure approach to migrate and integrate across hybrid environments.', kind: 'hybrid', color: 'amber', icon: 'M20 13v9M9 28v-6h22v6M16 5h8v8h-8ZM5 28h8v8H5ZM27 28h8v8h-8Z' },
   ];
 }
 

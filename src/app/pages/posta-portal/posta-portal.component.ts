@@ -46,19 +46,18 @@ export class PostaPortal {
     this.keyModule.set(next);
     (event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>('[role=tab]')[next]?.focus();
   }
-  // Admin panel features: the full catalogue from the live Posta Portal page,
-  // one tab per area. Titles and descriptions are kept word for word.
+  // Admin panel features: the catalogue is organized into one tab per area.
   protected readonly featureIcons = { check: faCircleCheck };
   protected readonly featureAreas = [
     { id: 'customers', name: 'Customers & Partners', tone: 'green', icon: faUsers, features: [
       { title: 'Customer Self Registration', text: 'Effortlessly onboard with self-registration: sign up your company, verify your email, set up your mailbox, confirm DNS settings, and seamlessly migrate existing data for a quick and smooth transition.' },
       { title: 'Mailboxes', text: 'Manage mailboxes with ease: reset passwords, control account access, customize email flow, add aliases, configure permissions, oversee mobile connections, set data quotas, enable MFA, and more, all from one streamlined dashboard.' },
       { title: 'Distribution lists', text: "Streamline distribution list management: add members, assign aliases, control message permissions, set moderator approvals, manage 'Send As' rights, and easily upload bulk members for a smooth setup experience." },
-      { title: 'Shared Contacts', text: 'Add shared contacts that can be used across the admin panel functions.' },
-      { title: 'Bulk Module', text: 'Optimize efficiency with the Bulk Module: swiftly create and update multiple mailboxes, distribution lists, and contacts in one go.' },
+      { title: 'Shared Contacts', text: 'Add shared contacts for use across admin panel functions.' },
+      { title: 'Bulk Module', text: 'Use the Bulk Module to create and update multiple mailboxes, distribution lists and contacts in one go.' },
       { title: 'Mailbox Plans', text: 'Easily manage mailbox plans: create, edit, and view plans, set user limits, and designate default options when multiple plans are available.' },
-      { title: 'Running Tasks', text: 'Monitor the progress of tasks like bulk mailbox creation or updates.' },
-      { title: 'Partners', text: 'Seamlessly manage resellers: view, add, edit, and delete partner accounts with ease.' },
+      { title: 'Running Tasks', text: 'Monitor the progress of tasks such as bulk mailbox creation or updates.' },
+      { title: 'Partners', text: 'Manage resellers by viewing, adding, editing and deleting partner accounts.' },
       { title: 'Rules', text: 'Flexibly apply exchange rules across organizations, domains, or individual users to maintain consistent policies.' },
     ] },
     { id: 'security', name: 'Posta Gate', heading: 'Advanced Protection for Modern Businesses.', tone: 'blue', icon: faShieldHalved, features: [
@@ -84,14 +83,14 @@ export class PostaPortal {
       { title: 'Organizations and Domains', text: 'Efficiently manage organizations and domains: add quotas, set up mailboxes and distribution lists, and oversee domains, sharing address books within organizations or keeping them separate across different ones.' },
     ] },
     { id: 'migration', name: 'Migration', tone: 'blue', icon: faCloudArrowUp, features: [
-      { title: 'Advanced Migration Tool', text: 'Seamlessly transfer data with the Advanced Migration Tool: migrate old data to WorldPosta emails for individual users or in bulk, and track progress with detailed migration history.', link: { href: '/seamless-migration', label: 'Read more about migration' } },
+      { title: 'Advanced Migration Tool', text: 'Transfer existing data to Posta Mail, the business email app in Posta Workspace, for individual users or in bulk. Track progress with detailed migration history.', link: { href: '/seamless-migration', label: 'Read more about migration' } },
     ] },
     { id: 'tickets', name: 'Tickets', tone: 'green', icon: faTicket, features: [
       { title: 'Support Tickets', text: 'Streamline support with Tickets: submit new requests directly from the dashboard and review the full history of past support tickets.' },
     ] },
     { id: 'customization', name: 'Customization', tone: 'purple', icon: faSliders, features: [
       { title: 'White-Label Branding', text: 'The panel can be fully white-labeled, allowing you to brand it with your own logo and design for a seamless, personalized experience.' },
-      { title: 'Smooth Software Integration', text: 'Can be easily integrated with any software solution, providing flexibility to adapt to your existing systems.' },
+      { title: 'Smooth Software Integration', text: 'Integrate the panel with any software solution to adapt it to your existing systems.' },
     ] },
   ] as const;
   protected readonly featureArea = signal(0);
@@ -187,7 +186,7 @@ export class PostaPortal {
     { id: 'billing', tone: 'amber', nav: 'Billing', title: 'Billing & Subscription', description: 'Flexible plans, automated billing and full control over your customers.', tags: ['Your own pricing', 'Automated invoices', 'Usage reports'], preview: 'Subscription plans: Business, Enterprise and Custom, each with your own pricing.', icon: 'M33 9c0 8-26 8-26 0s26-8 26 0ZM7 9v22c0 8 26 8 26 0V9M7 17c0 8 26 8 26 0M7 24c0 8 26 8 26 0' },
     { id: 'migration', tone: 'blue', nav: 'Migration', title: 'Migration & Backup', description: 'Zero-downtime migration and reliable backup and recovery.', tags: ['Zero downtime', 'Progress tracking', 'Backup & restore'], preview: 'Migration progress: connect and validate done, migrating, 612 of 816 mailboxes moved.', icon: 'M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16ZM20 35V18m-6 6 6-6 6 6' },
     { id: 'support', tone: 'green', nav: 'Support', title: 'Support & Ticketing', description: 'Integrated support system with AI-powered assistance to serve your customers.', tags: ['Ticketing', 'AI assistant', 'SLA tracking'], preview: 'Support ticket where the AI assistant suggests assigning a license to a new mailbox.', icon: 'M5 21v-4a15 15 0 0 1 30 0v4M5 19H2v11h7V19ZM35 19h3v11h-7V19ZM35 30c0 7-5 7-12 7' },
-    { id: 'branding', tone: 'purple', nav: 'Branding', title: 'Customization & White-Labeling', description: 'Brand the platform as your own with custom domain, logo and settings.', tags: ['Custom domain', 'Logo & colors', 'Email templates'], preview: 'Branding settings: portal name, custom domain and brand color, with a Publish branding button.', icon: 'm16 3 8 0 2 5 5 2 5-1 3 6-4 4v5l4 4-3 6-5-1-5 2-2 5h-8l-2-5-5-2-5 1-3-6 4-4v-5l-4-4 3-6 5 1 5-2ZM27 21a7 7 0 1 1-14 0 7 7 0 0 1 14 0' },
+    { id: 'branding', tone: 'purple', nav: 'Branding', title: 'Customization & White-Labeling', description: 'Brand the platform as your own with a custom domain, logo and settings.', tags: ['Custom domain', 'Logo & colors', 'Email templates'], preview: 'Branding settings: portal name, custom domain and brand color, with a Publish branding button.', icon: 'm16 3 8 0 2 5 5 2 5-1 3 6-4 4v5l4 4-3 6-5-1-5 2-2 5h-8l-2-5-5-2-5 1-3-6 4-4v-5l-4-4 3-6 5 1 5-2ZM27 21a7 7 0 1 1-14 0 7 7 0 0 1 14 0' },
     { id: 'integrations', tone: 'blue', nav: 'Integrations', title: 'API & Integrations', description: 'Open APIs and seamless integration with your existing systems and tools.', tags: ['REST API', 'Webhooks', 'SSO'], preview: 'Integrations: single sign-on, REST API, webhooks and ERP.', icon: 'm12 9-9 11 9 11M28 9l9 11-9 11M24 4l-8 32' },
   ];
   protected readonly activeModule = signal(0);
@@ -220,7 +219,7 @@ export class PostaPortal {
   ];
   protected readonly portalFeatures = [
     { tone: 'blue', title: 'Multi-Tenant Management', description: 'Manage customers, domains and mailboxes from a single platform.', icon: 'M26 10a6 6 0 1 1-12 0 6 6 0 0 1 12 0ZM8 36V26c0-10 24-10 24 0v10ZM8 5a5 5 0 0 0 0 10M32 5a5 5 0 0 1 0 10M3 32V22c0-4 4-5 7-5M37 32V22c0-4-4-5-7-5' },
-    { tone: 'green', title: 'Advanced Email Security', description: 'Anti-spam, anti-malware, DLP and integration with SOC for maximum protection.', icon: 'M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13' },
+    { tone: 'green', title: 'Advanced Email Security', description: 'Anti-spam, anti-malware, DLP and integration with a SOC for maximum protection.', icon: 'M20 3c5 4 10 5 14 7v11c0 8-8 13-14 17C14 34 6 29 6 21V10c4-2 9-3 14-7ZM12 20l6 6 11-13' },
     { tone: 'purple', title: 'Billing & Subscription Management', description: 'Flexible plans, automated billing and full control over your customers.', icon: 'M33 9c0 8-26 8-26 0s26-8 26 0ZM7 9v22c0 8 26 8 26 0V9M7 17c0 8 26 8 26 0M7 24c0 8 26 8 26 0' },
     { tone: 'amber', title: 'Migration & Backup', description: 'Seamless migration and reliable backup for zero downtime.', icon: 'M10 31a9 9 0 0 1-2-18 12 12 0 0 1 23 2 8 8 0 0 1-1 16ZM20 35V18m-6 6 6-6 6 6' },
     { tone: 'blue', title: 'Self-Service & AI Support', description: 'Customer self-registration, AI-powered support and ticketing.', icon: 'm16 3 8 0 2 5 5 2 5-1 3 6-4 4v5l4 4-3 6-5-1-5 2-2 5h-8l-2-5-5-2-5 1-3-6 4-4v-5l-4-4 3-6 5 1 5-2ZM27 21a7 7 0 1 1-14 0 7 7 0 0 1 14 0' },
